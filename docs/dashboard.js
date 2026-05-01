@@ -29,6 +29,7 @@
         global_compare_items: [],
         global_compare_refs: []
     };
+    let chinaGeoJsonCache = null;
 
     const SEGMENT_ORDER = ['上游', '中游', '下游', '其他'];
     const RISK_WEIGHT_STORAGE_KEY = 'semicon_risk_weights_v1';
@@ -43,9 +44,9 @@
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
-        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
-        charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'empty_state', 'alert_banner'],
+        charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
         knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'empty_state'],
         'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
         'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
@@ -253,7 +254,7 @@
         const container = document.getElementById('chart_zoom_container');
         const title = document.getElementById('chart_zoom_title');
         if (!sourceNode || !modal || !container || !title || !sourceNode.data) return;
-        container.innerHTML = '<div id="chart_zoom_plot" class="chart-container h-[72vh]"><div class="chart-fallback">图表加载中...</div></div>';
+        container.innerHTML = '<div id="chart_zoom_plot" class="chart-container h-[72vh]"></div>';
         title.textContent = chartTitle || (currentLanguage === 'zh-CN' ? '图表放大查看' : 'Zoomed chart view');
         title.dataset.dynamicTitle = '1';
         modal.classList.remove('hidden');
@@ -347,6 +348,7 @@
         updateLastUpdateDisplay();
         const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
         renderNewsCards(getLatestNewsItems(6, key));
+        renderPortfolioAdvice(computeSnapshot(filteredData));
         if (persist) {
             try { localStorage.setItem(LOCALE_PROFILE_STORAGE_KEY, `${currentLanguage}|${currentTimeZone}`); } catch (_) {}
         }
@@ -398,6 +400,148 @@
 
     function isPickRow(row) {
         return row?.is_pick === true || row?.is_pick === 1 || String(row?.is_pick).toLowerCase() === 'true';
+    }
+
+    function computeRowRiskScore(row, snapshot = computeSnapshot(filteredData)) {
+        const chAbs = Math.abs(toNumber(row?.change_pct) ?? 0);
+        const pe = toNumber(row?.pe_forward);
+        const cap = toNumber(row?.market_cap);
+        const seg = String(row?.chain_segment || '其他');
+        const total = snapshot?.totalCount || 0;
+        const segCount = snapshot?.segmentCounts?.[seg] || 0;
+        const segConcentration = total > 0 ? segCount / total : 0;
+        let risk = 0;
+
+        if (chAbs >= 8) risk += riskWeights.volatility;
+        else if (chAbs >= 5) risk += riskWeights.volatility * 0.6;
+        else if (chAbs >= 3) risk += riskWeights.volatility * 0.35;
+
+        if (pe !== null && pe > 90) risk += riskWeights.valuation;
+        else if (pe !== null && pe > 60) risk += riskWeights.valuation * 0.75;
+        else if (pe !== null && pe > 40) risk += riskWeights.valuation * 0.45;
+
+        // 使用市值作为流动性近似代理：越小盘通常流动性和冲击成本风险越高。
+        if (cap !== null && cap < 80) risk += riskWeights.liquidity;
+        else if (cap !== null && cap < 180) risk += riskWeights.liquidity * 0.6;
+        else if (cap !== null && cap < 350) risk += riskWeights.liquidity * 0.35;
+
+        // 当链段集中度较高时，为同链段个股增加拥挤度风险。
+        if (segConcentration >= 0.35) risk += riskWeights.segment * 0.75;
+        else if (segConcentration >= 0.25) risk += riskWeights.segment * 0.45;
+
+        if (cap !== null && cap < 120) risk += riskWeights.size;
+        else if (cap !== null && cap < 300) risk += riskWeights.size * 0.55;
+        else if (cap !== null && cap > 4000) risk += riskWeights.size * 0.2;
+
+        return Math.min(100, Number(risk.toFixed(1)));
+    }
+
+    function renderPortfolioAdvice(snapshot) {
+        const suggestionBox = document.getElementById('portfolio_suggestion_box');
+        const validationBox = document.getElementById('portfolio_validation_box');
+        if (!suggestionBox || !validationBox) return;
+
+        const isZh = currentLanguage === 'zh-CN';
+        const candidates = [...filteredData]
+            .map(row => {
+                const score = toNumber(row?.invest_score) ?? 0;
+                const risk = computeRowRiskScore(row, snapshot);
+                const ch = toNumber(row?.change_pct) ?? 0;
+                const pe = toNumber(row?.pe_forward);
+                const qualityBoost = isPickRow(row) ? 8 : 0;
+                const valuationBoost = pe !== null && pe > 0 && pe <= 35 ? 4 : 0;
+                const momentumBoost = ch > 0 ? Math.min(ch, 6) : ch * 0.4;
+                const blend = score - (risk * 0.42) + qualityBoost + valuationBoost + momentumBoost;
+                return { row, score, risk, ch, pe, blend };
+            })
+            .filter(item => item.score >= 65)
+            .sort((a, b) => b.blend - a.blend);
+
+        if (!candidates.length) {
+            suggestionBox.innerHTML = `
+                <h4 class="text-sm font-semibold mb-2 text-slate-800">${isZh ? '组合建议（随当前筛选实时更新）' : 'Portfolio Suggestion (Live by current filters)'}</h4>
+                <div class="text-xs text-slate-500">${isZh ? '当前筛选下可用样本不足（评分 >= 65）。建议先放宽筛选条件后再生成组合。' : 'Not enough eligible names (score >= 65). Loosen filters and retry.'}</div>
+            `;
+            validationBox.innerHTML = `
+                <h4 class="text-sm font-semibold mb-2 text-slate-800">${isZh ? '建议验证（执行前检查）' : 'Validation Checklist (Before execution)'}</h4>
+                <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
+                    <li>${isZh ? '检查地区/业务过滤是否过窄。' : 'Check if region/business filters are too narrow.'}</li>
+                    <li>${isZh ? '先确认候选评分分布，再决定是否降低评分阈值。' : 'Review score distribution before lowering threshold.'}</li>
+                </ul>
+            `;
+            return;
+        }
+
+        const selected = [];
+        const segmentSlots = {};
+        const businessSlots = {};
+        candidates.forEach(item => {
+            if (selected.length >= 5) return;
+            const seg = String(item.row?.chain_segment || '其他');
+            const biz = String(item.row?.business_type || '其他');
+            const segUsed = segmentSlots[seg] || 0;
+            const bizUsed = businessSlots[biz] || 0;
+            if (segUsed >= 2 || bizUsed >= 2) return;
+            selected.push(item);
+            segmentSlots[seg] = segUsed + 1;
+            businessSlots[biz] = bizUsed + 1;
+        });
+        if (selected.length < 3) {
+            candidates.forEach(item => {
+                if (selected.length >= 5) return;
+                if (!selected.some(s => String(s.row?.code) === String(item.row?.code))) selected.push(item);
+            });
+        }
+
+        const rawWeights = selected.map(item => Math.max(8, Math.round(item.blend)));
+        const rawSum = rawWeights.reduce((sum, n) => sum + n, 0) || 1;
+        const finalWeights = rawWeights.map(w => Math.max(8, Math.round((w / rawSum) * 100)));
+        const adjustDiff = 100 - finalWeights.reduce((sum, n) => sum + n, 0);
+        if (finalWeights.length) finalWeights[0] += adjustDiff;
+
+        const avgScore = Number((selected.reduce((s, item) => s + item.score, 0) / selected.length).toFixed(1));
+        const avgRisk = Number((selected.reduce((s, item) => s + item.risk, 0) / selected.length).toFixed(1));
+        const topSegment = Object.entries(segmentSlots).sort((a, b) => b[1] - a[1])[0];
+
+        suggestionBox.innerHTML = `
+            <h4 class="text-sm font-semibold mb-2 text-slate-800">${isZh ? '组合建议（随当前筛选实时更新）' : 'Portfolio Suggestion (Live by current filters)'}</h4>
+            <div class="text-xs text-slate-500 mb-2">
+                ${isZh
+                    ? `建议持仓数 ${selected.length}，组合均分 ${avgScore}，平均风险 ${avgRisk}。主导链段：${safeText(topSegment?.[0], 'N/A')}。`
+                    : `Suggested holdings: ${selected.length}, avg score ${avgScore}, avg risk ${avgRisk}. Lead segment: ${safeText(topSegment?.[0], 'N/A')}.`}
+            </div>
+            <div class="space-y-2">
+                ${selected.map((item, idx) => `
+                    <div class="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="text-sm font-semibold">${safeText(item.row?.name, '-')} <span class="text-xs text-slate-400">(${safeText(item.row?.code, '-')})</span></div>
+                            <div class="text-xs px-2 py-0.5 rounded-full border border-teal-200 bg-teal-50 text-teal-700">${finalWeights[idx]}%</div>
+                        </div>
+                        <div class="text-xs text-slate-500 mt-1">
+                            ${safeText(item.row?.chain_segment, isZh ? '其他' : 'Other')} · ${safeText(item.row?.business_type, isZh ? '其他' : 'Other')}
+                            · ${isZh ? '评分' : 'Score'} ${item.score} · ${isZh ? '风险' : 'Risk'} ${item.risk}
+                            · ${isZh ? '日涨跌' : 'Daily chg'} ${fmt(item.ch)}%
+                        </div>
+                        <div class="text-xs text-slate-600 mt-1">
+                            ${isZh
+                                ? `理由：评分靠前${item.pe !== null ? `，估值 ${fmt(item.pe)}x` : ''}，并在当前筛选下具备相对风险收益平衡。`
+                                : `Reason: strong score${item.pe !== null ? `, valuation ${fmt(item.pe)}x` : ''}, with balanced risk/reward in current scope.`}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        validationBox.innerHTML = `
+            <h4 class="text-sm font-semibold mb-2 text-slate-800">${isZh ? '建议验证（执行前检查）' : 'Validation Checklist (Before execution)'}</h4>
+            <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
+                <li>${isZh ? `结构验证：前两大链段占比不超过 70%（当前 ${Math.min(100, Math.round((Object.values(segmentSlots).sort((a, b) => b - a).slice(0, 2).reduce((s, n) => s + n, 0) / selected.length) * 100))}%）。` : `Structure: top 2 segments <= 70% (now ${Math.min(100, Math.round((Object.values(segmentSlots).sort((a, b) => b - a).slice(0, 2).reduce((s, n) => s + n, 0) / selected.length) * 100))}%).`}</li>
+                <li>${isZh ? `风险验证：组合平均风险 ${avgRisk}，高风险个股（>=70）${selected.filter(i => i.risk >= 70).length} 只。` : `Risk: avg risk ${avgRisk}, high-risk names (>=70): ${selected.filter(i => i.risk >= 70).length}.`}</li>
+                <li>${isZh ? `估值验证：Forward P/E 可用样本 ${selected.filter(i => i.pe !== null).length}/${selected.length}，避免盲区。` : `Valuation: forward P/E available for ${selected.filter(i => i.pe !== null).length}/${selected.length}.`}</li>
+                <li>${isZh ? '事件验证：点击“最新行业新闻”中的公司/标签联动检索，确认是否存在财报或政策催化。' : 'Event check: use linked news tokens to confirm earnings/policy catalysts.'}</li>
+                <li>${isZh ? '执行建议：先小仓位试配，再根据风险权重滑杆与盘中波动做动态调仓。' : 'Execution: start small, then rebalance with risk sliders and intraday moves.'}</li>
+            </ul>
+        `;
     }
 
     function renderDecisionSupport(snapshot) {
@@ -532,7 +676,7 @@
         businessDiv.innerHTML = '';
         [...new Set(originalData.map(d => d.region).filter(Boolean))].sort().forEach(r => {
             const label = document.createElement('label');
-            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            label.className = 'toolbar-filter-chip';
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = true;
@@ -545,7 +689,7 @@
         });
         [...new Set(originalData.map(d => d.business_type).filter(Boolean))].sort().forEach(b => {
             const label = document.createElement('label');
-            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            label.className = 'toolbar-filter-chip';
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = true;
@@ -708,30 +852,101 @@
         return { labels, parents, values };
     }
 
-    function renderSegmentExtremes(segForChange) {
-        const box = document.getElementById('chain_extremes_list');
-        if (!box) return;
-        if (!segForChange.length) {
-            box.innerHTML = '';
-            return;
+    function normalizeRegionToProvince(regionName) {
+        const raw = String(regionName || '').trim();
+        if (!raw) return '';
+        const directMap = {
+            北京: '北京市',
+            上海: '上海市',
+            天津: '天津市',
+            重庆: '重庆市',
+            深圳: '广东省'
+        };
+        if (directMap[raw]) return directMap[raw];
+        if (raw.endsWith('省') || raw.endsWith('市') || raw.endsWith('自治区') || raw.endsWith('特别行政区')) {
+            return raw;
         }
-        box.innerHTML = segForChange.map(seg => {
+        return `${raw}省`;
+    }
+
+    async function loadChinaGeoJson() {
+        if (chinaGeoJsonCache) return chinaGeoJsonCache;
+        const url = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json';
+        const resp = await fetch(url, { cache: 'force-cache' });
+        if (!resp.ok) throw new Error(`china_geojson_${resp.status}`);
+        chinaGeoJsonCache = await resp.json();
+        return chinaGeoJsonCache;
+    }
+
+    async function renderRegionAreaMap(regionCounts) {
+        const entries = Object.entries(regionCounts || {});
+        if (!entries.length) return;
+        const provinceAgg = {};
+        entries.forEach(([name, count]) => {
+            const province = normalizeRegionToProvince(name);
+            if (!province) return;
+            provinceAgg[province] = (provinceAgg[province] || 0) + (Number(count) || 0);
+        });
+        const provinces = Object.keys(provinceAgg);
+        const values = provinces.map(name => provinceAgg[name]);
+        if (!provinces.length) return;
+        try {
+            const geojson = await loadChinaGeoJson();
+            plotChart('region_chart', [{
+                type: 'choroplethmapbox',
+                geojson,
+                featureidkey: 'properties.name',
+                locations: provinces,
+                z: values,
+                colorscale: 'Blues',
+                reversescale: true,
+                marker: { line: { color: '#ffffff', width: 0.9 }, opacity: 0.72 },
+                colorbar: { title: '公司数', thickness: 10 },
+                hovertemplate: '<b>%{location}</b><br>公司数: %{z}<extra></extra>'
+            }], {
+                height: 380,
+                margin: { l: 0, r: 0, t: 8, b: 0 },
+                mapbox: {
+                    style: 'carto-positron',
+                    center: { lon: 104.5, lat: 35.5 },
+                    zoom: 2.65
+                }
+            });
+        } catch (_) {
+            // GeoJSON/mapbox failed; fallback to treemap for resilience.
+            const regionSorted = entries.sort((a, b) => b[1] - a[1]);
+            plotChart('region_chart', [{
+                type: 'treemap',
+                labels: regionSorted.map(([name]) => name),
+                parents: regionSorted.map(() => ''),
+                values: regionSorted.map(([, count]) => count),
+                marker: { colors: regionSorted.map(([, count]) => count), colorscale: 'Blues', reversescale: true },
+                textinfo: 'label+value',
+                hovertemplate: '<b>%{label}</b><br>公司数: %{value}<extra></extra>'
+            }], { height: 380, margin: { l: 8, r: 8, t: 8, b: 8 } });
+        }
+    }
+
+    function getSegmentExtremesMap(segForChange) {
+        const map = {};
+        segForChange.forEach(seg => {
             const rows = filteredData
                 .filter(row => String(row?.chain_segment || '其他') === seg)
                 .filter(row => toNumber(row?.change_pct) !== null);
             if (!rows.length) {
-                return `<div class="stat-card p-3"><div class="text-xs text-slate-500">${safeText(seg)}</div><div class="text-sm text-slate-400 mt-1">暂无涨跌数据</div></div>`;
+                map[seg] = { upName: '-', upChg: 'N/A', downName: '-', downChg: 'N/A' };
+                return;
             }
             const topUp = [...rows].sort((a, b) => (toNumber(b.change_pct) ?? -999) - (toNumber(a.change_pct) ?? -999))[0];
             const topDown = [...rows].sort((a, b) => (toNumber(a.change_pct) ?? 999) - (toNumber(b.change_pct) ?? 999))[0];
-            return `
-                <div class="stat-card p-3">
-                    <div class="text-xs text-slate-500 mb-1">${safeText(seg)} 链段极值</div>
-                    <div class="text-[12px]">涨幅最高：<span class="font-semibold">${safeText(topUp?.name, '-')}</span> <span class="positive">${fmt(topUp?.change_pct)}%</span></div>
-                    <div class="text-[12px] mt-1">跌幅最高：<span class="font-semibold">${safeText(topDown?.name, '-')}</span> <span class="negative">${fmt(topDown?.change_pct)}%</span></div>
-                </div>
-            `;
-        }).join('');
+            map[seg] = {
+                upName: safeText(topUp?.name, '-'),
+                upChg: fmt(topUp?.change_pct),
+                downName: safeText(topDown?.name, '-'),
+                downChg: fmt(topDown?.change_pct)
+            };
+        });
+        return map;
     }
 
     function scheduleChartsRender() {
@@ -745,10 +960,9 @@
             chain_pie: '产业链结构图',
             top20_chart: '市值Top20',
             board_pie: '板块分布',
-            region_chart: '地区分布地图',
+            region_chart: '地区分布地域块',
             business_chart: '业务类型分布',
-            chain_change_chart: '链段平均涨跌幅',
-            risk_segment_chart: '风险链段评分'
+            chain_change_chart: '链段平均涨跌幅'
         };
         Object.entries(chartTitles).forEach(([id, title]) => {
             const el = document.getElementById(id);
@@ -799,53 +1013,7 @@
             values: boardBizSunburst.values,
             branchvalues: 'total'
         }], { height: 380 });
-        const regionSorted = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
-        const regionCoordMap = {
-            北京: [116.4, 39.9], 上海: [121.47, 31.23], 天津: [117.2, 39.13], 重庆: [106.55, 29.56],
-            江苏: [118.78, 32.04], 浙江: [120.16, 30.25], 广东: [113.27, 23.13], 深圳: [114.06, 22.55],
-            福建: [119.3, 26.08], 四川: [104.06, 30.67], 安徽: [117.27, 31.86], 湖南: [112.98, 28.2],
-            山东: [117.0, 36.67], 陕西: [108.95, 34.27], 吉林: [125.32, 43.9], 贵州: [106.71, 26.57]
-        };
-        const regionPoints = regionSorted
-            .map(([name, count]) => ({ name, count, coord: regionCoordMap[name] }))
-            .filter(item => Array.isArray(item.coord));
-        plotChart(
-            'region_chart',
-            [{
-                type: 'scattergeo',
-                mode: 'markers+text',
-                lon: regionPoints.map(item => item.coord[0]),
-                lat: regionPoints.map(item => item.coord[1]),
-                text: regionPoints.map(item => `${item.name} ${item.count}`),
-                textposition: 'top center',
-                marker: {
-                    size: regionPoints.map(item => 10 + item.count * 1.8),
-                    color: regionPoints.map(item => item.count),
-                    colorscale: 'Blues',
-                    line: { width: 1, color: '#1e3a8a' },
-                    opacity: 0.88,
-                    showscale: false
-                },
-                hovertemplate: '%{text}<extra></extra>'
-            }],
-            {
-                height: 380,
-                margin: { l: 0, r: 0, t: 8, b: 0 },
-                geo: {
-                    scope: 'asia',
-                    center: { lon: 104, lat: 35 },
-                    projection: { type: 'mercator', scale: 4.2 },
-                    showland: true,
-                    landcolor: '#eef2ff',
-                    showocean: true,
-                    oceancolor: '#f8fafc',
-                    showcountries: true,
-                    countrycolor: '#cbd5e1',
-                    showcoastlines: true,
-                    coastlinecolor: '#94a3b8'
-                }
-            }
-        );
+        renderRegionAreaMap(snapshot.regionCounts);
         // 业务 -> 地区
         const bizRegionMap = aggregateByPair(filteredData, 'business_type', 'region');
         const bizRegionSunburst = buildSunburstData('业务类型', bizRegionMap);
@@ -861,9 +1029,18 @@
             const v = snapshot.segmentChangeAgg[seg];
             return v && v.cnt ? Number((v.sum / v.cnt).toFixed(2)) : 0;
         });
-        plotChart('chain_change_chart', [{ x: segForChange, y: segAvg, type: 'bar', marker: { color: '#0f766e' } }], { height: 380 });
-        renderSegmentExtremes(segForChange);
-        plotChart('risk_segment_chart', [{ x: segForChange, y: segAvg.map(v => Math.min(100, Math.abs(v) * 8 + riskWeights.segment)), type: 'bar' }], { height: 300, yaxis: { range: [0, 100] } });
+        const segExtremes = getSegmentExtremesMap(segForChange);
+        plotChart('chain_change_chart', [{
+            x: segForChange,
+            y: segAvg,
+            type: 'bar',
+            marker: { color: '#0f766e' },
+            customdata: segForChange.map(seg => {
+                const e = segExtremes[seg] || { upName: '-', upChg: 'N/A', downName: '-', downChg: 'N/A' };
+                return [e.upName, e.upChg, e.downName, e.downChg];
+            }),
+            hovertemplate: '<b>%{x}</b><br>平均涨跌幅: %{y:.2f}%<br>涨幅最高: %{customdata[0]} (%{customdata[1]}%)<br>跌幅最高: %{customdata[2]} (%{customdata[3]}%)<extra></extra>'
+        }], { height: 380 });
         renderKlines();
     }
 
@@ -1040,16 +1217,36 @@
 
     function renderSupplyRisk(snapshot) {
         const cards = document.getElementById('supply_risk_cards');
+        const notes = document.getElementById('risk_story_notes');
         if (!cards) return;
         const rows = filteredData.map(row => {
-            const ch = Math.abs(toNumber(row.change_pct) ?? 0);
-            const pe = toNumber(row.pe_forward);
-            let risk = 0;
-            if (ch >= 8) risk += riskWeights.volatility;
-            else if (ch >= 5) risk += riskWeights.volatility * 0.6;
-            if (pe !== null && pe > 60) risk += riskWeights.valuation;
-            return { row, risk: Math.min(100, Number(risk.toFixed(1))) };
+            const risk = computeRowRiskScore(row, snapshot);
+            return { row, risk };
         }).sort((a, b) => b.risk - a.risk).slice(0, 6);
+        if (notes) {
+            const highCount = rows.filter(item => item.risk >= 70).length;
+            const midCount = rows.filter(item => item.risk >= 45 && item.risk < 70).length;
+            const lowCount = rows.filter(item => item.risk < 45).length;
+            const topRisk = rows[0];
+            notes.innerHTML = `
+                <div class="stat-card p-3">
+                    <div class="text-xs text-slate-500">风险形容（当前筛选）</div>
+                    <div class="text-sm mt-1">
+                        高风险 <span class="text-red-600 font-semibold">${highCount}</span> 家，
+                        中风险 <span class="text-amber-600 font-semibold">${midCount}</span> 家，
+                        低风险 <span class="text-emerald-600 font-semibold">${lowCount}</span> 家。
+                    </div>
+                </div>
+                <div class="stat-card p-3">
+                    <div class="text-xs text-slate-500">风险提示建议</div>
+                    <div class="text-sm mt-1">
+                        ${topRisk
+                            ? `当前最高风险为 ${safeText(topRisk.row.name)}（${topRisk.risk} 分），建议结合估值、波动与成交量进行二次确认。`
+                            : '暂无明显风险集中信号，建议保持均衡观察。'}
+                    </div>
+                </div>
+            `;
+        }
         cards.innerHTML = rows.map(x => `<div class="stat-card p-3"><div class="flex items-center justify-between mb-1"><div class="text-sm font-semibold">${safeText(x.row.name)} <span class="text-xs text-slate-400">(${safeText(x.row.code)})</span></div><span class="text-xs px-2 py-0.5 rounded-full border ${x.risk >= 70 ? 'text-red-600 border-red-200 bg-red-50' : (x.risk >= 45 ? 'text-amber-600 border-amber-200 bg-amber-50' : 'text-emerald-600 border-emerald-200 bg-emerald-50')}">${x.risk >= 70 ? '高' : (x.risk >= 45 ? '中' : '低')}风险 · ${x.risk}</span></div><div class="text-xs text-slate-500">${safeText(x.row.chain_segment, '其他')} · ${safeText(x.row.business_type, '其他')}</div></div>`).join('');
     }
 
@@ -1189,8 +1386,25 @@
         renderIndustryKnowledge(snapshot);
         renderIndustryGlossaryNotes(snapshot);
         renderSupplyRisk(snapshot);
+        renderPortfolioAdvice(snapshot);
         renderKlines(getFilteredKlineEntries());
         scheduleChartsRender();
+        updateFilterSummaryCounts();
+    }
+
+    function updateFilterSummaryCounts() {
+        const regionAll = document.querySelectorAll('.region-check').length;
+        const regionChecked = document.querySelectorAll('.region-check:checked').length;
+        const businessAll = document.querySelectorAll('.business-check').length;
+        const businessChecked = document.querySelectorAll('.business-check:checked').length;
+        const regionLabel = document.getElementById('region_filter_count');
+        const businessLabel = document.getElementById('business_filter_count');
+        if (regionLabel) {
+            regionLabel.textContent = regionChecked === regionAll ? '全部' : `${regionChecked}/${regionAll}`;
+        }
+        if (businessLabel) {
+            businessLabel.textContent = businessChecked === businessAll ? '全部' : `${businessChecked}/${businessAll}`;
+        }
     }
 
     function resetFilters() {
@@ -1201,6 +1415,7 @@
         const btn = document.getElementById('pick_toggle_btn');
         if (btn) btn.textContent = '仅看入选标的：关';
         applyFilters();
+        updateFilterSummaryCounts();
     }
 
     function loadRiskWeights() {
@@ -1228,6 +1443,7 @@
         const label = document.getElementById(`risk_weight_${key}_label`);
         if (label) label.textContent = String(riskWeights[key]);
         renderSupplyRisk(computeSnapshot(filteredData));
+        renderPortfolioAdvice(computeSnapshot(filteredData));
         updateRiskOnboardingHint();
     }
 
@@ -1236,6 +1452,7 @@
         try { localStorage.removeItem(RISK_WEIGHT_STORAGE_KEY); } catch (_) {}
         loadRiskWeights();
         renderSupplyRisk(computeSnapshot(filteredData));
+        renderPortfolioAdvice(computeSnapshot(filteredData));
         updateRiskOnboardingHint();
     }
 
@@ -1256,6 +1473,7 @@
             if (label) label.textContent = String(riskWeights[key]);
         });
         renderSupplyRisk(computeSnapshot(filteredData));
+        renderPortfolioAdvice(computeSnapshot(filteredData));
         updateRiskOnboardingHint(mode);
     }
 
@@ -1280,9 +1498,9 @@
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
-        if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'charts') ['onboarding_section', 'methodology_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         try { localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
@@ -1291,9 +1509,9 @@
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);
@@ -1458,6 +1676,17 @@
         picker.addEventListener('change', () => applyLocaleProfile(picker.value, true));
     }
 
+    function bindToolbarMultiSelectMenus() {
+        const menus = Array.from(document.querySelectorAll('.toolbar-multi-select'));
+        if (!menus.length) return;
+        document.addEventListener('click', (event) => {
+            menus.forEach(menu => {
+                if (menu.contains(event.target)) return;
+                menu.removeAttribute('open');
+            });
+        });
+    }
+
     function manualRefresh() { refreshAllContent(); }
 
     Object.assign(window, {
@@ -1477,6 +1706,7 @@
         const pageSizeSelect = document.getElementById('page_size');
         if (pageSizeSelect) pageSizeSelect.value = String(pageSize);
         bindLocalePicker();
+        bindToolbarMultiSelectMenus();
         loadPreferences();
         loadRiskWeights();
         applyLocaleProfile(document.getElementById('locale_profile')?.value || 'zh-CN|Asia/Shanghai', false);
