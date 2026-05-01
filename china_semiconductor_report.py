@@ -3,6 +3,7 @@ import concurrent.futures
 import json
 import math
 import os
+import random
 import re
 import shutil
 import time
@@ -97,6 +98,14 @@ INDUSTRY_SOURCE_MAP = {
     "britannica": {
         "name": "Britannica Semiconductor",
         "url": "https://www.britannica.com/science/semiconductor",
+    },
+    "wiki_industry_zh": {
+        "name": "中文维基（半导体工业）",
+        "url": "https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%B7%A5%E6%A5%AD",
+    },
+    "wiki_industry_en": {
+        "name": "Wikipedia EN (Semiconductor industry)",
+        "url": "https://en.wikipedia.org/wiki/Semiconductor_industry",
     },
 }
 
@@ -361,23 +370,50 @@ def get_industry_intro():
     with requests.Session() as session:
         session.headers.update(DEFAULT_HEADERS)
 
-        sources = [
+        zh_sources = [
             ("baike", "百度百科", collect_from_baike),
             ("wiki_html", "中文维基网页", collect_from_wiki_html),
+        ]
+        en_sources = [
             ("wiki_en_html", "Wikipedia EN 页面", collect_from_wiki_en_html),
             ("techtarget", "TechTarget", collect_from_techtarget),
             ("britannica", "Britannica", collect_from_britannica),
         ]
 
-        for source_key, source_name, collector in sources:
+        zh_items, en_items = [], []
+        used_keys = []
+
+        for source_key, _, collector in zh_sources:
             try:
-                items = collector(session)
-                if items:
-                    return format_intro(items), source_name, [source_key]
+                rows = collector(session)
+                if rows:
+                    zh_items = rows
+                    used_keys.append(source_key)
+                    break
             except Exception:
                 continue
 
-    print("警告：行业简介抓取失败，未返回有效外部内容。")
+        for source_key, _, collector in en_sources:
+            try:
+                rows = collector(session)
+                if rows:
+                    en_items = rows
+                    used_keys.append(source_key)
+                    break
+            except Exception:
+                continue
+
+        merged = []
+        if zh_items:
+            merged.append(zh_items[0])
+        if en_items:
+            merged.append(en_items[0])
+        merged.extend((zh_items[1:] + en_items[1:])[:3])
+        if merged:
+            source_name = "中文+English Sources" if zh_items and en_items else ("中文来源" if zh_items else "English Sources")
+            return format_intro(merged), source_name, used_keys
+
+    print("警告：行业简介抓取失败，未返回有效中英外部内容。")
     return [], "抓取失败", []
 
 industry_intro, industry_intro_source, intro_source_keys = get_industry_intro()
@@ -499,6 +535,85 @@ industry_source_refs = [
     for key in source_keys
     if key in INDUSTRY_SOURCE_MAP
 ]
+def get_global_compare_items(news_pool_items, max_items=8):
+    """抓取全球对比信息（中英网站），并随机抽样用于模块F展示。"""
+
+    def clean_line(text, max_len=150):
+        line = re.sub(r"\[[^\]]*\]", "", str(text or ""))
+        line = re.sub(r"\s+", " ", line).strip()
+        if len(line) < 24:
+            return ""
+        if len(line) > max_len:
+            line = line[:max_len].rstrip("，,；; ") + "..."
+        return line
+
+    items = []
+    refs = {}
+    rng = random.Random(int(datetime.now().strftime("%Y%m%d%H")))
+
+    with requests.Session() as session:
+        session.headers.update(DEFAULT_HEADERS)
+        page_specs = [
+            ("wiki_industry_zh", INDUSTRY_SOURCE_MAP["wiki_industry_zh"]["url"]),
+            ("wiki_industry_en", INDUSTRY_SOURCE_MAP["wiki_industry_en"]["url"]),
+        ]
+        for key, url in page_specs:
+            response = request_with_retry(session, url)
+            if response is None:
+                continue
+            soup = BeautifulSoup(response.text, "html.parser")
+            container = soup.select_one("div.mw-parser-output")
+            if not container:
+                continue
+            paras = container.find_all("p", recursive=False)
+            local = []
+            for p in paras:
+                summary = clean_line(p.get_text(" ", strip=True))
+                if not summary:
+                    continue
+                local.append({
+                    "source_name": INDUSTRY_SOURCE_MAP[key]["name"],
+                    "title": "全球半导体产业观察" if key.endswith("_zh") else "Global semiconductor industry signal",
+                    "summary": summary,
+                    "url": url,
+                })
+            if local:
+                refs[key] = {"name": INDUSTRY_SOURCE_MAP[key]["name"], "url": url}
+                rng.shuffle(local)
+                items.extend(local[:3])
+
+    # 追加来自新闻池的随机全球资讯条目（可访问网站）
+    news_candidates = []
+    for row in news_pool_items or []:
+        title = clean_line(row.get("title"), max_len=100)
+        link = row.get("link", "")
+        if not title or not str(link).startswith(("http://", "https://")):
+            continue
+        news_candidates.append({
+            "source_name": "Global/Industry News",
+            "title": title,
+            "summary": f"日期 {row.get('date', '')}",
+            "url": link,
+        })
+    if news_candidates:
+        rng.shuffle(news_candidates)
+        items.extend(news_candidates[:4])
+
+    dedup = []
+    seen = set()
+    for item in items:
+        key = f"{item.get('title','')}|{item.get('url','')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        dedup.append(item)
+        if len(dedup) >= max_items:
+            break
+
+    return dedup, list(refs.values())
+
+
+global_compare_items, global_compare_refs = get_global_compare_items(news_pool)
 
 # ====================== 行情数据 ======================
 print(f"正在抓取 {total_companies} 家公司实时行情")
@@ -789,6 +904,8 @@ html_content = template.render(
     industry_basics=industry_basics,
     industry_source_refs=industry_source_refs,
     industry_intro_source=industry_intro_source,
+    global_compare_items=global_compare_items,
+    global_compare_refs=global_compare_refs,
     industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     kline_data=safe_kline_data,
     page_mode="all",
@@ -812,6 +929,8 @@ latest_payload = {
     "industry_basics": sanitize_for_json(industry_basics),
     "industry_source_refs": sanitize_for_json(industry_source_refs),
     "industry_intro_source": industry_intro_source,
+    "global_compare_items": sanitize_for_json(global_compare_items),
+    "global_compare_refs": sanitize_for_json(global_compare_refs),
     "data_time": _data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     "data_time_iso": _data_generated_cn.isoformat(),
 }
@@ -837,6 +956,8 @@ for file_name, page_mode, page_title in page_render_specs:
         industry_basics=industry_basics,
         industry_source_refs=industry_source_refs,
         industry_intro_source=industry_intro_source,
+        global_compare_items=global_compare_items,
+        global_compare_refs=global_compare_refs,
         industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
         kline_data=safe_kline_data,
         page_mode=page_mode,

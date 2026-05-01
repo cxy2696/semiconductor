@@ -25,6 +25,10 @@
         industry_source_refs: [],
         industry_intro_source: ''
     };
+    let globalComparePayload = {
+        global_compare_items: [],
+        global_compare_refs: []
+    };
 
     const SEGMENT_ORDER = ['上游', '中游', '下游', '其他'];
     const RISK_WEIGHT_STORAGE_KEY = 'semicon_risk_weights_v1';
@@ -39,20 +43,22 @@
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
-        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
-        charts: ['summary_cards', 'decision_support_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
-        knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'empty_state'],
-        'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
-        'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
+        charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
+        knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'global_compare_section', 'empty_state'],
+        'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
+        'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
     };
     const TOOLBAR_TARGET_BUTTONS = {
         onboarding_section: 'nav_onboarding_btn',
         methodology_section: 'nav_method_btn',
         summary_cards: 'nav_overview_btn',
         decision_support_section: 'nav_decision_btn',
+        limit_up_section: 'nav_limit_up_btn',
         pick_section: 'nav_pick_btn',
         charts_row_1: 'nav_chart_btn',
+        global_compare_section: 'nav_global_btn',
         supply_risk_section: 'nav_risk_btn',
         table_section: 'nav_table_btn'
     };
@@ -61,6 +67,41 @@
         'zh-CN': { title: '中国半导体投资看板', newsTitle: '模块E｜最新行业新闻', companiesUnit: '家公司', realTimeTrack: '实时追踪', realTimeData: '实时数据', timezoneBadge: '中国时间（Asia/Shanghai）' },
         'en-US': { title: 'China Semiconductor Investment Dashboard', newsTitle: 'Module E | Latest Industry News', companiesUnit: ' companies', realTimeTrack: 'real-time tracking', realTimeData: 'real-time data', timezoneBadge: 'EST/EDT (America/New_York)' },
         'de-DE': { title: 'China Halbleiter-Investitionsdashboard', newsTitle: 'Modul E | Neueste Branchennachrichten', companiesUnit: ' Unternehmen', realTimeTrack: 'Echtzeit-Tracking', realTimeData: 'Echtzeitdaten', timezoneBadge: 'CET/CEST (Europe/Berlin)' }
+    };
+    const UI_TEXTS = {
+        'zh-CN': {
+            quickSearchPlaceholder: '代码 / 公司 / 标签',
+            top_nav_home: '总览主页', top_nav_overview: '模块A 市场快照', top_nav_charts: '模块B 图谱/K线', top_nav_knowledge: '模块C 知识课堂', top_nav_risk_news: '模块D/E 风险新闻', top_nav_data_center: '数据中心',
+            toolbar_jump_label: '模块跳转', toolbar_filter_label: '视图与筛选', view_mode_label: '浏览视图', quick_search_label: '快速检索',
+            view_mode_option_all: '全部', view_mode_option_charts: '仅图表', view_mode_option_table: '仅数据表',
+            nav_onboarding_btn: '引导', nav_method_btn: '选股逻辑', nav_overview_btn: '概览', nav_decision_btn: '决策辅助', nav_limit_up_btn: '涨停板', nav_pick_btn: '候选精选', nav_chart_btn: '图表分析', nav_global_btn: '全球对比', nav_risk_btn: '供应链风险', nav_table_btn: '数据表',
+            table_density_btn: '紧凑表格', reading_mode_btn_comfortable: '阅读模式：舒适', reading_mode_btn_compact: '阅读模式：紧凑',
+            floater_mode_btn_on: '板块浮窗：开', floater_mode_btn_off: '板块浮窗：关',
+            limit_up_title: '涨停板观察', limit_up_desc: '展示当日触及涨停阈值的样本公司，辅助识别过热与龙头拥挤信号。',
+            global_compare_title: '模块F｜全球对比观察', global_compare_desc: '从可访问的中英文网站随机抽取全球半导体相关信息，辅助判断国内样本的相对位置。'
+        },
+        'en-US': {
+            quickSearchPlaceholder: 'Code / company / tags',
+            top_nav_home: 'Home', top_nav_overview: 'Module A Snapshot', top_nav_charts: 'Module B Charts/K-line', top_nav_knowledge: 'Module C Knowledge', top_nav_risk_news: 'Module D/E Risk & News', top_nav_data_center: 'Data Center',
+            toolbar_jump_label: 'Jump List', toolbar_filter_label: 'View & Filters', view_mode_label: 'View mode', quick_search_label: 'Quick search',
+            view_mode_option_all: 'All', view_mode_option_charts: 'Charts only', view_mode_option_table: 'Table only',
+            nav_onboarding_btn: 'Guide', nav_method_btn: 'Method', nav_overview_btn: 'Overview', nav_decision_btn: 'Decision', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Candidates', nav_chart_btn: 'Charts', nav_global_btn: 'Global', nav_risk_btn: 'Risk', nav_table_btn: 'Table',
+            table_density_btn: 'Compact table', reading_mode_btn_comfortable: 'Reading mode: Comfort', reading_mode_btn_compact: 'Reading mode: Compact',
+            floater_mode_btn_on: 'Section floater: On', floater_mode_btn_off: 'Section floater: Off',
+            limit_up_title: 'Limit-Up Board', limit_up_desc: 'Shows stocks reaching the daily limit-up threshold to flag momentum crowding risk.',
+            global_compare_title: 'Module F | Global Comparison', global_compare_desc: 'Randomly sampled global semiconductor signals from accessible Chinese/English sources for relative positioning.'
+        },
+        'de-DE': {
+            quickSearchPlaceholder: 'Code / Firma / Tags',
+            top_nav_home: 'Start', top_nav_overview: 'Modul A Marktbild', top_nav_charts: 'Modul B Charts/K-Line', top_nav_knowledge: 'Modul C Wissen', top_nav_risk_news: 'Modul D/E Risiko & News', top_nav_data_center: 'Datenzentrum',
+            toolbar_jump_label: 'Sprungliste', toolbar_filter_label: 'Ansicht & Filter', view_mode_label: 'Ansicht', quick_search_label: 'Schnellsuche',
+            view_mode_option_all: 'Alle', view_mode_option_charts: 'Nur Charts', view_mode_option_table: 'Nur Tabelle',
+            nav_onboarding_btn: 'Leitfaden', nav_method_btn: 'Methode', nav_overview_btn: 'Überblick', nav_decision_btn: 'Entscheidung', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Kandidaten', nav_chart_btn: 'Charts', nav_global_btn: 'Global', nav_risk_btn: 'Risiko', nav_table_btn: 'Tabelle',
+            table_density_btn: 'Kompakte Tabelle', reading_mode_btn_comfortable: 'Lesemodus: Komfort', reading_mode_btn_compact: 'Lesemodus: Kompakt',
+            floater_mode_btn_on: 'Bereichsfenster: Ein', floater_mode_btn_off: 'Bereichsfenster: Aus',
+            limit_up_title: 'Limit-Up Beobachtung', limit_up_desc: 'Zeigt Titel am Tageslimit, um Momentum und Überhitzung schneller zu erkennen.',
+            global_compare_title: 'Modul F | Globaler Vergleich', global_compare_desc: 'Zufällige globale Halbleiter-Signale aus erreichbaren chinesischen/englischen Quellen für relative Einordnung.'
+        }
     };
 
     function getRefreshStatusEl() {
@@ -154,6 +195,25 @@
         return TEXTS[currentLanguage] || TEXTS['zh-CN'];
     }
 
+    function getCurrentUiTexts() {
+        return UI_TEXTS[currentLanguage] || UI_TEXTS['zh-CN'];
+    }
+
+    function applyStaticLocaleTexts() {
+        const ui = getCurrentUiTexts();
+        Object.keys(ui).forEach(id => {
+            if (id.endsWith('_comfortable') || id.endsWith('_compact') || id.endsWith('_on') || id.endsWith('_off') || id === 'quickSearchPlaceholder') return;
+            const el = document.getElementById(id);
+            if (el) el.textContent = ui[id];
+        });
+        const quick = document.getElementById('quick_search');
+        if (quick) quick.placeholder = ui.quickSearchPlaceholder || quick.placeholder;
+        const readingBtn = document.getElementById('reading_mode_btn');
+        if (readingBtn) readingBtn.textContent = readingMode === 'compact' ? ui.reading_mode_btn_compact : ui.reading_mode_btn_comfortable;
+        const floaterBtn = document.getElementById('floater_mode_btn');
+        if (floaterBtn) floaterBtn.textContent = sectionFloaterVisible ? ui.floater_mode_btn_on : ui.floater_mode_btn_off;
+    }
+
     function getCurrentPathname() {
         const path = window.location.pathname || '/';
         const parts = path.split('/').filter(Boolean);
@@ -218,6 +278,7 @@
         if (newsTitle) newsTitle.textContent = t.newsTitle;
         const tzBadge = document.getElementById('timezone_badge');
         if (tzBadge) tzBadge.textContent = t.timezoneBadge;
+        applyStaticLocaleTexts();
         updateCompanyCount(filteredData.length || originalData.length, false);
         updateLastUpdateDisplay();
         const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
@@ -258,15 +319,16 @@
     function renderSummaryCards(snapshot) {
         const el = document.getElementById('summary_cards');
         if (!el) return;
+        const isZh = currentLanguage === 'zh-CN';
         const gainers = [...filteredData].sort((a, b) => (toNumber(b.change_pct) ?? -999) - (toNumber(a.change_pct) ?? -999));
         const losers = [...filteredData].sort((a, b) => (toNumber(a.change_pct) ?? 999) - (toNumber(b.change_pct) ?? 999));
         const topGainer = gainers[0];
         const topLoser = losers[0];
         el.innerHTML = `
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">当前公司数</div><div class="text-2xl font-semibold mt-1">${snapshot.totalCount}</div></div>
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">平均涨跌幅</div><div class="text-2xl font-semibold mt-1 ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</div></div>
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大涨幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topGainer?.name)}</div><div class="text-xl font-semibold positive">${fmt(topGainer?.change_pct)}%</div></div>
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大跌幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topLoser?.name)}</div><div class="text-xl font-semibold negative">${fmt(topLoser?.change_pct)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">${isZh ? '当前公司数' : 'Companies in scope'}</div><div class="text-2xl font-semibold mt-1">${snapshot.totalCount}</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">${isZh ? '平均涨跌幅' : 'Average daily change'}</div><div class="text-2xl font-semibold mt-1 ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">${isZh ? '最大涨幅' : 'Top gainer'}</div><div class="text-sm font-medium mt-1 truncate">${safeText(topGainer?.name)}</div><div class="text-xl font-semibold positive">${fmt(topGainer?.change_pct)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">${isZh ? '最大跌幅' : 'Top loser'}</div><div class="text-sm font-medium mt-1 truncate">${safeText(topLoser?.name)}</div><div class="text-xl font-semibold negative">${fmt(topLoser?.change_pct)}%</div></div>
         `;
     }
 
@@ -278,6 +340,7 @@
         const container = document.getElementById('decision_support_cards');
         const meta = document.getElementById('decision_support_meta');
         if (!container) return;
+        const isZh = currentLanguage === 'zh-CN';
         const sortedByScore = [...filteredData].sort((a, b) => (toNumber(b.invest_score) ?? -1) - (toNumber(a.invest_score) ?? -1));
         const scoreLeader = sortedByScore[0];
         const valueCandidate = [...filteredData]
@@ -292,39 +355,94 @@
         const riskCount = (snapshot.alerts || []).length;
 
         if (meta) {
-            meta.textContent = `当前范围：${filteredData.length}家公司，候选标的 ${pickCount} 家，异动提醒 ${riskCount} 家（|涨跌幅| > 5%）。`;
+            meta.textContent = isZh
+                ? `当前范围：${filteredData.length}家公司，候选标的 ${pickCount} 家，异动提醒 ${riskCount} 家（|涨跌幅| > 5%）。`
+                : `In scope: ${filteredData.length} companies, ${pickCount} picks, ${riskCount} volatility alerts (|chg| > 5%).`;
         }
 
         container.innerHTML = `
             <article class="decision-card">
-                <div class="decision-kicker">评分优先</div>
+                <div class="decision-kicker">${isZh ? '评分优先' : 'Score first'}</div>
                 <h3 class="decision-title">${safeText(scoreLeader?.name, '暂无数据')}</h3>
                 <div class="decision-main">${safeText(scoreLeader?.invest_score, 'N/A')} 分</div>
-                <p class="decision-sub">${safeText(scoreLeader?.code, '-')} · ${safeText(scoreLeader?.business_type, '未分类')}</p>
-                <div class="signal-pill signal-positive">${(toNumber(scoreLeader?.invest_score) ?? 0) >= 80 ? '高质量候选' : '持续观察'}</div>
+                <p class="decision-sub">${safeText(scoreLeader?.code, '-')} · ${safeText(scoreLeader?.business_type, isZh ? '未分类' : 'Unclassified')}</p>
+                <div class="signal-pill signal-positive">${(toNumber(scoreLeader?.invest_score) ?? 0) >= 80 ? (isZh ? '高质量候选' : 'High-quality pick') : (isZh ? '持续观察' : 'Watchlist')}</div>
             </article>
             <article class="decision-card">
-                <div class="decision-kicker">估值视角</div>
+                <div class="decision-kicker">${isZh ? '估值视角' : 'Valuation view'}</div>
                 <h3 class="decision-title">${safeText(valueCandidate?.name, '暂无匹配')}</h3>
                 <div class="decision-main">${fmt(valueCandidate?.pe_forward)}x</div>
-                <p class="decision-sub">Forward P/E（在中高评分样本中）</p>
-                <div class="signal-pill signal-neutral">结合成长性二次确认</div>
+                <p class="decision-sub">${isZh ? 'Forward P/E（在中高评分样本中）' : 'Forward P/E among higher-score names'}</p>
+                <div class="signal-pill signal-neutral">${isZh ? '结合成长性二次确认' : 'Confirm with growth data'}</div>
             </article>
             <article class="decision-card">
-                <div class="decision-kicker">动量线索</div>
+                <div class="decision-kicker">${isZh ? '动量线索' : 'Momentum signal'}</div>
                 <h3 class="decision-title">${safeText(momentumLeader?.name, '暂无数据')}</h3>
                 <div class="decision-main ${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? 'positive' : 'negative'}">${fmt(momentumLeader?.change_pct)}%</div>
-                <p class="decision-sub">当日涨跌幅领先</p>
-                <div class="signal-pill ${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? 'signal-positive' : 'signal-risk'}">${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? '趋势偏强' : '回撤警惕'}</div>
+                <p class="decision-sub">${isZh ? '当日涨跌幅领先' : 'Top intraday mover'}</p>
+                <div class="signal-pill ${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? 'signal-positive' : 'signal-risk'}">${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? (isZh ? '趋势偏强' : 'Trend strong') : (isZh ? '回撤警惕' : 'Pullback risk')}</div>
             </article>
             <article class="decision-card">
-                <div class="decision-kicker">集中度监控</div>
+                <div class="decision-kicker">${isZh ? '集中度监控' : 'Concentration check'}</div>
                 <h3 class="decision-title">${topSegment ? safeText(topSegment[0]) : '暂无数据'}</h3>
                 <div class="decision-main">${concentration}%</div>
-                <p class="decision-sub">样本主链段占比</p>
-                <div class="signal-pill ${Number(concentration) > 45 ? 'signal-risk' : 'signal-neutral'}">${Number(concentration) > 45 ? '注意分散配置' : '分布较均衡'}</div>
+                <p class="decision-sub">${isZh ? '样本主链段占比' : 'Main segment share'}</p>
+                <div class="signal-pill ${Number(concentration) > 45 ? 'signal-risk' : 'signal-neutral'}">${Number(concentration) > 45 ? (isZh ? '注意分散配置' : 'Diversify exposure') : (isZh ? '分布较均衡' : 'Balanced distribution')}</div>
             </article>
         `;
+    }
+
+    function getLimitUpRows(rows = filteredData) {
+        return rows
+            .map(row => ({ row, chg: toNumber(row.change_pct) ?? -999 }))
+            .filter(item => item.chg >= 9.5)
+            .sort((a, b) => b.chg - a.chg)
+            .slice(0, 10);
+    }
+
+    function renderLimitUpBoard() {
+        const box = document.getElementById('limit_up_cards');
+        if (!box) return;
+        const isZh = currentLanguage === 'zh-CN';
+        const limitUps = getLimitUpRows();
+        if (!limitUps.length) {
+            box.innerHTML = `<div class="stat-card p-3 text-sm text-slate-500">${isZh ? '当前筛选样本暂无触及涨停阈值（>= 9.5%）的公司。' : 'No stocks reached the limit-up threshold (>= 9.5%) in the current filter.'}</div>`;
+            return;
+        }
+        box.innerHTML = limitUps.map(item => `
+            <article class="decision-card">
+                <div class="decision-kicker">${safeText(item.row.board, '板块')}</div>
+                <h3 class="decision-title">${safeText(item.row.name)}</h3>
+                <div class="decision-main positive">${fmt(item.chg)}%</div>
+                <p class="decision-sub">${safeText(item.row.code)} · ${safeText(item.row.business_type, isZh ? '未分类' : 'Unclassified')}</p>
+                <div class="signal-pill signal-risk">${isZh ? '涨停板观察' : 'Limit-up watch'}</div>
+            </article>
+        `).join('');
+    }
+
+    function renderGlobalComparisonCards() {
+        const cards = document.getElementById('global_compare_cards');
+        const refs = document.getElementById('global_compare_refs');
+        if (!cards || !refs) return;
+        const isZh = currentLanguage === 'zh-CN';
+        const items = Array.isArray(globalComparePayload.global_compare_items) ? globalComparePayload.global_compare_items : [];
+        if (!items.length) {
+            cards.innerHTML = `<div class="stat-card p-3 text-sm text-slate-500">${isZh ? '暂无可展示的全球对比信息，请等待下一次自动刷新。' : 'No global comparison items yet. Please wait for next auto-refresh.'}</div>`;
+            refs.textContent = '';
+            return;
+        }
+        cards.innerHTML = items.slice(0, 8).map(item => `
+            <div class="stat-card p-3">
+                <div class="text-[11px] text-sky-700 mb-1">${safeText(item.source_name, 'Global Source')}</div>
+                <div class="text-sm font-medium text-slate-800">${safeText(item.title, 'Global insight')}</div>
+                <div class="text-xs text-slate-500 mt-1">${safeText(item.summary, '')}</div>
+                <a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-700 hover:underline mt-2 inline-block">${isZh ? '查看来源' : 'Source'}</a>
+            </div>
+        `).join('');
+        const sourceRefs = Array.isArray(globalComparePayload.global_compare_refs) ? globalComparePayload.global_compare_refs : [];
+        refs.innerHTML = sourceRefs.length
+            ? `${isZh ? '全球对比来源：' : 'Global comparison sources: '}${sourceRefs.map((src, idx) => `<a href="${safeUrl(src.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">${safeText(src.name, 'source')}</a>${idx < sourceRefs.length - 1 ? '<span class="mx-1 text-slate-300">|</span>' : ''}`).join('')}`
+            : '';
     }
 
     function renderFilters() {
@@ -574,10 +692,10 @@
                 const separator = idx < sourceItems.length - 1 ? '<span class="mx-1 text-slate-300">|</span>' : '';
                 return `<a href="${safeUrl(item?.url)}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">${safeText(item?.name, '参考来源')}</a>${separator}`;
             }).join('');
-            sourceBox.innerHTML = `信息来源：${links}`;
+            sourceBox.innerHTML = `${currentLanguage === 'zh-CN' ? '信息来源：' : 'Sources: '}${links}`;
         }
         if (sourceBadge && industryRuntimePayload.industry_intro_source) {
-            sourceBadge.textContent = `来源：${industryRuntimePayload.industry_intro_source}`;
+            sourceBadge.textContent = `${currentLanguage === 'zh-CN' ? '来源：' : 'Source: '}${industryRuntimePayload.industry_intro_source}`;
         }
     }
 
@@ -640,6 +758,10 @@
             industry_source_refs: Array.isArray(payload.industry_source_refs) ? payload.industry_source_refs : [],
             industry_intro_source: String(payload.industry_intro_source || '')
         };
+        globalComparePayload = {
+            global_compare_items: Array.isArray(payload.global_compare_items) ? payload.global_compare_items : [],
+            global_compare_refs: Array.isArray(payload.global_compare_refs) ? payload.global_compare_refs : []
+        };
         currentPage = 1;
         showAllAlerts = false;
         if (payload.data_time_iso) {
@@ -649,6 +771,7 @@
         }
         const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
         renderIndustryStaticContent(key);
+        renderGlobalComparisonCards();
         renderFilters();
         applyFilters();
         setRefreshStatus('', 'info');
@@ -699,10 +822,12 @@
         updateLastUpdateDisplay();
         renderSummaryCards(snapshot);
         renderDecisionSupport(snapshot);
+        renderLimitUpBoard();
         renderPickCards();
         renderTable();
         renderNewsCards(getLatestNewsItems(6, keyword));
         renderIndustryStaticContent(keyword);
+        renderGlobalComparisonCards();
         renderAlerts(snapshot);
         renderIndustryKnowledge(snapshot);
         renderSupplyRisk(snapshot);
@@ -756,10 +881,10 @@
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
         if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         try { localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
 
@@ -767,9 +892,9 @@
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'global_compare_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'global_compare_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'global_compare_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);
@@ -787,14 +912,14 @@
     function toggleReadingMode() {
         readingMode = readingMode === 'compact' ? 'comfortable' : 'compact';
         document.body.classList.toggle('reading-compact', readingMode === 'compact');
-        document.getElementById('reading_mode_btn').textContent = `阅读模式：${readingMode === 'compact' ? '紧凑' : '舒适'}`;
+        applyStaticLocaleTexts();
         try { localStorage.setItem(READING_MODE_STORAGE_KEY, readingMode); } catch (_) {}
     }
 
     function toggleSectionFloater() {
         sectionFloaterVisible = !sectionFloaterVisible;
         document.body.classList.toggle('floater-hidden', !sectionFloaterVisible);
-        document.getElementById('floater_mode_btn').textContent = `板块浮窗：${sectionFloaterVisible ? '开' : '关'}`;
+        applyStaticLocaleTexts();
         try { localStorage.setItem(FLOATER_VISIBLE_STORAGE_KEY, sectionFloaterVisible ? '1' : '0'); } catch (_) {}
     }
 

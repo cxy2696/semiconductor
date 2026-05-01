@@ -43,7 +43,7 @@ body {
 .chip-btn.active { border-color: #1d4ed8; background: #e9f1ff; color: #1e3a8a; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12); }
 .toolbar {
     position: sticky;
-    top: 10px;
+    top: 58px;
     z-index: 30;
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid #dbe3ef;
@@ -62,6 +62,24 @@ body {
     border-radius: 12px;
     padding: 10px 12px;
 }
+.toolbar-block #toolbar_primary,
+.toolbar-block #toolbar_secondary {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+}
+.toolbar-block #toolbar_primary .chip-btn {
+    width: 100%;
+    text-align: left;
+}
+.toolbar-block #toolbar_secondary label {
+    margin-top: 2px;
+}
+.toolbar-block #toolbar_secondary select,
+.toolbar-block #toolbar_secondary input {
+    width: 100%;
+}
 .toolbar-block-label {
     font-size: 11px;
     font-weight: 700;
@@ -76,6 +94,10 @@ body {
     align-items: center;
     border: 1px solid #dbe3ef;
     background: #ffffff;
+    position: sticky;
+    top: 8px;
+    z-index: 45;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
 }
 .course-nav-link {
     border: 1px solid #c7d2e3;
@@ -142,7 +164,7 @@ body {
     .chart-grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     #charts_row_2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .toolbar-grid {
-        grid-template-columns: 1.5fr 1.2fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 .section-subtitle { color: #64748b; font-size: 12px; margin-bottom: 8px; }
@@ -314,10 +336,12 @@ body {
 
 #summary_cards { border-top: 4px solid #1d4ed8; padding-top: 2px; }
 #decision_support_section { border-top: 4px solid #15803d; }
+#limit_up_section { border-top: 4px solid #be123c; }
 #methodology_section { border-top: 4px solid #334155; }
 #pick_section { border-top: 4px solid #1d4ed8; }
 #charts_row_1, #charts_row_2 { border-top: 4px solid #0f766e; padding-top: 2px; }
 #industry_section { border-top: 4px solid #6d28d9; }
+#global_compare_section { border-top: 4px solid #0369a1; }
 #supply_risk_section { border-top: 4px solid #b45309; }
 #news_section { border-top: 4px solid #0e7490; }
 #table_section { border-top: 4px solid #52525b; }
@@ -327,15 +351,17 @@ body {
 #methodology_section,
 #filter_section,
 #decision_support_section,
+#limit_up_section,
 #pick_section,
 #action_section,
 #charts_row_1,
 #charts_row_2,
 #industry_section,
+#global_compare_section,
 #supply_risk_section,
 #news_section,
 #table_section {
-    scroll-margin-top: 84px;
+    scroll-margin-top: 110px;
 }
 
 .lane-resizer,
@@ -459,7 +485,7 @@ body.reading-compact .layout-shell { max-width: 1680px; padding: 10px; }
 body.reading-compact #report_root > * { margin-bottom: 8px; }
 body.reading-compact .panel { border-radius: 12px; }
 body.reading-compact .panel.p-5 { padding: 12px !important; }
-body.reading-compact .toolbar { top: 6px; }
+body.reading-compact .toolbar { top: 50px; }
 body.reading-compact .section-subtitle { margin-bottom: 4px; font-size: 11px; }
 body.reading-compact #pick_cards { max-height: 34vh; }
 body.reading-compact #news_grid { max-height: 34vh; }

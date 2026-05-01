@@ -40,25 +40,27 @@
         </section>
 
         <nav class="course-nav panel p-2" aria-label="模块导航">
-            <a class="course-nav-link" href="./index.html">总览主页</a>
-            <a class="course-nav-link" href="./overview.html">模块A 市场快照</a>
-            <a class="course-nav-link" href="./charts.html">模块B 图谱/K线</a>
-            <a class="course-nav-link" href="./knowledge.html">模块C 知识课堂</a>
-            <a class="course-nav-link" href="./risk-news.html">模块D/E 风险新闻</a>
-            <a class="course-nav-link" href="./data-center.html">数据中心</a>
+            <a id="top_nav_home" class="course-nav-link" href="./index.html">总览主页</a>
+            <a id="top_nav_overview" class="course-nav-link" href="./overview.html">模块A 市场快照</a>
+            <a id="top_nav_charts" class="course-nav-link" href="./charts.html">模块B 图谱/K线</a>
+            <a id="top_nav_knowledge" class="course-nav-link" href="./knowledge.html">模块C 知识课堂</a>
+            <a id="top_nav_risk_news" class="course-nav-link" href="./risk-news.html">模块D/E 风险新闻</a>
+            <a id="top_nav_data_center" class="course-nav-link" href="./data-center.html">数据中心</a>
         </nav>
 
         <section class="toolbar p-4" id="control_toolbar">
             <div class="toolbar-grid">
                 <div class="toolbar-block">
-                    <div class="toolbar-block-label">模块跳转</div>
+                    <div id="toolbar_jump_label" class="toolbar-block-label">模块跳转</div>
                     <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
                     <button id="nav_onboarding_btn" class="chip-btn" onclick="jumpTo('onboarding_section')">引导</button>
                     <button id="nav_method_btn" class="chip-btn" onclick="jumpTo('methodology_section')">选股逻辑</button>
                     <button id="nav_overview_btn" class="chip-btn" onclick="jumpTo('summary_cards')">概览</button>
                     <button id="nav_decision_btn" class="chip-btn" onclick="jumpTo('decision_support_section')">决策辅助</button>
+                    <button id="nav_limit_up_btn" class="chip-btn" onclick="jumpTo('limit_up_section')">涨停板</button>
                     <button id="nav_pick_btn" class="chip-btn" onclick="jumpTo('pick_section')">候选精选</button>
                     <button id="nav_chart_btn" class="chip-btn" onclick="jumpTo('charts_row_1')">图表分析</button>
+                    <button id="nav_global_btn" class="chip-btn" onclick="jumpTo('global_compare_section')">全球对比</button>
                     <button id="nav_risk_btn" class="chip-btn" onclick="jumpTo('supply_risk_section')">供应链风险</button>
                     <button id="nav_table_btn" class="chip-btn" onclick="jumpTo('table_section')">数据表</button>
                     <button id="table_density_btn" class="chip-btn" onclick="toggleTableDensity()">紧凑表格</button>
@@ -67,15 +69,15 @@
                 </div>
                 </div>
                 <div class="toolbar-block">
-                    <div class="toolbar-block-label">视图与筛选</div>
+                    <div id="toolbar_filter_label" class="toolbar-block-label">视图与筛选</div>
                     <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap">
-                        <label class="text-xs text-slate-500">浏览视图</label>
+                        <label id="view_mode_label" class="text-xs text-slate-500">浏览视图</label>
                         <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
-                            <option value="all">全部</option>
-                            <option value="charts">仅图表</option>
-                            <option value="table">仅数据表</option>
+                            <option id="view_mode_option_all" value="all">全部</option>
+                            <option id="view_mode_option_charts" value="charts">仅图表</option>
+                            <option id="view_mode_option_table" value="table">仅数据表</option>
                         </select>
-                        <label class="text-xs text-slate-500">快速检索</label>
+                        <label id="quick_search_label" class="text-xs text-slate-500">快速检索</label>
                         <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     </div>
                 </div>
@@ -164,6 +166,15 @@
             </div>
             <p id="decision_support_meta" class="section-subtitle">从当前筛选结果中提取高分、估值、动量与集中度信号，帮助快速缩小观察范围。</p>
             <div id="decision_support_cards" class="decision-support-grid"></div>
+        </section>
+
+        <section id="limit_up_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+                <h2 id="limit_up_title" class="panel-header text-xl">涨停板观察</h2>
+                <span id="limit_up_badge" class="text-[11px] px-2 py-1 rounded-full border border-rose-200 bg-rose-50 text-rose-700">日内强势</span>
+            </div>
+            <p id="limit_up_desc" class="section-subtitle">展示当日触及涨停阈值的样本公司，辅助识别过热与龙头拥挤信号。</p>
+            <div id="limit_up_cards" class="decision-support-grid"></div>
         </section>
 
         <section id="filter_section" class="panel p-5">
@@ -275,6 +286,16 @@
             <div id="industry_live_metrics" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
         </section>
 
+        <section id="global_compare_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                <h2 id="global_compare_title" class="panel-header text-xl">模块F｜全球对比观察</h2>
+                <span id="global_compare_badge" class="text-[11px] px-2 py-1 rounded-full border border-sky-200 bg-sky-50 text-sky-700">中外信息快照</span>
+            </div>
+            <p id="global_compare_desc" class="section-subtitle">从可访问的中英文网站随机抽取全球半导体相关信息，辅助判断国内样本的相对位置。</p>
+            <div id="global_compare_cards" class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3"></div>
+            <div id="global_compare_refs" class="text-xs text-slate-500"></div>
+        </section>
+
         <section id="supply_risk_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
                 <h2 class="panel-header text-xl">模块D｜供应链风险</h2>
@@ -374,9 +395,11 @@
             <button id="toc_method_btn" class="floating-toc-link" type="button" data-target="methodology_section" onclick="jumpTo('methodology_section')">选股逻辑</button>
             <button id="toc_overview_btn" class="floating-toc-link" type="button" data-target="summary_cards" onclick="jumpTo('summary_cards')">概览</button>
             <button id="toc_decision_btn" class="floating-toc-link" type="button" data-target="decision_support_section" onclick="jumpTo('decision_support_section')">决策辅助</button>
+            <button id="toc_limit_up_btn" class="floating-toc-link" type="button" data-target="limit_up_section" onclick="jumpTo('limit_up_section')">涨停板</button>
             <button id="toc_pick_btn" class="floating-toc-link" type="button" data-target="pick_section" onclick="jumpTo('pick_section')">候选精选</button>
             <button id="toc_chart_btn" class="floating-toc-link" type="button" data-target="charts_row_1" onclick="jumpTo('charts_row_1')">图表分析</button>
             <button id="toc_industry_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">行业知识</button>
+            <button id="toc_global_btn" class="floating-toc-link" type="button" data-target="global_compare_section" onclick="jumpTo('global_compare_section')">全球对比</button>
             <button id="toc_risk_btn" class="floating-toc-link" type="button" data-target="supply_risk_section" onclick="jumpTo('supply_risk_section')">供应链风险</button>
             <button id="toc_news_btn" class="floating-toc-link" type="button" data-target="news_section" onclick="jumpTo('news_section')">最新新闻</button>
             <button id="toc_table_btn" class="floating-toc-link" type="button" data-target="table_section" onclick="jumpTo('table_section')">数据表</button>
@@ -392,6 +415,8 @@
     "industry_basics": industry_basics,
     "industry_source_refs": industry_source_refs,
     "industry_intro_source": industry_intro_source,
+    "global_compare_items": global_compare_items,
+    "global_compare_refs": global_compare_refs,
     "data_time": data_time,
     "data_time_iso": data_time_iso
 } | tojson | safe }}
