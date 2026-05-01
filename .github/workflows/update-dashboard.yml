@@ -49,6 +49,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+          from urllib.parse import urlparse
 
           docs_dir = Path("docs")
           index_path = docs_dir / "index.html"
@@ -86,6 +87,38 @@ jobs:
               raise SystemExit("latest_data.json:data is empty or invalid")
           if not isinstance(payload["news_pool"], list):
               raise SystemExit("latest_data.json:news_pool is invalid")
+          news_pool = payload["news_pool"]
+          if not news_pool:
+              raise SystemExit("latest_data.json:news_pool is empty (scraping may have failed)")
+          valid_news_links = [
+              item.get("link", "")
+              for item in news_pool
+              if urlparse(str(item.get("link", ""))).scheme in {"http", "https"}
+          ]
+          if len(valid_news_links) < 5:
+              raise SystemExit(
+                  f"Insufficient valid external news links: {len(valid_news_links)}"
+              )
+
+          industry_intro = payload.get("industry_intro", [])
+          industry_basics = payload.get("industry_basics", [])
+          if not isinstance(industry_intro, list) or not isinstance(industry_basics, list):
+              raise SystemExit("industry_intro/industry_basics must be lists")
+          if len(industry_intro) < 1 or len(industry_basics) < 1:
+              raise SystemExit(
+                  f"Industry scraping data too small: intro={len(industry_intro)}, basics={len(industry_basics)}"
+              )
+
+          refs = payload.get("industry_source_refs", [])
+          if not isinstance(refs, list) or not refs:
+              raise SystemExit("industry_source_refs is empty (no external source recorded)")
+          valid_ref_links = [
+              ref.get("url", "")
+              for ref in refs
+              if urlparse(str(ref.get("url", ""))).scheme in {"http", "https"}
+          ]
+          if not valid_ref_links:
+              raise SystemExit("industry_source_refs has no valid external URLs")
           print("Artifact validation passed.")
           PY
 
