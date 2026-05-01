@@ -74,16 +74,36 @@ body {
     width: auto;
     text-align: center;
 }
-.toolbar-block #toolbar_secondary select,
-.toolbar-block #toolbar_secondary input {
-    width: auto;
-}
 .toolbar-block-label {
     font-size: 11px;
     font-weight: 700;
     color: #475569;
     margin-bottom: 8px;
     letter-spacing: .02em;
+}
+.filter-disclosure {
+    border: 1px solid #dbe3ef;
+    border-radius: 10px;
+    background: #fff;
+    padding: 8px 10px;
+}
+.filter-summary {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+    list-style: none;
+}
+.filter-summary::-webkit-details-marker {
+    display: none;
+}
+.filter-summary::after {
+    content: '▾';
+    float: right;
+    color: #64748b;
+}
+.filter-disclosure:not([open]) .filter-summary::after {
+    content: '▸';
 }
 .course-nav {
     display: flex;
@@ -162,7 +182,7 @@ body {
     .chart-grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     #charts_row_2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .toolbar-grid {
-        grid-template-columns: minmax(280px, 0.85fr) minmax(420px, 1.15fr);
+        grid-template-columns: 1fr;
     }
 }
 .section-subtitle { color: #64748b; font-size: 12px; margin-bottom: 8px; }
@@ -339,7 +359,6 @@ body {
 #pick_section { border-top: 4px solid #1d4ed8; }
 #charts_row_1, #charts_row_2 { border-top: 4px solid #0f766e; padding-top: 2px; }
 #industry_section { border-top: 4px solid #6d28d9; }
-#global_compare_section { border-top: 4px solid #0369a1; }
 #supply_risk_section { border-top: 4px solid #b45309; }
 #news_section { border-top: 4px solid #0e7490; }
 #table_section { border-top: 4px solid #52525b; }
@@ -355,7 +374,6 @@ body {
 #charts_row_1,
 #charts_row_2,
 #industry_section,
-#global_compare_section,
 #supply_risk_section,
 #news_section,
 #table_section {
@@ -449,6 +467,70 @@ body {
 }
 .floating-toc.collapsed .floating-toc-list { display: none; }
 
+.quick-search-floater {
+    position: fixed;
+    right: 14px;
+    top: 96px;
+    z-index: 58;
+    width: 220px;
+    pointer-events: auto;
+}
+.quick-search-toggle {
+    width: 100%;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #1e3a8a;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+}
+.quick-search-panel {
+    margin-top: 6px;
+    border: 1px solid #dbe3ef;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.14);
+    padding: 10px;
+    display: none;
+}
+.quick-search-floater:hover .quick-search-panel,
+.quick-search-floater.open .quick-search-panel {
+    display: block;
+}
+
+.chart-zoom-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+}
+.chart-zoom-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+}
+.chart-zoom-content {
+    position: relative;
+    width: min(1220px, calc(100vw - 30px));
+    margin: 24px auto;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #dbe3ef;
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.24);
+    padding: 10px;
+}
+.chart-zoom-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 2px 10px;
+}
+.chart-zoom-container {
+    min-height: 420px;
+}
+
 a,
 button,
 input,
@@ -499,6 +581,11 @@ body.floater-hidden #floating_toc { display: none !important; }
     .floating-toc.floater-left {
         left: 10px;
     }
+    .quick-search-floater {
+        right: 10px;
+        top: 84px;
+        width: 196px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -515,12 +602,13 @@ body.floater-hidden #floating_toc { display: none !important; }
         padding-bottom: 4px;
     }
     #quick_search {
-        min-width: 220px;
+        min-width: 180px;
         width: auto;
         max-width: 100%;
     }
     #table_section .overflow-auto { max-height: none; }
     #floating_toc { display: none !important; }
+    #quick_search_floater { display: none !important; }
     .course-nav { gap: 6px; }
     .course-nav-link { font-size: 11px; padding: 6px 10px; }
     .decision-main { font-size: 22px; }
