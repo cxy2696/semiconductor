@@ -1,4 +1,5 @@
 import ast
+import json
 import os
 import re
 import shutil
@@ -499,14 +500,30 @@ html_content = template.render(
     kline_data=kline_data
 )
 
+latest_payload = {
+    "data": df.to_dict(orient="records"),
+    "news_pool": news_pool,
+    "kline_data": kline_data,
+    "data_time": _data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
+    "data_time_iso": _data_generated_cn.isoformat(),
+}
+
 html_file = os.path.join(_base_dir, "中国半导体行业报告.html")
 with open(html_file, "w", encoding="utf-8") as f:
     f.write(html_content)
+
+latest_payload_file = os.path.join(_base_dir, "latest_data.json")
+with open(latest_payload_file, "w", encoding="utf-8") as f:
+    json.dump(latest_payload, f, ensure_ascii=False)
 
 # GitHub Pages 输出（docs/index.html）
 docs_html_file = os.path.join(_docs_dir, "index.html")
 with open(docs_html_file, "w", encoding="utf-8") as f:
     f.write(html_content)
+
+docs_payload_file = os.path.join(_docs_dir, "latest_data.json")
+with open(docs_payload_file, "w", encoding="utf-8") as f:
+    json.dump(latest_payload, f, ensure_ascii=False)
 
 # 前端脚本同步到 docs，确保 GitHub Pages 可直接加载
 frontend_js_file = os.path.join(_base_dir, "app.js")
@@ -523,6 +540,7 @@ print("\nv5.4 生成完成（GitHub 持续更新）")
 print(f"Excel（唯一数据源）→ {excel_file}")
 print(f"HTML（完全基于Excel）→ {html_file}")
 print(f"GitHub Pages 输出 → {docs_html_file}")
+print(f"实时刷新数据输出 → {docs_payload_file}")
 
 # CI / workflow 环境默认不弹浏览器，本地可通过 OPEN_REPORT=1 启用自动打开
 if os.environ.get("CI", "").lower() != "true" and os.environ.get("OPEN_REPORT", "1") == "1":

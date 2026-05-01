@@ -575,8 +575,9 @@
 </div>
 
 <script>
-    const originalData = {{ data | tojson | safe }};
-    const newsPoolData = {{ news_pool | tojson | safe }};
+    let originalData = {{ data | tojson | safe }};
+    let newsPoolData = {{ news_pool | tojson | safe }};
+    let klineRuntimeData = {{ kline_data | tojson | safe }};
     let filteredData = [...originalData];
     let onlyPicks = false;
     let compactTable = false;
@@ -608,6 +609,7 @@
     let currentLanguage = 'zh-CN';
     let currentTimeZone = 'Asia/Shanghai';
     let lastUpdateIso = '';
+    let refreshInFlight = false;
     const TEXTS = {
         'zh-CN': {
             title: '中国半导体行业报告',
@@ -909,6 +911,60 @@
         const url = new URL(window.location.href);
         url.searchParams.set('_refreshTs', String(Date.now()));
         window.location.replace(url.toString());
+    }
+
+    async function fetchLatestPayload() {
+        const url = new URL('./latest_data.json', window.location.href);
+        url.searchParams.set('_ts', String(Date.now()));
+        const resp = await fetch(url.toString(), { cache: 'no-store' });
+        if (!resp.ok) throw new Error(`latest_data_http_${resp.status}`);
+        return resp.json();
+    }
+
+    function applyRuntimePayload(payload) {
+        if (!payload || !Array.isArray(payload.data)) return false;
+        originalData = payload.data;
+        newsPoolData = Array.isArray(payload.news_pool) ? payload.news_pool : [];
+        klineRuntimeData = payload.kline_data && typeof payload.kline_data === 'object' ? payload.kline_data : {};
+        filteredData = [...originalData];
+        currentPage = 1;
+        showAllAlerts = false;
+
+        if (payload.data_time_iso) {
+            lastUpdateIso = payload.data_time_iso;
+            const el = document.getElementById('last_update');
+            if (el) el.dataset.updateIso = payload.data_time_iso;
+        }
+
+        updateCompanyCount(originalData.length, true);
+        updateLastUpdateDisplay();
+        renderFilters();
+        renderNewsCards(getLatestNewsItems());
+        const snapshot = refreshMetricsSnapshot();
+        const fullSnapshot = refreshFullMetricsSnapshot();
+        renderSummaryCards(snapshot);
+        renderPickCards();
+        renderTable();
+        renderAlerts(fullSnapshot);
+        renderIndustryKnowledge(snapshot);
+        renderSupplyRisk(snapshot);
+        initializeCharts(snapshot);
+        return true;
+    }
+
+    async function refreshAllContent() {
+        if (refreshInFlight) return;
+        refreshInFlight = true;
+        try {
+            const payload = await fetchLatestPayload();
+            const ok = applyRuntimePayload(payload);
+            if (!ok) throw new Error('invalid_latest_payload');
+        } catch (_) {
+            // 回退为整页强制刷新，避免页面停留旧数据
+            hardRefreshNow();
+        } finally {
+            refreshInFlight = false;
+        }
     }
 
     function getLatestNewsItems(limit = 6) {
@@ -1732,59 +1788,61 @@
         // K线
         const container = document.getElementById('kline_container');
         container.innerHTML = '';
-        {% for name, data in kline_data.items() %}
-        const klineCard_{{ loop.index0 }} = document.createElement('div');
-        const klineChangeClass_{{ loop.index0 }} = Number({{ data.change_30d | tojson | safe }}) >= 0 ? 'positive' : 'negative';
-        klineCard_{{ loop.index0 }}.className = 'text-center bg-white border border-slate-100 rounded-2xl p-3';
-        klineCard_{{ loop.index0 }}.innerHTML = `
-            <div class="flex items-start justify-between gap-2 mb-2">
-                <div class="text-left">
-                    <h4 class="font-medium text-sm">{{ name }}</h4>
-                    <div class="text-[11px] text-slate-500">{{ data.chain_segment | default('其他') }} · {{ data.business_type | default('其他') }}</div>
+        const klineEntries = Object.entries(klineRuntimeData || {});
+        klineEntries.forEach(([name, kdata], idx) => {
+            const klineCard = document.createElement('div');
+            const klineChangeClass = Number(kdata?.change_30d || 0) >= 0 ? 'positive' : 'negative';
+            const klineId = `kline_${idx}`;
+            klineCard.className = 'text-center bg-white border border-slate-100 rounded-2xl p-3';
+            klineCard.innerHTML = `
+                <div class="flex items-start justify-between gap-2 mb-2">
+                    <div class="text-left">
+                        <h4 class="font-medium text-sm">${name}</h4>
+                        <div class="text-[11px] text-slate-500">${kdata?.chain_segment || '其他'} · ${kdata?.business_type || '其他'}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[11px] text-slate-500">30天</div>
+                        <div class="text-sm font-semibold ${klineChangeClass}">${fmt(kdata?.change_30d)}%</div>
+                    </div>
                 </div>
-                <div class="text-right">
-                    <div class="text-[11px] text-slate-500">30天</div>
-                    <div class="text-sm font-semibold ${klineChangeClass_{{ loop.index0 }}}">{{ data.change_30d }}%</div>
-                </div>
-            </div>
-            <div id="kline_{{ loop.index0 }}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>
-        `;
-        container.appendChild(klineCard_{{ loop.index0 }});
+                <div id="${klineId}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>
+            `;
+            container.appendChild(klineCard);
 
-        requestAnimationFrame(() => {
-            const close_{{ loop.index0 }} = {{ data.close | tojson | safe }};
-            const ma5_{{ loop.index0 }} = close_{{ loop.index0 }}.map((_, idx, arr) => {
-                if (idx < 4) return null;
-                const window = arr.slice(idx - 4, idx + 1);
-                const avg = window.reduce((s, v) => s + Number(v || 0), 0) / 5;
-                return Number.isFinite(avg) ? Number(avg.toFixed(2)) : null;
-            });
+            requestAnimationFrame(() => {
+                const close = Array.isArray(kdata?.close) ? kdata.close : [];
+                const ma5 = close.map((_, arrIdx, arr) => {
+                    if (arrIdx < 4) return null;
+                    const window = arr.slice(arrIdx - 4, arrIdx + 1);
+                    const avg = window.reduce((s, v) => s + Number(v || 0), 0) / 5;
+                    return Number.isFinite(avg) ? Number(avg.toFixed(2)) : null;
+                });
 
-            const kTrace = [{
-                x: {{ data.date | tojson | safe }},
-                open: {{ data.open | tojson | safe }},
-                high: {{ data.high | tojson | safe }},
-                low: {{ data.low | tojson | safe }},
-                close: close_{{ loop.index0 }},
-                type: 'candlestick',
-                name: 'K线',
-                increasing: { line: { color: '#10b981' } },
-                decreasing: { line: { color: '#ef4444' } }
-            }, {
-                x: {{ data.date | tojson | safe }},
-                y: ma5_{{ loop.index0 }},
-                type: 'scatter',
-                mode: 'lines',
-                name: 'MA5',
-                line: { color: '#0ea5e9', width: 1.6 }
-            }];
-            plotChart(`kline_{{ loop.index0 }}`, kTrace, {
-                height: 220,
-                margin: { l: 28, r: 10, t: 8, b: 24 },
-                showlegend: false
+                const kTrace = [{
+                    x: Array.isArray(kdata?.date) ? kdata.date : [],
+                    open: Array.isArray(kdata?.open) ? kdata.open : [],
+                    high: Array.isArray(kdata?.high) ? kdata.high : [],
+                    low: Array.isArray(kdata?.low) ? kdata.low : [],
+                    close,
+                    type: 'candlestick',
+                    name: 'K线',
+                    increasing: { line: { color: '#10b981' } },
+                    decreasing: { line: { color: '#ef4444' } }
+                }, {
+                    x: Array.isArray(kdata?.date) ? kdata.date : [],
+                    y: ma5,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'MA5',
+                    line: { color: '#0ea5e9', width: 1.6 }
+                }];
+                plotChart(klineId, kTrace, {
+                    height: 220,
+                    margin: { l: 28, r: 10, t: 8, b: 24 },
+                    showlegend: false
+                });
             });
         });
-        {% endfor %}
 
         if (container.childElementCount === 0) {
             container.innerHTML = '<div class="text-sm text-slate-500">暂无可用K线数据（已尝试按市值补位）。</div>';
@@ -1822,7 +1880,7 @@
             <div class="alert-card bg-white border border-red-200 rounded-2xl p-4 shadow-sm">
                 <div class="flex items-center justify-between gap-2 flex-wrap mb-3">
                     <div class="flex items-center gap-2">
-                        <span class="text-xl">🚨</span>
+                        <span class="text-xl">!</span>
                         <span class="font-semibold">实时异动（|涨跌幅| > 5%）</span>
                     </div>
                     <div class="flex items-center gap-2">
@@ -1926,13 +1984,13 @@
             const seconds = Number(sel.value);
             try { localStorage.setItem(REFRESH_INTERVAL_STORAGE_KEY, String(seconds)); } catch (_) {}
             if (seconds > 0) {
-                refreshTimer = setInterval(() => hardRefreshNow(), seconds * 1000);
+                refreshTimer = setInterval(() => refreshAllContent(), seconds * 1000);
             }
         });
         sel.dispatchEvent(new Event('change'));
     }
 
-    function manualRefresh() { hardRefreshNow(); }
+    function manualRefresh() { refreshAllContent(); }
 
     window.addEventListener('resize', () => {
         clearTimeout(window.__chartResizeTimer__);

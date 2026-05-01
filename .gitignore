@@ -9,3 +9,4 @@ venv/
 # Generated artifacts
 中国半导体行业报告.xlsx
 中国半导体行业报告.html
+/latest_data.json

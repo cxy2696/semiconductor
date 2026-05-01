@@ -16,6 +16,7 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
   - English + EST/EDT (`en-US` + `America/New_York`)
   - German + CET/CEST (`de-DE` + `Europe/Berlin`)
 - Latest-news-first rendering (freshest records prioritized)
+- Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every 5 minutes
 - GitHub Pages output in `docs/index.html`
 
@@ -30,6 +31,7 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 - `.github/workflows/update-dashboard.yml`: scheduled auto-refresh workflow
 - `docs/index.html`: GitHub Pages entrypoint (generated/updated by script)
 - `docs/app.js`: front-end JavaScript served by GitHub Pages
+- `docs/latest_data.json`: live runtime payload used by auto-refresh
 
 ## Local Setup
 
