@@ -157,11 +157,24 @@
             <div class="stat-card p-4 mt-3">
                 <h4 class="text-sm font-semibold mb-2 text-slate-800">界面使用说明（建议顺序）</h4>
                 <ol class="text-xs text-slate-600 leading-6 list-decimal ml-5">
-                    <li>先在顶部设置“浏览视图 + 地区/业务多选”，缩小研究范围。</li>
-                    <li>看模块A/决策辅助/涨停板，快速定位候选与情绪极值。</li>
-                    <li>看模块B图谱，确认链段-板块-地区-业务结构是否支持判断。</li>
-                    <li>看模块C全球观察与模块D/E风险新闻，做交叉验证后再回数据表落地。</li>
+                    <li><b>顶部工具栏</b>：设置浏览视图、地区/业务多选，先把样本范围收敛到目标池。</li>
+                    <li><b>模块A 市场快照</b>：用概览卡 + 决策辅助 + 涨停板，判断“谁值得先看、哪里最拥挤”。</li>
+                    <li><b>模块B 图谱/K线</b>：看链段/板块/地区/业务结构与 K 线形态，验证逻辑是否有结构支撑。</li>
+                    <li><b>模块C 全球观察</b>：看基本面与基本盘解释、全球信号快照，检查中外信息是否同向。</li>
+                    <li><b>模块D 供应链风险</b>：用风险评分与风险形容说明识别高波动、高估值、低流动性的潜在雷区。</li>
+                    <li><b>模块E 最新行业新闻</b>：按公司/代码/标签联动检索，补齐事件与财报催化信息。</li>
+                    <li><b>数据中心</b>：回到明细表逐项核验公司来源、估值与策略标签后再形成结论。</li>
                 </ol>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+                <div id="portfolio_suggestion_box" class="stat-card p-4">
+                    <h4 class="text-sm font-semibold mb-2 text-slate-800">组合建议（随当前筛选实时更新）</h4>
+                    <div class="text-xs text-slate-500">正在生成组合建议...</div>
+                </div>
+                <div id="portfolio_validation_box" class="stat-card p-4">
+                    <h4 class="text-sm font-semibold mb-2 text-slate-800">建议验证（执行前检查）</h4>
+                    <div class="text-xs text-slate-500">正在生成验证清单...</div>
+                </div>
             </div>
             <div class="mt-3 text-xs text-slate-500">
                 提示：先看基本面与基本盘解释，再看候选精选/图谱/风险新闻，形成完整跟踪闭环。
@@ -240,7 +253,7 @@
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">地区公司分布</h3>
-                <p class="section-subtitle">按城市/地域块展示热力分布，颜色越深表示公司数量越多。</p>
+                <p class="section-subtitle">按中国地图城市/地域块展示热力分布，颜色越浅表示公司数量越多。</p>
                 <div id="region_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
@@ -297,6 +310,16 @@
                 </div>
             </div>
             <div class="stat-card p-3 mb-3">
+                <div class="text-xs text-slate-500 mb-2">风险评分介绍及说明</div>
+                <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
+                    <li>风险分数由“波动 + 估值 + 流动性 + 链段 + 规模”权重引擎计算，范围 0-100。</li>
+                    <li>高风险（>=70）：通常对应高波动且估值压力偏大，建议降低仓位或延后确认。</li>
+                    <li>中风险（45-69）：建议结合新闻催化、成交量与板块热度做二次验证。</li>
+                    <li>低风险（&lt;45）：并非“无风险”，仍需跟踪财报、政策和产业链事件变化。</li>
+                    <li>该评分用于研究排序，不构成投资建议。</li>
+                </ul>
+            </div>
+            <div class="stat-card p-3 mb-3">
                 <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
                     <div class="text-xs text-slate-500">风险权重配置（拖动滑杆实时生效）</div>
                     <button type="button" onclick="resetRiskWeights()" class="px-3 py-1 rounded-lg border border-slate-200 text-xs hover:border-teal-400">恢复默认权重</button>
@@ -319,8 +342,8 @@
                     </label>
                 </div>
             </div>
+            <div id="risk_story_notes" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"></div>
             <div id="supply_risk_cards" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"></div>
-            <div id="risk_segment_chart" class="chart-container h-80"><div class="chart-fallback">图表加载中...</div></div>
         </section>
 
         <section id="news_section" class="panel p-5">
