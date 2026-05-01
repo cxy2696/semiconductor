@@ -17,6 +17,8 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
   - German + CET/CEST (`de-DE` + `Europe/Berlin`)
 - Latest-news-first rendering (freshest records prioritized)
 - Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
+- Top 6 market-cap K-line cards with runtime refresh
+- Industry knowledge/source blocks are refreshed from scraping payloads
 - GitHub Actions schedule for continuous 24/7 refresh attempt every 10 minutes
 - GitHub Pages output in `docs/index.html`
 - Optimized CI pipeline with dependency cache (`actions/setup-python` pip cache)
@@ -81,6 +83,7 @@ Your dashboard URL will be:
 - If one refresh cycle exceeds 10 minutes, the next run is queued (not canceled) to keep updates reliable.
 - Runtime refresh failures no longer force hard page reload; current data stays visible and the next cycle retries automatically.
 - Data freshness depends on upstream data/news source availability.
+- Auto-refresh updates data, news, candidate picks, industry knowledge blocks, and risk panels from the latest generated payload.
 - Front-end is implemented with JavaScript and optimized for mobile/tablet/desktop responsive behavior.
 
 Project owner profile: [cxy2696](https://github.com/cxy2696)

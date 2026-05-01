@@ -50,6 +50,7 @@
         <section class="toolbar p-3">
             <div class="flex items-center justify-between gap-3 flex-wrap">
                 <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
+                    <button id="nav_onboarding_btn" class="chip-btn" onclick="jumpTo('onboarding_section')">引导</button>
                     <button id="nav_overview_btn" class="chip-btn" onclick="jumpTo('summary_cards')">概览</button>
                     <button id="nav_pick_btn" class="chip-btn" onclick="jumpTo('pick_section')">候选精选</button>
                     <button id="nav_chart_btn" class="chip-btn" onclick="jumpTo('charts_row_1')">图表分析</button>
@@ -69,6 +70,36 @@
                     <label class="text-xs text-slate-500">快速检索</label>
                     <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-56 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
                 </div>
+            </div>
+        </section>
+
+        <section id="onboarding_section" class="panel p-5 onboarding-panel">
+            <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
+                <h2 class="panel-header text-xl">新手引导 / Quick Start</h2>
+                <span class="text-xs text-slate-500">建议按 1 → 2 → 3 浏览，快速建立全局认知。</span>
+            </div>
+            <div class="onboarding-grid">
+                <button class="onboarding-card" type="button" onclick="jumpTo('summary_cards')">
+                    <div class="onboarding-step">1</div>
+                    <div>
+                        <div class="onboarding-title">先看概览与候选</div>
+                        <div class="onboarding-desc">先确认市场状态、候选标的和实时异动。</div>
+                    </div>
+                </button>
+                <button class="onboarding-card" type="button" onclick="jumpTo('charts_row_1')">
+                    <div class="onboarding-step">2</div>
+                    <div>
+                        <div class="onboarding-title">再看图表结构</div>
+                        <div class="onboarding-desc">通过产业链、地区、业务分布理解结构变化。</div>
+                    </div>
+                </button>
+                <button class="onboarding-card" type="button" onclick="jumpTo('supply_risk_section')">
+                    <div class="onboarding-step">3</div>
+                    <div>
+                        <div class="onboarding-title">最后看风险与新闻</div>
+                        <div class="onboarding-desc">结合风险评分与最新新闻完成当次跟踪。</div>
+                    </div>
+                </button>
             </div>
         </section>
 
@@ -122,7 +153,7 @@
                 <div id="chain_segment_bar" class="chart-container h-64 mt-3"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h2 class="panel-header text-xl mb-2">Top 5 公司K线（30天）</h2>
+                <h2 class="panel-header text-xl mb-2">Top 6 公司K线（30天）</h2>
                 <p class="section-subtitle">按市值优先并自动补位，附30天区间涨跌、赛道信息与MA5。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3" id="kline_container"></div>
             </div>
@@ -159,21 +190,21 @@
         <section id="industry_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
                 <h2 class="panel-header text-xl">行业基础知识</h2>
-                <span class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
+                <span id="industry_intro_source_badge" class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
             </div>
-            <div class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
+            <div id="industry_intro_list" class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
                 {% for text in industry_intro %}
                 <div class="stat-card p-4">{{ text }}</div>
                 {% endfor %}
             </div>
-            <div class="text-xs text-slate-500 mb-4">
+            <div id="industry_source_refs" class="text-xs text-slate-500 mb-4">
                 信息来源：
                 {% for src in industry_source_refs %}
                 <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
                 {% endfor %}
             </div>
             <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览</h4>
-            <div class="industry-basics-grid mb-4">
+            <div id="industry_basics_grid" class="industry-basics-grid mb-4">
                 {% for item in industry_basics %}
                 <div class="industry-basic-item">
                     <div class="term">{{ item.term }}</div>
@@ -280,6 +311,7 @@
         </div>
         <div class="floating-toc-list">
             <button id="toc_top_btn" class="floating-toc-link floating-toc-top" type="button" data-target="__top" onclick="scrollToTop()">↑ 回到顶部</button>
+            <button id="toc_onboarding_btn" class="floating-toc-link" type="button" data-target="onboarding_section" onclick="jumpTo('onboarding_section')">引导</button>
             <button id="toc_overview_btn" class="floating-toc-link" type="button" data-target="summary_cards" onclick="jumpTo('summary_cards')">概览</button>
             <button id="toc_pick_btn" class="floating-toc-link" type="button" data-target="pick_section" onclick="jumpTo('pick_section')">候选精选</button>
             <button id="toc_chart_btn" class="floating-toc-link" type="button" data-target="charts_row_1" onclick="jumpTo('charts_row_1')">图表分析</button>

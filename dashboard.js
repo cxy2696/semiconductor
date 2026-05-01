@@ -17,6 +17,12 @@
     let currentLanguage = 'zh-CN';
     let currentTimeZone = 'Asia/Shanghai';
     let lastUpdateIso = '';
+    let industryRuntimePayload = {
+        industry_intro: [],
+        industry_basics: [],
+        industry_source_refs: [],
+        industry_intro_source: ''
+    };
 
     const SEGMENT_ORDER = ['上游', '中游', '下游', '其他'];
     const RISK_WEIGHT_STORAGE_KEY = 'semicon_risk_weights_v1';
@@ -391,6 +397,38 @@
         `;
     }
 
+    function renderIndustryStaticContent() {
+        const introBox = document.getElementById('industry_intro_list');
+        const basicsBox = document.getElementById('industry_basics_grid');
+        const sourceBox = document.getElementById('industry_source_refs');
+        const sourceBadge = document.getElementById('industry_intro_source_badge');
+        const introItems = Array.isArray(industryRuntimePayload.industry_intro) ? industryRuntimePayload.industry_intro : [];
+        const basicsItems = Array.isArray(industryRuntimePayload.industry_basics) ? industryRuntimePayload.industry_basics : [];
+        const sourceItems = Array.isArray(industryRuntimePayload.industry_source_refs) ? industryRuntimePayload.industry_source_refs : [];
+
+        if (introBox && introItems.length) {
+            introBox.innerHTML = introItems.map(text => `<div class="stat-card p-4">${safeText(text, '')}</div>`).join('');
+        }
+        if (basicsBox && basicsItems.length) {
+            basicsBox.innerHTML = basicsItems.map(item => `
+                <div class="industry-basic-item">
+                    <div class="term">${safeText(item?.term, '术语')}</div>
+                    <div class="desc">${safeText(item?.desc, '暂无说明')}</div>
+                </div>
+            `).join('');
+        }
+        if (sourceBox && sourceItems.length) {
+            const links = sourceItems.map((item, idx) => {
+                const separator = idx < sourceItems.length - 1 ? '<span class="mx-1 text-slate-300">|</span>' : '';
+                return `<a href="${safeUrl(item?.url)}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">${safeText(item?.name, '参考来源')}</a>${separator}`;
+            }).join('');
+            sourceBox.innerHTML = `信息来源：${links}`;
+        }
+        if (sourceBadge && industryRuntimePayload.industry_intro_source) {
+            sourceBadge.textContent = `来源：${industryRuntimePayload.industry_intro_source}`;
+        }
+    }
+
     function renderSupplyRisk(snapshot) {
         const cards = document.getElementById('supply_risk_cards');
         if (!cards) return;
@@ -440,6 +478,12 @@
         filteredData = [...originalData];
         newsPoolData = Array.isArray(payload.news_pool) ? payload.news_pool : [];
         klineRuntimeData = payload.kline_data && typeof payload.kline_data === 'object' ? payload.kline_data : {};
+        industryRuntimePayload = {
+            industry_intro: Array.isArray(payload.industry_intro) ? payload.industry_intro : [],
+            industry_basics: Array.isArray(payload.industry_basics) ? payload.industry_basics : [],
+            industry_source_refs: Array.isArray(payload.industry_source_refs) ? payload.industry_source_refs : [],
+            industry_intro_source: String(payload.industry_intro_source || '')
+        };
         currentPage = 1;
         showAllAlerts = false;
         if (payload.data_time_iso) {
@@ -447,6 +491,7 @@
             const el = document.getElementById('last_update');
             if (el) el.dataset.updateIso = payload.data_time_iso;
         }
+        renderIndustryStaticContent();
         renderFilters();
         applyFilters();
         setRefreshStatus('', 'info');
@@ -550,19 +595,19 @@
     }
 
     function applyViewMode(mode) {
-        const allIds = ['industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
-        if (mode === 'charts') ['filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-        if (mode === 'table') ['summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'charts') ['onboarding_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'table') ['onboarding_section', 'summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
     }
 
     function rearrangeBlocks(mode) {
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['summary_cards', 'industry_section', 'supply_risk_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'summary_cards', 'industry_section', 'supply_risk_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);

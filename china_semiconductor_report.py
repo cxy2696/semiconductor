@@ -476,12 +476,12 @@ print(f"Excel 已生成（唯一数据源）→ {excel_file}")
 # ====================== 从Excel重新读取（保证HTML与Excel 100%一致） ======================
 df = pd.read_excel(excel_file)   # 关键：从Excel读取
 
-# Top5 K线（30天）：扩大候选池，尽量稳定凑齐5家公司
+# Top6 K线（30天）：扩大候选池，尽量稳定凑齐6家公司
 candidate_cols = ['code', 'name', 'market_cap', 'business_type', 'chain_segment']
 top_candidates = (
     df.dropna(subset=['market_cap'])
       .sort_values('market_cap', ascending=False)
-      .head(15)[candidate_cols]
+      .head(18)[candidate_cols]
       .to_dict(orient='records')
 )
 
@@ -530,7 +530,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         key, payload = result
         if key not in kline_data:
             kline_data[key] = payload
-        if len(kline_data) >= 5:
+        if len(kline_data) >= 6:
             break
 
 with open(pick_first_existing(_template_path_candidates), encoding="utf-8") as _tpl_file:
@@ -553,6 +553,7 @@ html_content = template.render(
     industry_basics=industry_basics,
     industry_source_refs=industry_source_refs,
     industry_intro_source=industry_intro_source,
+    industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     kline_data=safe_kline_data
 )
 
@@ -560,6 +561,10 @@ latest_payload = {
     "data": data_records,
     "news_pool": safe_news_pool,
     "kline_data": safe_kline_data,
+    "industry_intro": sanitize_for_json(industry_intro),
+    "industry_basics": sanitize_for_json(industry_basics),
+    "industry_source_refs": sanitize_for_json(industry_source_refs),
+    "industry_intro_source": industry_intro_source,
     "data_time": _data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     "data_time_iso": _data_generated_cn.isoformat(),
 }
