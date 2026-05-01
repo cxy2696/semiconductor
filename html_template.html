@@ -30,9 +30,9 @@
                     <div class="mt-3 flex gap-2 justify-end">
                         <select id="refresh_interval" class="px-3 py-2 rounded-xl border border-white/30 bg-white/20 text-white text-sm">
                             <option value="0">关闭自动刷新</option>
-                            <option value="60">每1分钟</option>
-                            <option value="180">每3分钟</option>
-                            <option value="300" selected>每5分钟</option>
+                            <option value="300">每5分钟</option>
+                            <option value="600" selected>每10分钟</option>
+                            <option value="1800">每30分钟</option>
                         </select>
                         <button id="manual_refresh_btn" onclick="manualRefresh()" class="px-4 py-2 rounded-xl bg-white text-teal-700 text-sm font-semibold">立即刷新</button>
                     </div>
@@ -290,5 +290,14 @@
         </div>
     </aside>
 </div>
+<script id="initial_payload" type="application/json">
+{{ {
+    "data": data,
+    "news_pool": news_pool,
+    "kline_data": kline_data,
+    "data_time": data_time,
+    "data_time_iso": data_time_iso
+} | tojson | safe }}
+</script>
 </body>
 </html>

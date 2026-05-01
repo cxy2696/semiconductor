@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-INTERVAL_SECONDS="${INTERVAL_SECONDS:-300}"
+INTERVAL_SECONDS="${INTERVAL_SECONDS:-600}"
 RUN_ONCE="${RUN_ONCE:-0}"
 
 if [[ "${1:-}" == "--once" ]]; then

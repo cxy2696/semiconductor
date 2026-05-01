@@ -23,7 +23,8 @@
     const FLOATER_VISIBLE_STORAGE_KEY = 'semicon_floater_visible_v1';
     const FLOATER_SIDE_STORAGE_KEY = 'semicon_floater_side_v1';
     const LOCALE_PROFILE_STORAGE_KEY = 'semicon_locale_profile_v1';
-    const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v1';
+    const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v2';
+    const DEFAULT_REFRESH_SECONDS = 600;
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
 
@@ -32,6 +33,36 @@
         'en-US': { title: 'China Semiconductor Industry Report', refreshNow: 'Refresh now', newsTitle: 'Latest Industry News', companiesUnit: ' companies', realTimeTrack: 'real-time tracking', realTimeData: 'real-time data', timezoneBadge: 'EST/EDT (America/New_York)' },
         'de-DE': { title: 'Chinas Halbleiter-Branchenbericht', refreshNow: 'Jetzt aktualisieren', newsTitle: 'Neueste Branchennachrichten', companiesUnit: ' Unternehmen', realTimeTrack: 'Echtzeit-Tracking', realTimeData: 'Echtzeitdaten', timezoneBadge: 'CET/CEST (Europe/Berlin)' }
     };
+
+    function getRefreshStatusEl() {
+        let el = document.getElementById('refresh_status_banner');
+        if (el) return el;
+        el = document.createElement('div');
+        el.id = 'refresh_status_banner';
+        el.className = 'panel p-3 text-xs hidden';
+        const reportRoot = document.getElementById('report_root');
+        if (reportRoot) {
+            reportRoot.insertBefore(el, reportRoot.firstChild);
+        }
+        return el;
+    }
+
+    function setRefreshStatus(message = '', kind = 'info') {
+        const el = getRefreshStatusEl();
+        if (!el) return;
+        if (!message) {
+            el.classList.add('hidden');
+            el.textContent = '';
+            return;
+        }
+        el.classList.remove('hidden');
+        if (kind === 'error') {
+            el.className = 'panel p-3 text-xs border border-red-200 bg-red-50 text-red-700';
+        } else {
+            el.className = 'panel p-3 text-xs border border-emerald-200 bg-emerald-50 text-emerald-700';
+        }
+        el.textContent = message;
+    }
 
     function toNumber(v) {
         const n = Number(v);
@@ -368,7 +399,19 @@
         }
         renderFilters();
         applyFilters();
+        setRefreshStatus('', 'info');
         return true;
+    }
+
+    function bootstrapFromInitialPayload() {
+        const payloadEl = document.getElementById('initial_payload');
+        if (!payloadEl?.textContent) return false;
+        try {
+            const payload = JSON.parse(payloadEl.textContent);
+            return applyRuntimePayload(payload);
+        } catch (_) {
+            return false;
+        }
     }
 
     async function refreshAllContent() {
@@ -378,10 +421,9 @@
             const payload = await fetchLatestPayload();
             const ok = applyRuntimePayload(payload);
             if (!ok) throw new Error('invalid_latest_payload');
-        } catch (_) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('_refreshTs', String(Date.now()));
-            window.location.replace(url.toString());
+        } catch (err) {
+            // Keep current data on fetch errors to avoid reload loops and blank pages.
+            setRefreshStatus(`自动刷新失败：${String(err?.message || 'unknown_error')}。已保留当前页面数据，将在下个周期自动重试。`, 'error');
         } finally {
             refreshInFlight = false;
         }
@@ -531,6 +573,10 @@
     function setupAutoRefresh() {
         const sel = document.getElementById('refresh_interval');
         if (!sel) return;
+        const hasDefault = Array.from(sel.options).some(o => Number(o.value) === DEFAULT_REFRESH_SECONDS);
+        if (!hasDefault) {
+            sel.value = String(DEFAULT_REFRESH_SECONDS);
+        }
         try {
             const saved = localStorage.getItem(REFRESH_INTERVAL_STORAGE_KEY);
             if (saved && Array.from(sel.options).some(o => o.value === saved)) sel.value = saved;
@@ -590,6 +636,9 @@
         loadPreferences();
         loadRiskWeights();
         applyLocaleProfile(document.getElementById('locale_profile')?.value || 'zh-CN|Asia/Shanghai', false);
+        if (!bootstrapFromInitialPayload()) {
+            setRefreshStatus('初始数据加载失败，正在尝试从最新数据源获取...', 'error');
+        }
         setupAutoRefresh();
         refreshAllContent();
         if (window.SemiconductorFrontendApp?.bootstrap) window.SemiconductorFrontendApp.bootstrap();
