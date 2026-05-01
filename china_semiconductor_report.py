@@ -1,5 +1,6 @@
 import ast
 import json
+import math
 import os
 import re
 import shutil
@@ -49,6 +50,26 @@ print(f"已加载 {total_companies} 条公司数据（最新名单）")
 
 def ensure_dirs():
     os.makedirs(_docs_dir, exist_ok=True)
+
+
+def sanitize_for_json(value):
+    """Recursively convert NaN/Infinity-like values into JSON-safe values."""
+    if isinstance(value, dict):
+        return {k: sanitize_for_json(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [sanitize_for_json(v) for v in value]
+    if isinstance(value, tuple):
+        return [sanitize_for_json(v) for v in value]
+    if isinstance(value, float):
+        return value if math.isfinite(value) else None
+    if value is None or isinstance(value, (str, int, bool)):
+        return value
+    if hasattr(value, "item"):
+        try:
+            return sanitize_for_json(value.item())
+        except Exception:
+            return value
+    return value
 
 
 ensure_dirs()
@@ -485,24 +506,27 @@ with open(os.path.join(_base_dir, "html_template.html"), encoding="utf-8") as _t
 template = Template(html_template)
 
 _data_generated_cn = datetime.now(ZoneInfo("Asia/Shanghai"))
+data_records = sanitize_for_json(df.to_dict(orient="records"))
+safe_news_pool = sanitize_for_json(news_pool)
+safe_kline_data = sanitize_for_json(kline_data)
 
 html_content = template.render(
-    data=df.to_dict(orient="records"),
+    data=data_records,
     data_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     data_time_iso=_data_generated_cn.isoformat(),
     news_data=news_data,
-    news_pool=news_pool,
+    news_pool=safe_news_pool,
     industry_intro=industry_intro,
     industry_basics=industry_basics,
     industry_source_refs=industry_source_refs,
     industry_intro_source=industry_intro_source,
-    kline_data=kline_data
+    kline_data=safe_kline_data
 )
 
 latest_payload = {
-    "data": df.to_dict(orient="records"),
-    "news_pool": news_pool,
-    "kline_data": kline_data,
+    "data": data_records,
+    "news_pool": safe_news_pool,
+    "kline_data": safe_kline_data,
     "data_time": _data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     "data_time_iso": _data_generated_cn.isoformat(),
 }
@@ -513,7 +537,7 @@ with open(html_file, "w", encoding="utf-8") as f:
 
 latest_payload_file = os.path.join(_base_dir, "latest_data.json")
 with open(latest_payload_file, "w", encoding="utf-8") as f:
-    json.dump(latest_payload, f, ensure_ascii=False)
+    json.dump(latest_payload, f, ensure_ascii=False, allow_nan=False)
 
 # GitHub Pages 输出（docs/index.html）
 docs_html_file = os.path.join(_docs_dir, "index.html")
@@ -522,7 +546,7 @@ with open(docs_html_file, "w", encoding="utf-8") as f:
 
 docs_payload_file = os.path.join(_docs_dir, "latest_data.json")
 with open(docs_payload_file, "w", encoding="utf-8") as f:
-    json.dump(latest_payload, f, ensure_ascii=False)
+    json.dump(latest_payload, f, ensure_ascii=False, allow_nan=False)
 
 # 前端脚本同步到 docs，确保 GitHub Pages 可直接加载
 frontend_js_file = os.path.join(_base_dir, "app.js")
