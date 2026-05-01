@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compatibility entrypoint for dashboard generation."""
+"""Build dashboard artifacts from the main generator module."""
 
 from pathlib import Path
 import runpy

@@ -1,4 +1,4 @@
-name: Update Dashboard Every 10 Minutes
+name: Refresh Dashboard Every 10 Minutes
 
 on:
   schedule:
@@ -39,6 +39,8 @@ jobs:
           OPEN_REPORT: "0"
           RUN_ONCE: "1"
           INTERVAL_SECONDS: "600"
+          PYTHON_BIN: "python"
+          REFRESH_RETRIES: "2"
         run: bash ./scripts/refresh_dashboard.sh --once
 
       - name: Commit and push updates if changed

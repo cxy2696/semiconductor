@@ -27,8 +27,8 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 - `config/company_metadata.py`: tracked company universe (source of truth)
 - `html_template.html`: HTML template structure and data bindings
 - `app.js` / `dashboard.js` / `styles.css`: front-end source files
+- `scripts/build_dashboard.py`: canonical dashboard build entrypoint
 - `scripts/refresh_dashboard.sh`: canonical refresh entrypoint (loop or `--once`)
-- `refresh_report_every_5m.sh`: backward-compatible wrapper to `scripts/refresh_dashboard.sh`
 - `.github/workflows/update-dashboard.yml`: scheduled 10-minute auto-refresh workflow
 - `docs/index.html`: GitHub Pages entrypoint (generated)
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
@@ -50,7 +50,7 @@ Generated outputs:
 ## Local 24/7 Refresh (Every 10 Minutes)
 
 ```bash
-./scripts/refresh_dashboard.sh
+bash ./scripts/refresh_dashboard.sh
 ```
 
 This loop regenerates data/news/charts every 600 seconds.  
@@ -61,7 +61,7 @@ The report page itself also auto-refreshes every 10 minutes and supports immedia
 Workflow: `.github/workflows/update-dashboard.yml` (fully automatic, no manual refresh needed)
 
 - Trigger: `*/10 * * * *` plus manual dispatch
-- Action: run `scripts/refresh_dashboard.sh --once`, update `docs` artifacts, commit changes automatically with GitHub Actions bot
+- Action: run `scripts/refresh_dashboard.sh --once`, retry transient failures automatically, update `docs` artifacts, and commit with GitHub Actions bot
 - Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
 
 After pushing this repository:

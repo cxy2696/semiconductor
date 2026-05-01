@@ -7,15 +7,38 @@ cd "$REPO_ROOT"
 
 INTERVAL_SECONDS="${INTERVAL_SECONDS:-600}"
 RUN_ONCE="${RUN_ONCE:-0}"
-PYTHON_BIN="${PYTHON_BIN:-python3}"
+REFRESH_RETRIES="${REFRESH_RETRIES:-1}"
+if [[ -z "${PYTHON_BIN:-}" ]]; then
+  if [[ -x "${REPO_ROOT}/.venv/bin/python" ]]; then
+    PYTHON_BIN="${REPO_ROOT}/.venv/bin/python"
+  else
+    PYTHON_BIN="python3"
+  fi
+fi
 
 if [[ "${1:-}" == "--once" ]]; then
   RUN_ONCE="1"
 fi
 
+run_generation_once() {
+  OPEN_REPORT="${OPEN_REPORT:-0}" CI="${CI:-true}" "${PYTHON_BIN}" scripts/build_dashboard.py
+}
+
 run_generation() {
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Regenerating report..."
-  OPEN_REPORT="${OPEN_REPORT:-0}" CI="${CI:-true}" "${PYTHON_BIN}" scripts/generate_dashboard.py
+  local attempt=0
+  local max_attempts=$((REFRESH_RETRIES + 1))
+  while (( attempt < max_attempts )); do
+    attempt=$((attempt + 1))
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Regenerating report (attempt ${attempt}/${max_attempts})..."
+    if run_generation_once; then
+      return 0
+    fi
+    if (( attempt < max_attempts )); then
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Attempt ${attempt} failed. Retrying in 20s..."
+      sleep 20
+    fi
+  done
+  return 1
 }
 
 if [[ "$RUN_ONCE" == "1" ]]; then
