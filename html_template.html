@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>中国半导体行业报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+    <script defer src="./app.js?v={{ data_time_iso }}"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap');
+
+        :root {
+            --brand: #0f766e;
+            --brand-soft: #ccfbf1;
+            --card-border: #e5e7eb;
+            --bg: #f5f7fb;
+            --text-muted: #6b7280;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', system-ui, sans-serif;
+            background: radial-gradient(circle at top left, #ecfeff 0%, #f8fafc 40%, #f1f5f9 100%);
+            color: #0f172a;
+        }
+
+        .layout-shell { max-width: 1520px; margin: 0 auto; padding: 16px; }
+        .panel { background: #fff; border: 1px solid var(--card-border); border-radius: 16px; box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04); }
+        .panel-header { font-weight: 800; letter-spacing: .01em; }
+        .stat-card { background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e2e8f0; border-radius: 16px; }
+        .chip-btn { border: 1px solid #cbd5e1; background: #fff; border-radius: 9999px; padding: 7px 14px; font-size: 12px; color: #334155; }
+        .chip-btn:hover { border-color: var(--brand); color: #0f766e; }
+        .toolbar { position: sticky; top: 10px; z-index: 30; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border: 1px solid #dbeafe; border-radius: 16px; }
+
+        .header-hero {
+            background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 24px;
+        }
+
+        .positive { color: #059669; }
+        .negative { color: #dc2626; }
+
+        .chart-grid-two { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media (min-width: 1200px) {
+            .chart-grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            #charts_row_2 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        .section-subtitle { color: #64748b; font-size: 12px; margin-bottom: 8px; }
+        .chart-container { min-height: 280px; position: relative; width: 100%; overflow: hidden; border-radius: 14px; background: #fff; border: 1px solid #e2e8f0; }
+        .chart-fallback { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #94a3b8; text-align: center; width: 100%; pointer-events: none; }
+        .chart-container .js-plotly-plot, .chart-container .plot-container, .chart-container .svg-container { width: 100% !important; }
+
+        .industry-basics-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
+        .industry-basic-item { border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; padding: 10px 12px; }
+        .industry-basic-item .term { font-size: 12px; font-weight: 700; color: #0f766e; }
+        .industry-basic-item .desc { font-size: 12px; color: #475569; margin-top: 4px; line-height: 1.45; }
+
+        @media (min-width: 960px) {
+            .industry-basics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        .compact-table td, .compact-table th { padding-top: 10px !important; padding-bottom: 10px !important; }
+        .table-head { background: #f8fafc; color: #0f172a; }
+        #dataTable { border-collapse: separate; border-spacing: 0; }
+        #dataTable th { white-space: nowrap; }
+        #dataTable th:nth-child(1), #dataTable td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            background: #fff;
+            z-index: 6;
+        }
+        #dataTable th:nth-child(2), #dataTable td:nth-child(2) {
+            position: sticky;
+            left: 92px;
+            background: #fff;
+            z-index: 5;
+        }
+        #dataTable thead th:nth-child(1), #dataTable thead th:nth-child(2) {
+            background: #f8fafc;
+            z-index: 8;
+        }
+
+        /* 单列浏览布局（避免左右栏造成空白） */
+        #report_root {
+            display: block;
+            position: relative;
+        }
+        #report_root > * {
+            width: 100%;
+            margin-bottom: 12px;
+            min-width: 0;
+        }
+
+        #summary_cards,
+        #filter_section,
+        #pick_section,
+        #action_section,
+        #charts_row_1,
+        #charts_row_2,
+        #industry_section,
+        #supply_risk_section,
+        #news_section,
+        #table_section {
+            scroll-margin-top: 84px;
+        }
+
+        .lane-resizer,
+        #left_lane_header,
+        #right_lane_header {
+            display: none !important;
+        }
+
+        .floating-toc {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 60;
+            width: 176px;
+            border: 1px solid #dbeafe;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+            overflow: hidden;
+            touch-action: none;
+        }
+        .floating-toc.floater-left {
+            right: auto;
+            left: 16px;
+        }
+        .floating-toc.dragging {
+            opacity: 0.92;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+        }
+        .floating-toc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 12px;
+            font-weight: 700;
+            color: #0f766e;
+            cursor: grab;
+            user-select: none;
+        }
+        .floating-toc.dragging .floating-toc-header {
+            cursor: grabbing;
+        }
+        .floating-toc-toggle {
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            background: #fff;
+            color: #334155;
+            font-size: 11px;
+            line-height: 1;
+            padding: 2px 8px;
+            cursor: pointer;
+        }
+        .floating-toc-list {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 52vh;
+            overflow: auto;
+        }
+        .floating-toc-link {
+            width: 100%;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            border-radius: 10px;
+            padding: 6px 8px;
+            font-size: 12px;
+            color: #334155;
+            cursor: pointer;
+        }
+        .floating-toc-link:hover { border-color: #2dd4bf; color: #0f766e; }
+        .floating-toc-top {
+            border-color: #99f6e4;
+            background: #f0fdfa;
+            color: #0f766e;
+            font-weight: 700;
+        }
+        .floating-toc-link.active {
+            border-color: #14b8a6;
+            background: #f0fdfa;
+            color: #0f766e;
+            font-weight: 700;
+        }
+        .floating-toc.collapsed .floating-toc-list { display: none; }
+
+        body.reading-compact .layout-shell { max-width: 1680px; padding: 10px; }
+        body.reading-compact #report_root > * { margin-bottom: 8px; }
+        body.reading-compact .panel { border-radius: 12px; }
+        body.reading-compact .panel.p-5 { padding: 12px !important; }
+        body.reading-compact .toolbar { top: 6px; }
+        body.reading-compact .section-subtitle { margin-bottom: 4px; font-size: 11px; }
+        body.reading-compact #pick_cards { max-height: 34vh; }
+        body.reading-compact #news_grid { max-height: 34vh; }
+        body.floater-hidden #floating_toc { display: none !important; }
+
+        @media (max-width: 1100px) {
+            .chart-grid-two { grid-template-columns: 1fr; }
+            .floating-toc {
+                right: 10px;
+                bottom: 10px;
+                width: 156px;
+            }
+            .floating-toc.floater-left {
+                left: 10px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .layout-shell { padding: 10px; }
+            .header-hero { padding: 16px; border-radius: 16px; }
+            .toolbar { position: static; top: auto; }
+            #toolbar_primary, #toolbar_secondary {
+                width: 100%;
+                justify-content: flex-start !important;
+            }
+            #quick_search { width: 100%; max-width: 100%; }
+            #table_section .overflow-auto { max-height: none; }
+            #floating_toc { display: none !important; }
+        }
+
+        @media (max-width: 768px) {
+            .panel.p-5 { padding: 12px !important; }
+            .chip-btn { padding: 6px 10px; font-size: 11px; }
+            #dataTable { min-width: 0 !important; border-spacing: 0 6px; }
+            #dataTable thead { display: none; }
+            #dataTable tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                padding: 10px;
+            }
+            #dataTable tr {
+                display: block;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                background: #fff !important;
+                box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+            }
+            #dataTable td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 10px;
+                width: 100%;
+                text-align: right !important;
+                padding: 8px 10px !important;
+                border-bottom: 1px dashed #e2e8f0;
+                white-space: normal;
+            }
+            #dataTable td:last-child { border-bottom: none; }
+            #dataTable td::before {
+                content: attr(data-label);
+                font-size: 11px;
+                color: #64748b;
+                font-weight: 700;
+                text-align: left;
+                flex: 0 0 45%;
+                max-width: 45%;
+            }
+            #dataTable td:nth-child(1),
+            #dataTable td:nth-child(2),
+            #dataTable th:nth-child(1),
+            #dataTable th:nth-child(2) {
+                position: static !important;
+                left: auto !important;
+                z-index: auto !important;
+                background: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+<div class="layout-shell">
+    <div id="report_root">
+
+        <section class="header-hero panel">
+            <div class="flex justify-between gap-4 flex-wrap items-start">
+                <div>
+                    <div class="text-4xl mb-2">🧭</div>
+                    <h1 id="hero_title" class="text-3xl md:text-4xl font-extrabold">中国半导体行业浏览中心</h1>
+                    <p class="text-cyan-50 mt-2" id="company_count">{{ data|length }}家公司 · 实时追踪</p>
+                </div>
+                <div class="text-right text-sm min-w-[280px]">
+                    <div id="last_update_label" class="opacity-80">数据更新时间</div>
+                    <div id="last_update" class="text-2xl font-bold mt-1" data-update-iso="{{ data_time_iso }}">{{ data_time }}</div>
+                    <div id="timezone_badge" class="text-[11px] mt-1 opacity-90">中国时间（Asia/Shanghai）</div>
+                    <div class="mt-3 flex gap-2 justify-end">
+                        <select id="refresh_interval" class="px-3 py-2 rounded-xl border border-white/30 bg-white/20 text-white text-sm">
+                            <option value="0">关闭自动刷新</option>
+                            <option value="60">每1分钟</option>
+                            <option value="180">每3分钟</option>
+                            <option value="300" selected>每5分钟</option>
+                        </select>
+                        <button id="manual_refresh_btn" onclick="manualRefresh()" class="px-4 py-2 rounded-xl bg-white text-teal-700 text-sm font-semibold">立即刷新</button>
+                    </div>
+                    <div class="mt-2 flex gap-2 justify-end">
+                        <select id="locale_profile" class="px-3 py-2 rounded-xl border border-white/30 bg-white/20 text-white text-sm">
+                            <option value="zh-CN|Asia/Shanghai" selected>中文 + 中国时间</option>
+                            <option value="en-US|America/New_York">English + EST</option>
+                            <option value="de-DE|Europe/Berlin">Deutsch + CET</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="toolbar p-3">
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
+                    <button id="nav_overview_btn" class="chip-btn" onclick="jumpTo('summary_cards')">概览</button>
+                    <button id="nav_pick_btn" class="chip-btn" onclick="jumpTo('pick_section')">候选精选</button>
+                    <button id="nav_chart_btn" class="chip-btn" onclick="jumpTo('charts_row_1')">图表分析</button>
+                    <button id="nav_risk_btn" class="chip-btn" onclick="jumpTo('supply_risk_section')">供应链风险</button>
+                    <button id="nav_table_btn" class="chip-btn" onclick="jumpTo('table_section')">数据表</button>
+                    <button id="table_density_btn" class="chip-btn" onclick="toggleTableDensity()">紧凑表格</button>
+                    <button id="reading_mode_btn" class="chip-btn" onclick="toggleReadingMode()">阅读模式：舒适</button>
+                    <button id="floater_mode_btn" class="chip-btn" onclick="toggleSectionFloater()">板块浮窗：开</button>
+                </div>
+                <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap justify-end">
+                    <label class="text-xs text-slate-500">浏览视图</label>
+                    <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+                        <option value="all">全部</option>
+                        <option value="charts">仅图表</option>
+                        <option value="table">仅数据表</option>
+                    </select>
+                    <label class="text-xs text-slate-500">快速检索</label>
+                    <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-56 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
+                </div>
+            </div>
+        </section>
+
+        <div id="alert_banner" class="hidden"></div>
+
+        <section id="summary_cards" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3"></section>
+
+        <section id="filter_section" class="panel p-5">
+            <div class="flex items-end gap-5 flex-wrap">
+                <div class="flex-1 min-w-[220px]">
+                    <label class="block text-xs text-slate-500 mb-2">地区过滤（多选）</label>
+                    <div id="region_filters" class="flex flex-wrap gap-2"></div>
+                </div>
+                <div class="flex-1 min-w-[220px]">
+                    <label class="block text-xs text-slate-500 mb-2">业务类型过滤（多选）</label>
+                    <div id="business_filters" class="flex flex-wrap gap-2"></div>
+                </div>
+                <button onclick="resetFilters()" class="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-sm font-medium">重置条件</button>
+            </div>
+        </section>
+
+        <section id="pick_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
+                <h3 class="panel-header text-xl">🧠 投资候选精选</h3>
+                <button id="pick_toggle_btn" onclick="toggleOnlyPicks()" class="px-4 py-2 rounded-xl border border-slate-200 hover:border-teal-400 text-sm">仅看入选标的：关</button>
+            </div>
+            <p class="text-xs text-slate-500 mb-2">评分综合考虑市值、估值、动量、活跃度与赛道属性（仅研究参考，不构成投资建议）。</p>
+            <div id="pick_cards" class="grid grid-cols-1 xl:grid-cols-2 gap-2 max-h-[44vh] overflow-auto pr-1"></div>
+        </section>
+
+        <section id="action_section" class="flex justify-between items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+                <button onclick="initializeCharts()" class="px-5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold">刷新图表</button>
+                <a href="#dataTable" class="px-5 py-2 rounded-xl border border-slate-200 bg-white text-sm">跳转数据表</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <label class="text-xs text-slate-500">布局模式</label>
+                <select id="layout_mode" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white" onchange="rearrangeBlocks(this.value)">
+                    <option value="overview">总览优先</option>
+                    <option value="table-first">数据表优先</option>
+                    <option value="chart-first">图表优先</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="charts_row_1" class="chart-grid-two">
+            <div class="panel p-5">
+                <h2 class="panel-header text-xl mb-2">🔗 产业链分布（细分）</h2>
+                <p class="section-subtitle">按“上游/中游/下游”及业务类型双层展示，并补充链段占比柱状图。</p>
+                <div id="chain_pie" class="chart-container h-80"><div class="chart-fallback">图表加载中...</div></div>
+                <div id="chain_segment_bar" class="chart-container h-64 mt-3"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+            <div class="panel p-5">
+                <h2 class="panel-header text-xl mb-2">📈 Top 5 公司K线（30天）</h2>
+                <p class="section-subtitle">按市值优先并自动补位，附30天区间涨跌、赛道信息与MA5。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3" id="kline_container"></div>
+            </div>
+        </section>
+
+        <section id="charts_row_2" class="chart-grid-two">
+            <div class="panel p-5">
+                <h3 class="panel-header text-xl mb-2">🏆 市值 Top20（亿元）</h3>
+                <p class="section-subtitle">颜色映射当日涨跌幅，帮助识别规模与短期动量的组合。</p>
+                <div id="top20_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+            <div class="panel p-5">
+                <h3 class="panel-header text-xl mb-2">📊 板块分布</h3>
+                <p class="section-subtitle">观察不同上市板块的样本占比结构。</p>
+                <div id="board_pie" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+            <div class="panel p-5">
+                <h3 class="panel-header text-xl mb-2">🌍 地区公司分布</h3>
+                <p class="section-subtitle">查看样本在不同地区的覆盖与集中度。</p>
+                <div id="region_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+            <div class="panel p-5">
+                <h3 class="panel-header text-xl mb-2">🧩 业务类型分布</h3>
+                <p class="section-subtitle">重点观察业务赛道的公司数量与头部集中情况。</p>
+                <div id="business_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+            <div class="panel p-5">
+                <h3 class="panel-header text-xl mb-2">🌡️ 链段平均涨跌幅</h3>
+                <p class="section-subtitle">按上/中/下游统计平均涨跌幅，快速看当日景气强弱。</p>
+                <div id="chain_change_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+            </div>
+        </section>
+
+        <section id="industry_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                <h2 class="panel-header text-xl">📡 行业基础知识</h2>
+                <span class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
+            </div>
+            <div class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
+                {% for text in industry_intro %}
+                <div class="stat-card p-4">{{ text }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="text-xs text-slate-500 mb-4">
+                信息来源：
+                {% for src in industry_source_refs %}
+                <a href="{{ src.url }}" target="_blank" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
+                {% endfor %}
+            </div>
+
+            <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览</h4>
+            <div class="industry-basics-grid mb-4">
+                {% for item in industry_basics %}
+                <div class="industry-basic-item">
+                    <div class="term">{{ item.term }}</div>
+                    <div class="desc">{{ item.desc }}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h4 class="text-sm font-semibold text-slate-700 mb-2">样本实时观察</h4>
+            <div id="industry_live_metrics" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+        </section>
+
+        <section id="supply_risk_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+                <h2 class="panel-header text-xl">⚠️ 供应链风险</h2>
+                <span class="text-[11px] px-2 py-1 rounded-full border border-amber-200 bg-amber-50 text-amber-700">规则引擎 · 动态评估</span>
+            </div>
+            <p class="section-subtitle">综合价格波动、估值压力、流动性与赛道属性，识别供应链环节潜在风险点（仅研究参考）。</p>
+
+            <div class="stat-card p-3 mb-3">
+                <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                    <div class="text-xs text-slate-500">风险权重配置（拖动滑杆实时生效）</div>
+                    <button type="button" onclick="resetRiskWeights()" class="px-3 py-1 rounded-lg border border-slate-200 text-xs hover:border-teal-400">恢复默认权重</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <label class="block">波动权重 <span id="risk_weight_volatility_label" class="font-semibold text-slate-700">35</span>
+                        <input id="risk_weight_volatility" type="range" min="0" max="60" step="1" value="35" oninput="updateRiskWeight('volatility', this.value)" class="w-full mt-1">
+                    </label>
+                    <label class="block">估值权重 <span id="risk_weight_valuation_label" class="font-semibold text-slate-700">25</span>
+                        <input id="risk_weight_valuation" type="range" min="0" max="60" step="1" value="25" oninput="updateRiskWeight('valuation', this.value)" class="w-full mt-1">
+                    </label>
+                    <label class="block">流动性权重 <span id="risk_weight_liquidity_label" class="font-semibold text-slate-700">12</span>
+                        <input id="risk_weight_liquidity" type="range" min="0" max="40" step="1" value="12" oninput="updateRiskWeight('liquidity', this.value)" class="w-full mt-1">
+                    </label>
+                    <label class="block">链段权重 <span id="risk_weight_segment_label" class="font-semibold text-slate-700">10</span>
+                        <input id="risk_weight_segment" type="range" min="0" max="30" step="1" value="10" oninput="updateRiskWeight('segment', this.value)" class="w-full mt-1">
+                    </label>
+                    <label class="block">规模权重 <span id="risk_weight_size_label" class="font-semibold text-slate-700">8</span>
+                        <input id="risk_weight_size" type="range" min="0" max="30" step="1" value="8" oninput="updateRiskWeight('size', this.value)" class="w-full mt-1">
+                    </label>
+                </div>
+            </div>
+
+            <div id="supply_risk_cards" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"></div>
+            <div id="risk_segment_chart" class="chart-container h-80"><div class="chart-fallback">图表加载中...</div></div>
+        </section>
+
+        <section id="news_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                <h2 id="news_title" class="panel-header text-xl">🚀 最新行业新闻</h2>
+                <button onclick="randomizeNewsCards()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs hover:border-teal-400">换一批最新新闻</button>
+            </div>
+            <div id="news_grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2 max-h-[42vh] overflow-auto pr-1">
+                {% for news in news_data %}
+                <a href="{{ news.link }}" target="_blank" class="stat-card p-2.5 hover:border-teal-300 transition-colors">
+                    <div class="text-[11px] text-teal-700 mb-0.5">{{ news.date }}</div>
+                    <p class="text-sm font-medium leading-snug text-slate-800" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ news.title }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div id="empty_state" class="hidden panel p-6 text-center text-slate-500">当前筛选条件下暂无数据，请调整过滤条件。</div>
+
+        <section id="table_section" class="panel overflow-hidden">
+            <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between gap-3 flex-wrap">
+                <div class="text-sm text-slate-600" id="pagination_info">共 0 条</div>
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-slate-500">每页</label>
+                    <select id="page_size" class="px-3 py-1 rounded-lg border border-slate-200 text-sm" onchange="setPageSize(this.value)">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <button onclick="goToPrevPage()" class="px-3 py-1 rounded-lg border border-slate-200">上一页</button>
+                    <div id="pagination_pages" class="flex items-center gap-1"></div>
+                    <button onclick="goToNextPage()" class="px-3 py-1 rounded-lg border border-slate-200">下一页</button>
+                </div>
+            </div>
+            <div class="overflow-auto max-h-[72vh]">
+                <table id="dataTable" class="w-full text-sm min-w-[1320px] table-auto">
+                    <thead class="table-head sticky top-0">
+                        <tr>
+                            <th class="px-6 py-5 text-left" style="min-width:92px;">代码</th>
+                            <th class="px-6 py-5 text-left" style="min-width:190px;">公司名称</th>
+                            <th class="px-6 py-5 text-left">地区</th>
+                            <th class="px-6 py-5 text-left">板块</th>
+                            <th class="px-6 py-5 text-left">业务类型</th>
+                            <th class="px-6 py-5 text-right">市值(亿)</th>
+                            <th class="px-6 py-5 text-right">当前价格</th>
+                            <th class="px-6 py-5 text-right">涨跌幅</th>
+                            <th class="px-6 py-5 text-right">Trailing P/E</th>
+                            <th class="px-6 py-5 text-right">Forward P/E</th>
+                            <th class="px-6 py-5 text-right">成交量</th>
+                            <th class="px-6 py-5 text-right">52周高/低</th>
+                            <th class="px-6 py-5 text-right">投资评分</th>
+                            <th class="px-6 py-5 text-left">策略标签</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_body"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <aside id="floating_toc" class="floating-toc" aria-label="页面浮动目录">
+        <div class="floating-toc-header">
+            <span>快捷跳转</span>
+            <div class="flex items-center gap-1">
+                <button id="floating_toc_side_btn" class="floating-toc-toggle" type="button" onclick="toggleFloaterSide()" title="一键切换到左下/右下">↔</button>
+                <button id="floating_toc_toggle" class="floating-toc-toggle" type="button" onclick="toggleFloatingToc()">收起</button>
+            </div>
+        </div>
+        <div class="floating-toc-list">
+            <button id="toc_top_btn" class="floating-toc-link floating-toc-top" type="button" data-target="__top" onclick="scrollToTop()">↑ 回到顶部</button>
+            <button id="toc_overview_btn" class="floating-toc-link" type="button" data-target="summary_cards" onclick="jumpTo('summary_cards')">概览</button>
+            <button id="toc_pick_btn" class="floating-toc-link" type="button" data-target="pick_section" onclick="jumpTo('pick_section')">候选精选</button>
+            <button id="toc_chart_btn" class="floating-toc-link" type="button" data-target="charts_row_1" onclick="jumpTo('charts_row_1')">图表分析</button>
+            <button id="toc_industry_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">行业知识</button>
+            <button id="toc_risk_btn" class="floating-toc-link" type="button" data-target="supply_risk_section" onclick="jumpTo('supply_risk_section')">供应链风险</button>
+            <button id="toc_news_btn" class="floating-toc-link" type="button" data-target="news_section" onclick="jumpTo('news_section')">最新新闻</button>
+            <button id="toc_table_btn" class="floating-toc-link" type="button" data-target="table_section" onclick="jumpTo('table_section')">数据表</button>
+        </div>
+    </aside>
+</div>
+
+<script>
+    const originalData = {{ data | tojson | safe }};
+    const newsPoolData = {{ news_pool | tojson | safe }};
+    let filteredData = [...originalData];
+    let onlyPicks = false;
+    let compactTable = false;
+    let showAllAlerts = false;
+    let currentPage = 1;
+    let pageSize = 25;
+    const RISK_WEIGHT_STORAGE_KEY = 'semicon_risk_weights_v1';
+    const defaultRiskWeights = {
+        volatility: 35,
+        valuation: 25,
+        liquidity: 12,
+        segment: 10,
+        size: 8
+    };
+    const riskWeights = { ...defaultRiskWeights };
+    const SEGMENT_ORDER = ['上游', '中游', '下游', '其他'];
+    let chartRefreshTimer = null;
+    let riskRefreshRaf = null;
+    let metricsSnapshot = null;
+    let fullMetricsSnapshot = null;
+    let readingMode = 'comfortable';
+    let sectionFloaterVisible = true;
+    let floaterSide = 'right';
+    const READING_MODE_STORAGE_KEY = 'semicon_reading_mode_v1';
+    const FLOATER_VISIBLE_STORAGE_KEY = 'semicon_floater_visible_v1';
+    const FLOATER_SIDE_STORAGE_KEY = 'semicon_floater_side_v1';
+    const LOCALE_PROFILE_STORAGE_KEY = 'semicon_locale_profile_v1';
+    const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v1';
+    let currentLanguage = 'zh-CN';
+    let currentTimeZone = 'Asia/Shanghai';
+    let lastUpdateIso = '';
+    const TEXTS = {
+        'zh-CN': {
+            title: '中国半导体行业报告',
+            heroTitle: '中国半导体行业浏览中心',
+            updateLabel: '数据更新时间',
+            refreshNow: '立即刷新',
+            newsTitle: '🚀 最新行业新闻',
+            navOverview: '概览',
+            navPick: '候选精选',
+            navChart: '图表分析',
+            navRisk: '供应链风险',
+            navTable: '数据表',
+            tableDensity: '紧凑表格',
+            tocTop: '↑ 回到顶部',
+            tocOverview: '概览',
+            tocPick: '候选精选',
+            tocChart: '图表分析',
+            tocIndustry: '行业知识',
+            tocRisk: '供应链风险',
+            tocNews: '最新新闻',
+            tocTable: '数据表',
+            companiesUnit: '家公司',
+            realTimeTrack: '实时追踪',
+            realTimeData: '实时数据',
+            latestNewsFallback: '暂无最新新闻',
+            timezoneBadge: '中国时间（Asia/Shanghai）'
+        },
+        'en-US': {
+            title: 'China Semiconductor Industry Report',
+            heroTitle: 'China Semiconductor Dashboard',
+            updateLabel: 'Last data update',
+            refreshNow: 'Refresh now',
+            newsTitle: '🚀 Latest Industry News',
+            navOverview: 'Overview',
+            navPick: 'Top Picks',
+            navChart: 'Charts',
+            navRisk: 'Supply Risks',
+            navTable: 'Data Table',
+            tableDensity: 'Compact table',
+            tocTop: '↑ Back to top',
+            tocOverview: 'Overview',
+            tocPick: 'Top Picks',
+            tocChart: 'Charts',
+            tocIndustry: 'Industry Basics',
+            tocRisk: 'Supply Risks',
+            tocNews: 'Latest News',
+            tocTable: 'Data Table',
+            companiesUnit: 'companies',
+            realTimeTrack: 'real-time tracking',
+            realTimeData: 'real-time data',
+            latestNewsFallback: 'No latest news',
+            timezoneBadge: 'EST/EDT (America/New_York)'
+        },
+        'de-DE': {
+            title: 'Chinas Halbleiter-Branchenbericht',
+            heroTitle: 'China Halbleiter-Dashboard',
+            updateLabel: 'Letzte Datenaktualisierung',
+            refreshNow: 'Jetzt aktualisieren',
+            newsTitle: '🚀 Neueste Branchennachrichten',
+            navOverview: 'Ueberblick',
+            navPick: 'Top-Auswahl',
+            navChart: 'Diagramme',
+            navRisk: 'Lieferkettenrisiken',
+            navTable: 'Datentabelle',
+            tableDensity: 'Kompakte Tabelle',
+            tocTop: '↑ Nach oben',
+            tocOverview: 'Ueberblick',
+            tocPick: 'Top-Auswahl',
+            tocChart: 'Diagramme',
+            tocIndustry: 'Branchenwissen',
+            tocRisk: 'Lieferkettenrisiken',
+            tocNews: 'Neueste News',
+            tocTable: 'Datentabelle',
+            companiesUnit: 'Unternehmen',
+            realTimeTrack: 'Echtzeit-Tracking',
+            realTimeData: 'Echtzeitdaten',
+            latestNewsFallback: 'Keine aktuellen Nachrichten',
+            timezoneBadge: 'CET/CEST (Europe/Berlin)'
+        }
+    };
+
+    function scheduleChartsRefresh(delay = 120) {
+        if (chartRefreshTimer) clearTimeout(chartRefreshTimer);
+        chartRefreshTimer = setTimeout(() => {
+            chartRefreshTimer = null;
+            initializeCharts();
+        }, delay);
+    }
+
+    function scheduleRiskRefresh() {
+        if (riskRefreshRaf) return;
+        riskRefreshRaf = requestAnimationFrame(() => {
+            riskRefreshRaf = null;
+            renderSupplyRisk();
+        });
+    }
+
+    function toNumber(v) {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : null;
+    }
+
+    function sortBySegmentOrder(a, b) {
+        const ia = SEGMENT_ORDER.indexOf(a);
+        const ib = SEGMENT_ORDER.indexOf(b);
+        if (ia === -1 && ib === -1) return String(a).localeCompare(String(b), 'zh-CN');
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+    }
+
+    function computeMetricsSnapshot(data = filteredData) {
+        const snapshot = {
+            totalCount: data.length,
+            changeSum: 0,
+            changeCount: 0,
+            peForwardSum: 0,
+            peForwardCount: 0,
+            topGainer: null,
+            topLoser: null,
+            segmentCounts: {},
+            segmentTypeCounts: {},
+            boardCounts: {},
+            regionCounts: {},
+            businessCounts: {},
+            segmentChangeAgg: {},
+            riskBaseRows: [],
+            marketCapRows: [],
+            alerts: []
+        };
+
+        data.forEach(row => {
+            const seg = row.chain_segment || '其他';
+            const btype = row.business_type || '其他';
+            const board = row.board || '其他';
+            const region = row.region || '其他';
+
+            const ch = toNumber(row.change_pct);
+            const pe = toNumber(row.pe_forward);
+            const vol = toNumber(row.volume) ?? 0;
+            const cap = toNumber(row.market_cap) ?? 0;
+
+            snapshot.segmentCounts[seg] = (snapshot.segmentCounts[seg] || 0) + 1;
+            snapshot.businessCounts[btype] = (snapshot.businessCounts[btype] || 0) + 1;
+            snapshot.boardCounts[board] = (snapshot.boardCounts[board] || 0) + 1;
+            snapshot.regionCounts[region] = (snapshot.regionCounts[region] || 0) + 1;
+            snapshot.segmentTypeCounts[`${seg}|${btype}`] = (snapshot.segmentTypeCounts[`${seg}|${btype}`] || 0) + 1;
+
+            if (ch !== null) {
+                snapshot.changeSum += ch;
+                snapshot.changeCount += 1;
+                if (!snapshot.segmentChangeAgg[seg]) snapshot.segmentChangeAgg[seg] = { sum: 0, cnt: 0 };
+                snapshot.segmentChangeAgg[seg].sum += ch;
+                snapshot.segmentChangeAgg[seg].cnt += 1;
+
+                if (Math.abs(ch) > 5) snapshot.alerts.push(row);
+                if (!snapshot.topGainer || ch > (toNumber(snapshot.topGainer.change_pct) ?? -Infinity)) snapshot.topGainer = row;
+                if (!snapshot.topLoser || ch < (toNumber(snapshot.topLoser.change_pct) ?? Infinity)) snapshot.topLoser = row;
+            }
+
+            if (pe !== null && pe > 0) {
+                snapshot.peForwardSum += pe;
+                snapshot.peForwardCount += 1;
+            }
+
+            snapshot.riskBaseRows.push({ row, seg, business: btype, changeAbs: Math.abs(ch ?? 0), pe, vol, cap });
+            snapshot.marketCapRows.push({ row, marketCap: cap, change: ch ?? 0 });
+        });
+
+        snapshot.avgChange = snapshot.changeCount ? Number((snapshot.changeSum / snapshot.changeCount).toFixed(2)) : null;
+        snapshot.avgPeForward = snapshot.peForwardCount ? Number((snapshot.peForwardSum / snapshot.peForwardCount).toFixed(2)) : null;
+        snapshot.topSeg = Object.entries(snapshot.segmentCounts).sort((a, b) => b[1] - a[1])[0] || null;
+        snapshot.topBiz = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1])[0] || null;
+        snapshot.top20ByMarketCap = [...snapshot.marketCapRows].sort((a, b) => b.marketCap - a.marketCap).slice(0, 20);
+        snapshot.alerts.sort((a, b) => Math.abs(toNumber(b.change_pct) ?? 0) - Math.abs(toNumber(a.change_pct) ?? 0));
+
+        return snapshot;
+    }
+
+    function refreshMetricsSnapshot() {
+        metricsSnapshot = computeMetricsSnapshot(filteredData);
+        return metricsSnapshot;
+    }
+
+    function refreshFullMetricsSnapshot() {
+        fullMetricsSnapshot = computeMetricsSnapshot(originalData);
+        return fullMetricsSnapshot;
+    }
+
+    function fmt(v, digits = 2) {
+        const n = toNumber(v);
+        return n === null ? 'N/A' : n.toFixed(digits);
+    }
+
+    function pickRandomItems(list, count) {
+        const arr = [...list];
+        for (let i = arr.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.slice(0, count);
+    }
+
+    function getCurrentTexts() {
+        return TEXTS[currentLanguage] || TEXTS['zh-CN'];
+    }
+
+    function parseDateValue(value) {
+        if (!value) return null;
+        if (value.includes('T')) return new Date(value);
+        const asDateOnly = /^\d{4}-\d{2}-\d{2}$/.test(value);
+        return asDateOnly ? new Date(`${value}T00:00:00`) : new Date(value);
+    }
+
+    function formatDateByLocale(value, withTime = false) {
+        const d = parseDateValue(value);
+        if (!d || Number.isNaN(d.getTime())) return value || 'N/A';
+        const opts = withTime
+            ? { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: currentTimeZone }
+            : { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: currentTimeZone };
+        return new Intl.DateTimeFormat(currentLanguage, opts).format(d);
+    }
+
+    function applyLocaleTexts() {
+        const t = getCurrentTexts();
+        document.documentElement.lang = currentLanguage;
+        document.title = t.title;
+        const map = [
+            ['hero_title', t.heroTitle],
+            ['last_update_label', t.updateLabel],
+            ['manual_refresh_btn', t.refreshNow],
+            ['news_title', t.newsTitle],
+            ['nav_overview_btn', t.navOverview],
+            ['nav_pick_btn', t.navPick],
+            ['nav_chart_btn', t.navChart],
+            ['nav_risk_btn', t.navRisk],
+            ['nav_table_btn', t.navTable],
+            ['table_density_btn', t.tableDensity],
+            ['toc_top_btn', t.tocTop],
+            ['toc_overview_btn', t.tocOverview],
+            ['toc_pick_btn', t.tocPick],
+            ['toc_chart_btn', t.tocChart],
+            ['toc_industry_btn', t.tocIndustry],
+            ['toc_risk_btn', t.tocRisk],
+            ['toc_news_btn', t.tocNews],
+            ['toc_table_btn', t.tocTable],
+            ['timezone_badge', t.timezoneBadge]
+        ];
+        map.forEach(([id, text]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        });
+        updateCompanyCount(filteredData.length || originalData.length, false);
+    }
+
+    function updateCompanyCount(count, fromFilter = true) {
+        const t = getCurrentTexts();
+        const label = fromFilter ? t.realTimeData : t.realTimeTrack;
+        const el = document.getElementById('company_count');
+        if (el) el.textContent = `${count}${t.companiesUnit} · ${label}`;
+    }
+
+    function updateLastUpdateDisplay() {
+        const el = document.getElementById('last_update');
+        if (!el) return;
+        if (!lastUpdateIso) lastUpdateIso = el.dataset.updateIso || '';
+        el.textContent = formatDateByLocale(lastUpdateIso || el.textContent, true);
+    }
+
+    function applyLocaleProfile(profile, persist = true) {
+        const [lang, tz] = String(profile || '').split('|');
+        currentLanguage = TEXTS[lang] ? lang : 'zh-CN';
+        currentTimeZone = tz || 'Asia/Shanghai';
+        applyLocaleTexts();
+        updateLastUpdateDisplay();
+        renderNewsCards(getLatestNewsItems());
+        if (persist) {
+            try { localStorage.setItem(LOCALE_PROFILE_STORAGE_KEY, `${currentLanguage}|${currentTimeZone}`); } catch (_) {}
+        }
+    }
+
+    function loadLocaleProfile() {
+        const picker = document.getElementById('locale_profile');
+        if (!picker) return;
+        let profile = 'zh-CN|Asia/Shanghai';
+        try {
+            const saved = localStorage.getItem(LOCALE_PROFILE_STORAGE_KEY);
+            if (saved && saved.includes('|')) profile = saved;
+        } catch (_) {}
+        if (!Array.from(picker.options).some(o => o.value === profile)) {
+            profile = 'zh-CN|Asia/Shanghai';
+        }
+        picker.value = profile;
+        applyLocaleProfile(profile, false);
+        picker.addEventListener('change', () => applyLocaleProfile(picker.value, true));
+    }
+
+    function hardRefreshNow() {
+        const url = new URL(window.location.href);
+        url.searchParams.set('_refreshTs', String(Date.now()));
+        window.location.replace(url.toString());
+    }
+
+    function getLatestNewsItems(limit = 6) {
+        const sorted = [...(newsPoolData || [])].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+        const count = Math.min(limit, sorted.length || 0);
+        const t = getCurrentTexts();
+        return count > 0 ? sorted.slice(0, count) : [{ title: t.latestNewsFallback, link: '#', date: formatDateByLocale(new Date().toISOString(), false) }];
+    }
+
+    function renderNewsCards(items) {
+        const grid = document.getElementById('news_grid');
+        if (!grid) return;
+
+        grid.innerHTML = '';
+        items.forEach(news => {
+            const card = document.createElement('a');
+            card.href = news.link || '#';
+            card.target = '_blank';
+            card.className = 'stat-card p-2.5 hover:border-teal-300 transition-colors';
+            card.innerHTML = `
+                <div class="text-[11px] text-teal-700 mb-0.5">${formatDateByLocale(news.date || '', false)}</div>
+                <p class="text-sm font-medium leading-snug text-slate-800" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${news.title || getCurrentTexts().latestNewsFallback}</p>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function randomizeNewsCards() {
+        // 仅从最新新闻池中抽样，确保“换一批”仍基于最近新闻
+        const latestPool = [...(newsPoolData || [])].sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))).slice(0, 20);
+        const count = Math.min(6, latestPool.length || 0);
+        const picked = count > 0 ? pickRandomItems(latestPool, count) : getLatestNewsItems(1);
+        picked.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+        renderNewsCards(picked);
+    }
+
+    function jumpTo(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateReadingModeButton() {
+        const btn = document.getElementById('reading_mode_btn');
+        if (!btn) return;
+        btn.textContent = `阅读模式：${readingMode === 'compact' ? '紧凑' : '舒适'}`;
+    }
+
+    function applyReadingMode(mode, persist = true) {
+        readingMode = mode === 'compact' ? 'compact' : 'comfortable';
+        document.body.classList.toggle('reading-compact', readingMode === 'compact');
+        updateReadingModeButton();
+        if (persist) {
+            try { localStorage.setItem(READING_MODE_STORAGE_KEY, readingMode); } catch (_) {}
+        }
+        setTimeout(forceResizeAllCharts, 80);
+    }
+
+    function toggleReadingMode() {
+        applyReadingMode(readingMode === 'compact' ? 'comfortable' : 'compact');
+    }
+
+    function updateFloaterModeButton() {
+        const btn = document.getElementById('floater_mode_btn');
+        if (!btn) return;
+        btn.textContent = `板块浮窗：${sectionFloaterVisible ? '开' : '关'}`;
+    }
+
+    function updateFloaterSideButton() {
+        const btn = document.getElementById('floating_toc_side_btn');
+        if (!btn) return;
+        btn.textContent = floaterSide === 'left' ? '→' : '←';
+        btn.title = floaterSide === 'left' ? '切到右下' : '切到左下';
+    }
+
+    function applyFloaterSide(side = 'right', persist = true) {
+        floaterSide = side === 'left' ? 'left' : 'right';
+        const toc = document.getElementById('floating_toc');
+        if (toc) {
+            toc.classList.toggle('floater-left', floaterSide === 'left');
+            toc.style.top = '';
+            toc.style.bottom = window.innerWidth <= 1100 ? '10px' : '16px';
+            if (floaterSide === 'left') {
+                toc.style.left = window.innerWidth <= 1100 ? '10px' : '16px';
+                toc.style.right = 'auto';
+            } else {
+                toc.style.left = '';
+                toc.style.right = window.innerWidth <= 1100 ? '10px' : '16px';
+            }
+        }
+        updateFloaterSideButton();
+        if (persist) {
+            try { localStorage.setItem(FLOATER_SIDE_STORAGE_KEY, floaterSide); } catch (_) {}
+        }
+    }
+
+    function applySectionFloaterVisibility(visible, persist = true) {
+        sectionFloaterVisible = !!visible;
+        document.body.classList.toggle('floater-hidden', !sectionFloaterVisible);
+        updateFloaterModeButton();
+        if (persist) {
+            try { localStorage.setItem(FLOATER_VISIBLE_STORAGE_KEY, sectionFloaterVisible ? '1' : '0'); } catch (_) {}
+        }
+    }
+
+    function toggleSectionFloater() {
+        applySectionFloaterVisibility(!sectionFloaterVisible);
+    }
+
+    function toggleFloaterSide() {
+        applyFloaterSide(floaterSide === 'left' ? 'right' : 'left');
+    }
+
+    function initFloatingTocDrag() {
+        const toc = document.getElementById('floating_toc');
+        const header = toc?.querySelector('.floating-toc-header');
+        if (!toc || !header) return;
+
+        let dragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const onDown = (clientX, clientY, target) => {
+            if (!sectionFloaterVisible) return;
+            if (target?.closest?.('#floating_toc_toggle') || target?.closest?.('#floating_toc_side_btn')) return;
+            const rect = toc.getBoundingClientRect();
+            dragging = true;
+            offsetX = clientX - rect.left;
+            offsetY = clientY - rect.top;
+            toc.classList.add('dragging');
+            toc.style.right = 'auto';
+            toc.style.left = `${rect.left}px`;
+            toc.style.bottom = 'auto';
+            toc.style.top = `${rect.top}px`;
+        };
+
+        const onMove = (clientX, clientY) => {
+            if (!dragging) return;
+            const maxLeft = Math.max(0, window.innerWidth - toc.offsetWidth);
+            const maxTop = Math.max(0, window.innerHeight - toc.offsetHeight);
+            const left = Math.max(0, Math.min(maxLeft, clientX - offsetX));
+            const top = Math.max(0, Math.min(maxTop, clientY - offsetY));
+            toc.style.left = `${left}px`;
+            toc.style.top = `${top}px`;
+        };
+
+        const onUp = () => {
+            if (!dragging) return;
+            dragging = false;
+            toc.classList.remove('dragging');
+            const rect = toc.getBoundingClientRect();
+            const side = rect.left + rect.width / 2 < window.innerWidth / 2 ? 'left' : 'right';
+            applyFloaterSide(side);
+            toc.style.top = '';
+            toc.style.bottom = window.innerWidth <= 1100 ? '10px' : '16px';
+            if (side === 'left') {
+                toc.style.left = window.innerWidth <= 1100 ? '10px' : '16px';
+                toc.style.right = 'auto';
+            } else {
+                toc.style.left = '';
+                toc.style.right = window.innerWidth <= 1100 ? '10px' : '16px';
+            }
+        };
+
+        header.addEventListener('mousedown', (e) => onDown(e.clientX, e.clientY, e.target));
+        window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
+        window.addEventListener('mouseup', onUp);
+
+        header.addEventListener('touchstart', (e) => {
+            if (!e.touches?.length) return;
+            const t = e.touches[0];
+            onDown(t.clientX, t.clientY, e.target);
+        }, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+            if (!e.touches?.length) return;
+            const t = e.touches[0];
+            onMove(t.clientX, t.clientY);
+        }, { passive: true });
+        window.addEventListener('touchend', onUp);
+
+        window.addEventListener('resize', () => {
+            if (dragging) return;
+            toc.style.top = '';
+            toc.style.bottom = window.innerWidth <= 1100 ? '10px' : '16px';
+            if (floaterSide === 'left') {
+                toc.style.left = window.innerWidth <= 1100 ? '10px' : '16px';
+                toc.style.right = 'auto';
+            } else {
+                toc.style.left = '';
+                toc.style.right = window.innerWidth <= 1100 ? '10px' : '16px';
+            }
+        });
+    }
+
+    function loadBrowsePreferences() {
+        try {
+            const savedMode = localStorage.getItem(READING_MODE_STORAGE_KEY);
+            if (savedMode === 'compact' || savedMode === 'comfortable') {
+                applyReadingMode(savedMode, false);
+            } else {
+                applyReadingMode('comfortable', false);
+            }
+        } catch (_) {
+            applyReadingMode('comfortable', false);
+        }
+
+        try {
+            const savedFloater = localStorage.getItem(FLOATER_VISIBLE_STORAGE_KEY);
+            applySectionFloaterVisibility(savedFloater !== '0', false);
+        } catch (_) {
+            applySectionFloaterVisibility(true, false);
+        }
+
+        try {
+            const savedSide = localStorage.getItem(FLOATER_SIDE_STORAGE_KEY);
+            applyFloaterSide(savedSide === 'left' ? 'left' : 'right', false);
+        } catch (_) {
+            applyFloaterSide('right', false);
+        }
+    }
+
+    function toggleFloatingToc() {
+        const toc = document.getElementById('floating_toc');
+        const btn = document.getElementById('floating_toc_toggle');
+        if (!toc || !btn) return;
+        toc.classList.toggle('collapsed');
+        btn.textContent = toc.classList.contains('collapsed') ? '展开' : '收起';
+    }
+
+    function updateFloatingTocActive() {
+        const ids = ['summary_cards', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'news_section', 'table_section'];
+        let activeId = '';
+
+        if ((window.scrollY || window.pageYOffset || 0) < 80) {
+            activeId = '__top';
+        }
+
+        const marker = window.innerHeight * 0.28;
+
+        if (!activeId) {
+            ids.forEach(id => {
+                const section = document.getElementById(id);
+                if (!section || section.classList.contains('hidden')) return;
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= marker && rect.bottom >= marker) activeId = id;
+            });
+        }
+
+        if (!activeId) {
+            const visible = ids
+                .map(id => ({ id, el: document.getElementById(id) }))
+                .filter(x => x.el && !x.el.classList.contains('hidden'))
+                .sort((a, b) => Math.abs(a.el.getBoundingClientRect().top) - Math.abs(b.el.getBoundingClientRect().top));
+            activeId = visible[0]?.id || '';
+        }
+
+        document.querySelectorAll('.floating-toc-link').forEach(link => {
+            link.classList.toggle('active', link.dataset.target === activeId);
+        });
+    }
+
+    function initFloatingToc() {
+        updateFloatingTocActive();
+        window.addEventListener('scroll', updateFloatingTocActive, { passive: true });
+    }
+
+    function toggleTableDensity() {
+        compactTable = !compactTable;
+        const table = document.getElementById('dataTable');
+        if (table) table.classList.toggle('compact-table', compactTable);
+    }
+
+    function getTotalPages() {
+        return Math.max(1, Math.ceil(filteredData.length / pageSize));
+    }
+
+    function getPageData() {
+        const start = (currentPage - 1) * pageSize;
+        return filteredData.slice(start, start + pageSize);
+    }
+
+    function setPageSize(value) {
+        pageSize = Number(value) || 25;
+        currentPage = 1;
+        renderTable();
+    }
+
+    function goToPrevPage() {
+        if (currentPage > 1) {
+            currentPage -= 1;
+            renderTable();
+        }
+    }
+
+    function goToNextPage() {
+        const totalPages = getTotalPages();
+        if (currentPage < totalPages) {
+            currentPage += 1;
+            renderTable();
+        }
+    }
+
+    function goToPage(page) {
+        const totalPages = getTotalPages();
+        currentPage = Math.min(totalPages, Math.max(1, page));
+        renderTable();
+    }
+
+    function renderPagination() {
+        const total = filteredData.length;
+        const totalPages = getTotalPages();
+        const info = document.getElementById('pagination_info');
+        const pages = document.getElementById('pagination_pages');
+        if (!info || !pages) return;
+
+        const start = total === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+        const end = Math.min(total, currentPage * pageSize);
+        info.textContent = `显示 ${start}-${end} / 共 ${total} 条`;
+
+        const pageNumbers = [];
+        const from = Math.max(1, currentPage - 2);
+        const to = Math.min(totalPages, currentPage + 2);
+        for (let p = from; p <= to; p += 1) pageNumbers.push(p);
+
+        pages.innerHTML = '';
+        pageNumbers.forEach(p => {
+            const btn = document.createElement('button');
+            btn.className = `px-3 py-1 rounded-xl border text-sm ${p === currentPage ? 'bg-emerald-600 text-white border-emerald-600' : 'border-gray-200 hover:border-emerald-300'}`;
+            btn.textContent = String(p);
+            btn.onclick = () => goToPage(p);
+            pages.appendChild(btn);
+        });
+    }
+
+    function isPickRow(row) {
+        return row?.is_pick === true || row?.is_pick === 1 || String(row?.is_pick).toLowerCase() === 'true';
+    }
+
+    function renderPickCards() {
+        const container = document.getElementById('pick_cards');
+        if (!container) return;
+
+        const picks = [...filteredData]
+            .sort((a, b) => (toNumber(b.invest_score) ?? 0) - (toNumber(a.invest_score) ?? 0))
+            .slice(0, 8);
+
+        container.innerHTML = '';
+        if (picks.length === 0) {
+            container.innerHTML = '<div class="text-sm text-gray-500">当前筛选条件下暂无候选标的。</div>';
+            return;
+        }
+
+        picks.forEach(row => {
+            const card = document.createElement('div');
+            const score = toNumber(row.invest_score) ?? 0;
+            const gradeClass = score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-600');
+            card.className = 'bg-white rounded-xl border border-gray-100 p-3';
+            card.innerHTML = `
+                <div class="flex items-center justify-between gap-2 mb-1">
+                    <div class="font-medium text-sm truncate">${row.name}</div>
+                    <div class="text-xs ${gradeClass} whitespace-nowrap">评分 ${row.invest_score || 'N/A'} (${row.invest_grade || '-'})</div>
+                </div>
+                <div class="text-[11px] text-gray-500 mb-1 truncate">${row.code} · ${row.board || 'N/A'} · ${row.business_type || 'N/A'}</div>
+                <div class="text-[11px] text-gray-600 mb-1" style="display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">${row.invest_reason || '暂无说明'}</div>
+                <div class="text-[11px] text-emerald-700 truncate">${row.invest_tags || '观察'}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function toggleOnlyPicks() {
+        onlyPicks = !onlyPicks;
+        const btn = document.getElementById('pick_toggle_btn');
+        if (btn) btn.textContent = `仅看入选标的：${onlyPicks ? '开' : '关'}`;
+        applyFilters();
+    }
+
+    function rearrangeBlocks(mode) {
+        const root = document.getElementById('report_root');
+        if (!root) return;
+
+        const presets = {
+            overview: ['summary_cards', 'industry_section', 'supply_risk_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+        };
+
+        (presets[mode] || presets.overview).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) root.appendChild(el);
+        });
+
+        // 重新布局后触发图表重绘，避免位置错位
+        setTimeout(forceResizeAllCharts, 120);
+        setTimeout(updateFloatingTocActive, 50);
+    }
+
+    function applyViewMode(mode) {
+        const allIds = ['industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        allIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove('hidden');
+        });
+
+        if (mode === 'charts') {
+            ['filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        } else if (mode === 'table') {
+            ['summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        }
+
+        setTimeout(forceResizeAllCharts, 80);
+        setTimeout(updateFloatingTocActive, 40);
+    }
+
+    function renderSummaryCards(snapshot = metricsSnapshot || computeMetricsSnapshot(filteredData)) {
+        const el = document.getElementById('summary_cards');
+        if (!el) return;
+
+        const avgChangeDisplay = snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2);
+
+        el.innerHTML = `
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">当前公司数</div><div class="text-2xl font-semibold mt-1">${snapshot.totalCount}</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">平均涨跌幅</div><div class="text-2xl font-semibold mt-1 ${snapshot.avgChange === null ? '' : (snapshot.avgChange > 0 ? 'positive' : 'negative')}">${avgChangeDisplay}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大涨幅</div><div class="text-sm font-medium mt-1 truncate">${snapshot.topGainer?.name || 'N/A'}</div><div class="text-xl font-semibold positive">${fmt(snapshot.topGainer?.change_pct)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大跌幅</div><div class="text-sm font-medium mt-1 truncate">${snapshot.topLoser?.name || 'N/A'}</div><div class="text-xl font-semibold negative">${fmt(snapshot.topLoser?.change_pct)}%</div></div>
+        `;
+    }
+
+    function renderIndustryKnowledge(snapshot = metricsSnapshot || computeMetricsSnapshot(filteredData)) {
+        const box = document.getElementById('industry_live_metrics');
+        if (!box) return;
+
+        if (!snapshot.totalCount) {
+            box.innerHTML = '<div class="text-sm text-slate-500">暂无样本可用于行业观察。</div>';
+            return;
+        }
+
+        const avgPe = snapshot.avgPeForward === null ? 'N/A' : snapshot.avgPeForward.toFixed(2);
+        const avgCh = snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2);
+
+        box.innerHTML = `
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">样本主链段</div><div class="text-base font-semibold mt-1">${snapshot.topSeg ? `${snapshot.topSeg[0]}（${snapshot.topSeg[1]}家）` : 'N/A'}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">最集中业务类型</div><div class="text-base font-semibold mt-1">${snapshot.topBiz ? `${snapshot.topBiz[0]}（${snapshot.topBiz[1]}家）` : 'N/A'}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">样本均值</div><div class="text-sm mt-1">Forward P/E：<span class="font-semibold">${avgPe}</span></div><div class="text-sm">平均涨跌幅：<span class="font-semibold ${snapshot.avgChange !== null && snapshot.avgChange >= 0 ? 'positive' : 'negative'}">${avgCh}%</span></div></div>
+        `;
+    }
+
+    function syncRiskWeightLabels() {
+        const map = {
+            volatility: 'risk_weight_volatility_label',
+            valuation: 'risk_weight_valuation_label',
+            liquidity: 'risk_weight_liquidity_label',
+            segment: 'risk_weight_segment_label',
+            size: 'risk_weight_size_label'
+        };
+        Object.entries(map).forEach(([key, id]) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = String(riskWeights[key]);
+            const slider = document.getElementById(`risk_weight_${key}`);
+            if (slider) slider.value = String(riskWeights[key]);
+        });
+    }
+
+    function saveRiskWeights() {
+        try {
+            localStorage.setItem(RISK_WEIGHT_STORAGE_KEY, JSON.stringify(riskWeights));
+        } catch (_) {}
+    }
+
+    function loadRiskWeights() {
+        try {
+            const raw = localStorage.getItem(RISK_WEIGHT_STORAGE_KEY);
+            if (!raw) return;
+            const parsed = JSON.parse(raw);
+            Object.keys(defaultRiskWeights).forEach(key => {
+                const v = Number(parsed?.[key]);
+                if (Number.isFinite(v) && v >= 0) riskWeights[key] = v;
+            });
+        } catch (_) {}
+    }
+
+    function resetRiskWeights() {
+        Object.assign(riskWeights, defaultRiskWeights);
+        try { localStorage.removeItem(RISK_WEIGHT_STORAGE_KEY); } catch (_) {}
+        syncRiskWeightLabels();
+        renderSupplyRisk();
+    }
+
+    function updateRiskWeight(key, value) {
+        if (!(key in riskWeights)) return;
+        riskWeights[key] = Math.max(0, Number(value) || 0);
+        syncRiskWeightLabels();
+        saveRiskWeights();
+        scheduleRiskRefresh();
+    }
+
+    function renderSupplyRisk(snapshot = metricsSnapshot || computeMetricsSnapshot(filteredData)) {
+        syncRiskWeightLabels();
+        const cards = document.getElementById('supply_risk_cards');
+        if (!cards) return;
+
+        if (!snapshot.totalCount) {
+            cards.innerHTML = '<div class="text-sm text-slate-500">暂无样本可用于供应链风险评估。</div>';
+            const chartEl = document.getElementById('risk_segment_chart');
+            if (chartEl) chartEl.innerHTML = '<div class="chart-fallback">暂无图表数据</div>';
+            return;
+        }
+
+        const riskRows = snapshot.riskBaseRows.map(base => {
+            const { row, seg, business, changeAbs, pe, vol, cap } = base;
+            let risk = 0;
+            const reasons = [];
+
+            if (changeAbs >= 8) { risk += riskWeights.volatility; reasons.push('价格波动高'); }
+            else if (changeAbs >= 5) { risk += riskWeights.volatility * 0.6; reasons.push('价格波动偏高'); }
+
+            if (pe !== null && pe > 60) { risk += riskWeights.valuation; reasons.push('估值压力高'); }
+            else if (pe !== null && pe > 40) { risk += riskWeights.valuation * 0.6; reasons.push('估值偏高'); }
+
+            if (vol > 0 && vol < 3000000) { risk += riskWeights.liquidity; reasons.push('流动性偏弱'); }
+
+            if (seg === '上游') { risk += riskWeights.segment; reasons.push('上游受供需与进口扰动'); }
+            if (seg === '中游') { risk += riskWeights.segment * 0.6; }
+
+            if (cap < 200) { risk += riskWeights.size; reasons.push('规模较小抗压弱'); }
+
+            risk = Number(Math.min(100, Math.max(0, risk)).toFixed(1));
+            const level = risk >= 70 ? '高' : (risk >= 45 ? '中' : '低');
+            return {
+                name: row.name,
+                code: row.code,
+                seg,
+                business,
+                risk,
+                level,
+                reason: reasons.slice(0, 2).join('、') || '波动可控'
+            };
+        });
+
+        const topRisk = [...riskRows].sort((a, b) => b.risk - a.risk).slice(0, 6);
+        cards.innerHTML = '';
+        topRisk.forEach(item => {
+            const colorClass = item.level === '高' ? 'text-red-600 border-red-200 bg-red-50' : (item.level === '中' ? 'text-amber-600 border-amber-200 bg-amber-50' : 'text-emerald-600 border-emerald-200 bg-emerald-50');
+            const card = document.createElement('div');
+            card.className = 'stat-card p-3';
+            card.innerHTML = `
+                <div class="flex items-center justify-between mb-1">
+                    <div class="text-sm font-semibold">${item.name} <span class="text-xs text-slate-400">(${item.code})</span></div>
+                    <span class="text-xs px-2 py-0.5 rounded-full border ${colorClass}">${item.level}风险 · ${item.risk}</span>
+                </div>
+                <div class="text-xs text-slate-500 mb-1">${item.seg} · ${item.business}</div>
+                <div class="text-xs text-slate-600">${item.reason}</div>
+            `;
+            cards.appendChild(card);
+        });
+
+        const segAgg = {};
+        riskRows.forEach(item => {
+            if (!segAgg[item.seg]) segAgg[item.seg] = { sum: 0, cnt: 0 };
+            segAgg[item.seg].sum += item.risk;
+            segAgg[item.seg].cnt += 1;
+        });
+        const segs = Object.keys(segAgg).sort(sortBySegmentOrder);
+        const avgRisk = segs.map(seg => Number((segAgg[seg].sum / segAgg[seg].cnt).toFixed(2)));
+
+        const trace = [{
+            x: segs,
+            y: avgRisk,
+            type: 'bar',
+            marker: {
+                color: avgRisk.map(v => (v >= 70 ? '#ef4444' : (v >= 45 ? '#f59e0b' : '#10b981')))
+            },
+            text: avgRisk.map(v => `${v.toFixed(1)}`),
+            textposition: 'outside',
+            hovertemplate: '%{x}<br>平均风险分: %{y:.2f}<extra></extra>'
+        }];
+        plotChart('risk_segment_chart', trace, {
+            height: 300,
+            margin: { l: 36, r: 12, t: 10, b: 30 },
+            yaxis: { title: '风险分', range: [0, 100] }
+        });
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('table_body');
+        const emptyState = document.getElementById('empty_state');
+        tbody.innerHTML = '';
+
+        const totalPages = getTotalPages();
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        if (filteredData.length === 0) {
+            emptyState.classList.remove('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+        }
+
+        getPageData().forEach((row, idx) => {
+            const tr = document.createElement('tr');
+            tr.className = `border-b hover:bg-emerald-50 transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/40'}`;
+            const changeVal = toNumber(row.change_pct) ?? 0;
+            const changeClass = changeVal > 0 ? 'positive' : (changeVal < 0 ? 'negative' : '');
+            const score = toNumber(row.invest_score) ?? 0;
+            const scoreClass = score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-500');
+            tr.innerHTML = `
+                <td data-label="代码" class="px-6 py-5 font-mono text-sm" style="min-width:92px;">${row.code}</td>
+                <td data-label="公司名称" class="px-6 py-5 max-w-[180px]"><div class="truncate font-medium">${row.name}</div><span class="text-xs text-gray-400 block truncate">${row.english || ''}</span></td>
+                <td data-label="地区" class="px-6 py-5">${row.region || 'N/A'}</td>
+                <td data-label="板块" class="px-6 py-5">${row.board || 'N/A'}</td>
+                <td data-label="业务类型" class="px-6 py-5">${row.business_type || 'N/A'}</td>
+                <td data-label="市值(亿)" class="px-6 py-5 text-right font-medium">${fmt(row.market_cap)}</td>
+                <td data-label="当前价格" class="px-6 py-5 text-right">${fmt(row.price)}</td>
+                <td data-label="涨跌幅" class="px-6 py-5 text-right font-semibold ${changeClass}">${fmt(changeVal)}%</td>
+                <td data-label="Trailing P/E" class="px-6 py-5 text-right">${fmt(row.pe_trailing)}</td>
+                <td data-label="Forward P/E" class="px-6 py-5 text-right">${fmt(row.pe_forward)}</td>
+                <td data-label="成交量" class="px-6 py-5 text-right">${row.volume ?? 'N/A'}</td>
+                <td data-label="52周高/低" class="px-6 py-5 text-right">${fmt(row.high52)} / ${fmt(row.low52)}</td>
+                <td data-label="投资评分" class="px-6 py-5 text-right font-semibold ${scoreClass}">${row.invest_score || 'N/A'} (${row.invest_grade || '-'})</td>
+                <td data-label="策略标签" class="px-6 py-5 text-left text-xs text-emerald-700">${row.invest_tags || '观察'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        renderPagination();
+    }
+
+    function forceResizeAllCharts() {
+        if (typeof Plotly === 'undefined') return;
+        const ids = ['chain_pie', 'chain_segment_bar', 'top20_chart', 'board_pie', 'region_chart', 'business_chart', 'chain_change_chart', 'risk_segment_chart'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.data) Plotly.Plots.resize(el);
+        });
+        document.querySelectorAll('[id^="kline_"]').forEach(el => {
+            if (el && el.data) Plotly.Plots.resize(el);
+        });
+    }
+
+    function plotChart(targetId, traces, layout = {}, config = {}) {
+        const el = document.getElementById(targetId);
+        if (!el || typeof Plotly === 'undefined') return;
+
+        const fallback = el.querySelector('.chart-fallback');
+        if (fallback) fallback.textContent = '图表加载中...';
+
+        const mergedLayout = {
+            autosize: true,
+            margin: { l: 30, r: 20, t: 20, b: 30 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            ...layout
+        };
+
+        Plotly.newPlot(targetId, traces, mergedLayout, { responsive: true, displayModeBar: false, ...config })
+            .then(() => {
+                if (fallback) fallback.remove();
+                Plotly.Plots.resize(el);
+            })
+            .catch(() => {
+                if (fallback) fallback.textContent = '图表加载失败，请刷新重试';
+            });
+    }
+
+    function initializeCharts(snapshot = metricsSnapshot || computeMetricsSnapshot(filteredData)) {
+        if (typeof Plotly === 'undefined') {
+            ['chain_pie', 'chain_segment_bar', 'top20_chart', 'board_pie', 'region_chart', 'business_chart', 'chain_change_chart', 'risk_segment_chart'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '<div class="chart-fallback">图表库加载失败，请刷新页面重试</div>';
+            });
+            return;
+        }
+
+        // 产业链（细分：链段 + 业务类型）
+        const segmentCounts = snapshot.segmentCounts;
+        const segmentTypeCounts = snapshot.segmentTypeCounts;
+        const segLabels = Object.keys(segmentCounts).sort(sortBySegmentOrder);
+
+        const labels = ['半导体产业链'];
+        const parents = [''];
+        const values = [snapshot.totalCount || 0];
+
+        segLabels.forEach(seg => {
+            labels.push(seg);
+            parents.push('半导体产业链');
+            values.push(segmentCounts[seg]);
+        });
+
+        Object.entries(segmentTypeCounts)
+            .sort((a, b) => b[1] - a[1])
+            .forEach(([key, cnt]) => {
+                const [seg, btype] = key.split('|');
+                labels.push(`${btype}`);
+                parents.push(seg);
+                values.push(cnt);
+            });
+
+        const chainTrace = [{
+            type: 'sunburst',
+            labels,
+            parents,
+            values,
+            branchvalues: 'total',
+            maxdepth: 2,
+            insidetextorientation: 'radial',
+            marker: {
+                line: { width: 1, color: '#fff' }
+            },
+            hovertemplate: '%{label}<br>公司数: %{value}<extra></extra>'
+        }];
+        plotChart('chain_pie', chainTrace, { height: 320, margin: { l: 8, r: 8, t: 10, b: 10 } });
+
+        const segBarTrace = [{
+            x: segLabels,
+            y: segLabels.map(seg => segmentCounts[seg] || 0),
+            type: 'bar',
+            marker: { color: '#0ea5e9' },
+            text: segLabels.map(seg => `${segmentCounts[seg] || 0}家`),
+            textposition: 'outside',
+            hovertemplate: '%{x}<br>公司数: %{y}<extra></extra>'
+        }];
+        plotChart('chain_segment_bar', segBarTrace, {
+            height: 230,
+            margin: { l: 36, r: 12, t: 12, b: 28 },
+            yaxis: { title: '公司数', rangemode: 'tozero' }
+        });
+
+        // Top20
+        const sorted = snapshot.top20ByMarketCap;
+        const topTrace = [{
+            x: sorted.map(d => d.row.name),
+            y: sorted.map(d => d.marketCap),
+            customdata: sorted.map(d => d.change),
+            type: 'bar',
+            marker: {
+                color: sorted.map(d => d.change),
+                colorscale: 'RdYlGn',
+                cmin: -10,
+                cmax: 10,
+                colorbar: { title: '涨跌幅%' }
+            },
+            hovertemplate: '%{x}<br>市值: %{y:.2f} 亿元<br>涨跌幅: %{customdata:.2f}%<extra></extra>'
+        }];
+        plotChart('top20_chart', topTrace, { height: 380, xaxis: { tickangle: -35 } });
+
+        // 板块
+        const boardCount = snapshot.boardCounts;
+        const boardTrace = [{
+            values: Object.values(boardCount),
+            labels: Object.keys(boardCount),
+            type: 'pie',
+            hole: 0.65
+        }];
+        plotChart('board_pie', boardTrace, { height: 380 });
+
+        const regionCount = snapshot.regionCounts;
+        const regionSorted = Object.entries(regionCount).sort((a, b) => b[1] - a[1]).slice(0, 12);
+        const regionTrace = [{
+            y: regionSorted.map(x => x[0]).reverse(),
+            x: regionSorted.map(x => x[1]).reverse(),
+            type: 'bar',
+            orientation: 'h',
+            marker: { color: '#14b8a6' },
+            text: regionSorted.map(x => `${x[1]}家`).reverse(),
+            textposition: 'outside',
+            hovertemplate: '%{y}<br>公司数: %{x}<extra></extra>'
+        }];
+        plotChart('region_chart', regionTrace, {
+            height: 380,
+            margin: { l: 88, r: 14, t: 10, b: 30 },
+            xaxis: { title: '公司数', rangemode: 'tozero' }
+        });
+
+        const bizCount = snapshot.businessCounts;
+        const bizSorted = Object.entries(bizCount).sort((a, b) => b[1] - a[1]).slice(0, 12);
+        const businessTrace = [{
+            x: bizSorted.map(x => x[0]),
+            y: bizSorted.map(x => x[1]),
+            type: 'bar',
+            marker: { color: '#6366f1' },
+            text: bizSorted.map(x => `${x[1]}家`),
+            textposition: 'outside',
+            hovertemplate: '%{x}<br>公司数: %{y}<extra></extra>'
+        }];
+        plotChart('business_chart', businessTrace, {
+            height: 380,
+            margin: { l: 36, r: 12, t: 10, b: 80 },
+            xaxis: { tickangle: -35 },
+            yaxis: { title: '公司数', rangemode: 'tozero' }
+        });
+
+        const segChangeAgg = snapshot.segmentChangeAgg;
+        const segForChange = Object.keys(segChangeAgg).sort(sortBySegmentOrder);
+
+        const segAvgChange = segForChange.map(seg => {
+            const v = segChangeAgg[seg];
+            return v && v.cnt ? Number((v.sum / v.cnt).toFixed(2)) : 0;
+        });
+
+        const chainChangeTrace = [{
+            x: segForChange,
+            y: segAvgChange,
+            type: 'bar',
+            marker: {
+                color: segAvgChange.map(v => (v >= 0 ? '#10b981' : '#ef4444'))
+            },
+            text: segAvgChange.map(v => `${v.toFixed(2)}%`),
+            textposition: 'outside',
+            hovertemplate: '%{x}<br>平均涨跌幅: %{y:.2f}%<extra></extra>'
+        }];
+        plotChart('chain_change_chart', chainChangeTrace, {
+            height: 380,
+            margin: { l: 38, r: 14, t: 10, b: 30 },
+            yaxis: { ticksuffix: '%', zeroline: true, zerolinecolor: '#94a3b8' }
+        });
+
+        // K线
+        const container = document.getElementById('kline_container');
+        container.innerHTML = '';
+        {% for name, data in kline_data.items() %}
+        const klineCard_{{ loop.index0 }} = document.createElement('div');
+        const klineChangeClass_{{ loop.index0 }} = Number({{ data.change_30d | tojson | safe }}) >= 0 ? 'positive' : 'negative';
+        klineCard_{{ loop.index0 }}.className = 'text-center bg-white border border-slate-100 rounded-2xl p-3';
+        klineCard_{{ loop.index0 }}.innerHTML = `
+            <div class="flex items-start justify-between gap-2 mb-2">
+                <div class="text-left">
+                    <h4 class="font-medium text-sm">{{ name }}</h4>
+                    <div class="text-[11px] text-slate-500">{{ data.chain_segment | default('其他') }} · {{ data.business_type | default('其他') }}</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-[11px] text-slate-500">30天</div>
+                    <div class="text-sm font-semibold ${klineChangeClass_{{ loop.index0 }}}">{{ data.change_30d }}%</div>
+                </div>
+            </div>
+            <div id="kline_{{ loop.index0 }}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>
+        `;
+        container.appendChild(klineCard_{{ loop.index0 }});
+
+        requestAnimationFrame(() => {
+            const close_{{ loop.index0 }} = {{ data.close | tojson | safe }};
+            const ma5_{{ loop.index0 }} = close_{{ loop.index0 }}.map((_, idx, arr) => {
+                if (idx < 4) return null;
+                const window = arr.slice(idx - 4, idx + 1);
+                const avg = window.reduce((s, v) => s + Number(v || 0), 0) / 5;
+                return Number.isFinite(avg) ? Number(avg.toFixed(2)) : null;
+            });
+
+            const kTrace = [{
+                x: {{ data.date | tojson | safe }},
+                open: {{ data.open | tojson | safe }},
+                high: {{ data.high | tojson | safe }},
+                low: {{ data.low | tojson | safe }},
+                close: close_{{ loop.index0 }},
+                type: 'candlestick',
+                name: 'K线',
+                increasing: { line: { color: '#10b981' } },
+                decreasing: { line: { color: '#ef4444' } }
+            }, {
+                x: {{ data.date | tojson | safe }},
+                y: ma5_{{ loop.index0 }},
+                type: 'scatter',
+                mode: 'lines',
+                name: 'MA5',
+                line: { color: '#0ea5e9', width: 1.6 }
+            }];
+            plotChart(`kline_{{ loop.index0 }}`, kTrace, {
+                height: 220,
+                margin: { l: 28, r: 10, t: 8, b: 24 },
+                showlegend: false
+            });
+        });
+        {% endfor %}
+
+        if (container.childElementCount === 0) {
+            container.innerHTML = '<div class="text-sm text-slate-500">暂无可用K线数据（已尝试按市值补位）。</div>';
+        } else if (container.childElementCount < 5) {
+            const note = document.createElement('div');
+            note.className = 'text-xs text-amber-600 text-left col-span-full';
+            note.textContent = `当前可展示 ${container.childElementCount} 家，部分标的近30日K线不可用。`;
+            container.appendChild(note);
+        }
+
+        setTimeout(forceResizeAllCharts, 200);
+    }
+
+    function toggleAlertsExpand() {
+        showAllAlerts = !showAllAlerts;
+        renderAlerts(fullMetricsSnapshot || computeMetricsSnapshot(originalData));
+    }
+
+    function renderAlerts(snapshot = fullMetricsSnapshot || computeMetricsSnapshot(originalData)) {
+        const alerts = snapshot.alerts || [];
+
+        const container = document.getElementById('alert_banner');
+        if (alerts.length === 0) {
+            showAllAlerts = false;
+            container.classList.add('hidden');
+            container.innerHTML = '';
+            return;
+        }
+
+        const visibleAlerts = showAllAlerts ? alerts : alerts.slice(0, 10);
+        const remain = alerts.length - visibleAlerts.length;
+        const canToggle = alerts.length > 10;
+
+        let html = `
+            <div class="alert-card bg-white border border-red-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between gap-2 flex-wrap mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🚨</span>
+                        <span class="font-semibold">实时异动（|涨跌幅| > 5%）</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-500">监控范围：全部公司 · 共 ${alerts.length} 条</span>
+                        ${canToggle ? `<button onclick="toggleAlertsExpand()" class="px-3 py-1 rounded-lg border border-slate-200 text-xs hover:border-teal-400">${showAllAlerts ? '收起' : '展开全部'}</button>` : ''}
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+        `;
+
+        visibleAlerts.forEach(item => {
+            const color = (item.change_pct || 0) > 0 ? 'positive' : 'negative';
+            html += `<div class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs flex items-center gap-2"><span class="font-medium">${item.name}</span><span class="${color} font-semibold">${fmt(item.change_pct)}%</span></div>`;
+        });
+
+        if (remain > 0) {
+            html += `<div class="px-3 py-1.5 rounded-xl bg-slate-100 text-xs text-slate-600">还有 ${remain} 条未展示</div>`;
+        }
+
+        html += '</div></div>';
+        container.innerHTML = html;
+        container.classList.remove('hidden');
+    }
+
+    function renderFilters() {
+        const regionDiv = document.getElementById('region_filters');
+        regionDiv.innerHTML = '';
+        const regions = [...new Set(originalData.map(d => d.region).filter(Boolean))].sort();
+        regions.forEach(r => {
+            const el = document.createElement('label');
+            el.className = "inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm";
+            el.innerHTML = `<input type="checkbox" checked class="region-check" value="${r}" onchange="applyFilters()"> ${r}`;
+            regionDiv.appendChild(el);
+        });
+
+        const businessDiv = document.getElementById('business_filters');
+        businessDiv.innerHTML = '';
+        [...new Set(originalData.map(d => d.business_type).filter(Boolean))].sort().forEach(b => {
+            const el = document.createElement('label');
+            el.className = "inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm";
+            el.innerHTML = `<input type="checkbox" checked class="business-check" value="${b}" onchange="applyFilters()"> ${b}`;
+            businessDiv.appendChild(el);
+        });
+    }
+
+    function applyFilters() {
+        const selectedRegions = Array.from(document.querySelectorAll('.region-check:checked')).map(cb => cb.value);
+        const selectedBusiness = Array.from(document.querySelectorAll('.business-check:checked')).map(cb => cb.value);
+        const keyword = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
+
+        filteredData = originalData.filter(row => {
+            const regionMatch = selectedRegions.length === 0 || selectedRegions.includes(row.region);
+            const businessMatch = selectedBusiness.length === 0 || selectedBusiness.includes(row.business_type);
+            const pickMatch = !onlyPicks || isPickRow(row);
+
+            const keywordMatch = !keyword || [
+                String(row.code || '').toLowerCase(),
+                String(row.name || '').toLowerCase(),
+                String(row.business_type || '').toLowerCase(),
+                String(row.invest_tags || '').toLowerCase(),
+                String(row.board || '').toLowerCase()
+            ].some(v => v.includes(keyword));
+
+            return regionMatch && businessMatch && pickMatch && keywordMatch;
+        });
+
+        currentPage = 1;
+        updateCompanyCount(filteredData.length, true);
+        const snapshot = refreshMetricsSnapshot();
+        const fullSnapshot = refreshFullMetricsSnapshot();
+        renderSummaryCards(snapshot);
+        renderPickCards();
+        renderTable();
+        renderAlerts(fullSnapshot);
+        renderIndustryKnowledge(snapshot);
+        renderSupplyRisk(snapshot);
+        scheduleChartsRefresh(80);
+    }
+
+    function resetFilters() {
+        document.querySelectorAll('.region-check, .business-check').forEach(cb => cb.checked = true);
+        const search = document.getElementById('quick_search');
+        if (search) search.value = '';
+        onlyPicks = false;
+        const btn = document.getElementById('pick_toggle_btn');
+        if (btn) btn.textContent = '仅看入选标的：关';
+        applyFilters();
+    }
+
+    let refreshTimer = null;
+
+    function setupAutoRefresh() {
+        const sel = document.getElementById('refresh_interval');
+        if (!sel) return;
+        try {
+            const saved = localStorage.getItem(REFRESH_INTERVAL_STORAGE_KEY);
+            if (saved && Array.from(sel.options).some(o => o.value === saved)) sel.value = saved;
+        } catch (_) {}
+        sel.addEventListener('change', () => {
+            if (refreshTimer) clearInterval(refreshTimer);
+            const seconds = Number(sel.value);
+            try { localStorage.setItem(REFRESH_INTERVAL_STORAGE_KEY, String(seconds)); } catch (_) {}
+            if (seconds > 0) {
+                refreshTimer = setInterval(() => hardRefreshNow(), seconds * 1000);
+            }
+        });
+        sel.dispatchEvent(new Event('change'));
+    }
+
+    function manualRefresh() { hardRefreshNow(); }
+
+    window.addEventListener('resize', () => {
+        clearTimeout(window.__chartResizeTimer__);
+        window.__chartResizeTimer__ = setTimeout(forceResizeAllCharts, 120);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const updateEl = document.getElementById('last_update');
+        if (updateEl) {
+            lastUpdateIso = updateEl.dataset.updateIso || '';
+        }
+        updateCompanyCount(originalData.length, true);
+        document.getElementById('page_size').value = String(pageSize);
+        loadLocaleProfile();
+        loadBrowsePreferences();
+        loadRiskWeights();
+        renderNewsCards(getLatestNewsItems());
+        renderFilters();
+        const snapshot = refreshMetricsSnapshot();
+        const fullSnapshot = refreshFullMetricsSnapshot();
+        renderSummaryCards(snapshot);
+        renderPickCards();
+        renderTable();
+        renderAlerts(fullSnapshot);
+        renderIndustryKnowledge(snapshot);
+        renderSupplyRisk(snapshot);
+        rearrangeBlocks(document.getElementById('layout_mode')?.value || 'overview');
+        applyViewMode(document.getElementById('view_mode')?.value || 'all');
+        initFloatingToc();
+        initFloatingTocDrag();
+        setupAutoRefresh();
+        setTimeout(initializeCharts, 300);
+        if (window.SemiconductorFrontendApp?.bootstrap) {
+            window.SemiconductorFrontendApp.bootstrap();
+        }
+        console.log('✅ v5.3 加载完成 - 数据与Excel 100%一致');
+    });
+</script>
+</body>
+</html>

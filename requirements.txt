@@ -1,0 +1,7 @@
+akshare
+beautifulsoup4
+jinja2
+openpyxl
+pandas
+requests
+yfinance
