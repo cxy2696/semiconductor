@@ -29,6 +29,7 @@
         global_compare_items: [],
         global_compare_refs: []
     };
+    let chinaGeoJsonCache = null;
 
     const SEGMENT_ORDER = ['上游', '中游', '下游', '其他'];
     const RISK_WEIGHT_STORAGE_KEY = 'semicon_risk_weights_v1';
@@ -43,9 +44,9 @@
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
-        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
-        charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'empty_state', 'alert_banner'],
+        charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
         knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'empty_state'],
         'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
         'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
@@ -253,7 +254,7 @@
         const container = document.getElementById('chart_zoom_container');
         const title = document.getElementById('chart_zoom_title');
         if (!sourceNode || !modal || !container || !title || !sourceNode.data) return;
-        container.innerHTML = '<div id="chart_zoom_plot" class="chart-container h-[72vh]"><div class="chart-fallback">图表加载中...</div></div>';
+        container.innerHTML = '<div id="chart_zoom_plot" class="chart-container h-[72vh]"></div>';
         title.textContent = chartTitle || (currentLanguage === 'zh-CN' ? '图表放大查看' : 'Zoomed chart view');
         title.dataset.dynamicTitle = '1';
         modal.classList.remove('hidden');
@@ -532,7 +533,7 @@
         businessDiv.innerHTML = '';
         [...new Set(originalData.map(d => d.region).filter(Boolean))].sort().forEach(r => {
             const label = document.createElement('label');
-            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            label.className = 'toolbar-filter-chip';
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = true;
@@ -545,7 +546,7 @@
         });
         [...new Set(originalData.map(d => d.business_type).filter(Boolean))].sort().forEach(b => {
             const label = document.createElement('label');
-            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            label.className = 'toolbar-filter-chip';
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.checked = true;
@@ -708,30 +709,102 @@
         return { labels, parents, values };
     }
 
-    function renderSegmentExtremes(segForChange) {
-        const box = document.getElementById('chain_extremes_list');
-        if (!box) return;
-        if (!segForChange.length) {
-            box.innerHTML = '';
-            return;
+    function normalizeRegionToProvince(regionName) {
+        const raw = String(regionName || '').trim();
+        if (!raw) return '';
+        const directMap = {
+            北京: '北京市',
+            上海: '上海市',
+            天津: '天津市',
+            重庆: '重庆市',
+            深圳: '广东省'
+        };
+        if (directMap[raw]) return directMap[raw];
+        if (raw.endsWith('省') || raw.endsWith('市') || raw.endsWith('自治区') || raw.endsWith('特别行政区')) {
+            return raw;
         }
-        box.innerHTML = segForChange.map(seg => {
+        return `${raw}省`;
+    }
+
+    async function loadChinaGeoJson() {
+        if (chinaGeoJsonCache) return chinaGeoJsonCache;
+        const url = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json';
+        const resp = await fetch(url, { cache: 'force-cache' });
+        if (!resp.ok) throw new Error(`china_geojson_${resp.status}`);
+        chinaGeoJsonCache = await resp.json();
+        return chinaGeoJsonCache;
+    }
+
+    async function renderRegionAreaMap(regionCounts) {
+        const entries = Object.entries(regionCounts || {});
+        if (!entries.length) return;
+        const provinceAgg = {};
+        entries.forEach(([name, count]) => {
+            const province = normalizeRegionToProvince(name);
+            if (!province) return;
+            provinceAgg[province] = (provinceAgg[province] || 0) + (Number(count) || 0);
+        });
+        const provinces = Object.keys(provinceAgg);
+        const values = provinces.map(name => provinceAgg[name]);
+        if (!provinces.length) return;
+        try {
+            const geojson = await loadChinaGeoJson();
+            plotChart('region_chart', [{
+                type: 'choropleth',
+                geojson,
+                featureidkey: 'properties.name',
+                locations: provinces,
+                z: values,
+                colorscale: 'Blues',
+                marker: { line: { color: '#ffffff', width: 0.8 } },
+                colorbar: { title: '公司数' },
+                hovertemplate: '<b>%{location}</b><br>公司数: %{z}<extra></extra>'
+            }], {
+                height: 380,
+                margin: { l: 0, r: 0, t: 8, b: 0 },
+                geo: {
+                    fitbounds: 'locations',
+                    visible: false,
+                    showcoastlines: false,
+                    showcountries: false,
+                    projection: { type: 'mercator' }
+                }
+            });
+        } catch (_) {
+            // GeoJSON fetch failed; fallback to treemap for resilience.
+            const regionSorted = entries.sort((a, b) => b[1] - a[1]);
+            plotChart('region_chart', [{
+                type: 'treemap',
+                labels: regionSorted.map(([name]) => name),
+                parents: regionSorted.map(() => ''),
+                values: regionSorted.map(([, count]) => count),
+                marker: { colors: regionSorted.map(([, count]) => count), colorscale: 'Blues' },
+                textinfo: 'label+value',
+                hovertemplate: '<b>%{label}</b><br>公司数: %{value}<extra></extra>'
+            }], { height: 380, margin: { l: 8, r: 8, t: 8, b: 8 } });
+        }
+    }
+
+    function getSegmentExtremesMap(segForChange) {
+        const map = {};
+        segForChange.forEach(seg => {
             const rows = filteredData
                 .filter(row => String(row?.chain_segment || '其他') === seg)
                 .filter(row => toNumber(row?.change_pct) !== null);
             if (!rows.length) {
-                return `<div class="stat-card p-3"><div class="text-xs text-slate-500">${safeText(seg)}</div><div class="text-sm text-slate-400 mt-1">暂无涨跌数据</div></div>`;
+                map[seg] = { upName: '-', upChg: 'N/A', downName: '-', downChg: 'N/A' };
+                return;
             }
             const topUp = [...rows].sort((a, b) => (toNumber(b.change_pct) ?? -999) - (toNumber(a.change_pct) ?? -999))[0];
             const topDown = [...rows].sort((a, b) => (toNumber(a.change_pct) ?? 999) - (toNumber(b.change_pct) ?? 999))[0];
-            return `
-                <div class="stat-card p-3">
-                    <div class="text-xs text-slate-500 mb-1">${safeText(seg)} 链段极值</div>
-                    <div class="text-[12px]">涨幅最高：<span class="font-semibold">${safeText(topUp?.name, '-')}</span> <span class="positive">${fmt(topUp?.change_pct)}%</span></div>
-                    <div class="text-[12px] mt-1">跌幅最高：<span class="font-semibold">${safeText(topDown?.name, '-')}</span> <span class="negative">${fmt(topDown?.change_pct)}%</span></div>
-                </div>
-            `;
-        }).join('');
+            map[seg] = {
+                upName: safeText(topUp?.name, '-'),
+                upChg: fmt(topUp?.change_pct),
+                downName: safeText(topDown?.name, '-'),
+                downChg: fmt(topDown?.change_pct)
+            };
+        });
+        return map;
     }
 
     function scheduleChartsRender() {
@@ -745,7 +818,7 @@
             chain_pie: '产业链结构图',
             top20_chart: '市值Top20',
             board_pie: '板块分布',
-            region_chart: '地区分布地图',
+            region_chart: '地区分布地域块',
             business_chart: '业务类型分布',
             chain_change_chart: '链段平均涨跌幅',
             risk_segment_chart: '风险链段评分'
@@ -799,53 +872,7 @@
             values: boardBizSunburst.values,
             branchvalues: 'total'
         }], { height: 380 });
-        const regionSorted = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
-        const regionCoordMap = {
-            北京: [116.4, 39.9], 上海: [121.47, 31.23], 天津: [117.2, 39.13], 重庆: [106.55, 29.56],
-            江苏: [118.78, 32.04], 浙江: [120.16, 30.25], 广东: [113.27, 23.13], 深圳: [114.06, 22.55],
-            福建: [119.3, 26.08], 四川: [104.06, 30.67], 安徽: [117.27, 31.86], 湖南: [112.98, 28.2],
-            山东: [117.0, 36.67], 陕西: [108.95, 34.27], 吉林: [125.32, 43.9], 贵州: [106.71, 26.57]
-        };
-        const regionPoints = regionSorted
-            .map(([name, count]) => ({ name, count, coord: regionCoordMap[name] }))
-            .filter(item => Array.isArray(item.coord));
-        plotChart(
-            'region_chart',
-            [{
-                type: 'scattergeo',
-                mode: 'markers+text',
-                lon: regionPoints.map(item => item.coord[0]),
-                lat: regionPoints.map(item => item.coord[1]),
-                text: regionPoints.map(item => `${item.name} ${item.count}`),
-                textposition: 'top center',
-                marker: {
-                    size: regionPoints.map(item => 10 + item.count * 1.8),
-                    color: regionPoints.map(item => item.count),
-                    colorscale: 'Blues',
-                    line: { width: 1, color: '#1e3a8a' },
-                    opacity: 0.88,
-                    showscale: false
-                },
-                hovertemplate: '%{text}<extra></extra>'
-            }],
-            {
-                height: 380,
-                margin: { l: 0, r: 0, t: 8, b: 0 },
-                geo: {
-                    scope: 'asia',
-                    center: { lon: 104, lat: 35 },
-                    projection: { type: 'mercator', scale: 4.2 },
-                    showland: true,
-                    landcolor: '#eef2ff',
-                    showocean: true,
-                    oceancolor: '#f8fafc',
-                    showcountries: true,
-                    countrycolor: '#cbd5e1',
-                    showcoastlines: true,
-                    coastlinecolor: '#94a3b8'
-                }
-            }
-        );
+        renderRegionAreaMap(snapshot.regionCounts);
         // 业务 -> 地区
         const bizRegionMap = aggregateByPair(filteredData, 'business_type', 'region');
         const bizRegionSunburst = buildSunburstData('业务类型', bizRegionMap);
@@ -861,8 +888,18 @@
             const v = snapshot.segmentChangeAgg[seg];
             return v && v.cnt ? Number((v.sum / v.cnt).toFixed(2)) : 0;
         });
-        plotChart('chain_change_chart', [{ x: segForChange, y: segAvg, type: 'bar', marker: { color: '#0f766e' } }], { height: 380 });
-        renderSegmentExtremes(segForChange);
+        const segExtremes = getSegmentExtremesMap(segForChange);
+        plotChart('chain_change_chart', [{
+            x: segForChange,
+            y: segAvg,
+            type: 'bar',
+            marker: { color: '#0f766e' },
+            customdata: segForChange.map(seg => {
+                const e = segExtremes[seg] || { upName: '-', upChg: 'N/A', downName: '-', downChg: 'N/A' };
+                return [e.upName, e.upChg, e.downName, e.downChg];
+            }),
+            hovertemplate: '<b>%{x}</b><br>平均涨跌幅: %{y:.2f}%<br>涨幅最高: %{customdata[0]} (%{customdata[1]}%)<br>跌幅最高: %{customdata[2]} (%{customdata[3]}%)<extra></extra>'
+        }], { height: 380 });
         plotChart('risk_segment_chart', [{ x: segForChange, y: segAvg.map(v => Math.min(100, Math.abs(v) * 8 + riskWeights.segment)), type: 'bar' }], { height: 300, yaxis: { range: [0, 100] } });
         renderKlines();
     }
@@ -1191,6 +1228,22 @@
         renderSupplyRisk(snapshot);
         renderKlines(getFilteredKlineEntries());
         scheduleChartsRender();
+        updateFilterSummaryCounts();
+    }
+
+    function updateFilterSummaryCounts() {
+        const regionAll = document.querySelectorAll('.region-check').length;
+        const regionChecked = document.querySelectorAll('.region-check:checked').length;
+        const businessAll = document.querySelectorAll('.business-check').length;
+        const businessChecked = document.querySelectorAll('.business-check:checked').length;
+        const regionLabel = document.getElementById('region_filter_count');
+        const businessLabel = document.getElementById('business_filter_count');
+        if (regionLabel) {
+            regionLabel.textContent = regionChecked === regionAll ? '全部' : `${regionChecked}/${regionAll}`;
+        }
+        if (businessLabel) {
+            businessLabel.textContent = businessChecked === businessAll ? '全部' : `${businessChecked}/${businessAll}`;
+        }
     }
 
     function resetFilters() {
@@ -1201,6 +1254,7 @@
         const btn = document.getElementById('pick_toggle_btn');
         if (btn) btn.textContent = '仅看入选标的：关';
         applyFilters();
+        updateFilterSummaryCounts();
     }
 
     function loadRiskWeights() {
@@ -1280,9 +1334,9 @@
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
-        if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'charts') ['onboarding_section', 'methodology_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         try { localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
@@ -1291,9 +1345,9 @@
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);
@@ -1458,6 +1512,17 @@
         picker.addEventListener('change', () => applyLocaleProfile(picker.value, true));
     }
 
+    function bindToolbarMultiSelectMenus() {
+        const menus = Array.from(document.querySelectorAll('.toolbar-multi-select'));
+        if (!menus.length) return;
+        document.addEventListener('click', (event) => {
+            menus.forEach(menu => {
+                if (menu.contains(event.target)) return;
+                menu.removeAttribute('open');
+            });
+        });
+    }
+
     function manualRefresh() { refreshAllContent(); }
 
     Object.assign(window, {
@@ -1477,6 +1542,7 @@
         const pageSizeSelect = document.getElementById('page_size');
         if (pageSizeSelect) pageSizeSelect.value = String(pageSize);
         bindLocalePicker();
+        bindToolbarMultiSelectMenus();
         loadPreferences();
         loadRiskWeights();
         applyLocaleProfile(document.getElementById('locale_profile')?.value || 'zh-CN|Asia/Shanghai', false);

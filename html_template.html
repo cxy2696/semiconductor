@@ -46,6 +46,14 @@
             <a id="top_nav_knowledge" class="course-nav-link" href="./knowledge.html">模块C 全球观察</a>
             <a id="top_nav_risk_news" class="course-nav-link" href="./risk-news.html">模块D/E 风险新闻</a>
             <a id="top_nav_data_center" class="course-nav-link" href="./data-center.html">数据中心</a>
+            <details class="toolbar-multi-select" id="region_filter_menu">
+                <summary class="toolbar-multi-summary">地区过滤（多选）<span id="region_filter_count" class="toolbar-multi-count">全部</span></summary>
+                <div id="region_filters" class="toolbar-multi-panel"></div>
+            </details>
+            <details class="toolbar-multi-select" id="business_filter_menu">
+                <summary class="toolbar-multi-summary">业务类型过滤（多选）<span id="business_filter_count" class="toolbar-multi-count">全部</span></summary>
+                <div id="business_filters" class="toolbar-multi-panel"></div>
+            </details>
         </nav>
 
         <section class="toolbar p-4" id="control_toolbar">
@@ -72,6 +80,7 @@
                     <button id="table_density_btn" class="chip-btn" onclick="toggleTableDensity()">紧凑表格</button>
                     <button id="reading_mode_btn" class="chip-btn" onclick="toggleReadingMode()">阅读模式：舒适</button>
                     <button id="floater_mode_btn" class="chip-btn" onclick="toggleSectionFloater()">板块浮窗：开</button>
+                    <button onclick="resetFilters()" class="chip-btn">重置筛选</button>
                 </div>
                 </div>
             </div>
@@ -127,12 +136,12 @@
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <div class="stat-card p-4">
-                    <h4 class="text-sm font-semibold mb-2 text-slate-800">评分维度（基本面 + 基本盘）</h4>
+                    <h4 class="text-sm font-semibold mb-2 text-slate-800">评分维度（基本面 + 基本盘 + 风险）</h4>
                     <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
-                        <li>基本面质量：市值、估值（Forward/Trailing P/E）、成交活跃度综合评分。</li>
-                        <li>基本盘结构：板块、地区、业务类型、链段分布共同判断市场主线。</li>
-                        <li>短期动量：识别过热与相对温和区间，平衡风险收益。</li>
-                        <li>赛道属性：设备/材料/代工/AI 等战略方向加权。</li>
+                        <li>基本面质量：市值、估值（Forward/Trailing P/E）、成交活跃度构成主评分。</li>
+                        <li>基本盘结构：链段、板块、地区、业务四维交叉判断是否顺应主线。</li>
+                        <li>动量与拥挤度：结合涨跌幅与集中度，识别过热或回撤风险。</li>
+                        <li>战略赛道加权：设备/材料/代工/AI 等方向在同等条件下优先。</li>
                     </ul>
                 </div>
                 <div class="stat-card p-4">
@@ -140,10 +149,19 @@
                     <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
                         <li>系统计算 `invest_score` 并映射为 A/B/C/D。</li>
                         <li>默认 `invest_score >= 70` 标记为候选（可在页面筛选仅看候选）。</li>
-                        <li>风险模块使用独立权重引擎，支持平衡/防守/进攻预设和实时调参。</li>
+                        <li>风险模块使用独立权重引擎，支持平衡/防守/进攻预设 + 实时调参。</li>
                         <li>所有结论仅作研究参考，不构成投资建议。</li>
                     </ul>
                 </div>
+            </div>
+            <div class="stat-card p-4 mt-3">
+                <h4 class="text-sm font-semibold mb-2 text-slate-800">界面使用说明（建议顺序）</h4>
+                <ol class="text-xs text-slate-600 leading-6 list-decimal ml-5">
+                    <li>先在顶部设置“浏览视图 + 地区/业务多选”，缩小研究范围。</li>
+                    <li>看模块A/决策辅助/涨停板，快速定位候选与情绪极值。</li>
+                    <li>看模块B图谱，确认链段-板块-地区-业务结构是否支持判断。</li>
+                    <li>看模块C全球观察与模块D/E风险新闻，做交叉验证后再回数据表落地。</li>
+                </ol>
             </div>
             <div class="mt-3 text-xs text-slate-500">
                 提示：先看基本面与基本盘解释，再看候选精选/图谱/风险新闻，形成完整跟踪闭环。
@@ -168,24 +186,6 @@
             </div>
             <p id="limit_up_desc" class="section-subtitle">涨停规则：主板/中小板 ±10%，科创板/创业板 ±20%；展示触及涨停阈值的样本公司。</p>
             <div id="limit_up_cards" class="decision-support-grid"></div>
-        </section>
-
-        <section id="filter_section" class="panel p-5">
-            <div class="flex items-end gap-5 flex-wrap">
-                <div class="flex-1 min-w-[220px]">
-                    <details class="filter-disclosure" open>
-                        <summary class="filter-summary">地区过滤（多选）</summary>
-                        <div id="region_filters" class="flex flex-wrap gap-2 mt-2"></div>
-                    </details>
-                </div>
-                <div class="flex-1 min-w-[220px]">
-                    <details class="filter-disclosure" open>
-                        <summary class="filter-summary">业务类型过滤（多选）</summary>
-                        <div id="business_filters" class="flex flex-wrap gap-2 mt-2"></div>
-                    </details>
-                </div>
-                <button onclick="resetFilters()" class="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-sm font-medium">重置条件</button>
-            </div>
         </section>
 
         <section id="pick_section" class="panel p-5">
@@ -240,7 +240,7 @@
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">地区公司分布</h3>
-                <p class="section-subtitle">地图点亮地区并显示公司数量，直观看覆盖与集中度。</p>
+                <p class="section-subtitle">按城市/地域块展示热力分布，颜色越深表示公司数量越多。</p>
                 <div id="region_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
@@ -252,7 +252,6 @@
                 <h3 class="panel-header text-xl mb-2">链段平均涨跌幅</h3>
                 <p class="section-subtitle">在均值之外补充每个链段“涨幅最高/跌幅最高”公司，便于定位异动来源。</p>
                 <div id="chain_change_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
-                <div id="chain_extremes_list" class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3"></div>
             </div>
         </section>
 
