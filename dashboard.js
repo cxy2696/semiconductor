@@ -17,6 +17,8 @@
     let currentLanguage = 'zh-CN';
     let currentTimeZone = 'Asia/Shanghai';
     let lastUpdateIso = '';
+    let pageMode = 'all';
+    let pageModeLocked = false;
     let industryRuntimePayload = {
         industry_intro: [],
         industry_basics: [],
@@ -34,6 +36,14 @@
     const DEFAULT_REFRESH_SECONDS = 600;
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
+    const PAGE_SECTION_PRESETS = {
+        all: ['onboarding_section', 'summary_cards', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'summary_cards', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
+        charts: ['summary_cards', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
+        knowledge: ['summary_cards', 'industry_section', 'empty_state'],
+        'risk-news': ['summary_cards', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
+        'data-center': ['summary_cards', 'filter_section', 'action_section', 'table_section', 'empty_state']
+    };
 
     const TEXTS = {
         'zh-CN': { title: '中国半导体投资学习课', refreshNow: '立即刷新', newsTitle: '课程模块E｜最新行业新闻', companiesUnit: '家公司', realTimeTrack: '实时追踪', realTimeData: '实时数据', timezoneBadge: '中国时间（Asia/Shanghai）' },
@@ -130,6 +140,46 @@
 
     function getCurrentTexts() {
         return TEXTS[currentLanguage] || TEXTS['zh-CN'];
+    }
+
+    function getCurrentPathname() {
+        const path = window.location.pathname || '/';
+        const parts = path.split('/').filter(Boolean);
+        return parts.length ? parts[parts.length - 1] : 'index.html';
+    }
+
+    function highlightCourseNavActiveLink() {
+        const currentPage = getCurrentPathname();
+        document.querySelectorAll('.course-nav-link').forEach(link => {
+            const href = link.getAttribute('href') || '';
+            const page = href.replace('./', '');
+            link.classList.toggle('active', page === currentPage || (currentPage === '' && page === 'index.html'));
+        });
+    }
+
+    function applyPageModeFromBody() {
+        const bodyMode = (document.body?.dataset?.pageMode || 'all').trim();
+        pageMode = PAGE_SECTION_PRESETS[bodyMode] ? bodyMode : 'all';
+        pageModeLocked = pageMode !== 'all';
+
+        const allowed = new Set(PAGE_SECTION_PRESETS[pageMode] || PAGE_SECTION_PRESETS.all);
+        const allSections = new Set(PAGE_SECTION_PRESETS.all);
+        allSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('hidden', !allowed.has(id));
+        });
+
+        const viewMode = document.getElementById('view_mode');
+        const layoutMode = document.getElementById('layout_mode');
+        if (pageModeLocked) {
+            if (viewMode) viewMode.disabled = true;
+            if (layoutMode) layoutMode.disabled = true;
+        }
+
+        if (pageModeLocked) {
+            document.body.classList.add('floater-hidden');
+        }
     }
 
     function updateCompanyCount(count, fromFilter = true) {
@@ -637,6 +687,7 @@
     }
 
     function applyViewMode(mode) {
+        if (pageModeLocked) return;
         const allIds = ['onboarding_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
         if (mode === 'charts') ['onboarding_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
@@ -800,6 +851,8 @@
     window.addEventListener('DOMContentLoaded', () => {
         const updateEl = document.getElementById('last_update');
         if (updateEl) lastUpdateIso = updateEl.dataset.updateIso || '';
+        highlightCourseNavActiveLink();
+        applyPageModeFromBody();
         const pageSizeSelect = document.getElementById('page_size');
         if (pageSizeSelect) pageSizeSelect.value = String(pageSize);
         bindLocalePicker();

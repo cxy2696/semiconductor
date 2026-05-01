@@ -20,6 +20,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - Top 6 market-cap K-line cards with runtime refresh
 - Industry knowledge/source blocks are refreshed from scraping payloads
 - Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
+- Multi-page course modules with top menu (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every 10 minutes
 - Workflow includes artifact validation checks before auto-commit (guards unattended runs)
 - GitHub Pages output in `docs/index.html`
@@ -35,6 +36,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - `scripts/refresh_dashboard.sh`: canonical refresh entrypoint (loop or `--once`)
 - `.github/workflows/update-dashboard.yml`: scheduled 10-minute auto-refresh workflow
 - `docs/index.html`: GitHub Pages entrypoint (generated)
+- `docs/overview.html` / `docs/charts.html` / `docs/knowledge.html` / `docs/risk-news.html` / `docs/data-center.html`: generated course module pages
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
 - `docs/app.js` / `docs/dashboard.js` / `docs/styles.css`: static assets for GitHub Pages
 

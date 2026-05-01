@@ -622,8 +622,19 @@ html_content = template.render(
     industry_source_refs=industry_source_refs,
     industry_intro_source=industry_intro_source,
     industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
-    kline_data=safe_kline_data
+    kline_data=safe_kline_data,
+    page_mode="all",
+    page_title="中国半导体投资学习课"
 )
+
+page_render_specs = [
+    ("index.html", "all", "中国半导体投资学习课"),
+    ("overview.html", "overview", "模块A｜市场快照 - 中国半导体投资学习课"),
+    ("charts.html", "charts", "模块B｜图谱与K线 - 中国半导体投资学习课"),
+    ("knowledge.html", "knowledge", "模块C｜知识课堂 - 中国半导体投资学习课"),
+    ("risk-news.html", "risk-news", "模块D/E｜风险与新闻 - 中国半导体投资学习课"),
+    ("data-center.html", "data-center", "数据中心 - 中国半导体投资学习课"),
+]
 
 latest_payload = {
     "data": data_records,
@@ -645,10 +656,28 @@ latest_payload_file = os.path.join(_base_dir, "latest_data.json")
 with open(latest_payload_file, "w", encoding="utf-8") as f:
     json.dump(latest_payload, f, ensure_ascii=False, allow_nan=False)
 
-# GitHub Pages 输出（docs/index.html）
-docs_html_file = os.path.join(_docs_dir, "index.html")
-with open(docs_html_file, "w", encoding="utf-8") as f:
-    f.write(html_content)
+# GitHub Pages 输出（docs/*.html）
+docs_html_outputs = []
+for file_name, page_mode, page_title in page_render_specs:
+    docs_html_content = template.render(
+        data=data_records,
+        data_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
+        data_time_iso=_data_generated_cn.isoformat(),
+        news_data=news_data,
+        news_pool=safe_news_pool,
+        industry_intro=industry_intro,
+        industry_basics=industry_basics,
+        industry_source_refs=industry_source_refs,
+        industry_intro_source=industry_intro_source,
+        industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
+        kline_data=safe_kline_data,
+        page_mode=page_mode,
+        page_title=page_title,
+    )
+    docs_html_file = os.path.join(_docs_dir, file_name)
+    with open(docs_html_file, "w", encoding="utf-8") as f:
+        f.write(docs_html_content)
+    docs_html_outputs.append(docs_html_file)
 
 docs_payload_file = os.path.join(_docs_dir, "latest_data.json")
 with open(docs_payload_file, "w", encoding="utf-8") as f:
@@ -679,7 +708,7 @@ with open(nojekyll_file, "w", encoding="utf-8") as f:
 print("\nv5.4 生成完成（GitHub 持续更新）")
 print(f"Excel（唯一数据源）→ {excel_file}")
 print(f"HTML（完全基于Excel）→ {html_file}")
-print(f"GitHub Pages 输出 → {docs_html_file}")
+print(f"GitHub Pages 输出 → {', '.join(docs_html_outputs)}")
 print(f"实时刷新数据输出 → {docs_payload_file}")
 
 # 默认在本地打开报告场景下保留产物，其余场景清理根目录本地产物以减少仓库噪音。
