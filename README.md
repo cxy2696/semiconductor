@@ -99,6 +99,7 @@ Notes:
 
 - Building/running requires full Xcode (not only Command Line Tools).
 - Update app icons in `ios/SemiconductorApp/Resources/Assets.xcassets/AppIcon.appiconset`.
+- Use [`ios/IOS_RUN_CHECKLIST.md`](ios/IOS_RUN_CHECKLIST.md) for simulator/device verification.
 
 ## Scoring Logic Overview
 

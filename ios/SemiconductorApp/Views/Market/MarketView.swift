@@ -7,7 +7,7 @@ struct MarketView: View {
         List {
             Section {
                 Toggle(viewModel.text(.onlyPicks), isOn: $viewModel.onlyPicks)
-                Menu("Regions (\(viewModel.selectedRegions.count))") {
+                Menu("\(viewModel.text(.regions)) (\(viewModel.selectedRegions.count))") {
                     ForEach(viewModel.regions, id: \.self) { region in
                         Button {
                             if viewModel.selectedRegions.contains(region) {
@@ -20,7 +20,7 @@ struct MarketView: View {
                         }
                     }
                 }
-                Menu("Business (\(viewModel.selectedBusinessTypes.count))") {
+                Menu("\(viewModel.text(.business)) (\(viewModel.selectedBusinessTypes.count))") {
                     ForEach(viewModel.businessTypes, id: \.self) { biz in
                         Button {
                             if viewModel.selectedBusinessTypes.contains(biz) {

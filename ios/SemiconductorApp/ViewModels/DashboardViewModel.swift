@@ -9,20 +9,32 @@ final class DashboardViewModel: ObservableObject {
         case marketTitle
         case newsTitle
         case settingsTitle
+        case companies
+        case averageChange
+        case topGainer
+        case topLoser
+        case inCurrentFilters
+        case daily
         case decisionSupport
         case limitUpBoard
         case segmentDistribution
         case noLimitUp
         case globalSection
         case noGlobalItems
+        case sources
         case sourceOpen
         case onlyPicks
         case stocks
+        case regions
+        case business
         case searchPrompt
         case localeTime
         case refreshNow
         case dataSection
         case profile
+        case loading
+        case refreshSucceeded
+        case noData
     }
     enum LocaleProfile: String, CaseIterable, Identifiable {
         case zhCN = "zh-CN|Asia/Shanghai"
@@ -67,20 +79,32 @@ final class DashboardViewModel: ObservableObject {
             case .marketTitle: return "市场"
             case .newsTitle: return "新闻"
             case .settingsTitle: return "设置"
+            case .companies: return "公司数"
+            case .averageChange: return "平均涨跌幅"
+            case .topGainer: return "最大涨幅"
+            case .topLoser: return "最大跌幅"
+            case .inCurrentFilters: return "当前筛选范围"
+            case .daily: return "日内"
             case .decisionSupport: return "决策辅助"
             case .limitUpBoard: return "涨停板观察"
             case .segmentDistribution: return "链段分布"
             case .noLimitUp: return "当前范围暂无涨停样本。"
             case .globalSection: return "全球对比"
             case .noGlobalItems: return "暂无全球对比信息。"
+            case .sources: return "来源"
             case .sourceOpen: return "打开来源"
             case .onlyPicks: return "仅看入选"
             case .stocks: return "公司列表"
+            case .regions: return "地区"
+            case .business: return "业务"
             case .searchPrompt: return "代码 / 公司 / 标签"
             case .localeTime: return "语言与时区"
             case .refreshNow: return "立即刷新"
             case .dataSection: return "数据"
             case .profile: return "配置"
+            case .loading: return "加载中..."
+            case .refreshSucceeded: return "刷新完成"
+            case .noData: return "暂无数据"
             }
         case .enUS:
             switch key {
@@ -89,20 +113,32 @@ final class DashboardViewModel: ObservableObject {
             case .marketTitle: return "Market"
             case .newsTitle: return "News"
             case .settingsTitle: return "Settings"
+            case .companies: return "Companies"
+            case .averageChange: return "Average Change"
+            case .topGainer: return "Top Gainer"
+            case .topLoser: return "Top Loser"
+            case .inCurrentFilters: return "In current filters"
+            case .daily: return "Daily"
             case .decisionSupport: return "Decision Support"
             case .limitUpBoard: return "Limit-Up Board"
             case .segmentDistribution: return "Segment Distribution"
             case .noLimitUp: return "No limit-up stocks in current scope."
             case .globalSection: return "Global Comparison"
             case .noGlobalItems: return "No global comparison items available."
+            case .sources: return "Sources"
             case .sourceOpen: return "Open Source"
             case .onlyPicks: return "Only Picks"
             case .stocks: return "Stocks"
+            case .regions: return "Regions"
+            case .business: return "Business"
             case .searchPrompt: return "Code / Company / Tags"
             case .localeTime: return "Locale & Timezone"
             case .refreshNow: return "Refresh Now"
             case .dataSection: return "Data"
             case .profile: return "Profile"
+            case .loading: return "Loading..."
+            case .refreshSucceeded: return "Refresh completed"
+            case .noData: return "No data"
             }
         case .deDE:
             switch key {
@@ -111,20 +147,32 @@ final class DashboardViewModel: ObservableObject {
             case .marketTitle: return "Markt"
             case .newsTitle: return "Nachrichten"
             case .settingsTitle: return "Einstellungen"
+            case .companies: return "Unternehmen"
+            case .averageChange: return "Durchschnittsänderung"
+            case .topGainer: return "Top Gewinner"
+            case .topLoser: return "Top Verlierer"
+            case .inCurrentFilters: return "Im aktuellen Filter"
+            case .daily: return "Täglich"
             case .decisionSupport: return "Entscheidungshilfe"
             case .limitUpBoard: return "Limit-Up Beobachtung"
             case .segmentDistribution: return "Segmentverteilung"
             case .noLimitUp: return "Keine Limit-Up Titel im aktuellen Bereich."
             case .globalSection: return "Globaler Vergleich"
             case .noGlobalItems: return "Keine globalen Vergleichsdaten verfügbar."
+            case .sources: return "Quellen"
             case .sourceOpen: return "Quelle öffnen"
             case .onlyPicks: return "Nur Auswahl"
             case .stocks: return "Aktien"
+            case .regions: return "Regionen"
+            case .business: return "Geschäft"
             case .searchPrompt: return "Code / Firma / Tags"
             case .localeTime: return "Sprache & Zeitzone"
             case .refreshNow: return "Jetzt aktualisieren"
             case .dataSection: return "Daten"
             case .profile: return "Profil"
+            case .loading: return "Lädt..."
+            case .refreshSucceeded: return "Aktualisierung abgeschlossen"
+            case .noData: return "Keine Daten"
             }
         }
     }

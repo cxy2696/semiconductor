@@ -26,7 +26,13 @@ struct HomeView: View {
                     .foregroundStyle(.secondary)
                 }
 
-                SummaryCardsView(stocks: viewModel.filteredStocks)
+                if let error = viewModel.errorMessage, !error.isEmpty {
+                    ContentUnavailableView {
+                        Label(error, systemImage: "exclamationmark.triangle")
+                    }
+                }
+
+                SummaryCardsView(stocks: viewModel.filteredStocks, viewModel: viewModel)
 
                 GroupBox(viewModel.text(.decisionSupport)) {
                     VStack(alignment: .leading, spacing: 8) {
@@ -86,6 +92,7 @@ struct HomeView: View {
 
 private struct SummaryCardsView: View {
     let stocks: [StockItem]
+    let viewModel: DashboardViewModel
 
     var body: some View {
         let avg = stocks.compactMap(\.changePct)
@@ -94,10 +101,10 @@ private struct SummaryCardsView: View {
         let low = stocks.min(by: { ($0.changePct ?? 999) < ($1.changePct ?? 999) })
 
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-            Card(title: "Companies", value: "\(stocks.count)", subtitle: "In current filters")
-            Card(title: "Average Change", value: AppFormatters.percent(avgPct), subtitle: "Daily")
-            Card(title: "Top Gainer", value: top?.name ?? "N/A", subtitle: AppFormatters.percent(top?.changePct))
-            Card(title: "Top Loser", value: low?.name ?? "N/A", subtitle: AppFormatters.percent(low?.changePct))
+            Card(title: viewModel.text(.companies), value: "\(stocks.count)", subtitle: viewModel.text(.inCurrentFilters))
+            Card(title: viewModel.text(.averageChange), value: AppFormatters.percent(avgPct), subtitle: viewModel.text(.daily))
+            Card(title: viewModel.text(.topGainer), value: top?.name ?? viewModel.text(.noData), subtitle: AppFormatters.percent(top?.changePct))
+            Card(title: viewModel.text(.topLoser), value: low?.name ?? viewModel.text(.noData), subtitle: AppFormatters.percent(low?.changePct))
         }
     }
 }

@@ -27,7 +27,7 @@ struct CompareView: View {
                 }
             }
 
-            Section("Sources") {
+            Section(viewModel.text(.sources)) {
                 ForEach(viewModel.payload.globalCompareRefs) { ref in
                     Link(ref.name, destination: URL(string: ref.url) ?? URL(string: "https://cxy2696.github.io/semiconductor/")!)
                 }

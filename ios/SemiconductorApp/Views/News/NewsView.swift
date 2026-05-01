@@ -8,7 +8,7 @@ struct NewsView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text(item.date).font(.caption).foregroundStyle(.secondary)
                 Text(item.title).font(.headline)
-                Link("Open", destination: URL(string: item.link) ?? URL(string: "https://cxy2696.github.io/semiconductor/")!)
+                Link(viewModel.text(.sourceOpen), destination: URL(string: item.link) ?? URL(string: "https://cxy2696.github.io/semiconductor/")!)
                     .font(.caption)
             }
             .padding(.vertical, 4)

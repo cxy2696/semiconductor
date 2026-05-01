@@ -41,5 +41,18 @@ struct RootTabView: View {
             }
         }
         .tint(.blue)
+        .overlay(alignment: .bottom) {
+            if viewModel.isLoading {
+                HStack(spacing: 8) {
+                    ProgressView()
+                    Text(viewModel.text(.loading))
+                        .font(.footnote)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(.thinMaterial, in: Capsule())
+                .padding(.bottom, 12)
+            }
+        }
     }
 }
