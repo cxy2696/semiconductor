@@ -8,6 +8,7 @@ import shutil
 import time
 import webbrowser
 from datetime import datetime
+from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 
 import akshare as ak
@@ -71,6 +72,56 @@ def ensure_dirs():
     os.makedirs(_docs_dir, exist_ok=True)
 
 
+DEFAULT_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+}
+
+INDUSTRY_SOURCE_MAP = {
+    "baike": {
+        "name": "百度百科（半导体）",
+        "url": "https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93",
+    },
+    "wiki_api": {
+        "name": "Wikipedia 摘要 API",
+        "url": "https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93",
+    },
+    "wiki_html": {
+        "name": "中文维基页面",
+        "url": "https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93",
+    },
+}
+
+
+def request_with_retry(session, url, timeout=10, retries=2):
+    for attempt in range(retries + 1):
+        try:
+            resp = session.get(url, timeout=timeout)
+            resp.raise_for_status()
+            return resp
+        except requests.RequestException:
+            if attempt >= retries:
+                return None
+            time.sleep(1.2 * (attempt + 1))
+    return None
+
+
+def parse_date_text(value, fallback_date):
+    text = str(value or "").strip()
+    if not text:
+        return fallback_date
+    try:
+        return parsedate_to_datetime(text).strftime("%Y-%m-%d")
+    except Exception:
+        pass
+    for pattern in ("%Y-%m-%d", "%Y/%m/%d", "%Y-%m-%d %H:%M:%S"):
+        try:
+            return datetime.strptime(text[:19], pattern).strftime("%Y-%m-%d")
+        except Exception:
+            continue
+    return fallback_date
+
+
 def sanitize_for_json(value):
     """Recursively convert NaN/Infinity-like values into JSON-safe values."""
     if isinstance(value, dict):
@@ -95,63 +146,93 @@ ensure_dirs()
 
 # ====================== 新闻抓取 ======================
 def get_dramx_news(display_items=8, pool_size=24):
-    def parse_date_from_link(link):
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    def parse_date_from_dramx_link(link):
         m = re.search(r"/(\d{8})-", link or "")
         if not m:
-            return datetime.now().strftime("%Y-%m-%d")
+            return today
         raw = m.group(1)
         return f"{raw[:4]}-{raw[4:6]}-{raw[6:8]}"
 
-    try:
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-        r = requests.get("https://www.dramx.com/News/", headers=headers, timeout=10)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        items = soup.select("h3 a")
-        news_all = []
-        seen = set()
-
-        for a in items:
-            href = a.get("href") or "#"
-            link = href if href.startswith("http") else f"https://www.dramx.com{href}"
-            title = a.get_text(strip=True)
-            if not title or link in seen:
+    def collect_from_dramx(session):
+        response = request_with_retry(session, "https://www.dramx.com/News/")
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
+        items = []
+        for anchor in soup.select("h3 a"):
+            href = anchor.get("href") or ""
+            if not href:
                 continue
-            seen.add(link)
+            link = href if href.startswith("http") else f"https://www.dramx.com{href}"
+            title = anchor.get_text(strip=True)
+            if not title:
+                continue
+            items.append({
+                "title": title,
+                "link": link,
+                "date": parse_date_from_dramx_link(link),
+            })
+        return items
+
+    def collect_from_google_news(session):
+        rss_url = (
+            "https://news.google.com/rss/search?"
+            "q=%E5%8D%8A%E5%AF%BC%E4%BD%93&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+        )
+        response = request_with_retry(session, rss_url)
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "xml")
+        items = []
+        for item in soup.select("item"):
+            title = (item.title.text if item.title else "").strip()
+            link = (item.link.text if item.link else "").strip()
+            pub_date = (item.pubDate.text if item.pubDate else "").strip()
+            if not title or not link:
+                continue
+            items.append({
+                "title": title,
+                "link": link,
+                "date": parse_date_text(pub_date, today),
+            })
+        return items
+
+    news_all = []
+    seen = set()
+    with requests.Session() as session:
+        session.headers.update(DEFAULT_HEADERS)
+        for row in collect_from_dramx(session) + collect_from_google_news(session):
+            title = row.get("title", "").strip()
+            link = row.get("link", "").strip()
+            if not title or not link:
+                continue
+            key = f"{title}|{link}"
+            if key in seen:
+                continue
+            seen.add(key)
             news_all.append({
                 "title": title,
                 "link": link,
-                "date": parse_date_from_link(link),
+                "date": parse_date_text(row.get("date"), today),
             })
 
-        if not news_all:
-            fallback = [{"title": "暂无最新新闻", "link": "#", "date": datetime.now().strftime("%Y-%m-%d")}]
-            return fallback, fallback
+    if not news_all:
+        print("警告：新闻抓取未返回有效外部数据。")
+        return [], []
 
-        # 保证“最新”：先按日期降序，截取最新池，再随机抽样用于“换一批”
-        news_all = sorted(news_all, key=lambda x: x.get("date", ""), reverse=True)
-        latest_pool = news_all[: max(pool_size, display_items)]
-
-        # 首页默认严格展示“最新”的前N条；前端可在最新池内再做“换一批”
-        news_display = latest_pool[:display_items]
-
-        return news_display, latest_pool
-    except Exception:
-        fallback = [{"title": "暂无最新新闻（网络或站点更新中）", "link": "#", "date": datetime.now().strftime("%Y-%m-%d")}]
-        return fallback, fallback
+    news_all = sorted(news_all, key=lambda x: x.get("date", ""), reverse=True)
+    latest_pool = news_all[: max(pool_size, display_items)]
+    news_display = latest_pool[:display_items]
+    return news_display, latest_pool
 
 news_data, news_pool = get_dramx_news()
 print(f"已抓取 {len(news_pool)} 条最新新闻候选，当前展示 {len(news_data)} 条")
 
 # ====================== 行业简介 ======================
 def get_industry_intro():
-    """从实时网页抓取行业简介，失败时再使用本地兜底。"""
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-    }
+    """从外部站点抓取行业简介；失败时返回空结果（不使用静态兜底文案）。"""
 
     def clean_text(text):
         text = re.sub(r"\[[^\]]*\]", "", text or "")
@@ -170,9 +251,10 @@ def get_industry_intro():
         return [f"{idx + 1}. {line}" for idx, line in enumerate(lines[:3])]
 
     def collect_from_baike(session):
-        r = session.get("https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["baike"]["url"])
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
         summary = soup.select_one("div.lemma-summary") or soup.select_one("div.J-summary")
         if not summary:
             return []
@@ -187,13 +269,10 @@ def get_industry_intro():
         return items
 
     def collect_from_wiki_api(session):
-        # 使用维基摘要API，结构稳定，适合提取“最新可读简介”
-        r = session.get(
-            "https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93",
-            timeout=10,
-        )
-        r.raise_for_status()
-        data = r.json()
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_api"]["url"])
+        if response is None:
+            return []
+        data = response.json()
         extract = clean_text(data.get("extract", ""))
         if len(extract) < 24:
             return []
@@ -203,9 +282,10 @@ def get_industry_intro():
         return items[:3]
 
     def collect_from_wiki_html(session):
-        r = session.get("https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_html"]["url"])
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
         content = soup.select_one("div.mw-parser-output")
         if not content:
             return []
@@ -220,37 +300,28 @@ def get_industry_intro():
         return items
 
     with requests.Session() as session:
-        session.headers.update(headers)
+        session.headers.update(DEFAULT_HEADERS)
 
         sources = [
-            ("百度百科", collect_from_baike),
-            ("Wikipedia API", collect_from_wiki_api),
-            ("中文维基网页", collect_from_wiki_html),
+            ("baike", "百度百科", collect_from_baike),
+            ("wiki_api", "Wikipedia API", collect_from_wiki_api),
+            ("wiki_html", "中文维基网页", collect_from_wiki_html),
         ]
 
-        for source_name, collector in sources:
+        for source_key, source_name, collector in sources:
             try:
                 items = collector(session)
-                if len(items) >= 3:
-                    return format_intro(items), source_name
+                if items:
+                    return format_intro(items), source_name, [source_key]
             except Exception:
                 continue
 
-    # 仅在全部网页源失败时使用兜底
-    return [
-        "1. 半导体是现代电子系统核心基础，材料导电性介于导体与绝缘体之间，广泛用于计算、通信与电力控制。",
-        "2. 行业链路可分为上游设备/材料、中游设计与制造、下游封测与应用，技术与资本门槛均较高。",
-        "3. 中国半导体正围绕先进制造、关键设备与高端芯片持续投入，重点服务AI、汽车电子与工业数字化。",
-    ], "本地兜底"
+    print("警告：行业简介抓取失败，未返回有效外部内容。")
+    return [], "抓取失败", []
 
-industry_intro, industry_intro_source = get_industry_intro()
+industry_intro, industry_intro_source, intro_source_keys = get_industry_intro()
 
 def get_industry_daily_terms():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-    }
-
     def clean_text(text):
         text = re.sub(r"\[[^\]]*\]", "", text or "")
         text = re.sub(r"\s+", " ", text).strip()
@@ -269,25 +340,31 @@ def get_industry_daily_terms():
         return out
 
     scraped_sentences = []
+    used_sources = set()
     with requests.Session() as session:
-        session.headers.update(headers)
-        try:
-            resp = session.get("https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
-            resp.raise_for_status()
-            data = resp.json()
-            scraped_sentences.extend(split_sentences(data.get("extract", "")))
-        except Exception:
-            pass
-        try:
-            resp = session.get("https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
-            resp.raise_for_status()
-            soup = BeautifulSoup(resp.text, "html.parser")
+        session.headers.update(DEFAULT_HEADERS)
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_api"]["url"])
+        if response is not None:
+            try:
+                data = response.json()
+                wiki_sentences = split_sentences(data.get("extract", ""))
+                if wiki_sentences:
+                    used_sources.add("wiki_api")
+                    scraped_sentences.extend(wiki_sentences)
+            except Exception:
+                pass
+
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["baike"]["url"])
+        if response is not None:
+            soup = BeautifulSoup(response.text, "html.parser")
             summary = soup.select_one("div.lemma-summary") or soup.select_one("div.J-summary")
             if summary:
+                baike_sentences = []
                 for p in summary.find_all("p"):
-                    scraped_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
-        except Exception:
-            pass
+                    baike_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
+                if baike_sentences:
+                    used_sources.add("baike")
+                    scraped_sentences.extend(baike_sentences)
 
     dedup = []
     seen = set()
@@ -299,37 +376,23 @@ def get_industry_daily_terms():
         if len(dedup) >= 12:
             break
 
-    if dedup:
-        default_pad = [
-            "半导体产业链通常拆分为上游设备材料、中游设计制造、下游封测与应用。",
-            "先进制程主要服务高性能计算与AI，成熟制程广泛用于车规和工业控制。",
-            "封装测试直接影响芯片良率、功耗表现与交付稳定性。",
-            "国产替代关注关键设备、材料与核心芯片的本土化能力。",
-            "行业景气观察通常结合订单、库存周期、资本开支和终端需求。",
-            "估值与波动结合观察可帮助识别潜在风险和机会窗口。"
-        ]
-        merged = dedup[:]
-        for item in default_pad:
-            if len(merged) >= 9:
-                break
-            if item not in merged:
-                merged.append(item)
-        return [{"term": f"每日术语 {idx + 1}", "desc": text} for idx, text in enumerate(merged[:9])]
+    if not dedup:
+        print("警告：行业术语抓取失败，未返回有效外部内容。")
+        return [], []
 
-    return [
-        {"term": "每日术语 1", "desc": "半导体是现代电子系统基础材料，导电性介于绝缘体与导体之间。"},
-        {"term": "每日术语 2", "desc": "行业链路分为上游设备材料、中游设计制造、下游封测应用。"},
-        {"term": "每日术语 3", "desc": "国产替代聚焦设备、材料与关键芯片能力建设。"},
-        {"term": "每日术语 4", "desc": "先进制程偏向高性能计算与AI场景，成熟制程服务工业与车规。"},
-        {"term": "每日术语 5", "desc": "封测直接影响芯片良率、稳定性与交付质量。"},
-    ]
+    terms = [{"term": f"每日术语 {idx + 1}", "desc": text} for idx, text in enumerate(dedup[:9])]
+    return terms, sorted(used_sources)
 
-industry_basics = get_industry_daily_terms()
 
+industry_basics, basics_source_keys = get_industry_daily_terms()
+source_keys = sorted(set(intro_source_keys + basics_source_keys))
 industry_source_refs = [
-    {"name": "百度百科（半导体）", "url": "https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93"},
-    {"name": "Wikipedia 摘要 API", "url": "https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93"},
-    {"name": "中文维基页面", "url": "https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93"},
+    {
+        "name": INDUSTRY_SOURCE_MAP[key]["name"],
+        "url": INDUSTRY_SOURCE_MAP[key]["url"],
+    }
+    for key in source_keys
+    if key in INDUSTRY_SOURCE_MAP
 ]
 
 # ====================== 行情数据 ======================

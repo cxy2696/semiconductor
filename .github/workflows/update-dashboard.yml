@@ -20,10 +20,10 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: "pip"
@@ -93,7 +93,7 @@ jobs:
         run: touch docs/.nojekyll
 
       - name: Commit and push updates if changed
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7.1.0
         with:
           commit_message: "chore: refresh dashboard data and docs"
           file_pattern: "docs/index.html docs/overview.html docs/charts.html docs/knowledge.html docs/risk-news.html docs/data-center.html docs/app.js docs/dashboard.js docs/styles.css docs/latest_data.json docs/.nojekyll"
