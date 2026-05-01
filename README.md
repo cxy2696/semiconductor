@@ -19,6 +19,7 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 - Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every 5 minutes
 - GitHub Pages output in `docs/index.html`
+- Optimized CI pipeline with dependency cache (`actions/setup-python` pip cache)
 
 ## Repository Layout
 

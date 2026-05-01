@@ -426,7 +426,6 @@ def score_stock(row):
 df[["invest_score", "invest_grade", "invest_tags", "invest_reason", "is_pick"]] = df.apply(score_stock, axis=1)
 
 # ====================== 生成Excel（唯一数据源） ======================
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 excel_file = os.path.join(_base_dir, "中国半导体行业报告.xlsx")
 with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
     df.to_excel(writer, index=False, sheet_name="半导体公司数据")
