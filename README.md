@@ -9,7 +9,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 
 ## Key Features
 
-- Auto refresh every hour (fixed interval in UI)
+- Auto refresh every hour via workflow schedule (plus push-triggered deploy on main dashboard code changes)
 - Locale + timezone profiles:
   - Chinese + China time (`zh-CN` + `Asia/Shanghai`) default
   - English + EST/EDT (`en-US` + `America/New_York`)
@@ -19,6 +19,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - Top 6 market-cap K-line cards with runtime refresh
 - Industry knowledge/source blocks are refreshed from direct website scraping payloads (non-API)
 - Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
+- Decision-support module highlights score/valuation/momentum/concentration signals for faster stock shortlisting
 - Multi-page course modules with top menu (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every hour
 - Workflow includes artifact validation checks before GitHub Pages deploy (guards unattended runs)
@@ -73,7 +74,10 @@ INTERVAL_SECONDS=1800 bash ./scripts/refresh_dashboard.sh
 
 Workflow: `.github/workflows/update-dashboard.yml` (fully automatic, no manual refresh needed)
 
-- Trigger: `0 * * * *` plus manual dispatch
+- Trigger:
+  - hourly schedule: `0 * * * *`
+  - push to `main` when dashboard/build/workflow files change
+  - manual dispatch
 - Action: run `scripts/refresh_dashboard.sh --once`, retry transient failures automatically, validate `docs` artifacts, then deploy to GitHub Pages as a workflow artifact (no bot commit)
 - Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
 
@@ -91,6 +95,7 @@ Your dashboard URL will be:
 
 - Source of truth is the root front-end files (`html_template.html`, `app.js`, `dashboard.js`, `styles.css`); `docs/*` is generated output for GitHub Pages.
 - You should only edit source files directly. In CI, `docs/*` is generated and deployed directly as an artifact (without committing generated files back to the repo).
+- Manual refresh controls are intentionally removed from the website toolbar; refresh is handled by background runtime fetch + scheduled CI regeneration.
 - GitHub scheduled workflows run continuously and automatically every hour. Exact second-level timing is best-effort on GitHub-hosted runners.
 - If one refresh cycle exceeds one hour, the next run is queued (not canceled) to keep updates reliable.
 - Runtime refresh failures no longer force hard page reload; current data stays visible and the next cycle retries automatically.
