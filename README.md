@@ -5,15 +5,10 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 ## Public Links
 
 - Website: [https://cxy2696.github.io/semiconductor/](https://cxy2696.github.io/semiconductor/)
-- Repository: [https://github.com/cxy2696/semiconductor](https://github.com/cxy2696/semiconductor)
 
 ## Key Features
 
 - Auto refresh every hour via workflow schedule (plus push-triggered deploy on main dashboard code changes)
-- Locale + timezone profiles:
-  - Chinese + China time (`zh-CN` + `Asia/Shanghai`) default
-  - English + EST/EDT (`en-US` + `America/New_York`)
-  - German + CET/CEST (`de-DE` + `Europe/Berlin`)
 - Latest-news-first rendering (freshest records prioritized)
 - Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
 - Top 6 market-cap K-line cards with runtime refresh
@@ -43,7 +38,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 ## Local Setup (Recommended)
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 bash ./scripts/refresh_dashboard.sh --once
@@ -87,22 +82,6 @@ After pushing this repository:
 2. Enable GitHub Pages
 3. Source: `GitHub Actions`
 
-Your dashboard URL will be:
-
-`https://<your-github-username>.github.io/<repo-name>/`
-
-## Notes
-
-- Source of truth is the root front-end files (`html_template.html`, `app.js`, `dashboard.js`, `styles.css`); `docs/*` is generated output for GitHub Pages.
-- You should only edit source files directly. In CI, `docs/*` is generated and deployed directly as an artifact (without committing generated files back to the repo).
-- Manual refresh controls are intentionally removed from the website toolbar; refresh is handled by background runtime fetch + scheduled CI regeneration.
-- GitHub scheduled workflows run continuously and automatically every hour. Exact second-level timing is best-effort on GitHub-hosted runners.
-- If one refresh cycle exceeds one hour, the next run is queued (not canceled) to keep updates reliable.
-- Runtime refresh failures no longer force hard page reload; current data stays visible and the next cycle retries automatically.
-- Data freshness depends on upstream data/news source availability.
-- Auto-refresh updates data, news, candidate picks, industry knowledge blocks, and risk panels from the latest generated payload.
-- Front-end is implemented with JavaScript and optimized for mobile/tablet/desktop responsive behavior.
-- UI uses a course-style module flow for investment onboarding (`A/B/C/D/E` learning path).
 
 ## Scoring Logic Overview
 
