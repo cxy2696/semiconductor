@@ -27,13 +27,15 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 - `html_template.html`: HTML template structure and data bindings
 - `styles.css`: external stylesheet for website layout and visual format
 - `app.js`: front-end JavaScript enhancement layer (mobile/tablet/desktop UX)
+- `dashboard.js`: externalized dashboard runtime logic (filters/charts/news/table/refresh)
 - `company_metadata`: tracked company universe
-- `refresh_report_every_5m.sh`: local 24/7 loop (every 5 minutes)
+- `refresh_report_every_5m.sh`: shared refresh entrypoint (local loop + GitHub bot single-run mode)
 - `requirements.txt`: Python dependencies
 - `.github/workflows/update-dashboard.yml`: scheduled auto-refresh workflow
 - `docs/index.html`: GitHub Pages entrypoint (generated/updated by script)
 - `docs/styles.css`: stylesheet served by GitHub Pages
 - `docs/app.js`: front-end JavaScript served by GitHub Pages
+- `docs/dashboard.js`: dashboard runtime logic served by GitHub Pages
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
 
 ## Local Setup
@@ -63,7 +65,8 @@ The report page itself also auto-refreshes every 5 minutes and supports immediat
 Workflow: `.github/workflows/update-dashboard.yml`
 
 - Trigger: `*/5 * * * *` plus manual dispatch
-- Action: run generator, update `docs/index.html`, commit changes automatically with GitHub Actions bot
+- Action: run `refresh_report_every_5m.sh --once`, update `docs/index.html`, commit changes automatically with GitHub Actions bot
+- Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
 
 After pushing this repository:
 
@@ -79,6 +82,7 @@ Your dashboard URL will be:
 ## Notes
 
 - GitHub scheduled workflows run continuously but are best-effort; exact second-level timing is not guaranteed by GitHub.
+- If one refresh cycle exceeds 5 minutes, the next run is queued (not canceled) to keep updates reliable.
 - Data freshness depends on upstream data/news source availability.
 - Front-end is implemented with JavaScript and optimized for mobile/tablet/desktop responsive behavior.
 

@@ -530,6 +530,11 @@ docs_js_file = os.path.join(_docs_dir, "app.js")
 if os.path.exists(frontend_js_file):
     shutil.copyfile(frontend_js_file, docs_js_file)
 
+dashboard_js_file = os.path.join(_base_dir, "dashboard.js")
+docs_dashboard_js_file = os.path.join(_docs_dir, "dashboard.js")
+if os.path.exists(dashboard_js_file):
+    shutil.copyfile(dashboard_js_file, docs_dashboard_js_file)
+
 # 样式文件同步到 docs
 frontend_css_file = os.path.join(_base_dir, "styles.css")
 docs_css_file = os.path.join(_docs_dir, "styles.css")
