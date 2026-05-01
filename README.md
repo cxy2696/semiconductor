@@ -9,7 +9,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 
 ## Key Features
 
-- Auto refresh every 12 hours via workflow schedule (plus push-triggered deploy on main dashboard code changes)
+- Auto refresh at China market times (09:30, 12:00, 15:05 CST) via workflow schedule, plus push-triggered deploy on main dashboard code changes
 - Runtime payload refresh via `latest_data.json` (data/news/charts/info all re-rendered)
 - Decision-support module for score/valuation/momentum/concentration
 - New modules: 涨停板观察 + 全球对比观察
@@ -63,7 +63,10 @@ INTERVAL_SECONDS=3600 bash ./scripts/refresh_dashboard.sh
 Workflow: `.github/workflows/update-dashboard.yml`
 
 - Trigger:
-  - 12-hour schedule: `0 */12 * * *`
+  - China-time schedule:
+    - `09:30 CST` (`30 1 * * *` UTC)
+    - `12:00 CST` (`0 4 * * *` UTC)
+    - `15:05 CST` (`5 7 * * *` UTC)
   - push to `main` when dashboard/build/workflow files change
   - manual dispatch
 - Action:
@@ -102,6 +105,7 @@ Notes:
 - Use [`ios/IOS_RUN_CHECKLIST.md`](ios/IOS_RUN_CHECKLIST.md) for simulator/device verification.
 - Use [`ios/IOS_SIGNING_TEMPLATE.md`](ios/IOS_SIGNING_TEMPLATE.md) for real-device signing setup template.
 - Use [`ios/IOS_TESTFLIGHT_RELEASE_CHECKLIST.md`](ios/IOS_TESTFLIGHT_RELEASE_CHECKLIST.md) before first TestFlight release.
+- Use [`ios/APPLE_STORE_SUBMISSION_GUIDE.md`](ios/APPLE_STORE_SUBMISSION_GUIDE.md) for end-to-end App Store submission steps.
 
 ## Scoring Logic Overview
 

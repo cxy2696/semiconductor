@@ -39,15 +39,15 @@
     const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v2';
     const VIEW_MODE_STORAGE_KEY = 'semicon_view_mode_v1';
     const LAYOUT_MODE_STORAGE_KEY = 'semicon_layout_mode_v1';
-    const DEFAULT_REFRESH_SECONDS = 3600;
+    const DEFAULT_REFRESH_SECONDS = 43200;
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
         overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
         charts: ['summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
-        knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'global_compare_section', 'empty_state'],
-        'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
+        knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'empty_state'],
+        'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
         'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
     };
     const TOOLBAR_TARGET_BUTTONS = {
@@ -58,7 +58,7 @@
         limit_up_section: 'nav_limit_up_btn',
         pick_section: 'nav_pick_btn',
         charts_row_1: 'nav_chart_btn',
-        global_compare_section: 'nav_global_btn',
+        industry_section: 'nav_global_btn',
         supply_risk_section: 'nav_risk_btn',
         table_section: 'nav_table_btn'
     };
@@ -71,36 +71,36 @@
     const UI_TEXTS = {
         'zh-CN': {
             quickSearchPlaceholder: '代码 / 公司 / 标签',
-            top_nav_home: '总览主页', top_nav_overview: '模块A 市场快照', top_nav_charts: '模块B 图谱/K线', top_nav_knowledge: '模块C 知识课堂', top_nav_risk_news: '模块D/E 风险新闻', top_nav_data_center: '数据中心',
-            toolbar_jump_label: '模块跳转', toolbar_filter_label: '视图与筛选', view_mode_label: '浏览视图', quick_search_label: '快速检索',
+            top_nav_home: '总览主页', top_nav_overview: '模块A 市场快照', top_nav_charts: '模块B 图谱/K线', top_nav_knowledge: '模块C 全球观察', top_nav_risk_news: '模块D/E 风险新闻', top_nav_data_center: '数据中心',
+            toolbar_merged_label: '浏览视图与模块跳转', view_mode_label: '浏览视图', quick_search_label: '代码 / 公司 / 标签',
             view_mode_option_all: '全部', view_mode_option_charts: '仅图表', view_mode_option_table: '仅数据表',
-            nav_onboarding_btn: '引导', nav_method_btn: '选股逻辑', nav_overview_btn: '概览', nav_decision_btn: '决策辅助', nav_limit_up_btn: '涨停板', nav_pick_btn: '候选精选', nav_chart_btn: '图表分析', nav_global_btn: '全球对比', nav_risk_btn: '供应链风险', nav_table_btn: '数据表',
+            nav_onboarding_btn: '引导', nav_method_btn: '选股逻辑', nav_overview_btn: '概览', nav_decision_btn: '决策辅助', nav_limit_up_btn: '涨停板', nav_pick_btn: '候选精选', nav_chart_btn: '图表分析', nav_global_btn: '全球观察', nav_risk_btn: '供应链风险', nav_table_btn: '数据表',
             table_density_btn: '紧凑表格', reading_mode_btn_comfortable: '阅读模式：舒适', reading_mode_btn_compact: '阅读模式：紧凑',
             floater_mode_btn_on: '板块浮窗：开', floater_mode_btn_off: '板块浮窗：关',
-            limit_up_title: '涨停板观察', limit_up_desc: '展示当日触及涨停阈值的样本公司，辅助识别过热与龙头拥挤信号。',
-            global_compare_title: '模块F｜全球对比观察', global_compare_desc: '从可访问的中英文网站随机抽取全球半导体相关信息，辅助判断国内样本的相对位置。'
+            limit_up_title: '涨停板观察', limit_up_desc: '涨停规则：主板/中小板 ±10%，科创板/创业板 ±20%；展示触及涨停阈值的样本公司。',
+            global_compare_title: '全球信号快照', global_compare_desc: '从可访问中英文网站持续抓取，并结合当日新闻随机更新。'
         },
         'en-US': {
             quickSearchPlaceholder: 'Code / company / tags',
-            top_nav_home: 'Home', top_nav_overview: 'Module A Snapshot', top_nav_charts: 'Module B Charts/K-line', top_nav_knowledge: 'Module C Knowledge', top_nav_risk_news: 'Module D/E Risk & News', top_nav_data_center: 'Data Center',
-            toolbar_jump_label: 'Jump List', toolbar_filter_label: 'View & Filters', view_mode_label: 'View mode', quick_search_label: 'Quick search',
+            top_nav_home: 'Home', top_nav_overview: 'Module A Snapshot', top_nav_charts: 'Module B Charts/K-line', top_nav_knowledge: 'Module C Global View', top_nav_risk_news: 'Module D/E Risk & News', top_nav_data_center: 'Data Center',
+            toolbar_merged_label: 'View Mode & Section Jump', view_mode_label: 'View mode', quick_search_label: 'Code / company / tags',
             view_mode_option_all: 'All', view_mode_option_charts: 'Charts only', view_mode_option_table: 'Table only',
-            nav_onboarding_btn: 'Guide', nav_method_btn: 'Method', nav_overview_btn: 'Overview', nav_decision_btn: 'Decision', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Candidates', nav_chart_btn: 'Charts', nav_global_btn: 'Global', nav_risk_btn: 'Risk', nav_table_btn: 'Table',
+            nav_onboarding_btn: 'Guide', nav_method_btn: 'Method', nav_overview_btn: 'Overview', nav_decision_btn: 'Decision', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Candidates', nav_chart_btn: 'Charts', nav_global_btn: 'Global View', nav_risk_btn: 'Risk', nav_table_btn: 'Table',
             table_density_btn: 'Compact table', reading_mode_btn_comfortable: 'Reading mode: Comfort', reading_mode_btn_compact: 'Reading mode: Compact',
             floater_mode_btn_on: 'Section floater: On', floater_mode_btn_off: 'Section floater: Off',
-            limit_up_title: 'Limit-Up Board', limit_up_desc: 'Shows stocks reaching the daily limit-up threshold to flag momentum crowding risk.',
-            global_compare_title: 'Module F | Global Comparison', global_compare_desc: 'Randomly sampled global semiconductor signals from accessible Chinese/English sources for relative positioning.'
+            limit_up_title: 'Limit-Up Board', limit_up_desc: 'Board rules: Main/SME ±10%, STAR/ChiNext ±20%; shows stocks hitting limit-up thresholds.',
+            global_compare_title: 'Global Signal Snapshot', global_compare_desc: 'Continuously fetched from accessible CN/EN sources and rotated with latest news.'
         },
         'de-DE': {
             quickSearchPlaceholder: 'Code / Firma / Tags',
-            top_nav_home: 'Start', top_nav_overview: 'Modul A Marktbild', top_nav_charts: 'Modul B Charts/K-Line', top_nav_knowledge: 'Modul C Wissen', top_nav_risk_news: 'Modul D/E Risiko & News', top_nav_data_center: 'Datenzentrum',
-            toolbar_jump_label: 'Sprungliste', toolbar_filter_label: 'Ansicht & Filter', view_mode_label: 'Ansicht', quick_search_label: 'Schnellsuche',
+            top_nav_home: 'Start', top_nav_overview: 'Modul A Marktbild', top_nav_charts: 'Modul B Charts/K-Line', top_nav_knowledge: 'Modul C Globalblick', top_nav_risk_news: 'Modul D/E Risiko & News', top_nav_data_center: 'Datenzentrum',
+            toolbar_merged_label: 'Ansicht & Modulnavigation', view_mode_label: 'Ansicht', quick_search_label: 'Code / Firma / Tags',
             view_mode_option_all: 'Alle', view_mode_option_charts: 'Nur Charts', view_mode_option_table: 'Nur Tabelle',
-            nav_onboarding_btn: 'Leitfaden', nav_method_btn: 'Methode', nav_overview_btn: 'Überblick', nav_decision_btn: 'Entscheidung', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Kandidaten', nav_chart_btn: 'Charts', nav_global_btn: 'Global', nav_risk_btn: 'Risiko', nav_table_btn: 'Tabelle',
+            nav_onboarding_btn: 'Leitfaden', nav_method_btn: 'Methode', nav_overview_btn: 'Überblick', nav_decision_btn: 'Entscheidung', nav_limit_up_btn: 'Limit-Up', nav_pick_btn: 'Kandidaten', nav_chart_btn: 'Charts', nav_global_btn: 'Globalblick', nav_risk_btn: 'Risiko', nav_table_btn: 'Tabelle',
             table_density_btn: 'Kompakte Tabelle', reading_mode_btn_comfortable: 'Lesemodus: Komfort', reading_mode_btn_compact: 'Lesemodus: Kompakt',
             floater_mode_btn_on: 'Bereichsfenster: Ein', floater_mode_btn_off: 'Bereichsfenster: Aus',
-            limit_up_title: 'Limit-Up Beobachtung', limit_up_desc: 'Zeigt Titel am Tageslimit, um Momentum und Überhitzung schneller zu erkennen.',
-            global_compare_title: 'Modul F | Globaler Vergleich', global_compare_desc: 'Zufällige globale Halbleiter-Signale aus erreichbaren chinesischen/englischen Quellen für relative Einordnung.'
+            limit_up_title: 'Limit-Up Beobachtung', limit_up_desc: 'Regeln: Main/SME ±10%, STAR/ChiNext ±20%; zeigt Titel am Tageslimit.',
+            global_compare_title: 'Globales Signalbild', global_compare_desc: 'Fortlaufend aus erreichbaren CN/EN-Quellen aktualisiert und mit News rotiert.'
         }
     };
 
@@ -212,6 +212,70 @@
         if (readingBtn) readingBtn.textContent = readingMode === 'compact' ? ui.reading_mode_btn_compact : ui.reading_mode_btn_comfortable;
         const floaterBtn = document.getElementById('floater_mode_btn');
         if (floaterBtn) floaterBtn.textContent = sectionFloaterVisible ? ui.floater_mode_btn_on : ui.floater_mode_btn_off;
+        const zoomTitle = document.getElementById('chart_zoom_title');
+        if (zoomTitle && !zoomTitle.dataset.dynamicTitle) {
+            zoomTitle.textContent = currentLanguage === 'zh-CN' ? '图表放大查看' : 'Zoomed chart view';
+        }
+    }
+
+    function toggleQuickSearchFloater() {
+        const floater = document.getElementById('quick_search_floater');
+        if (!floater) return;
+        floater.classList.toggle('open');
+        if (floater.classList.contains('open')) {
+            document.getElementById('quick_search')?.focus();
+        }
+    }
+
+    function applyQuickSearchTerm(term, jumpTarget = 'table_section') {
+        const input = document.getElementById('quick_search');
+        if (!input) return;
+        input.value = String(term || '').trim();
+        applyFilters();
+        jumpTo(jumpTarget);
+    }
+
+    function closeChartZoomModal() {
+        const modal = document.getElementById('chart_zoom_modal');
+        const container = document.getElementById('chart_zoom_container');
+        const title = document.getElementById('chart_zoom_title');
+        if (!modal || !container || !title) return;
+        modal.classList.add('hidden');
+        container.innerHTML = '';
+        title.dataset.dynamicTitle = '';
+        title.textContent = currentLanguage === 'zh-CN' ? '图表放大查看' : 'Zoomed chart view';
+    }
+
+    function openChartZoomModal(chartId, chartTitle) {
+        if (typeof Plotly === 'undefined') return;
+        const sourceNode = document.getElementById(chartId);
+        const modal = document.getElementById('chart_zoom_modal');
+        const container = document.getElementById('chart_zoom_container');
+        const title = document.getElementById('chart_zoom_title');
+        if (!sourceNode || !modal || !container || !title || !sourceNode.data) return;
+        container.innerHTML = '<div id="chart_zoom_plot" class="chart-container h-[72vh]"><div class="chart-fallback">图表加载中...</div></div>';
+        title.textContent = chartTitle || (currentLanguage === 'zh-CN' ? '图表放大查看' : 'Zoomed chart view');
+        title.dataset.dynamicTitle = '1';
+        modal.classList.remove('hidden');
+        const data = JSON.parse(JSON.stringify(sourceNode.data || []));
+        const layout = JSON.parse(JSON.stringify(sourceNode.layout || {}));
+        layout.height = Math.max(window.innerHeight - 220, 480);
+        layout.margin = { l: 44, r: 24, t: 36, b: 46 };
+        Plotly.newPlot('chart_zoom_plot', data, layout, { responsive: true, displayModeBar: true }).catch(() => {});
+    }
+
+    function bindChartZoom(chartId, title) {
+        const node = document.getElementById(chartId);
+        if (!node) return;
+        node.dataset.chartZoomTitle = title || node.dataset.chartZoomTitle || '';
+        if (node.dataset.zoomBound === '1') return;
+        node.dataset.zoomBound = '1';
+        node.addEventListener('click', () => {
+            openChartZoomModal(chartId, node.dataset.chartZoomTitle || title);
+        });
+        node.addEventListener('dblclick', () => {
+            openChartZoomModal(chartId, node.dataset.chartZoomTitle || title);
+        });
     }
 
     function getCurrentPathname() {
@@ -392,12 +456,27 @@
         `;
     }
 
+    function getLimitBandByBoard(row) {
+        const board = String(row?.board || '');
+        if (board.includes('科创板') || board.includes('创业板')) {
+            return { up: 20, down: -20, label: '±20%' };
+        }
+        if (board.includes('主板') || board.includes('中小板')) {
+            return { up: 10, down: -10, label: '±10%' };
+        }
+        return { up: 10, down: -10, label: '±10%' };
+    }
+
     function getLimitUpRows(rows = filteredData) {
         return rows
-            .map(row => ({ row, chg: toNumber(row.change_pct) ?? -999 }))
-            .filter(item => item.chg >= 9.5)
+            .map(row => {
+                const chg = toNumber(row.change_pct) ?? -999;
+                const band = getLimitBandByBoard(row);
+                return { row, chg, band };
+            })
+            .filter(item => item.chg >= (item.band.up - 0.01))
             .sort((a, b) => b.chg - a.chg)
-            .slice(0, 10);
+            .slice(0, 12);
     }
 
     function renderLimitUpBoard() {
@@ -406,7 +485,7 @@
         const isZh = currentLanguage === 'zh-CN';
         const limitUps = getLimitUpRows();
         if (!limitUps.length) {
-            box.innerHTML = `<div class="stat-card p-3 text-sm text-slate-500">${isZh ? '当前筛选样本暂无触及涨停阈值（>= 9.5%）的公司。' : 'No stocks reached the limit-up threshold (>= 9.5%) in the current filter.'}</div>`;
+            box.innerHTML = `<div class="stat-card p-3 text-sm text-slate-500">${isZh ? '当前筛选样本暂无触及涨停阈值的公司（主板/中小板 ±10%，科创/创业 ±20%）。' : 'No stocks reached board-based limit-up thresholds (Main/SME ±10%, STAR/ChiNext ±20%).'}</div>`;
             return;
         }
         box.innerHTML = limitUps.map(item => `
@@ -415,7 +494,7 @@
                 <h3 class="decision-title">${safeText(item.row.name)}</h3>
                 <div class="decision-main positive">${fmt(item.chg)}%</div>
                 <p class="decision-sub">${safeText(item.row.code)} · ${safeText(item.row.business_type, isZh ? '未分类' : 'Unclassified')}</p>
-                <div class="signal-pill signal-risk">${isZh ? '涨停板观察' : 'Limit-up watch'}</div>
+                <div class="signal-pill signal-risk">${isZh ? `涨停规则 ${item.band.label}` : `Limit rule ${item.band.label}`}</div>
             </article>
         `).join('');
     }
@@ -479,6 +558,23 @@
         });
     }
 
+    function getRelatedNewsForRow(row, limit = 2) {
+        const rowName = String(row?.name || '').toLowerCase();
+        const rowCode = String(row?.code || '').toLowerCase();
+        if (!rowName && !rowCode) return [];
+        const financialWords = ['财报', '业绩', '年报', '季报', 'earnings', 'revenue', 'results', 'guidance'];
+        const matched = (newsPoolData || []).filter(item => {
+            const title = String(item?.title || '').toLowerCase();
+            if (!title) return false;
+            const companyHit = (rowName && title.includes(rowName)) || (rowCode && title.includes(rowCode));
+            const financialHit = financialWords.some(word => title.includes(word));
+            return companyHit || (financialHit && companyHit);
+        });
+        return matched
+            .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')))
+            .slice(0, limit);
+    }
+
     function renderPickCards() {
         const container = document.getElementById('pick_cards');
         if (!container) return;
@@ -487,6 +583,10 @@
         picks.forEach(row => {
             const score = toNumber(row.invest_score) ?? 0;
             const gradeClass = score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-600');
+            const relatedNews = getRelatedNewsForRow(row, 2);
+            const relatedHtml = relatedNews.length
+                ? relatedNews.map(news => `<a href="${safeUrl(news.link)}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-blue-700 hover:underline block truncate">财报相关：${safeText(news.title, '')}</a>`).join('')
+                : `<div class="text-[11px] text-slate-400">${currentLanguage === 'zh-CN' ? '暂无匹配财报新闻' : 'No related earnings news found'}</div>`;
             const card = document.createElement('div');
             card.className = 'stat-card interactive-card p-3';
             card.innerHTML = `
@@ -497,6 +597,7 @@
                 <div class="text-[11px] text-gray-500 mb-1 truncate">${safeText(row.code)} · ${safeText(row.board)} · ${safeText(row.business_type)}</div>
                 <div class="text-[11px] text-gray-600 mb-1" style="display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">${safeText(row.invest_reason, '暂无说明')}</div>
                 <div class="text-[11px] text-emerald-700 truncate">${safeText(row.invest_tags, '观察')}</div>
+                <div class="mt-2 border-t border-slate-100 pt-2">${relatedHtml}</div>
             `;
             container.appendChild(card);
         });
@@ -534,9 +635,14 @@
             const tr = document.createElement('tr');
             const changeVal = toNumber(row.change_pct) ?? 0;
             const score = toNumber(row.invest_score) ?? 0;
+            const sourceUrl = safeUrl(row.website);
+            const hasSource = sourceUrl !== '#' && !String(row.website || '').includes('暂无');
             tr.innerHTML = `
                 <td data-label="代码" class="px-6 py-5 font-mono text-sm">${safeText(row.code)}</td>
-                <td data-label="公司名称" class="px-6 py-5 max-w-[180px]"><div class="truncate font-medium">${safeText(row.name)}</div><span class="text-xs text-gray-400 block truncate">${safeText(row.english, '')}</span></td>
+                <td data-label="公司名称" class="px-6 py-5 max-w-[180px]">
+                    <div class="truncate font-medium">${hasSource ? `<a href="${sourceUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:underline">${safeText(row.name)}</a>` : safeText(row.name)}</div>
+                    <span class="text-xs text-gray-400 block truncate">${safeText(row.english, '')}</span>
+                </td>
                 <td data-label="地区" class="px-6 py-5">${safeText(row.region)}</td>
                 <td data-label="板块" class="px-6 py-5">${safeText(row.board)}</td>
                 <td data-label="业务类型" class="px-6 py-5">${safeText(row.business_type)}</td>
@@ -563,7 +669,9 @@
         const options = { responsive: true, displayModeBar: false };
         const hasPlot = Boolean(node.querySelector('.plot-container'));
         const renderer = hasPlot ? Plotly.react : Plotly.newPlot;
-        renderer(id, traces, finalLayout, options).catch(() => {});
+        renderer(id, traces, finalLayout, options)
+            .then(() => bindChartZoom(id, node.dataset.chartZoomTitle || 'Chart'))
+            .catch(() => {});
     }
 
     function scheduleChartsRender() {
@@ -572,6 +680,20 @@
     }
 
     function initializeCharts() {
+        const chartTitles = {
+            chain_segment_bar: '链段占比柱状图',
+            chain_pie: '产业链结构图',
+            top20_chart: '市值Top20',
+            board_pie: '板块分布',
+            region_chart: '地区分布地图',
+            business_chart: '业务类型分布',
+            chain_change_chart: '链段平均涨跌幅',
+            risk_segment_chart: '风险链段评分'
+        };
+        Object.entries(chartTitles).forEach(([id, title]) => {
+            const el = document.getElementById(id);
+            if (el) el.dataset.chartZoomTitle = title;
+        });
         const snapshot = computeSnapshot(filteredData);
         const segLabels = Object.keys(snapshot.segmentCounts).sort(sortBySegmentOrder);
         plotChart('chain_segment_bar', [{ x: segLabels, y: segLabels.map(k => snapshot.segmentCounts[k]), type: 'bar' }], { height: 230 });
@@ -579,7 +701,52 @@
         plotChart('top20_chart', [{ x: snapshot.top20.map(x => x.row.name), y: snapshot.top20.map(x => x.cap), type: 'bar' }], { height: 380, xaxis: { tickangle: -35 } });
         plotChart('board_pie', [{ values: Object.values(snapshot.boardCounts), labels: Object.keys(snapshot.boardCounts), type: 'pie', hole: 0.65 }], { height: 380 });
         const regionSorted = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
-        plotChart('region_chart', [{ y: regionSorted.map(x => x[0]).reverse(), x: regionSorted.map(x => x[1]).reverse(), type: 'bar', orientation: 'h' }], { height: 380 });
+        const regionCoordMap = {
+            北京: [116.4, 39.9], 上海: [121.47, 31.23], 天津: [117.2, 39.13], 重庆: [106.55, 29.56],
+            江苏: [118.78, 32.04], 浙江: [120.16, 30.25], 广东: [113.27, 23.13], 深圳: [114.06, 22.55],
+            福建: [119.3, 26.08], 四川: [104.06, 30.67], 安徽: [117.27, 31.86], 湖南: [112.98, 28.2],
+            山东: [117.0, 36.67], 陕西: [108.95, 34.27], 吉林: [125.32, 43.9], 贵州: [106.71, 26.57]
+        };
+        const regionPoints = regionSorted
+            .map(([name, count]) => ({ name, count, coord: regionCoordMap[name] }))
+            .filter(item => Array.isArray(item.coord));
+        plotChart(
+            'region_chart',
+            [{
+                type: 'scattergeo',
+                mode: 'markers+text',
+                lon: regionPoints.map(item => item.coord[0]),
+                lat: regionPoints.map(item => item.coord[1]),
+                text: regionPoints.map(item => `${item.name} ${item.count}`),
+                textposition: 'top center',
+                marker: {
+                    size: regionPoints.map(item => 10 + item.count * 1.8),
+                    color: regionPoints.map(item => item.count),
+                    colorscale: 'Blues',
+                    line: { width: 1, color: '#1e3a8a' },
+                    opacity: 0.88,
+                    showscale: false
+                },
+                hovertemplate: '%{text}<extra></extra>'
+            }],
+            {
+                height: 380,
+                margin: { l: 0, r: 0, t: 8, b: 0 },
+                geo: {
+                    scope: 'asia',
+                    center: { lon: 104, lat: 35 },
+                    projection: { type: 'mercator', scale: 4.2 },
+                    showland: true,
+                    landcolor: '#eef2ff',
+                    showocean: true,
+                    oceancolor: '#f8fafc',
+                    showcountries: true,
+                    countrycolor: '#cbd5e1',
+                    showcoastlines: true,
+                    coastlinecolor: '#94a3b8'
+                }
+            }
+        );
         const bizSorted = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
         plotChart('business_chart', [{ x: bizSorted.map(x => x[0]), y: bizSorted.map(x => x[1]), type: 'bar' }], { height: 380, xaxis: { tickangle: -35 } });
         const segForChange = Object.keys(snapshot.segmentChangeAgg).sort(sortBySegmentOrder);
@@ -620,6 +787,8 @@
             card.className = 'text-center stat-card interactive-card p-3';
             card.innerHTML = `<div class="flex items-start justify-between gap-2 mb-2"><div class="text-left"><h4 class="font-medium text-sm">${safeText(name)}</h4><div class="text-[11px] text-slate-500">${safeText(d.chain_segment, '其他')} · ${safeText(d.business_type, '其他')}</div></div><div class="text-right"><div class="text-[11px] text-slate-500">30天</div><div class="text-sm font-semibold ${Number(d.change_30d || 0) >= 0 ? 'positive' : 'negative'}">${fmt(d.change_30d)}%</div></div></div><div id="${id}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>`;
             container.appendChild(card);
+            const chartNode = document.getElementById(id);
+            if (chartNode) chartNode.dataset.chartZoomTitle = `${name} K线（30天）`;
             const close = Array.isArray(d.close) ? d.close : [];
             const ma5 = close.map((_, i, arr) => (i < 4 ? null : Number((arr.slice(i - 4, i + 1).reduce((s, v) => s + Number(v || 0), 0) / 5).toFixed(2))));
             plotChart(id, [
@@ -642,11 +811,19 @@
     function renderIndustryKnowledge(snapshot) {
         const box = document.getElementById('industry_live_metrics');
         if (!box) return;
+        const topBoard = Object.entries(snapshot.boardCounts).sort((a, b) => b[1] - a[1])[0];
+        const topRegion = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1])[0];
         const topSeg = Object.entries(snapshot.segmentCounts).sort((a, b) => b[1] - a[1])[0];
         const topBiz = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1])[0];
+        const chainIntro = topSeg ? `${topSeg[0]}链段当前最集中，代表资金关注焦点。` : '链段分布暂无有效数据。';
+        const boardIntro = topBoard ? `${topBoard[0]}样本最多，适合优先跟踪轮动。` : '板块分布暂无有效数据。';
+        const regionIntro = topRegion ? `${topRegion[0]}公司聚集度最高，可结合政策和产业集群观察。` : '地区分布暂无有效数据。';
+        const bizIntro = topBiz ? `${topBiz[0]}业务占比领先，是近期主线之一。` : '业务类型分布暂无有效数据。';
         box.innerHTML = `
-            <div class="stat-card p-3"><div class="text-xs text-slate-500">样本主链段</div><div class="text-base font-semibold mt-1">${topSeg ? `${topSeg[0]}（${topSeg[1]}家）` : 'N/A'}</div></div>
-            <div class="stat-card p-3"><div class="text-xs text-slate-500">最集中业务类型</div><div class="text-base font-semibold mt-1">${topBiz ? `${topBiz[0]}（${topBiz[1]}家）` : 'N/A'}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">板块实时知识点</div><div class="text-base font-semibold mt-1">${topBoard ? `${topBoard[0]}（${topBoard[1]}家）` : 'N/A'}</div><div class="text-xs text-slate-500 mt-1">${safeText(boardIntro)}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">地区实时知识点</div><div class="text-base font-semibold mt-1">${topRegion ? `${topRegion[0]}（${topRegion[1]}家）` : 'N/A'}</div><div class="text-xs text-slate-500 mt-1">${safeText(regionIntro)}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">业务类型实时知识点</div><div class="text-base font-semibold mt-1">${topBiz ? `${topBiz[0]}（${topBiz[1]}家）` : 'N/A'}</div><div class="text-xs text-slate-500 mt-1">${safeText(bizIntro)}</div></div>
+            <div class="stat-card p-3"><div class="text-xs text-slate-500">链段实时知识点</div><div class="text-base font-semibold mt-1">${topSeg ? `${topSeg[0]}（${topSeg[1]}家）` : 'N/A'}</div><div class="text-xs text-slate-500 mt-1">${safeText(chainIntro)}</div></div>
             <div class="stat-card p-3"><div class="text-xs text-slate-500">样本均值</div><div class="text-sm mt-1">平均涨跌幅：<span class="font-semibold ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</span></div></div>
         `;
     }
@@ -656,46 +833,54 @@
         const basicsBox = document.getElementById('industry_basics_grid');
         const sourceBox = document.getElementById('industry_source_refs');
         const sourceBadge = document.getElementById('industry_intro_source_badge');
-        const introItemsRaw = Array.isArray(industryRuntimePayload.industry_intro) ? industryRuntimePayload.industry_intro : [];
-        const basicsItemsRaw = Array.isArray(industryRuntimePayload.industry_basics) ? industryRuntimePayload.industry_basics : [];
-        const sourceItems = Array.isArray(industryRuntimePayload.industry_source_refs) ? industryRuntimePayload.industry_source_refs : [];
         const key = String(keyword || '').trim().toLowerCase();
-        const dateKey = new Date().toISOString().slice(0, 10);
-        const rotateBy = (dateKey.charCodeAt(0) + dateKey.charCodeAt(dateKey.length - 1)) % 7;
-        const rotate = (arr) => {
-            if (!arr.length) return arr;
-            const idx = rotateBy % arr.length;
-            return arr.slice(idx).concat(arr.slice(0, idx));
-        };
-        const introItems = key
-            ? introItemsRaw.filter(text => String(text || '').toLowerCase().includes(key))
-            : rotate(introItemsRaw);
-        const basicsItems = key
-            ? basicsItemsRaw.filter(item => `${String(item?.term || '')} ${String(item?.desc || '')}`.toLowerCase().includes(key))
-            : rotate(basicsItemsRaw);
+        const snapshot = computeSnapshot(filteredData);
+        const topBoard = Object.entries(snapshot.boardCounts).sort((a, b) => b[1] - a[1])[0];
+        const topRegion = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1])[0];
+        const topBiz = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1])[0];
+        const topSeg = Object.entries(snapshot.segmentCounts).sort((a, b) => b[1] - a[1])[0];
+        const avgChangeTxt = snapshot.avgChange === null ? 'N/A' : `${snapshot.avgChange.toFixed(2)}%`;
+
+        const introItems = [
+            `基本面：当前样本共 ${snapshot.totalCount} 家公司，主力板块为 ${topBoard ? `${topBoard[0]}（${topBoard[1]}家）` : 'N/A'}，可先从板块景气度确认行业主线。`,
+            `基本盘：地区集中在 ${topRegion ? `${topRegion[0]}（${topRegion[1]}家）` : 'N/A'}，业务类型以 ${topBiz ? `${topBiz[0]}（${topBiz[1]}家）` : 'N/A'} 为主，反映当前供给与需求重心。`,
+            `链段结构：${topSeg ? `${topSeg[0]}（${topSeg[1]}家）` : 'N/A'} 占比最高，样本平均涨跌幅 ${avgChangeTxt}，建议结合估值和成交量进行二次验证。`
+        ];
+        const basicsItems = [
+            { term: '板块基本盘', desc: topBoard ? `${topBoard[0]}样本最多，通常对应资金关注度更高。` : '暂无板块主导信号。' },
+            { term: '地区基本盘', desc: topRegion ? `${topRegion[0]}聚集效应明显，可重点跟踪政策与产业链配套。` : '暂无地区主导信号。' },
+            { term: '业务主线', desc: topBiz ? `${topBiz[0]}占比较高，短期更容易形成同向交易。` : '暂无业务主线信号。' },
+            { term: '链段主线', desc: topSeg ? `${topSeg[0]}链段集中度高，需警惕单一链段拥挤风险。` : '暂无链段主线信号。' },
+            { term: '估值观察', desc: '建议优先查看 Forward P/E 与市值匹配度，避免仅依赖短期涨跌幅。' },
+            { term: '动量观察', desc: '日内涨跌幅用于识别情绪强弱，需与成交量、基本面同时判断。' },
+            { term: '风险对冲', desc: '当链段与地区集中度同步抬升时，建议分散到不同业务类型。' },
+            { term: '执行顺序', desc: '先看决策辅助，再看图表结构，最后回到风险与数据表核验。' },
+            { term: '更新机制', desc: '本模块随筛选与数据刷新实时重算，保持“可解释+可执行”。' }
+        ];
+
+        const filteredIntro = key ? introItems.filter(text => text.toLowerCase().includes(key)) : introItems;
+        const filteredBasics = key ? basicsItems.filter(item => `${item.term} ${item.desc}`.toLowerCase().includes(key)) : basicsItems;
 
         if (introBox) {
-            const displayIntro = (introItems.length ? introItems : introItemsRaw).slice(0, 3);
+            const displayIntro = (filteredIntro.length ? filteredIntro : introItems).slice(0, 3);
             introBox.innerHTML = displayIntro.map(text => `<div class="stat-card p-4">${safeText(text, '')}</div>`).join('');
         }
         if (basicsBox) {
-            const displayBasics = (basicsItems.length ? basicsItems : basicsItemsRaw).slice(0, 9);
+            const displayBasics = (filteredBasics.length ? filteredBasics : basicsItems).slice(0, 9);
             basicsBox.innerHTML = displayBasics.map(item => `
                 <div class="industry-basic-item">
-                    <div class="term">${safeText(item?.term, '术语')}</div>
+                    <div class="term">${safeText(item?.term, '要点')}</div>
                     <div class="desc">${safeText(item?.desc, '暂无说明')}</div>
                 </div>
             `).join('');
         }
-        if (sourceBox && sourceItems.length) {
-            const links = sourceItems.map((item, idx) => {
-                const separator = idx < sourceItems.length - 1 ? '<span class="mx-1 text-slate-300">|</span>' : '';
-                return `<a href="${safeUrl(item?.url)}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">${safeText(item?.name, '参考来源')}</a>${separator}`;
-            }).join('');
-            sourceBox.innerHTML = `${currentLanguage === 'zh-CN' ? '信息来源：' : 'Sources: '}${links}`;
+        if (sourceBox) {
+            sourceBox.textContent = currentLanguage === 'zh-CN'
+                ? '更新说明：本模块已切换为“基本面与基本盘”实时解释，不展示固定术语抓取来源。'
+                : 'Update note: this section now uses real-time fundamental/base analysis instead of fixed glossary scraping sources.';
         }
-        if (sourceBadge && industryRuntimePayload.industry_intro_source) {
-            sourceBadge.textContent = `${currentLanguage === 'zh-CN' ? '来源：' : 'Source: '}${industryRuntimePayload.industry_intro_source}`;
+        if (sourceBadge) {
+            sourceBadge.textContent = currentLanguage === 'zh-CN' ? '来源：实时样本重算' : 'Source: real-time sample recomputation';
         }
     }
 
@@ -728,12 +913,30 @@
         if (!grid) return;
         grid.innerHTML = '';
         (items || []).forEach(news => {
-            const card = document.createElement('a');
-            card.href = safeUrl(news.link);
-            card.target = '_blank';
-            card.rel = 'noopener noreferrer';
+            const titleText = String(news?.title || '');
+            const lowerTitle = titleText.toLowerCase();
+            const relationTokens = [];
+            originalData.forEach(row => {
+                const name = String(row?.name || '');
+                const code = String(row?.code || '');
+                const biz = String(row?.business_type || '');
+                const board = String(row?.board || '');
+                if (name && lowerTitle.includes(name.toLowerCase())) relationTokens.push(name);
+                if (code && lowerTitle.includes(code.toLowerCase())) relationTokens.push(code);
+                if (biz && lowerTitle.includes(biz.toLowerCase())) relationTokens.push(biz);
+                if (board && lowerTitle.includes(board.toLowerCase())) relationTokens.push(board);
+            });
+            const uniqueTokens = Array.from(new Set(relationTokens)).slice(0, 4);
+            const card = document.createElement('div');
             card.className = 'stat-card interactive-card p-2.5 hover:border-teal-300 transition-colors';
-            card.innerHTML = `<div class="text-[11px] text-teal-700 mb-0.5">${formatDateByLocale(news.date || '', false)}</div><p class="text-sm font-medium leading-snug text-slate-800" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${safeText(news.title, '暂无最新新闻')}</p>`;
+            card.innerHTML = `
+                <div class="text-[11px] text-teal-700 mb-0.5">${formatDateByLocale(news.date || '', false)}</div>
+                <a href="${safeUrl(news.link)}" target="_blank" rel="noopener noreferrer" class="text-sm font-medium leading-snug text-slate-800 hover:underline block" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${safeText(news.title, '暂无最新新闻')}</a>
+                <div class="mt-2 flex flex-wrap gap-1">${uniqueTokens.map(token => `<button type="button" class="text-[11px] px-2 py-1 rounded-full border border-blue-200 text-blue-700 bg-blue-50 hover:border-blue-400" data-search-token="${escapeHtml(token)}">${safeText(token)}</button>`).join('')}</div>
+            `;
+            card.querySelectorAll('[data-search-token]').forEach(btn => {
+                btn.addEventListener('click', () => applyQuickSearchTerm(btn.dataset.searchToken || '', 'news_section'));
+            });
             grid.appendChild(card);
         });
     }
@@ -870,6 +1073,7 @@
         const label = document.getElementById(`risk_weight_${key}_label`);
         if (label) label.textContent = String(riskWeights[key]);
         renderSupplyRisk(computeSnapshot(filteredData));
+        updateRiskOnboardingHint();
     }
 
     function resetRiskWeights() {
@@ -877,14 +1081,54 @@
         try { localStorage.removeItem(RISK_WEIGHT_STORAGE_KEY); } catch (_) {}
         loadRiskWeights();
         renderSupplyRisk(computeSnapshot(filteredData));
+        updateRiskOnboardingHint();
+    }
+
+    function applyRiskPreset(mode) {
+        const presets = {
+            balanced: { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 },
+            conservative: { volatility: 30, valuation: 30, liquidity: 15, segment: 14, size: 11 },
+            aggressive: { volatility: 44, valuation: 18, liquidity: 8, segment: 6, size: 4 }
+        };
+        const preset = presets[mode];
+        if (!preset) return;
+        Object.assign(riskWeights, preset);
+        try { localStorage.setItem(RISK_WEIGHT_STORAGE_KEY, JSON.stringify(riskWeights)); } catch (_) {}
+        ['volatility', 'valuation', 'liquidity', 'segment', 'size'].forEach(key => {
+            const slider = document.getElementById(`risk_weight_${key}`);
+            const label = document.getElementById(`risk_weight_${key}_label`);
+            if (slider) slider.value = String(riskWeights[key]);
+            if (label) label.textContent = String(riskWeights[key]);
+        });
+        renderSupplyRisk(computeSnapshot(filteredData));
+        updateRiskOnboardingHint(mode);
+    }
+
+    function updateRiskOnboardingHint(mode = '') {
+        const hint = document.getElementById('risk_onboarding_hint');
+        if (!hint) return;
+        const totalWeight = Object.values(riskWeights).reduce((sum, n) => sum + (Number(n) || 0), 0);
+        if (mode === 'conservative') {
+            hint.textContent = '防守型：提高估值与流动性权重，适合震荡行情。';
+            return;
+        }
+        if (mode === 'aggressive') {
+            hint.textContent = '进攻型：提高波动权重，优先捕捉短线动量。';
+            return;
+        }
+        if (mode === 'balanced') {
+            hint.textContent = '平衡型：默认推荐，兼顾波动、估值与流动性。';
+            return;
+        }
+        hint.textContent = `当前总权重 ${totalWeight}，建议先使用“平衡型”再逐步微调。`;
     }
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
         if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'global_compare_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
         try { localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
 
@@ -892,9 +1136,9 @@
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'global_compare_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'global_compare_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'global_compare_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'limit_up_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);
@@ -1065,7 +1309,9 @@
         manualRefresh, randomizeNewsCards, jumpTo, scrollToTop, toggleTableDensity, toggleReadingMode,
         toggleSectionFloater, toggleFloaterSide, toggleFloatingToc, toggleOnlyPicks, initializeCharts,
         applyFilters, resetFilters, setPageSize, goToPrevPage, goToNextPage, goToPage, applyViewMode,
-        rearrangeBlocks, resetRiskWeights, updateRiskWeight, toggleAlertsExpand: () => { showAllAlerts = !showAllAlerts; renderAlerts(computeSnapshot(filteredData)); }
+        rearrangeBlocks, resetRiskWeights, updateRiskWeight, applyRiskPreset, toggleQuickSearchFloater,
+        closeChartZoomModal, applyQuickSearchTerm,
+        toggleAlertsExpand: () => { showAllAlerts = !showAllAlerts; renderAlerts(computeSnapshot(filteredData)); }
     });
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -1086,7 +1332,11 @@
         refreshAllContent();
         hardenExternalLinks();
         updateFloatingTocActive();
+        updateRiskOnboardingHint();
         window.addEventListener('scroll', updateFloatingTocActive, { passive: true });
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeChartZoomModal();
+        });
         if (window.SemiconductorFrontendApp?.bootstrap) window.SemiconductorFrontendApp.bootstrap();
         console.log('dashboard.js loaded');
     });

@@ -23,6 +23,9 @@ targets:
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
         INFOPLIST_KEY_CFBundleDisplayName: Semiconductor
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
     dependencies: []
   SemiconductorAppTests:
     type: bundle.unit-test

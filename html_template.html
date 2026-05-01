@@ -43,7 +43,7 @@
             <a id="top_nav_home" class="course-nav-link" href="./index.html">总览主页</a>
             <a id="top_nav_overview" class="course-nav-link" href="./overview.html">模块A 市场快照</a>
             <a id="top_nav_charts" class="course-nav-link" href="./charts.html">模块B 图谱/K线</a>
-            <a id="top_nav_knowledge" class="course-nav-link" href="./knowledge.html">模块C 知识课堂</a>
+            <a id="top_nav_knowledge" class="course-nav-link" href="./knowledge.html">模块C 全球观察</a>
             <a id="top_nav_risk_news" class="course-nav-link" href="./risk-news.html">模块D/E 风险新闻</a>
             <a id="top_nav_data_center" class="course-nav-link" href="./data-center.html">数据中心</a>
         </nav>
@@ -51,21 +51,14 @@
         <section class="toolbar p-4" id="control_toolbar">
             <div class="toolbar-grid">
                 <div class="toolbar-block">
-                    <div id="toolbar_filter_label" class="toolbar-block-label">视图与筛选</div>
-                    <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap">
-                        <label id="view_mode_label" class="text-xs text-slate-500">浏览视图</label>
-                        <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
-                            <option id="view_mode_option_all" value="all">全部</option>
-                            <option id="view_mode_option_charts" value="charts">仅图表</option>
-                            <option id="view_mode_option_table" value="table">仅数据表</option>
-                        </select>
-                        <label id="quick_search_label" class="text-xs text-slate-500">快速检索</label>
-                        <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
-                    </div>
-                </div>
-                <div class="toolbar-block">
-                    <div id="toolbar_jump_label" class="toolbar-block-label">模块跳转</div>
+                    <div id="toolbar_merged_label" class="toolbar-block-label">浏览视图与模块跳转</div>
                     <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
+                    <label id="view_mode_label" class="text-xs text-slate-500">浏览视图</label>
+                    <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+                        <option id="view_mode_option_all" value="all">全部</option>
+                        <option id="view_mode_option_charts" value="charts">仅图表</option>
+                        <option id="view_mode_option_table" value="table">仅数据表</option>
+                    </select>
                     <button id="nav_onboarding_btn" class="chip-btn" onclick="jumpTo('onboarding_section')">引导</button>
                     <button id="nav_method_btn" class="chip-btn" onclick="jumpTo('methodology_section')">选股逻辑</button>
                     <button id="nav_overview_btn" class="chip-btn" onclick="jumpTo('summary_cards')">概览</button>
@@ -73,7 +66,7 @@
                     <button id="nav_limit_up_btn" class="chip-btn" onclick="jumpTo('limit_up_section')">涨停板</button>
                     <button id="nav_pick_btn" class="chip-btn" onclick="jumpTo('pick_section')">候选精选</button>
                     <button id="nav_chart_btn" class="chip-btn" onclick="jumpTo('charts_row_1')">图表分析</button>
-                    <button id="nav_global_btn" class="chip-btn" onclick="jumpTo('global_compare_section')">全球对比</button>
+                    <button id="nav_global_btn" class="chip-btn" onclick="jumpTo('industry_section')">全球观察</button>
                     <button id="nav_risk_btn" class="chip-btn" onclick="jumpTo('supply_risk_section')">供应链风险</button>
                     <button id="nav_table_btn" class="chip-btn" onclick="jumpTo('table_section')">数据表</button>
                     <button id="table_density_btn" class="chip-btn" onclick="toggleTableDensity()">紧凑表格</button>
@@ -110,8 +103,8 @@
                     <div class="onboarding-step">3</div>
                     <div>
                         <div class="lesson-badge">Module C</div>
-                        <div class="onboarding-title">模块C：知识课堂</div>
-                        <div class="onboarding-desc">快速吸收行业基础、术语与每日知识点。</div>
+                        <div class="onboarding-title">模块C：全球观察</div>
+                        <div class="onboarding-desc">快速吸收行业基础、全球信号与每日知识点。</div>
                     </div>
                 </button>
                 <button class="onboarding-card" type="button" onclick="jumpTo('supply_risk_section')">
@@ -134,10 +127,10 @@
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <div class="stat-card p-4">
-                    <h4 class="text-sm font-semibold mb-2 text-slate-800">评分维度</h4>
+                    <h4 class="text-sm font-semibold mb-2 text-slate-800">评分维度（基本面 + 基本盘）</h4>
                     <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
-                        <li>规模与流动性：优先考虑市值和成交活跃度。</li>
-                        <li>估值压力：结合 Forward/Trailing P/E 判断估值区间。</li>
+                        <li>基本面质量：市值、估值（Forward/Trailing P/E）、成交活跃度综合评分。</li>
+                        <li>基本盘结构：板块、地区、业务类型、链段分布共同判断市场主线。</li>
                         <li>短期动量：识别过热与相对温和区间，平衡风险收益。</li>
                         <li>赛道属性：设备/材料/代工/AI 等战略方向加权。</li>
                     </ul>
@@ -147,13 +140,13 @@
                     <ul class="text-xs text-slate-600 leading-6 list-disc ml-5">
                         <li>系统计算 `invest_score` 并映射为 A/B/C/D。</li>
                         <li>默认 `invest_score >= 70` 标记为候选（可在页面筛选仅看候选）。</li>
-                        <li>风险模块使用独立权重引擎，支持实时调参复盘。</li>
+                        <li>风险模块使用独立权重引擎，支持平衡/防守/进攻预设和实时调参。</li>
                         <li>所有结论仅作研究参考，不构成投资建议。</li>
                     </ul>
                 </div>
             </div>
             <div class="mt-3 text-xs text-slate-500">
-                提示：你可以先看“选股逻辑”，再看“候选精选 / 图谱 / 风险新闻”，形成完整跟踪闭环。
+                提示：先看基本面与基本盘解释，再看候选精选/图谱/风险新闻，形成完整跟踪闭环。
             </div>
         </section>
 
@@ -173,19 +166,23 @@
                 <h2 id="limit_up_title" class="panel-header text-xl">涨停板观察</h2>
                 <span id="limit_up_badge" class="text-[11px] px-2 py-1 rounded-full border border-rose-200 bg-rose-50 text-rose-700">日内强势</span>
             </div>
-            <p id="limit_up_desc" class="section-subtitle">展示当日触及涨停阈值的样本公司，辅助识别过热与龙头拥挤信号。</p>
+            <p id="limit_up_desc" class="section-subtitle">涨停规则：主板/中小板 ±10%，科创板/创业板 ±20%；展示触及涨停阈值的样本公司。</p>
             <div id="limit_up_cards" class="decision-support-grid"></div>
         </section>
 
         <section id="filter_section" class="panel p-5">
             <div class="flex items-end gap-5 flex-wrap">
                 <div class="flex-1 min-w-[220px]">
-                    <label class="block text-xs text-slate-500 mb-2">地区过滤（多选）</label>
-                    <div id="region_filters" class="flex flex-wrap gap-2"></div>
+                    <details class="filter-disclosure" open>
+                        <summary class="filter-summary">地区过滤（多选）</summary>
+                        <div id="region_filters" class="flex flex-wrap gap-2 mt-2"></div>
+                    </details>
                 </div>
                 <div class="flex-1 min-w-[220px]">
-                    <label class="block text-xs text-slate-500 mb-2">业务类型过滤（多选）</label>
-                    <div id="business_filters" class="flex flex-wrap gap-2"></div>
+                    <details class="filter-disclosure" open>
+                        <summary class="filter-summary">业务类型过滤（多选）</summary>
+                        <div id="business_filters" class="flex flex-wrap gap-2 mt-2"></div>
+                    </details>
                 </div>
                 <button onclick="resetFilters()" class="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-sm font-medium">重置条件</button>
             </div>
@@ -198,6 +195,7 @@
             </div>
             <p class="text-xs text-slate-500 mb-2">评分综合考虑市值、估值、动量、活跃度与赛道属性（仅研究参考，不构成投资建议）。</p>
             <div id="pick_cards" class="grid grid-cols-1 xl:grid-cols-2 gap-2 max-h-[44vh] overflow-auto pr-1"></div>
+            <p class="text-xs text-slate-500 mt-3">每只候选会自动关联最新财报/业绩新闻，便于快速二次验证。</p>
         </section>
 
         <section id="action_section" class="flex justify-between items-center gap-3 flex-wrap">
@@ -242,7 +240,7 @@
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">地区公司分布</h3>
-                <p class="section-subtitle">查看样本在不同地区的覆盖与集中度。</p>
+                <p class="section-subtitle">地图点亮地区并显示公司数量，直观看覆盖与集中度。</p>
                 <div id="region_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
@@ -259,7 +257,7 @@
 
         <section id="industry_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 class="panel-header text-xl">模块C｜行业基础知识</h2>
+                <h2 class="panel-header text-xl">模块C｜全球观察</h2>
                 <span id="industry_intro_source_badge" class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
             </div>
             <div id="industry_intro_list" class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
@@ -267,13 +265,8 @@
                 <div class="stat-card p-4">{{ text }}</div>
                 {% endfor %}
             </div>
-            <div id="industry_source_refs" class="text-xs text-slate-500 mb-4">
-                信息来源：
-                {% for src in industry_source_refs %}
-                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
-                {% endfor %}
-            </div>
-            <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览（每日抓取 Tips）</h4>
+            <div id="industry_source_refs" class="text-xs text-slate-500 mb-4">更新说明：本模块展示“基本面与基本盘”实时解释。</div>
+            <h4 class="text-sm font-semibold text-slate-700 mb-2">基本面与基本盘要点（实时）</h4>
             <div id="industry_basics_grid" class="industry-basics-grid mb-4">
                 {% for item in industry_basics %}
                 <div class="industry-basic-item">
@@ -284,14 +277,8 @@
             </div>
             <h4 class="text-sm font-semibold text-slate-700 mb-2">样本实时观察</h4>
             <div id="industry_live_metrics" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
-        </section>
-
-        <section id="global_compare_section" class="panel p-5">
-            <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 id="global_compare_title" class="panel-header text-xl">模块F｜全球对比观察</h2>
-                <span id="global_compare_badge" class="text-[11px] px-2 py-1 rounded-full border border-sky-200 bg-sky-50 text-sky-700">中外信息快照</span>
-            </div>
-            <p id="global_compare_desc" class="section-subtitle">从可访问的中英文网站随机抽取全球半导体相关信息，辅助判断国内样本的相对位置。</p>
+            <h4 id="global_compare_title" class="text-sm font-semibold text-slate-700 mb-2 mt-4">全球信号快照</h4>
+            <p id="global_compare_desc" class="section-subtitle">从可访问中英文网站持续抓取，结合最新新闻进行每日随机更新。</p>
             <div id="global_compare_cards" class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3"></div>
             <div id="global_compare_refs" class="text-xs text-slate-500"></div>
         </section>
@@ -302,6 +289,15 @@
                 <span class="text-[11px] px-2 py-1 rounded-full border border-amber-200 bg-amber-50 text-amber-700">规则引擎 · 动态评估</span>
             </div>
             <p class="section-subtitle">综合价格波动、估值压力、流动性与赛道属性，识别供应链环节潜在风险点（仅研究参考）。</p>
+            <div id="risk_onboarding_box" class="stat-card p-3 mb-3">
+                <div class="text-xs text-slate-500 mb-2">新手建议：先用预设再微调</div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button type="button" class="chip-btn" onclick="applyRiskPreset('balanced')">平衡（推荐）</button>
+                    <button type="button" class="chip-btn" onclick="applyRiskPreset('conservative')">防守型</button>
+                    <button type="button" class="chip-btn" onclick="applyRiskPreset('aggressive')">进攻型</button>
+                    <span id="risk_onboarding_hint" class="text-xs text-slate-500">默认建议：平衡配置，适合首次使用。</span>
+                </div>
+            </div>
             <div class="stat-card p-3 mb-3">
                 <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
                     <div class="text-xs text-slate-500">风险权重配置（拖动滑杆实时生效）</div>
@@ -331,7 +327,7 @@
 
         <section id="news_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 id="news_title" class="panel-header text-xl">模块E｜最新行业新闻（Scraping Daily Tips）</h2>
+                <h2 id="news_title" class="panel-header text-xl">模块E｜最新行业新闻（支持检索跳转）</h2>
                 <button onclick="randomizeNewsCards()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs hover:border-teal-400">换一批最新新闻</button>
             </div>
             <div id="news_grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2 max-h-[42vh] overflow-auto pr-1"></div>
@@ -398,13 +394,33 @@
             <button id="toc_limit_up_btn" class="floating-toc-link" type="button" data-target="limit_up_section" onclick="jumpTo('limit_up_section')">涨停板</button>
             <button id="toc_pick_btn" class="floating-toc-link" type="button" data-target="pick_section" onclick="jumpTo('pick_section')">候选精选</button>
             <button id="toc_chart_btn" class="floating-toc-link" type="button" data-target="charts_row_1" onclick="jumpTo('charts_row_1')">图表分析</button>
-            <button id="toc_industry_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">行业知识</button>
-            <button id="toc_global_btn" class="floating-toc-link" type="button" data-target="global_compare_section" onclick="jumpTo('global_compare_section')">全球对比</button>
+            <button id="toc_industry_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">全球观察</button>
+            <button id="toc_global_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">全球观察</button>
             <button id="toc_risk_btn" class="floating-toc-link" type="button" data-target="supply_risk_section" onclick="jumpTo('supply_risk_section')">供应链风险</button>
             <button id="toc_news_btn" class="floating-toc-link" type="button" data-target="news_section" onclick="jumpTo('news_section')">最新新闻</button>
             <button id="toc_table_btn" class="floating-toc-link" type="button" data-target="table_section" onclick="jumpTo('table_section')">数据表</button>
         </div>
     </aside>
+
+    <aside id="quick_search_floater" class="quick-search-floater" aria-label="快速检索悬浮窗">
+        <button id="quick_search_toggle" class="quick-search-toggle" type="button" onclick="toggleQuickSearchFloater()">🔎 快速检索</button>
+        <div id="quick_search_panel" class="quick-search-panel">
+            <label id="quick_search_label" class="text-xs text-slate-500">代码 / 公司 / 标签</label>
+            <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
+            <div class="text-[11px] text-slate-500 mt-2">输入后将联动：候选、新闻、数据表、基本盘解释与全球观察。</div>
+        </div>
+    </aside>
+
+    <div id="chart_zoom_modal" class="chart-zoom-modal hidden" role="dialog" aria-modal="true" aria-label="图表放大查看">
+        <div class="chart-zoom-backdrop" onclick="closeChartZoomModal()"></div>
+        <div class="chart-zoom-content">
+            <div class="chart-zoom-header">
+                <h3 id="chart_zoom_title" class="text-sm font-semibold text-slate-800">图表放大查看</h3>
+                <button type="button" class="chip-btn" onclick="closeChartZoomModal()">关闭</button>
+            </div>
+            <div id="chart_zoom_container" class="chart-zoom-container"></div>
+        </div>
+    </div>
 </div>
 <script id="initial_payload" type="application/json">
 {{ {
