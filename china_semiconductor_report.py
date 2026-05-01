@@ -90,6 +90,10 @@ INDUSTRY_SOURCE_MAP = {
         "name": "中文维基页面",
         "url": "https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93",
     },
+    "wiki_en_api": {
+        "name": "Wikipedia EN Summary API",
+        "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Semiconductor",
+    },
 }
 
 
@@ -365,6 +369,32 @@ def get_industry_daily_terms():
                 if baike_sentences:
                     used_sources.add("baike")
                     scraped_sentences.extend(baike_sentences)
+
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_html"]["url"])
+        if response is not None:
+            soup = BeautifulSoup(response.text, "html.parser")
+            content = soup.select_one("div.mw-parser-output")
+            if content:
+                wiki_html_sentences = []
+                for p in content.find_all("p", recursive=False):
+                    line = p.get_text(" ", strip=True)
+                    if "维基百科" in line:
+                        continue
+                    wiki_html_sentences.extend(split_sentences(line))
+                if wiki_html_sentences:
+                    used_sources.add("wiki_html")
+                    scraped_sentences.extend(wiki_html_sentences)
+
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_en_api"]["url"])
+        if response is not None:
+            try:
+                data = response.json()
+                en_sentences = split_sentences(data.get("extract", ""))
+                if en_sentences:
+                    used_sources.add("wiki_en_api")
+                    scraped_sentences.extend(en_sentences)
+            except Exception:
+                pass
 
     dedup = []
     seen = set()

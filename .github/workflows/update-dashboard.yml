@@ -102,23 +102,24 @@ jobs:
 
           industry_intro = payload.get("industry_intro", [])
           industry_basics = payload.get("industry_basics", [])
+          MIN_INDUSTRY_BASICS = 4
           if not isinstance(industry_intro, list) or not isinstance(industry_basics, list):
               raise SystemExit("industry_intro/industry_basics must be lists")
-          if len(industry_intro) < 1 or len(industry_basics) < 1:
+          if len(industry_intro) < 1 or len(industry_basics) < MIN_INDUSTRY_BASICS:
               raise SystemExit(
-                  f"Industry scraping data too small: intro={len(industry_intro)}, basics={len(industry_basics)}"
+                  f"Industry scraping data too small: intro={len(industry_intro)}, basics={len(industry_basics)} (min basics={MIN_INDUSTRY_BASICS})"
               )
 
           refs = payload.get("industry_source_refs", [])
           if not isinstance(refs, list) or not refs:
-              raise SystemExit("industry_source_refs is empty (no external source recorded)")
+              raise SystemExit("industry_source_refs is empty (no external source recorded for industry terms)")
           valid_ref_links = [
               ref.get("url", "")
               for ref in refs
               if urlparse(str(ref.get("url", ""))).scheme in {"http", "https"}
           ]
           if not valid_ref_links:
-              raise SystemExit("industry_source_refs has no valid external URLs")
+              raise SystemExit("industry_source_refs has no valid external URLs for industry terms")
           print("Artifact validation passed.")
           PY
 
