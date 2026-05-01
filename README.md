@@ -114,4 +114,4 @@ Notes:
 - Risk cards use a separate adjustable weighting model (volatility/valuation/liquidity/segment/size).
 - All outputs are for research only and do not constitute investment advice.
 
-Project owner profile: [cxy2696](https://github.com/cxy2696)
+Project owner profile: [cxy2696](https://github.com/cxy2696) 自己试着玩的
