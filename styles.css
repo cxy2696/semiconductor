@@ -226,6 +226,11 @@ body {
     background: #e9f1ff;
     color: #1e3a8a;
 }
+.toolbar-filter-chip.checked {
+    border-color: #1d4ed8;
+    background: #e9f1ff;
+    color: #1e3a8a;
+}
 
 .header-hero {
     background: linear-gradient(130deg, #eff6ff 0%, #eefbf7 100%);
@@ -679,6 +684,7 @@ body.floater-hidden #floating_toc { display: none !important; }
 
 @media (max-width: 900px) {
     .layout-shell { padding: 10px; }
+    body { padding-bottom: 156px; }
     .header-hero { padding: 16px; border-radius: 16px; }
     .toolbar { position: static; top: auto; }
     .toolbar-block { padding: 10px; }
@@ -697,15 +703,42 @@ body.floater-hidden #floating_toc { display: none !important; }
     }
     #table_section .overflow-auto { max-height: none; }
     #floating_toc { display: none !important; }
-    #quick_search_floater { display: none !important; }
+    #quick_search_floater {
+        display: block !important;
+        left: 10px;
+        right: 10px;
+        top: auto;
+        bottom: 10px;
+        width: auto;
+        z-index: 78;
+    }
+    #quick_search_floater .quick-search-toggle {
+        text-align: center;
+        min-height: 40px;
+    }
+    #quick_search_floater .quick-search-panel {
+        max-height: 40vh;
+        overflow: auto;
+        margin-top: 8px;
+    }
+    #quick_search_floater:not(.open) .quick-search-panel {
+        display: none;
+    }
+    #quick_search_floater.open .quick-search-panel {
+        display: block;
+    }
     .course-nav { gap: 6px; }
-    .course-nav-link { font-size: 11px; padding: 6px 10px; }
+    .course-nav-link { font-size: 11px; padding: 7px 10px; }
+    .toolbar-multi-summary { min-height: 36px; padding: 7px 10px; }
     .toolbar-multi-panel {
         position: fixed;
         left: 12px;
         right: 12px;
         width: auto;
-        max-height: 45vh;
+        top: 84px;
+        max-height: calc(100vh - 220px);
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
     }
     .decision-main { font-size: 22px; }
     .onboarding-grid,

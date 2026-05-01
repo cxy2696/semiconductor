@@ -674,6 +674,11 @@
         if (!regionDiv || !businessDiv) return;
         regionDiv.innerHTML = '';
         businessDiv.innerHTML = '';
+        const bindChipState = (input, label) => {
+            const syncState = () => label.classList.toggle('checked', Boolean(input.checked));
+            syncState();
+            input.addEventListener('change', syncState);
+        };
         [...new Set(originalData.map(d => d.region).filter(Boolean))].sort().forEach(r => {
             const label = document.createElement('label');
             label.className = 'toolbar-filter-chip';
@@ -685,6 +690,7 @@
             input.addEventListener('change', applyFilters);
             label.appendChild(input);
             label.appendChild(document.createTextNode(` ${r}`));
+            bindChipState(input, label);
             regionDiv.appendChild(label);
         });
         [...new Set(originalData.map(d => d.business_type).filter(Boolean))].sort().forEach(b => {
@@ -698,6 +704,7 @@
             input.addEventListener('change', applyFilters);
             label.appendChild(input);
             label.appendChild(document.createTextNode(` ${b}`));
+            bindChipState(input, label);
             businessDiv.appendChild(label);
         });
     }
@@ -871,11 +878,36 @@
 
     async function loadChinaGeoJson() {
         if (chinaGeoJsonCache) return chinaGeoJsonCache;
-        const url = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json';
-        const resp = await fetch(url, { cache: 'force-cache' });
-        if (!resp.ok) throw new Error(`china_geojson_${resp.status}`);
-        chinaGeoJsonCache = await resp.json();
-        return chinaGeoJsonCache;
+        const urls = [
+            'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+            'https://geo.datav.aliyun.com/areas_v3/bound/100000.json',
+            'https://fastly.jsdelivr.net/gh/apache/echarts@master/map/json/china.json',
+            'https://cdn.jsdelivr.net/gh/apache/echarts@master/map/json/china.json'
+        ];
+        for (const url of urls) {
+            try {
+                const resp = await fetch(url, { cache: 'force-cache' });
+                if (!resp.ok) continue;
+                const json = await resp.json();
+                if (json && (json.type === 'FeatureCollection' || Array.isArray(json.features))) {
+                    chinaGeoJsonCache = json;
+                    return chinaGeoJsonCache;
+                }
+            } catch (_) {}
+        }
+        throw new Error('china_geojson_unavailable');
+    }
+
+    function getChinaProvinceCenters() {
+        return {
+            北京市: [116.40, 39.90], 天津市: [117.20, 39.13], 上海市: [121.47, 31.23], 重庆市: [106.55, 29.56],
+            河北省: [114.50, 38.04], 山西省: [112.55, 37.87], 辽宁省: [123.43, 41.80], 吉林省: [125.32, 43.90], 黑龙江省: [126.53, 45.80],
+            江苏省: [118.78, 32.04], 浙江省: [120.15, 30.28], 安徽省: [117.27, 31.86], 福建省: [119.30, 26.08], 江西省: [115.90, 28.67],
+            山东省: [117.00, 36.65], 河南省: [113.62, 34.75], 湖北省: [114.30, 30.60], 湖南省: [112.98, 28.20], 广东省: [113.27, 23.13],
+            海南省: [110.35, 20.02], 四川省: [104.07, 30.67], 贵州省: [106.71, 26.58], 云南省: [102.71, 25.04], 陕西省: [108.95, 34.27],
+            甘肃省: [103.73, 36.03], 青海省: [101.78, 36.62], 台湾省: [121.00, 23.70], 内蒙古自治区: [111.67, 40.82], 广西壮族自治区: [108.32, 22.82],
+            西藏自治区: [91.11, 29.97], 宁夏回族自治区: [106.23, 38.48], 新疆维吾尔自治区: [87.62, 43.82], 香港特别行政区: [114.17, 22.28], 澳门特别行政区: [113.55, 22.20]
+        };
     }
 
     async function renderRegionAreaMap(regionCounts) {
@@ -926,17 +958,45 @@
                 }
             });
         } catch (_) {
-            // GeoJSON/mapbox failed; fallback to treemap for resilience.
-            const regionSorted = entries.sort((a, b) => b[1] - a[1]);
+            // If remote GeoJSON is unavailable, keep map-like fallback instead of treemap.
+            const centers = getChinaProvinceCenters();
+            const points = provinces
+                .filter(name => Array.isArray(centers[name]))
+                .map(name => ({ name, lon: centers[name][0], lat: centers[name][1], value: provinceAgg[name] || 0 }));
             plotChart('region_chart', [{
-                type: 'treemap',
-                labels: regionSorted.map(([name]) => name),
-                parents: regionSorted.map(() => ''),
-                values: regionSorted.map(([, count]) => count),
-                marker: { colors: regionSorted.map(([, count]) => count), colorscale: [[0, '#dbeafe'], [0.35, '#93c5fd'], [0.65, '#3b82f6'], [1, '#1d4ed8']] },
-                textinfo: 'label+value',
-                hovertemplate: '<b>%{label}</b><br>公司数: %{value}<extra></extra>'
-            }], { height: 380, margin: { l: 8, r: 8, t: 8, b: 8 } });
+                type: 'scattergeo',
+                mode: 'markers+text',
+                lon: points.map(p => p.lon),
+                lat: points.map(p => p.lat),
+                text: points.map(p => p.name.replace(/省|市|自治区|特别行政区/g, '')),
+                textposition: 'top center',
+                marker: {
+                    size: points.map(p => Math.max(8, Math.min(30, p.value * 1.1))),
+                    color: points.map(p => p.value),
+                    colorscale: [[0, '#dbeafe'], [0.35, '#93c5fd'], [0.65, '#3b82f6'], [1, '#1d4ed8']],
+                    cmin: 0,
+                    cmax: Math.max(...points.map(p => p.value), 1),
+                    line: { color: '#ffffff', width: 0.8 },
+                    colorbar: { title: '公司数', thickness: 12 }
+                },
+                hovertemplate: '<b>%{text}</b><br>公司数: %{marker.color}<extra></extra>'
+            }], {
+                height: 380,
+                margin: { l: 0, r: 0, t: 8, b: 0 },
+                geo: {
+                    scope: 'asia',
+                    projection: { type: 'mercator' },
+                    showland: true,
+                    landcolor: '#f3f4f6',
+                    showocean: true,
+                    oceancolor: '#e5e7eb',
+                    showcountries: true,
+                    countrycolor: '#d1d5db',
+                    coastlinecolor: '#d1d5db',
+                    lonaxis: { range: [72, 136] },
+                    lataxis: { range: [16, 55] }
+                }
+            });
         }
     }
 
@@ -1692,11 +1752,44 @@
     function bindToolbarMultiSelectMenus() {
         const menus = Array.from(document.querySelectorAll('.toolbar-multi-select'));
         if (!menus.length) return;
+        menus.forEach(menu => {
+            const summary = menu.querySelector('summary');
+            if (!summary) return;
+            summary.addEventListener('click', () => {
+                if (!menu.hasAttribute('open')) {
+                    menus.forEach(other => {
+                        if (other !== menu) other.removeAttribute('open');
+                    });
+                }
+            });
+        });
         document.addEventListener('click', (event) => {
             menus.forEach(menu => {
                 if (menu.contains(event.target)) return;
                 menu.removeAttribute('open');
             });
+        });
+    }
+
+    function bindQuickSearchFloaterBehavior() {
+        const floater = document.getElementById('quick_search_floater');
+        const input = document.getElementById('quick_search');
+        if (!floater || !input) return;
+        const updateMobileOpenState = () => {
+            if (window.innerWidth <= 900 && !floater.classList.contains('open')) {
+                floater.classList.add('open');
+            }
+        };
+        updateMobileOpenState();
+        window.addEventListener('resize', updateMobileOpenState);
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth > 900 && !floater.contains(event.target)) {
+                floater.classList.remove('open');
+            }
+        });
+        input.addEventListener('keydown', event => {
+            if (event.key === 'Enter') applyFilters();
+            if (event.key === 'Escape') floater.classList.remove('open');
         });
     }
 
@@ -1720,6 +1813,7 @@
         if (pageSizeSelect) pageSizeSelect.value = String(pageSize);
         bindLocalePicker();
         bindToolbarMultiSelectMenus();
+        bindQuickSearchFloaterBehavior();
         loadPreferences();
         loadRiskWeights();
         applyLocaleProfile(document.getElementById('locale_profile')?.value || 'zh-CN|Asia/Shanghai', false);
