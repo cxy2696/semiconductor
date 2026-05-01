@@ -1,6 +1,6 @@
-# China Semiconductor Dashboard
+# China Semiconductor Investment Course Dashboard
 
-China semiconductor market dashboard with real-time data/news aggregation and GitHub-ready automation.
+China semiconductor market learning dashboard with real-time data/news aggregation and GitHub-ready automation.
 
 ## Public Links
 
@@ -21,6 +21,7 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 - Industry knowledge/source blocks are refreshed from scraping payloads
 - Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every 10 minutes
+- Workflow includes artifact validation checks before auto-commit (guards unattended runs)
 - GitHub Pages output in `docs/index.html`
 - Optimized CI pipeline with dependency cache (`actions/setup-python` pip cache)
 
@@ -86,5 +87,6 @@ Your dashboard URL will be:
 - Data freshness depends on upstream data/news source availability.
 - Auto-refresh updates data, news, candidate picks, industry knowledge blocks, and risk panels from the latest generated payload.
 - Front-end is implemented with JavaScript and optimized for mobile/tablet/desktop responsive behavior.
+- UI uses a course-style module flow for investment onboarding (`A/B/C/D/E` learning path).
 
 Project owner profile: [cxy2696](https://github.com/cxy2696)

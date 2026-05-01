@@ -37,11 +37,50 @@ jobs:
         env:
           CI: "true"
           OPEN_REPORT: "0"
+          KEEP_LOCAL_ARTIFACTS: "0"
           RUN_ONCE: "1"
           INTERVAL_SECONDS: "600"
           PYTHON_BIN: "python"
           REFRESH_RETRIES: "2"
         run: bash ./scripts/refresh_dashboard.sh --once
+
+      - name: Validate generated artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          docs_dir = Path("docs")
+          index_path = docs_dir / "index.html"
+          payload_path = docs_dir / "latest_data.json"
+          if not index_path.exists():
+              raise SystemExit("docs/index.html was not generated")
+          if not payload_path.exists():
+              raise SystemExit("docs/latest_data.json was not generated")
+
+          payload = json.loads(payload_path.read_text(encoding="utf-8"))
+          required_keys = [
+              "data",
+              "news_pool",
+              "kline_data",
+              "industry_intro",
+              "industry_basics",
+              "industry_source_refs",
+              "industry_intro_source",
+              "data_time_iso",
+          ]
+          missing = [k for k in required_keys if k not in payload]
+          if missing:
+              raise SystemExit(f"Missing keys in latest_data.json: {missing}")
+          if not isinstance(payload["data"], list) or not payload["data"]:
+              raise SystemExit("latest_data.json:data is empty or invalid")
+          if not isinstance(payload["news_pool"], list):
+              raise SystemExit("latest_data.json:news_pool is invalid")
+          print("Artifact validation passed.")
+          PY
+
+      - name: Ensure GitHub Pages marker exists
+        run: touch docs/.nojekyll
 
       - name: Commit and push updates if changed
         uses: stefanzweifel/git-auto-commit-action@v5

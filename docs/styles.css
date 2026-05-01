@@ -110,6 +110,18 @@ body {
 }
 .onboarding-title { font-size: 13px; font-weight: 700; color: #0f172a; }
 .onboarding-desc { font-size: 12px; color: #475569; margin-top: 2px; line-height: 1.45; }
+.lesson-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
 .chart-container { min-height: 280px; position: relative; width: 100%; overflow: hidden; border-radius: 14px; background: #fff; border: 1px solid #e2e8f0; }
 .chart-fallback { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #94a3b8; text-align: center; width: 100%; pointer-events: none; }
 .chart-container .js-plotly-plot, .chart-container .plot-container, .chart-container .svg-container { width: 100% !important; }
@@ -122,6 +134,10 @@ body {
 @media (min-width: 960px) {
     .industry-basics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .onboarding-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1320px) {
+    .onboarding-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 .compact-table td, .compact-table th { padding-top: 10px !important; padding-bottom: 10px !important; }
@@ -155,6 +171,14 @@ body {
     margin-bottom: 12px;
     min-width: 0;
 }
+
+#summary_cards { border-left: 4px solid #34d399; padding-left: 2px; }
+#pick_section { border-left: 4px solid #10b981; }
+#charts_row_1, #charts_row_2 { border-left: 4px solid #38bdf8; padding-left: 2px; }
+#industry_section { border-left: 4px solid #6366f1; }
+#supply_risk_section { border-left: 4px solid #f59e0b; }
+#news_section { border-left: 4px solid #06b6d4; }
+#table_section { border-left: 4px solid #94a3b8; }
 
 #summary_cards,
 #onboarding_section,
