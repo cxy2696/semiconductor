@@ -1,25 +1,21 @@
 # China Semiconductor Investment Dashboard
 
-China semiconductor market learning dashboard with real-time data/news aggregation and GitHub-ready automation.
+China semiconductor market learning dashboard with real-time data/news aggregation, GitHub Pages automation, and a native iOS app scaffold.
 
 ## Public Links
 
 - Website: [https://cxy2696.github.io/semiconductor/](https://cxy2696.github.io/semiconductor/)
+- Repository: [https://github.com/cxy2696/semiconductor](https://github.com/cxy2696/semiconductor)
 
 ## Key Features
 
-- Auto refresh every hour via workflow schedule (plus push-triggered deploy on main dashboard code changes)
-- Latest-news-first rendering (freshest records prioritized)
-- Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
-- Top 6 market-cap K-line cards with runtime refresh
-- Industry knowledge/source blocks are refreshed from direct website scraping payloads (non-API)
-- Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
-- Decision-support module highlights score/valuation/momentum/concentration signals for faster stock shortlisting
-- Multi-page course modules with top menu (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
-- GitHub Actions schedule for continuous 24/7 refresh attempt every hour
-- Workflow includes artifact validation checks before GitHub Pages deploy (guards unattended runs)
-- GitHub Pages output in `docs/index.html`
-- Optimized CI pipeline with dependency cache (`actions/setup-python` pip cache)
+- Auto refresh every 12 hours via workflow schedule (plus push-triggered deploy on main dashboard code changes)
+- Runtime payload refresh via `latest_data.json` (data/news/charts/info all re-rendered)
+- Decision-support module for score/valuation/momentum/concentration
+- New modules: 涨停板观察 + 全球对比观察
+- Industry knowledge retrieval combines Chinese + English accessible sources
+- Multi-page module navigation (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
+- GitHub Pages artifact-based deployment (no generated docs auto-commit)
 
 ## Repository Layout
 
@@ -29,13 +25,11 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - `app.js` / `dashboard.js` / `styles.css`: front-end source files
 - `scripts/build_dashboard.py`: canonical dashboard build entrypoint
 - `scripts/refresh_dashboard.sh`: canonical refresh entrypoint (loop or `--once`)
-- `.github/workflows/update-dashboard.yml`: scheduled hourly auto-refresh workflow
-- `docs/index.html`: GitHub Pages entrypoint (generated)
-- `docs/overview.html` / `docs/charts.html` / `docs/knowledge.html` / `docs/risk-news.html` / `docs/data-center.html`: generated course module pages
-- `docs/latest_data.json`: live runtime payload used by auto-refresh
-- `docs/app.js` / `docs/dashboard.js` / `docs/styles.css`: static assets for GitHub Pages
+- `.github/workflows/update-dashboard.yml`: scheduled + push-triggered GitHub Pages deployment workflow
+- `docs/`: generated GitHub Pages artifacts (`index`, module pages, JS/CSS, `latest_data.json`)
+- `ios/`: native SwiftUI iPhone app (MVP scaffold and feature modules)
 
-## Local Setup (Recommended)
+## Local Setup (Web Dashboard)
 
 ```bash
 python -m venv .venv
@@ -50,44 +44,67 @@ Generated outputs:
 - `中国半导体行业报告.html` (local report)
 - `docs/index.html` (GitHub Pages report)
 
-## Local 24/7 Refresh (Every Hour)
+## Local Auto Refresh
 
 ```bash
 bash ./scripts/refresh_dashboard.sh
 ```
 
-This loop regenerates data/news/charts every 3600 seconds by default.  
-The report page itself also auto-refreshes every hour.
+Default loop interval is `43200` seconds (12h).
 
 Optional custom interval:
 
 ```bash
-INTERVAL_SECONDS=1800 bash ./scripts/refresh_dashboard.sh
+INTERVAL_SECONDS=3600 bash ./scripts/refresh_dashboard.sh
 ```
 
-## GitHub 24/7 Refresh (Scheduled)
+## GitHub 24/7 Refresh (Scheduled + Push)
 
-Workflow: `.github/workflows/update-dashboard.yml` (fully automatic, no manual refresh needed)
+Workflow: `.github/workflows/update-dashboard.yml`
 
 - Trigger:
-  - hourly schedule: `0 * * * *`
+  - 12-hour schedule: `0 */12 * * *`
   - push to `main` when dashboard/build/workflow files change
   - manual dispatch
-- Action: run `scripts/refresh_dashboard.sh --once`, retry transient failures automatically, validate `docs` artifacts, then deploy to GitHub Pages as a workflow artifact (no bot commit)
-- Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
+- Action:
+  - run `scripts/refresh_dashboard.sh --once`
+  - validate generated `docs` artifacts
+  - deploy to GitHub Pages as workflow artifact
+- Concurrency policy: queued execution (`cancel-in-progress: false`)
 
-After pushing this repository:
+Pages setup:
 
 1. Open repository settings
 2. Enable GitHub Pages
 3. Source: `GitHub Actions`
 
+## Native iOS App (SwiftUI, iPhone)
+
+The repo includes a native iOS app scaffold under `ios/`, consuming:
+
+- Remote source: `https://cxy2696.github.io/semiconductor/latest_data.json`
+- Tabs: Home, Global Compare, Market, News, Settings
+- Features: decision support, limit-up board, global comparison
+- Data strategy: remote fetch + local cache fallback
+
+### Generate/Open the Xcode project
+
+```bash
+brew install xcodegen
+xcodegen generate --spec ios/project.yml
+open ios/SemiconductorApp.xcodeproj
+```
+
+Notes:
+
+- Building/running requires full Xcode (not only Command Line Tools).
+- Update app icons in `ios/SemiconductorApp/Resources/Assets.xcassets/AppIcon.appiconset`.
 
 ## Scoring Logic Overview
 
 - `invest_score` combines size/liquidity, valuation pressure, short-term momentum, and strategic track weighting.
 - Candidate picks default to `invest_score >= 70`, with grades mapped to `A/B/C/D`.
-- Risk cards use a separate adjustable weighting model (volatility/valuation/liquidity/segment/size) for follow-up review.
+- Risk cards use a separate adjustable weighting model (volatility/valuation/liquidity/segment/size).
 - All outputs are for research only and do not constitute investment advice.
 
 Project owner profile: [cxy2696](https://github.com/cxy2696)

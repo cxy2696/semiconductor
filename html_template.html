@@ -51,6 +51,19 @@
         <section class="toolbar p-4" id="control_toolbar">
             <div class="toolbar-grid">
                 <div class="toolbar-block">
+                    <div id="toolbar_filter_label" class="toolbar-block-label">视图与筛选</div>
+                    <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap">
+                        <label id="view_mode_label" class="text-xs text-slate-500">浏览视图</label>
+                        <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+                            <option id="view_mode_option_all" value="all">全部</option>
+                            <option id="view_mode_option_charts" value="charts">仅图表</option>
+                            <option id="view_mode_option_table" value="table">仅数据表</option>
+                        </select>
+                        <label id="quick_search_label" class="text-xs text-slate-500">快速检索</label>
+                        <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
+                    </div>
+                </div>
+                <div class="toolbar-block">
                     <div id="toolbar_jump_label" class="toolbar-block-label">模块跳转</div>
                     <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
                     <button id="nav_onboarding_btn" class="chip-btn" onclick="jumpTo('onboarding_section')">引导</button>
@@ -67,19 +80,6 @@
                     <button id="reading_mode_btn" class="chip-btn" onclick="toggleReadingMode()">阅读模式：舒适</button>
                     <button id="floater_mode_btn" class="chip-btn" onclick="toggleSectionFloater()">板块浮窗：开</button>
                 </div>
-                </div>
-                <div class="toolbar-block">
-                    <div id="toolbar_filter_label" class="toolbar-block-label">视图与筛选</div>
-                    <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap">
-                        <label id="view_mode_label" class="text-xs text-slate-500">浏览视图</label>
-                        <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
-                            <option id="view_mode_option_all" value="all">全部</option>
-                            <option id="view_mode_option_charts" value="charts">仅图表</option>
-                            <option id="view_mode_option_table" value="table">仅数据表</option>
-                        </select>
-                        <label id="quick_search_label" class="text-xs text-slate-500">快速检索</label>
-                        <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
-                    </div>
                 </div>
             </div>
         </section>
