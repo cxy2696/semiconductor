@@ -95,6 +95,8 @@ jobs:
               "industry_basics",
               "industry_source_refs",
               "industry_intro_source",
+              "global_compare_items",
+              "global_compare_refs",
               "data_time_iso",
           ]
           missing = [k for k in required_keys if k not in payload]

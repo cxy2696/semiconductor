@@ -100,6 +100,8 @@ Notes:
 - Building/running requires full Xcode (not only Command Line Tools).
 - Update app icons in `ios/SemiconductorApp/Resources/Assets.xcassets/AppIcon.appiconset`.
 - Use [`ios/IOS_RUN_CHECKLIST.md`](ios/IOS_RUN_CHECKLIST.md) for simulator/device verification.
+- Use [`ios/IOS_SIGNING_TEMPLATE.md`](ios/IOS_SIGNING_TEMPLATE.md) for real-device signing setup template.
+- Use [`ios/IOS_TESTFLIGHT_RELEASE_CHECKLIST.md`](ios/IOS_TESTFLIGHT_RELEASE_CHECKLIST.md) before first TestFlight release.
 
 ## Scoring Logic Overview
 
