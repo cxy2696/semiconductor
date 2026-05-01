@@ -50,7 +50,7 @@ company_metadata = [
     {"code": "300661", "name": "圣邦股份", "english": "Saintbond Micro", "region": "北京", "business_type": "模拟", "website": "https://www.sg-micro.com/"},
     {"code": "300327", "name": "中颖电子", "english": "Zhongying Electronics", "region": "上海", "business_type": "Fabless", "website": "https://www.zhongyingic.com/"},
 
-    # 科创板 83家（完整列表）
+    # 科创板 + H股（节选保留，与现有根文件保持一致）
     {"code": "688352", "name": "颀中科技", "english": "Qizhong Technology", "region": "江苏", "business_type": "封测", "website": "暂无官网"},
     {"code": "688256", "name": "寒武纪", "english": "Cambricon", "region": "上海", "business_type": "AI芯片", "website": "https://www.cambricon.com/"},
     {"code": "688525", "name": "佰维存储", "english": "Biwin Storage", "region": "广东", "business_type": "存储", "website": "https://www.biwin.com/"},

@@ -169,7 +169,7 @@
             <div class="text-xs text-slate-500 mb-4">
                 信息来源：
                 {% for src in industry_source_refs %}
-                <a href="{{ src.url }}" target="_blank" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
+                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
                 {% endfor %}
             </div>
             <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览</h4>

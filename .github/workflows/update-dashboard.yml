@@ -15,7 +15,7 @@ permissions:
 jobs:
   refresh-dashboard:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
@@ -38,7 +38,8 @@ jobs:
           CI: "true"
           OPEN_REPORT: "0"
           RUN_ONCE: "1"
-        run: bash ./refresh_report_every_5m.sh --once
+          INTERVAL_SECONDS: "600"
+        run: bash ./scripts/refresh_dashboard.sh --once
 
       - name: Commit and push updates if changed
         uses: stefanzweifel/git-auto-commit-action@v5

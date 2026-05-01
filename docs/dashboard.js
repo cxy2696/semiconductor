@@ -10,6 +10,7 @@
     let pageSize = 25;
     let refreshTimer = null;
     let refreshInFlight = false;
+    let chartsRenderTimer = null;
     let readingMode = 'comfortable';
     let sectionFloaterVisible = true;
     let floaterSide = 'right';
@@ -72,6 +73,29 @@
     function fmt(v, digits = 2) {
         const n = toNumber(v);
         return n === null ? 'N/A' : n.toFixed(digits);
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function safeText(value, fallback = 'N/A') {
+        const raw = String(value ?? '').trim();
+        return escapeHtml(raw || fallback);
+    }
+
+    function safeUrl(value) {
+        if (!value) return '#';
+        try {
+            const parsed = new URL(String(value), window.location.href);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.toString();
+        } catch (_) {}
+        return '#';
     }
 
     function sortBySegmentOrder(a, b) {
@@ -174,8 +198,8 @@
         el.innerHTML = `
             <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">当前公司数</div><div class="text-2xl font-semibold mt-1">${snapshot.totalCount}</div></div>
             <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">平均涨跌幅</div><div class="text-2xl font-semibold mt-1 ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</div></div>
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大涨幅</div><div class="text-sm font-medium mt-1 truncate">${topGainer?.name || 'N/A'}</div><div class="text-xl font-semibold positive">${fmt(topGainer?.change_pct)}%</div></div>
-            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大跌幅</div><div class="text-sm font-medium mt-1 truncate">${topLoser?.name || 'N/A'}</div><div class="text-xl font-semibold negative">${fmt(topLoser?.change_pct)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大涨幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topGainer?.name)}</div><div class="text-xl font-semibold positive">${fmt(topGainer?.change_pct)}%</div></div>
+            <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大跌幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topLoser?.name)}</div><div class="text-xl font-semibold negative">${fmt(topLoser?.change_pct)}%</div></div>
         `;
     }
 
@@ -186,16 +210,30 @@
         regionDiv.innerHTML = '';
         businessDiv.innerHTML = '';
         [...new Set(originalData.map(d => d.region).filter(Boolean))].sort().forEach(r => {
-            const el = document.createElement('label');
-            el.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
-            el.innerHTML = `<input type="checkbox" checked class="region-check" value="${r}" onchange="applyFilters()"> ${r}`;
-            regionDiv.appendChild(el);
+            const label = document.createElement('label');
+            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.checked = true;
+            input.className = 'region-check';
+            input.value = String(r);
+            input.addEventListener('change', applyFilters);
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(` ${r}`));
+            regionDiv.appendChild(label);
         });
         [...new Set(originalData.map(d => d.business_type).filter(Boolean))].sort().forEach(b => {
-            const el = document.createElement('label');
-            el.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
-            el.innerHTML = `<input type="checkbox" checked class="business-check" value="${b}" onchange="applyFilters()"> ${b}`;
-            businessDiv.appendChild(el);
+            const label = document.createElement('label');
+            label.className = 'inline-flex items-center gap-1 px-4 py-2 bg-white rounded-3xl border border-gray-200 cursor-pointer hover:border-emerald-300 text-sm';
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.checked = true;
+            input.className = 'business-check';
+            input.value = String(b);
+            input.addEventListener('change', applyFilters);
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(` ${b}`));
+            businessDiv.appendChild(label);
         });
     }
 
@@ -208,15 +246,15 @@
             const score = toNumber(row.invest_score) ?? 0;
             const gradeClass = score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-600');
             const card = document.createElement('div');
-            card.className = 'bg-white rounded-xl border border-gray-100 p-3';
+            card.className = 'stat-card interactive-card p-3';
             card.innerHTML = `
                 <div class="flex items-center justify-between gap-2 mb-1">
-                    <div class="font-medium text-sm truncate">${row.name}</div>
-                    <div class="text-xs ${gradeClass} whitespace-nowrap">评分 ${row.invest_score || 'N/A'} (${row.invest_grade || '-'})</div>
+                    <div class="font-medium text-sm truncate">${safeText(row.name)}</div>
+                    <div class="text-xs ${gradeClass} whitespace-nowrap">评分 ${safeText(row.invest_score, 'N/A')} (${safeText(row.invest_grade, '-')})</div>
                 </div>
-                <div class="text-[11px] text-gray-500 mb-1 truncate">${row.code} · ${row.board || 'N/A'} · ${row.business_type || 'N/A'}</div>
-                <div class="text-[11px] text-gray-600 mb-1" style="display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">${row.invest_reason || '暂无说明'}</div>
-                <div class="text-[11px] text-emerald-700 truncate">${row.invest_tags || '观察'}</div>
+                <div class="text-[11px] text-gray-500 mb-1 truncate">${safeText(row.code)} · ${safeText(row.board)} · ${safeText(row.business_type)}</div>
+                <div class="text-[11px] text-gray-600 mb-1" style="display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">${safeText(row.invest_reason, '暂无说明')}</div>
+                <div class="text-[11px] text-emerald-700 truncate">${safeText(row.invest_tags, '观察')}</div>
             `;
             container.appendChild(card);
         });
@@ -255,11 +293,11 @@
             const changeVal = toNumber(row.change_pct) ?? 0;
             const score = toNumber(row.invest_score) ?? 0;
             tr.innerHTML = `
-                <td data-label="代码" class="px-6 py-5 font-mono text-sm">${row.code}</td>
-                <td data-label="公司名称" class="px-6 py-5 max-w-[180px]"><div class="truncate font-medium">${row.name}</div><span class="text-xs text-gray-400 block truncate">${row.english || ''}</span></td>
-                <td data-label="地区" class="px-6 py-5">${row.region || 'N/A'}</td>
-                <td data-label="板块" class="px-6 py-5">${row.board || 'N/A'}</td>
-                <td data-label="业务类型" class="px-6 py-5">${row.business_type || 'N/A'}</td>
+                <td data-label="代码" class="px-6 py-5 font-mono text-sm">${safeText(row.code)}</td>
+                <td data-label="公司名称" class="px-6 py-5 max-w-[180px]"><div class="truncate font-medium">${safeText(row.name)}</div><span class="text-xs text-gray-400 block truncate">${safeText(row.english, '')}</span></td>
+                <td data-label="地区" class="px-6 py-5">${safeText(row.region)}</td>
+                <td data-label="板块" class="px-6 py-5">${safeText(row.board)}</td>
+                <td data-label="业务类型" class="px-6 py-5">${safeText(row.business_type)}</td>
                 <td data-label="市值(亿)" class="px-6 py-5 text-right">${fmt(row.market_cap)}</td>
                 <td data-label="当前价格" class="px-6 py-5 text-right">${fmt(row.price)}</td>
                 <td data-label="涨跌幅" class="px-6 py-5 text-right ${(changeVal >= 0 ? 'positive' : 'negative')}">${fmt(changeVal)}%</td>
@@ -267,8 +305,8 @@
                 <td data-label="Forward P/E" class="px-6 py-5 text-right">${fmt(row.pe_forward)}</td>
                 <td data-label="成交量" class="px-6 py-5 text-right">${row.volume ?? 'N/A'}</td>
                 <td data-label="52周高/低" class="px-6 py-5 text-right">${fmt(row.high52)} / ${fmt(row.low52)}</td>
-                <td data-label="投资评分" class="px-6 py-5 text-right ${score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-500')}">${row.invest_score || 'N/A'} (${row.invest_grade || '-'})</td>
-                <td data-label="策略标签" class="px-6 py-5 text-left text-xs text-emerald-700">${row.invest_tags || '观察'}</td>
+                <td data-label="投资评分" class="px-6 py-5 text-right ${score >= 80 ? 'text-emerald-600' : (score >= 65 ? 'text-blue-600' : 'text-gray-500')}">${safeText(row.invest_score, 'N/A')} (${safeText(row.invest_grade, '-')})</td>
+                <td data-label="策略标签" class="px-6 py-5 text-left text-xs text-emerald-700">${safeText(row.invest_tags, '观察')}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -277,7 +315,18 @@
 
     function plotChart(id, traces, layout = {}) {
         if (typeof Plotly === 'undefined') return;
-        Plotly.newPlot(id, traces, { autosize: true, margin: { l: 30, r: 20, t: 20, b: 30 }, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', ...layout }, { responsive: true, displayModeBar: false }).catch(() => {});
+        const node = document.getElementById(id);
+        if (!node) return;
+        const finalLayout = { autosize: true, margin: { l: 30, r: 20, t: 20, b: 30 }, paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', ...layout };
+        const options = { responsive: true, displayModeBar: false };
+        const hasPlot = Boolean(node.querySelector('.plot-container'));
+        const renderer = hasPlot ? Plotly.react : Plotly.newPlot;
+        renderer(id, traces, finalLayout, options).catch(() => {});
+    }
+
+    function scheduleChartsRender() {
+        if (chartsRenderTimer) window.clearTimeout(chartsRenderTimer);
+        chartsRenderTimer = window.setTimeout(() => initializeCharts(), 120);
     }
 
     function initializeCharts() {
@@ -308,8 +357,8 @@
         Object.entries(klineRuntimeData || {}).forEach(([name, d], idx) => {
             const id = `kline_${idx}`;
             const card = document.createElement('div');
-            card.className = 'text-center bg-white border border-slate-100 rounded-2xl p-3';
-            card.innerHTML = `<div class="flex items-start justify-between gap-2 mb-2"><div class="text-left"><h4 class="font-medium text-sm">${name}</h4><div class="text-[11px] text-slate-500">${d.chain_segment || '其他'} · ${d.business_type || '其他'}</div></div><div class="text-right"><div class="text-[11px] text-slate-500">30天</div><div class="text-sm font-semibold ${Number(d.change_30d || 0) >= 0 ? 'positive' : 'negative'}">${fmt(d.change_30d)}%</div></div></div><div id="${id}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>`;
+            card.className = 'text-center stat-card interactive-card p-3';
+            card.innerHTML = `<div class="flex items-start justify-between gap-2 mb-2"><div class="text-left"><h4 class="font-medium text-sm">${safeText(name)}</h4><div class="text-[11px] text-slate-500">${safeText(d.chain_segment, '其他')} · ${safeText(d.business_type, '其他')}</div></div><div class="text-right"><div class="text-[11px] text-slate-500">30天</div><div class="text-sm font-semibold ${Number(d.change_30d || 0) >= 0 ? 'positive' : 'negative'}">${fmt(d.change_30d)}%</div></div></div><div id="${id}" class="chart-container h-56 bg-white rounded-2xl"><div class="chart-fallback">K线加载中...</div></div>`;
             container.appendChild(card);
             const close = Array.isArray(d.close) ? d.close : [];
             const ma5 = close.map((_, i, arr) => (i < 4 ? null : Number((arr.slice(i - 4, i + 1).reduce((s, v) => s + Number(v || 0), 0) / 5).toFixed(2))));
@@ -326,7 +375,7 @@
         const alerts = (snapshot.alerts || []).sort((a, b) => Math.abs(toNumber(b.change_pct) ?? 0) - Math.abs(toNumber(a.change_pct) ?? 0));
         if (!alerts.length) { container.classList.add('hidden'); container.innerHTML = ''; return; }
         const visible = showAllAlerts ? alerts : alerts.slice(0, 10);
-        container.innerHTML = `<div class="alert-card bg-white border border-red-200 rounded-2xl p-4 shadow-sm"><div class="flex items-center justify-between gap-2 flex-wrap mb-3"><div class="font-semibold">实时异动（|涨跌幅| > 5%）</div><div>${alerts.length > 10 ? `<button onclick="toggleAlertsExpand()" class="px-3 py-1 rounded-lg border border-slate-200 text-xs">${showAllAlerts ? '收起' : '展开全部'}</button>` : ''}</div></div><div class="flex flex-wrap gap-2">${visible.map(i => `<div class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><span class="font-medium">${i.name}</span> <span class="${(toNumber(i.change_pct) ?? 0) >= 0 ? 'positive' : 'negative'} font-semibold">${fmt(i.change_pct)}%</span></div>`).join('')}</div></div>`;
+        container.innerHTML = `<div class="alert-card bg-white border border-red-200 rounded-2xl p-4 shadow-sm"><div class="flex items-center justify-between gap-2 flex-wrap mb-3"><div class="font-semibold">实时异动（|涨跌幅| > 5%）</div><div>${alerts.length > 10 ? `<button onclick="toggleAlertsExpand()" class="px-3 py-1 rounded-lg border border-slate-200 text-xs">${showAllAlerts ? '收起' : '展开全部'}</button>` : ''}</div></div><div class="flex flex-wrap gap-2">${visible.map(i => `<div class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><span class="font-medium">${safeText(i.name)}</span> <span class="${(toNumber(i.change_pct) ?? 0) >= 0 ? 'positive' : 'negative'} font-semibold">${fmt(i.change_pct)}%</span></div>`).join('')}</div></div>`;
         container.classList.remove('hidden');
     }
 
@@ -354,7 +403,7 @@
             if (pe !== null && pe > 60) risk += riskWeights.valuation;
             return { row, risk: Math.min(100, Number(risk.toFixed(1))) };
         }).sort((a, b) => b.risk - a.risk).slice(0, 6);
-        cards.innerHTML = rows.map(x => `<div class="stat-card p-3"><div class="flex items-center justify-between mb-1"><div class="text-sm font-semibold">${x.row.name} <span class="text-xs text-slate-400">(${x.row.code})</span></div><span class="text-xs px-2 py-0.5 rounded-full border ${x.risk >= 70 ? 'text-red-600 border-red-200 bg-red-50' : (x.risk >= 45 ? 'text-amber-600 border-amber-200 bg-amber-50' : 'text-emerald-600 border-emerald-200 bg-emerald-50')}">${x.risk >= 70 ? '高' : (x.risk >= 45 ? '中' : '低')}风险 · ${x.risk}</span></div><div class="text-xs text-slate-500">${x.row.chain_segment || '其他'} · ${x.row.business_type || '其他'}</div></div>`).join('');
+        cards.innerHTML = rows.map(x => `<div class="stat-card p-3"><div class="flex items-center justify-between mb-1"><div class="text-sm font-semibold">${safeText(x.row.name)} <span class="text-xs text-slate-400">(${safeText(x.row.code)})</span></div><span class="text-xs px-2 py-0.5 rounded-full border ${x.risk >= 70 ? 'text-red-600 border-red-200 bg-red-50' : (x.risk >= 45 ? 'text-amber-600 border-amber-200 bg-amber-50' : 'text-emerald-600 border-emerald-200 bg-emerald-50')}">${x.risk >= 70 ? '高' : (x.risk >= 45 ? '中' : '低')}风险 · ${x.risk}</span></div><div class="text-xs text-slate-500">${safeText(x.row.chain_segment, '其他')} · ${safeText(x.row.business_type, '其他')}</div></div>`).join('');
     }
 
     function getLatestNewsItems(limit = 6) {
@@ -368,10 +417,11 @@
         grid.innerHTML = '';
         (items || []).forEach(news => {
             const card = document.createElement('a');
-            card.href = news.link || '#';
+            card.href = safeUrl(news.link);
             card.target = '_blank';
-            card.className = 'stat-card p-2.5 hover:border-teal-300 transition-colors';
-            card.innerHTML = `<div class="text-[11px] text-teal-700 mb-0.5">${formatDateByLocale(news.date || '', false)}</div><p class="text-sm font-medium leading-snug text-slate-800" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${news.title || '暂无最新新闻'}</p>`;
+            card.rel = 'noopener noreferrer';
+            card.className = 'stat-card interactive-card p-2.5 hover:border-teal-300 transition-colors';
+            card.innerHTML = `<div class="text-[11px] text-teal-700 mb-0.5">${formatDateByLocale(news.date || '', false)}</div><p class="text-sm font-medium leading-snug text-slate-800" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${safeText(news.title, '暂无最新新闻')}</p>`;
             grid.appendChild(card);
         });
     }
@@ -430,12 +480,14 @@
     }
 
     function applyFilters() {
+        const allRegionFilters = document.querySelectorAll('.region-check');
+        const allBusinessFilters = document.querySelectorAll('.business-check');
         const selectedRegions = Array.from(document.querySelectorAll('.region-check:checked')).map(cb => cb.value);
         const selectedBusiness = Array.from(document.querySelectorAll('.business-check:checked')).map(cb => cb.value);
         const keyword = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
         filteredData = originalData.filter(row => {
-            const regionMatch = !selectedRegions.length || selectedRegions.includes(row.region);
-            const businessMatch = !selectedBusiness.length || selectedBusiness.includes(row.business_type);
+            const regionMatch = allRegionFilters.length === 0 || (selectedRegions.length > 0 && selectedRegions.includes(row.region));
+            const businessMatch = allBusinessFilters.length === 0 || (selectedBusiness.length > 0 && selectedBusiness.includes(row.business_type));
             const pickMatch = !onlyPicks || row?.is_pick === true || row?.is_pick === 1 || String(row?.is_pick).toLowerCase() === 'true';
             const keywordMatch = !keyword || [row.code, row.name, row.business_type, row.invest_tags, row.board].map(v => String(v || '').toLowerCase()).some(v => v.includes(keyword));
             return regionMatch && businessMatch && pickMatch && keywordMatch;
@@ -450,7 +502,7 @@
         renderAlerts(snapshot);
         renderIndustryKnowledge(snapshot);
         renderSupplyRisk(snapshot);
-        initializeCharts();
+        scheduleChartsRender();
     }
 
     function resetFilters() {
@@ -516,6 +568,7 @@
             const el = document.getElementById(id);
             if (el) root.appendChild(el);
         });
+        updateFloatingTocActive();
     }
 
     function toggleTableDensity() {
@@ -559,8 +612,36 @@
     }
 
     function randomizeNewsCards() {
-        const shuffled = [...(newsPoolData || [])].sort(() => Math.random() - 0.5).slice(0, 6);
+        const latestPool = getLatestNewsItems(18);
+        const shuffled = [...latestPool].sort(() => Math.random() - 0.5).slice(0, 6);
         renderNewsCards(shuffled);
+    }
+
+    function updateFloatingTocActive() {
+        const links = Array.from(document.querySelectorAll('.floating-toc-link[data-target]'));
+        if (!links.length) return;
+        const offset = 160;
+        let currentTarget = '__top';
+        links.forEach(link => {
+            const target = link.dataset.target;
+            if (!target || target === '__top') return;
+            const section = document.getElementById(target);
+            if (section && section.getBoundingClientRect().top <= offset) currentTarget = target;
+        });
+        links.forEach(link => {
+            const active = link.dataset.target === currentTarget;
+            link.classList.toggle('active', active);
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+        });
+    }
+
+    function hardenExternalLinks() {
+        document.querySelectorAll('a[target="_blank"]').forEach(anchor => {
+            if (!anchor.rel || !anchor.rel.includes('noopener')) {
+                anchor.rel = 'noopener noreferrer';
+            }
+        });
     }
 
     function jumpTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
@@ -631,7 +712,8 @@
     window.addEventListener('DOMContentLoaded', () => {
         const updateEl = document.getElementById('last_update');
         if (updateEl) lastUpdateIso = updateEl.dataset.updateIso || '';
-        document.getElementById('page_size').value = String(pageSize);
+        const pageSizeSelect = document.getElementById('page_size');
+        if (pageSizeSelect) pageSizeSelect.value = String(pageSize);
         bindLocalePicker();
         loadPreferences();
         loadRiskWeights();
@@ -641,6 +723,9 @@
         }
         setupAutoRefresh();
         refreshAllContent();
+        hardenExternalLinks();
+        updateFloatingTocActive();
+        window.addEventListener('scroll', updateFloatingTocActive, { passive: true });
         if (window.SemiconductorFrontendApp?.bootstrap) window.SemiconductorFrontendApp.bootstrap();
         console.log('dashboard.js loaded');
     });

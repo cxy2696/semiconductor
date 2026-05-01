@@ -1,4 +1,5 @@
 import ast
+import concurrent.futures
 import json
 import math
 import os
@@ -22,7 +23,25 @@ print("正在生成中国半导体行业报告 v5.4（GitHub 持续更新版）"
 # 32家核心半导体上市公司（设备/材料/晶圆代工/设计/IDM/存储/AI芯片/封测全覆盖）
 _base_dir = os.path.dirname(os.path.abspath(__file__))
 _docs_dir = os.path.join(_base_dir, "docs")
-_meta_path = os.path.join(_base_dir, "company_metadata")
+_config_dir = os.path.join(_base_dir, "config")
+_meta_path_candidates = [
+    os.path.join(_config_dir, "company_metadata.py"),
+    os.path.join(_base_dir, "company_metadata"),
+]
+_template_path_candidates = [
+    os.path.join(_config_dir, "html_template.html"),
+    os.path.join(_base_dir, "html_template.html"),
+]
+
+
+def pick_first_existing(candidates):
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    raise FileNotFoundError(f"No existing path found in candidates: {candidates}")
+
+
+_meta_path = pick_first_existing(_meta_path_candidates)
 
 def load_company_metadata(path):
     with open(path, encoding="utf-8") as meta_file:
@@ -310,7 +329,8 @@ for idx, comp in enumerate(company_metadata):
                 "change_pct": 0.0,
             }
     results.append({**comp, **data, "data_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
-    time.sleep(0.4)
+    # Keep a light delay to avoid aggressive upstream throttling.
+    time.sleep(0.15)
 
 df = pd.DataFrame(results)
 df['market_cap'] = pd.to_numeric(df['market_cap'], errors='coerce')
@@ -466,19 +486,19 @@ top_candidates = (
 )
 
 kline_data = {}
-for comp in top_candidates:
-    if len(kline_data) >= 5:
-        break
+
+
+def fetch_kline_entry(comp):
     try:
         code_str = str(comp["code"]).strip()
         ticker = yf.Ticker(get_yahoo_ticker(code_str))
         hist = ticker.history(period="30d")
         if hist.empty:
-            continue
+            return None
 
         hist = hist.dropna(subset=["Open", "High", "Low", "Close"])
         if len(hist) < 10:
-            continue
+            return None
 
         close_list = hist["Close"].round(2).tolist()
         start_price = float(close_list[0]) if close_list else 0.0
@@ -486,7 +506,7 @@ for comp in top_candidates:
         change_30d = round(((end_price - start_price) / start_price) * 100, 2) if start_price > 0 else 0.0
 
         key = f"{comp['name']}（{code_str}）"
-        kline_data[key] = {
+        return key, {
             "code": code_str,
             "business_type": comp.get("business_type", "其他"),
             "chain_segment": comp.get("chain_segment", "其他"),
@@ -498,9 +518,22 @@ for comp in top_candidates:
             "change_30d": change_30d,
         }
     except Exception:
-        continue
+        return None
 
-with open(os.path.join(_base_dir, "html_template.html"), encoding="utf-8") as _tpl_file:
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    futures = [executor.submit(fetch_kline_entry, comp) for comp in top_candidates]
+    for future in concurrent.futures.as_completed(futures):
+        result = future.result()
+        if not result:
+            continue
+        key, payload = result
+        if key not in kline_data:
+            kline_data[key] = payload
+        if len(kline_data) >= 5:
+            break
+
+with open(pick_first_existing(_template_path_candidates), encoding="utf-8") as _tpl_file:
     html_template = _tpl_file.read()
 
 template = Template(html_template)

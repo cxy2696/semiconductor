@@ -23,20 +23,16 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 
 ## Repository Layout
 
-- `china_semiconductor_report.py`: data + news fetch, scoring, chart payload generation, HTML build
+- `china_semiconductor_report.py`: main generator (data/news fetch, scoring, HTML + payload build)
+- `config/company_metadata.py`: tracked company universe (source of truth)
 - `html_template.html`: HTML template structure and data bindings
-- `styles.css`: external stylesheet for website layout and visual format
-- `app.js`: front-end JavaScript enhancement layer (mobile/tablet/desktop UX)
-- `dashboard.js`: externalized dashboard runtime logic (filters/charts/news/table/refresh)
-- `company_metadata`: tracked company universe
-- `refresh_report_every_5m.sh`: shared refresh entrypoint (local loop + GitHub bot single-run mode)
-- `requirements.txt`: Python dependencies
-- `.github/workflows/update-dashboard.yml`: scheduled auto-refresh workflow
-- `docs/index.html`: GitHub Pages entrypoint (generated/updated by script)
-- `docs/styles.css`: stylesheet served by GitHub Pages
-- `docs/app.js`: front-end JavaScript served by GitHub Pages
-- `docs/dashboard.js`: dashboard runtime logic served by GitHub Pages
+- `app.js` / `dashboard.js` / `styles.css`: front-end source files
+- `scripts/refresh_dashboard.sh`: canonical refresh entrypoint (loop or `--once`)
+- `refresh_report_every_5m.sh`: backward-compatible wrapper to `scripts/refresh_dashboard.sh`
+- `.github/workflows/update-dashboard.yml`: scheduled 10-minute auto-refresh workflow
+- `docs/index.html`: GitHub Pages entrypoint (generated)
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
+- `docs/app.js` / `docs/dashboard.js` / `docs/styles.css`: static assets for GitHub Pages
 
 ## Local Setup
 
@@ -54,7 +50,7 @@ Generated outputs:
 ## Local 24/7 Refresh (Every 10 Minutes)
 
 ```bash
-./refresh_report_every_5m.sh
+./scripts/refresh_dashboard.sh
 ```
 
 This loop regenerates data/news/charts every 600 seconds.  
@@ -62,10 +58,10 @@ The report page itself also auto-refreshes every 10 minutes and supports immedia
 
 ## GitHub 24/7 Refresh (Scheduled)
 
-Workflow: `.github/workflows/update-dashboard.yml`
+Workflow: `.github/workflows/update-dashboard.yml` (fully automatic, no manual refresh needed)
 
 - Trigger: `*/10 * * * *` plus manual dispatch
-- Action: run `refresh_report_every_5m.sh --once`, update `docs/index.html`, commit changes automatically with GitHub Actions bot
+- Action: run `scripts/refresh_dashboard.sh --once`, update `docs` artifacts, commit changes automatically with GitHub Actions bot
 - Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
 
 After pushing this repository:
@@ -81,7 +77,7 @@ Your dashboard URL will be:
 
 ## Notes
 
-- GitHub scheduled workflows run continuously but are best-effort; exact second-level timing is not guaranteed by GitHub.
+- GitHub scheduled workflows run continuously and automatically every 10 minutes. Exact second-level timing is best-effort on GitHub-hosted runners.
 - If one refresh cycle exceeds 10 minutes, the next run is queued (not canceled) to keep updates reliable.
 - Runtime refresh failures no longer force hard page reload; current data stays visible and the next cycle retries automatically.
 - Data freshness depends on upstream data/news source availability.
