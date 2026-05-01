@@ -898,18 +898,31 @@
                 featureidkey: 'properties.name',
                 locations: provinces,
                 z: values,
-                colorscale: 'Blues',
-                reversescale: true,
-                marker: { line: { color: '#ffffff', width: 0.9 }, opacity: 0.72 },
-                colorbar: { title: '公司数', thickness: 10 },
+                colorscale: [
+                    [0, '#dbeafe'],
+                    [0.35, '#93c5fd'],
+                    [0.65, '#3b82f6'],
+                    [1, '#1d4ed8']
+                ],
+                marker: { line: { color: '#d1d5db', width: 1 }, opacity: 0.9 },
+                colorbar: {
+                    title: '公司数',
+                    thickness: 12,
+                    len: 0.9,
+                    x: 1.02,
+                    y: 0.5,
+                    outlinecolor: '#94a3b8'
+                },
                 hovertemplate: '<b>%{location}</b><br>公司数: %{z}<extra></extra>'
             }], {
                 height: 380,
                 margin: { l: 0, r: 0, t: 8, b: 0 },
+                paper_bgcolor: '#ffffff',
+                plot_bgcolor: '#ffffff',
                 mapbox: {
                     style: 'carto-positron',
                     center: { lon: 104.5, lat: 35.5 },
-                    zoom: 2.65
+                    zoom: 2.7
                 }
             });
         } catch (_) {
@@ -920,7 +933,7 @@
                 labels: regionSorted.map(([name]) => name),
                 parents: regionSorted.map(() => ''),
                 values: regionSorted.map(([, count]) => count),
-                marker: { colors: regionSorted.map(([, count]) => count), colorscale: 'Blues', reversescale: true },
+                marker: { colors: regionSorted.map(([, count]) => count), colorscale: [[0, '#dbeafe'], [0.35, '#93c5fd'], [0.65, '#3b82f6'], [1, '#1d4ed8']] },
                 textinfo: 'label+value',
                 hovertemplate: '<b>%{label}</b><br>公司数: %{value}<extra></extra>'
             }], { height: 380, margin: { l: 8, r: 8, t: 8, b: 8 } });
