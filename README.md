@@ -2,6 +2,11 @@
 
 China semiconductor market dashboard with real-time data/news aggregation and GitHub-ready automation.
 
+## Public Links
+
+- Website: [https://cxy2696.github.io/semiconductor/](https://cxy2696.github.io/semiconductor/)
+- Repository: [https://github.com/cxy2696/semiconductor](https://github.com/cxy2696/semiconductor)
+
 ## Key Features
 
 - Auto refresh every 5 minutes (default in UI)

@@ -290,7 +290,7 @@
         <section class="header-hero panel">
             <div class="flex justify-between gap-4 flex-wrap items-start">
                 <div>
-                    <div class="text-4xl mb-2">🧭</div>
+                    <div class="text-sm uppercase tracking-wide opacity-90 mb-2">Semiconductor Dashboard</div>
                     <h1 id="hero_title" class="text-3xl md:text-4xl font-extrabold">中国半导体行业浏览中心</h1>
                     <p class="text-cyan-50 mt-2" id="company_count">{{ data|length }}家公司 · 实时追踪</p>
                 </div>
@@ -363,7 +363,7 @@
 
         <section id="pick_section" class="panel p-5">
             <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
-                <h3 class="panel-header text-xl">🧠 投资候选精选</h3>
+                <h3 class="panel-header text-xl">投资候选精选</h3>
                 <button id="pick_toggle_btn" onclick="toggleOnlyPicks()" class="px-4 py-2 rounded-xl border border-slate-200 hover:border-teal-400 text-sm">仅看入选标的：关</button>
             </div>
             <p class="text-xs text-slate-500 mb-2">评分综合考虑市值、估值、动量、活跃度与赛道属性（仅研究参考，不构成投资建议）。</p>
@@ -387,13 +387,13 @@
 
         <section id="charts_row_1" class="chart-grid-two">
             <div class="panel p-5">
-                <h2 class="panel-header text-xl mb-2">🔗 产业链分布（细分）</h2>
+                <h2 class="panel-header text-xl mb-2">产业链分布（细分）</h2>
                 <p class="section-subtitle">按“上游/中游/下游”及业务类型双层展示，并补充链段占比柱状图。</p>
                 <div id="chain_pie" class="chart-container h-80"><div class="chart-fallback">图表加载中...</div></div>
                 <div id="chain_segment_bar" class="chart-container h-64 mt-3"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h2 class="panel-header text-xl mb-2">📈 Top 5 公司K线（30天）</h2>
+                <h2 class="panel-header text-xl mb-2">Top 5 公司K线（30天）</h2>
                 <p class="section-subtitle">按市值优先并自动补位，附30天区间涨跌、赛道信息与MA5。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3" id="kline_container"></div>
             </div>
@@ -401,27 +401,27 @@
 
         <section id="charts_row_2" class="chart-grid-two">
             <div class="panel p-5">
-                <h3 class="panel-header text-xl mb-2">🏆 市值 Top20（亿元）</h3>
+                <h3 class="panel-header text-xl mb-2">市值 Top20（亿元）</h3>
                 <p class="section-subtitle">颜色映射当日涨跌幅，帮助识别规模与短期动量的组合。</p>
                 <div id="top20_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h3 class="panel-header text-xl mb-2">📊 板块分布</h3>
+                <h3 class="panel-header text-xl mb-2">板块分布</h3>
                 <p class="section-subtitle">观察不同上市板块的样本占比结构。</p>
                 <div id="board_pie" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h3 class="panel-header text-xl mb-2">🌍 地区公司分布</h3>
+                <h3 class="panel-header text-xl mb-2">地区公司分布</h3>
                 <p class="section-subtitle">查看样本在不同地区的覆盖与集中度。</p>
                 <div id="region_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h3 class="panel-header text-xl mb-2">🧩 业务类型分布</h3>
+                <h3 class="panel-header text-xl mb-2">业务类型分布</h3>
                 <p class="section-subtitle">重点观察业务赛道的公司数量与头部集中情况。</p>
                 <div id="business_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
-                <h3 class="panel-header text-xl mb-2">🌡️ 链段平均涨跌幅</h3>
+                <h3 class="panel-header text-xl mb-2">链段平均涨跌幅</h3>
                 <p class="section-subtitle">按上/中/下游统计平均涨跌幅，快速看当日景气强弱。</p>
                 <div id="chain_change_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
@@ -429,7 +429,7 @@
 
         <section id="industry_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 class="panel-header text-xl">📡 行业基础知识</h2>
+                <h2 class="panel-header text-xl">行业基础知识</h2>
                 <span class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
             </div>
             <div class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
@@ -461,7 +461,7 @@
 
         <section id="supply_risk_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
-                <h2 class="panel-header text-xl">⚠️ 供应链风险</h2>
+                <h2 class="panel-header text-xl">供应链风险</h2>
                 <span class="text-[11px] px-2 py-1 rounded-full border border-amber-200 bg-amber-50 text-amber-700">规则引擎 · 动态评估</span>
             </div>
             <p class="section-subtitle">综合价格波动、估值压力、流动性与赛道属性，识别供应链环节潜在风险点（仅研究参考）。</p>
@@ -496,7 +496,7 @@
 
         <section id="news_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 id="news_title" class="panel-header text-xl">🚀 最新行业新闻</h2>
+                <h2 id="news_title" class="panel-header text-xl">最新行业新闻</h2>
                 <button onclick="randomizeNewsCards()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs hover:border-teal-400">换一批最新新闻</button>
             </div>
             <div id="news_grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2 max-h-[42vh] overflow-auto pr-1">
@@ -614,7 +614,7 @@
             heroTitle: '中国半导体行业浏览中心',
             updateLabel: '数据更新时间',
             refreshNow: '立即刷新',
-            newsTitle: '🚀 最新行业新闻',
+            newsTitle: '最新行业新闻',
             navOverview: '概览',
             navPick: '候选精选',
             navChart: '图表分析',
@@ -640,7 +640,7 @@
             heroTitle: 'China Semiconductor Dashboard',
             updateLabel: 'Last data update',
             refreshNow: 'Refresh now',
-            newsTitle: '🚀 Latest Industry News',
+            newsTitle: 'Latest Industry News',
             navOverview: 'Overview',
             navPick: 'Top Picks',
             navChart: 'Charts',
@@ -666,7 +666,7 @@
             heroTitle: 'China Halbleiter-Dashboard',
             updateLabel: 'Letzte Datenaktualisierung',
             refreshNow: 'Jetzt aktualisieren',
-            newsTitle: '🚀 Neueste Branchennachrichten',
+            newsTitle: 'Neueste Branchennachrichten',
             navOverview: 'Ueberblick',
             navPick: 'Top-Auswahl',
             navChart: 'Diagramme',
@@ -1968,7 +1968,7 @@
         if (window.SemiconductorFrontendApp?.bootstrap) {
             window.SemiconductorFrontendApp.bootstrap();
         }
-        console.log('✅ v5.3 加载完成 - 数据与Excel 100%一致');
+        console.log('v5.4 loaded - data and Excel are synchronized');
     });
 </script>
 </body>

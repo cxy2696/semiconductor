@@ -43,7 +43,7 @@ def load_company_metadata(path):
 company_metadata = load_company_metadata(_meta_path)
 
 total_companies = len(company_metadata)
-print(f"✅ 已加载 {total_companies} 条公司数据（最新名单）")
+print(f"已加载 {total_companies} 条公司数据（最新名单）")
 
 
 def ensure_dirs():
@@ -101,7 +101,7 @@ def get_dramx_news(display_items=8, pool_size=24):
         return fallback, fallback
 
 news_data, news_pool = get_dramx_news()
-print(f"✅ 已抓取 {len(news_pool)} 条最新新闻候选，当前展示 {len(news_data)} 条")
+print(f"已抓取 {len(news_pool)} 条最新新闻候选，当前展示 {len(news_data)} 条")
 
 # ====================== 行业简介 ======================
 def get_industry_intro():
@@ -223,7 +223,7 @@ industry_source_refs = [
 ]
 
 # ====================== 行情数据 ======================
-print(f"📡 正在抓取 {total_companies} 家公司实时行情")
+print(f"正在抓取 {total_companies} 家公司实时行情")
 spot_df = None
 for _ in range(3):
     try:
@@ -430,7 +430,7 @@ excel_file = os.path.join(_base_dir, "中国半导体行业报告.xlsx")
 with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
     df.to_excel(writer, index=False, sheet_name="半导体公司数据")
 
-print(f"✅ Excel 已生成（唯一数据源）→ {excel_file}")
+print(f"Excel 已生成（唯一数据源）→ {excel_file}")
 
 # ====================== 从Excel重新读取（保证HTML与Excel 100%一致） ======================
 df = pd.read_excel(excel_file)   # 关键：从Excel读取
@@ -519,7 +519,7 @@ nojekyll_file = os.path.join(_docs_dir, ".nojekyll")
 with open(nojekyll_file, "w", encoding="utf-8") as f:
     f.write("")
 
-print(f"\nv5.4 生成完成（GitHub 持续更新）")
+print("\nv5.4 生成完成（GitHub 持续更新）")
 print(f"Excel（唯一数据源）→ {excel_file}")
 print(f"HTML（完全基于Excel）→ {html_file}")
 print(f"GitHub Pages 输出 → {docs_html_file}")
