@@ -920,84 +920,56 @@
             provinceAgg[province] = (provinceAgg[province] || 0) + (Number(count) || 0);
         });
         const provinces = Object.keys(provinceAgg);
-        const values = provinces.map(name => provinceAgg[name]);
         if (!provinces.length) return;
-        try {
-            const geojson = await loadChinaGeoJson();
-            plotChart('region_chart', [{
-                type: 'choroplethmapbox',
-                geojson,
-                featureidkey: 'properties.name',
-                locations: provinces,
-                z: values,
-                colorscale: [
-                    [0, '#dbeafe'],
-                    [0.35, '#93c5fd'],
-                    [0.65, '#3b82f6'],
-                    [1, '#1d4ed8']
-                ],
-                marker: { line: { color: '#d1d5db', width: 1 }, opacity: 0.9 },
+
+        // Force map rendering path: always use scattergeo on China map.
+        // This avoids treemap-like fallback when external geojson/mapbox dependencies fail.
+        const centers = getChinaProvinceCenters();
+        const points = provinces
+            .filter(name => Array.isArray(centers[name]))
+            .map(name => ({ name, lon: centers[name][0], lat: centers[name][1], value: provinceAgg[name] || 0 }));
+        if (!points.length) return;
+
+        plotChart('region_chart', [{
+            type: 'scattergeo',
+            mode: 'markers+text',
+            lon: points.map(p => p.lon),
+            lat: points.map(p => p.lat),
+            text: points.map(p => `${p.name.replace(/省|市|自治区|特别行政区/g, '')}`),
+            textposition: 'top center',
+            marker: {
+                size: points.map(p => Math.max(10, Math.min(34, Math.sqrt(p.value) * 4))),
+                color: points.map(p => p.value),
+                colorscale: [[0, '#dbeafe'], [0.35, '#93c5fd'], [0.65, '#3b82f6'], [1, '#1d4ed8']],
+                cmin: 0,
+                cmax: Math.max(...points.map(p => p.value), 1),
+                line: { color: '#ffffff', width: 1 },
                 colorbar: {
                     title: '公司数',
                     thickness: 12,
-                    len: 0.9,
+                    len: 0.82,
                     x: 1.02,
-                    y: 0.5,
-                    outlinecolor: '#94a3b8'
-                },
-                hovertemplate: '<b>%{location}</b><br>公司数: %{z}<extra></extra>'
-            }], {
-                height: 380,
-                margin: { l: 0, r: 0, t: 8, b: 0 },
-                paper_bgcolor: '#ffffff',
-                plot_bgcolor: '#ffffff',
-                mapbox: {
-                    style: 'carto-positron',
-                    center: { lon: 104.5, lat: 35.5 },
-                    zoom: 2.7
+                    y: 0.5
                 }
-            });
-        } catch (_) {
-            // If remote GeoJSON is unavailable, keep map-like fallback instead of treemap.
-            const centers = getChinaProvinceCenters();
-            const points = provinces
-                .filter(name => Array.isArray(centers[name]))
-                .map(name => ({ name, lon: centers[name][0], lat: centers[name][1], value: provinceAgg[name] || 0 }));
-            plotChart('region_chart', [{
-                type: 'scattergeo',
-                mode: 'markers+text',
-                lon: points.map(p => p.lon),
-                lat: points.map(p => p.lat),
-                text: points.map(p => p.name.replace(/省|市|自治区|特别行政区/g, '')),
-                textposition: 'top center',
-                marker: {
-                    size: points.map(p => Math.max(8, Math.min(30, p.value * 1.1))),
-                    color: points.map(p => p.value),
-                    colorscale: [[0, '#dbeafe'], [0.35, '#93c5fd'], [0.65, '#3b82f6'], [1, '#1d4ed8']],
-                    cmin: 0,
-                    cmax: Math.max(...points.map(p => p.value), 1),
-                    line: { color: '#ffffff', width: 0.8 },
-                    colorbar: { title: '公司数', thickness: 12 }
-                },
-                hovertemplate: '<b>%{text}</b><br>公司数: %{marker.color}<extra></extra>'
-            }], {
-                height: 380,
-                margin: { l: 0, r: 0, t: 8, b: 0 },
-                geo: {
-                    scope: 'asia',
-                    projection: { type: 'mercator' },
-                    showland: true,
-                    landcolor: '#f3f4f6',
-                    showocean: true,
-                    oceancolor: '#e5e7eb',
-                    showcountries: true,
-                    countrycolor: '#d1d5db',
-                    coastlinecolor: '#d1d5db',
-                    lonaxis: { range: [72, 136] },
-                    lataxis: { range: [16, 55] }
-                }
-            });
-        }
+            },
+            hovertemplate: '<b>%{text}</b><br>公司数: %{marker.color}<extra></extra>'
+        }], {
+            height: 380,
+            margin: { l: 0, r: 0, t: 8, b: 0 },
+            geo: {
+                scope: 'asia',
+                projection: { type: 'mercator' },
+                showland: true,
+                landcolor: '#f3f4f6',
+                showocean: true,
+                oceancolor: '#e5e7eb',
+                showcountries: true,
+                countrycolor: '#d1d5db',
+                coastlinecolor: '#d1d5db',
+                lonaxis: { range: [72, 136] },
+                lataxis: { range: [16, 55] }
+            }
+        });
     }
 
     function getSegmentExtremesMap(segForChange) {
