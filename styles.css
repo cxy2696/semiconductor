@@ -237,6 +237,7 @@ body {
 }
 
 #summary_cards { border-top: 4px solid #1d4ed8; padding-top: 2px; }
+#methodology_section { border-top: 4px solid #334155; }
 #pick_section { border-top: 4px solid #1d4ed8; }
 #charts_row_1, #charts_row_2 { border-top: 4px solid #0f766e; padding-top: 2px; }
 #industry_section { border-top: 4px solid #6d28d9; }
@@ -246,6 +247,7 @@ body {
 
 #summary_cards,
 #onboarding_section,
+#methodology_section,
 #filter_section,
 #pick_section,
 #action_section,

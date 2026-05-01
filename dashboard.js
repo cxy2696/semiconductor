@@ -37,12 +37,12 @@
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'summary_cards', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
-        overview: ['onboarding_section', 'summary_cards', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
         charts: ['summary_cards', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
-        knowledge: ['summary_cards', 'industry_section', 'empty_state'],
-        'risk-news': ['summary_cards', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
-        'data-center': ['summary_cards', 'filter_section', 'action_section', 'table_section', 'empty_state']
+        knowledge: ['methodology_section', 'summary_cards', 'industry_section', 'empty_state'],
+        'risk-news': ['methodology_section', 'summary_cards', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
+        'data-center': ['methodology_section', 'summary_cards', 'filter_section', 'action_section', 'table_section', 'empty_state']
     };
 
     const TEXTS = {
@@ -688,19 +688,19 @@
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
-        if (mode === 'charts') ['onboarding_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-        if (mode === 'table') ['onboarding_section', 'summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
     }
 
     function rearrangeBlocks(mode) {
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'summary_cards', 'industry_section', 'supply_risk_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);

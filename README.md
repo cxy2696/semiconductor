@@ -17,7 +17,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - Latest-news-first rendering (freshest records prioritized)
 - Runtime payload refresh via `latest_data.json` (data/news/figures/info all re-rendered)
 - Top 6 market-cap K-line cards with runtime refresh
-- Industry knowledge/source blocks are refreshed from scraping payloads
+- Industry knowledge/source blocks are refreshed from direct website scraping payloads (non-API)
 - Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
 - Multi-page course modules with top menu (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every hour
@@ -89,5 +89,12 @@ Your dashboard URL will be:
 - Auto-refresh updates data, news, candidate picks, industry knowledge blocks, and risk panels from the latest generated payload.
 - Front-end is implemented with JavaScript and optimized for mobile/tablet/desktop responsive behavior.
 - UI uses a course-style module flow for investment onboarding (`A/B/C/D/E` learning path).
+
+## Scoring Logic Overview
+
+- `invest_score` combines size/liquidity, valuation pressure, short-term momentum, and strategic track weighting.
+- Candidate picks default to `invest_score >= 70`, with grades mapped to `A/B/C/D`.
+- Risk cards use a separate adjustable weighting model (volatility/valuation/liquidity/segment/size) for follow-up review.
+- All outputs are for research only and do not constitute investment advice.
 
 Project owner profile: [cxy2696](https://github.com/cxy2696)

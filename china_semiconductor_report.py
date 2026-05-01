@@ -82,17 +82,21 @@ INDUSTRY_SOURCE_MAP = {
         "name": "百度百科（半导体）",
         "url": "https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93",
     },
-    "wiki_api": {
-        "name": "Wikipedia 摘要 API",
-        "url": "https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93",
-    },
     "wiki_html": {
         "name": "中文维基页面",
         "url": "https://zh.wikipedia.org/wiki/%E5%8D%8A%E5%AF%BC%E4%BD%93",
     },
-    "wiki_en_api": {
-        "name": "Wikipedia EN Summary API",
-        "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Semiconductor",
+    "wiki_en_html": {
+        "name": "Wikipedia EN Semiconductor",
+        "url": "https://en.wikipedia.org/wiki/Semiconductor",
+    },
+    "techtarget": {
+        "name": "TechTarget Semiconductor Definition",
+        "url": "https://www.techtarget.com/whatis/definition/semiconductor",
+    },
+    "britannica": {
+        "name": "Britannica Semiconductor",
+        "url": "https://www.britannica.com/science/semiconductor",
     },
 }
 
@@ -180,34 +184,43 @@ def get_dramx_news(display_items=8, pool_size=24):
             })
         return items
 
-    def collect_from_google_news(session):
-        rss_url = (
-            "https://news.google.com/rss/search?"
-            "q=%E5%8D%8A%E5%AF%BC%E4%BD%93&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
-        )
-        response = request_with_retry(session, rss_url)
+    def collect_from_anandtech(session):
+        response = request_with_retry(session, "https://www.anandtech.com/tag/semiconductors")
         if response is None:
             return []
-        soup = BeautifulSoup(response.text, "xml")
+        soup = BeautifulSoup(response.text, "html.parser")
         items = []
-        for item in soup.select("item"):
-            title = (item.title.text if item.title else "").strip()
-            link = (item.link.text if item.link else "").strip()
-            pub_date = (item.pubDate.text if item.pubDate else "").strip()
+        for anchor in soup.select("a[href*='/show/'], a[href*='/show/'] h2, h2 a[href]"):
+            node = anchor if anchor.name == "a" else anchor.find_parent("a")
+            if node is None:
+                continue
+            title = node.get_text(" ", strip=True)
+            href = node.get("href", "").strip()
+            link = href if href.startswith("http") else f"https://www.anandtech.com{href}"
             if not title or not link:
                 continue
             items.append({
                 "title": title,
                 "link": link,
-                "date": parse_date_text(pub_date, today),
+                "date": today,
             })
-        return items
+        dedup = []
+        seen = set()
+        for item in items:
+            key = f"{item['title']}|{item['link']}"
+            if key in seen:
+                continue
+            seen.add(key)
+            dedup.append(item)
+            if len(dedup) >= pool_size:
+                break
+        return dedup
 
     news_all = []
     seen = set()
     with requests.Session() as session:
         session.headers.update(DEFAULT_HEADERS)
-        for row in collect_from_dramx(session) + collect_from_google_news(session):
+        for row in collect_from_dramx(session) + collect_from_anandtech(session):
             title = row.get("title", "").strip()
             link = row.get("link", "").strip()
             if not title or not link:
@@ -272,19 +285,6 @@ def get_industry_intro():
                 break
         return items
 
-    def collect_from_wiki_api(session):
-        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_api"]["url"])
-        if response is None:
-            return []
-        data = response.json()
-        extract = clean_text(data.get("extract", ""))
-        if len(extract) < 24:
-            return []
-
-        pieces = re.split(r"[。！？]", extract)
-        items = [normalize_sentence(p) for p in pieces if normalize_sentence(p)]
-        return items[:3]
-
     def collect_from_wiki_html(session):
         response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_html"]["url"])
         if response is None:
@@ -303,13 +303,70 @@ def get_industry_intro():
                 break
         return items
 
+    def collect_from_wiki_en_html(session):
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_en_html"]["url"])
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
+        content = soup.select_one("div.mw-parser-output")
+        if not content:
+            return []
+        items = []
+        for p in content.find_all("p", recursive=False):
+            sentence = normalize_sentence(p.get_text(" ", strip=True))
+            if sentence:
+                items.append(sentence)
+            if len(items) >= 3:
+                break
+        return items
+
+    def collect_from_techtarget(session):
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["techtarget"]["url"])
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
+        body = soup.select_one("article") or soup.select_one("main")
+        if not body:
+            return []
+        items = []
+        for p in body.find_all("p"):
+            sentence = normalize_sentence(p.get_text(" ", strip=True))
+            if sentence:
+                items.append(sentence)
+            if len(items) >= 3:
+                break
+        return items
+
+    def collect_from_britannica(session):
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["britannica"]["url"])
+        if response is None:
+            return []
+        soup = BeautifulSoup(response.text, "html.parser")
+        body = (
+            soup.select_one("article")
+            or soup.select_one("section[data-title='Introduction']")
+            or soup.select_one("main")
+        )
+        if not body:
+            return []
+        items = []
+        for p in body.find_all("p"):
+            sentence = normalize_sentence(p.get_text(" ", strip=True))
+            if sentence:
+                items.append(sentence)
+            if len(items) >= 3:
+                break
+        return items
+
     with requests.Session() as session:
         session.headers.update(DEFAULT_HEADERS)
 
         sources = [
             ("baike", "百度百科", collect_from_baike),
-            ("wiki_api", "Wikipedia API", collect_from_wiki_api),
             ("wiki_html", "中文维基网页", collect_from_wiki_html),
+            ("wiki_en_html", "Wikipedia EN 页面", collect_from_wiki_en_html),
+            ("techtarget", "TechTarget", collect_from_techtarget),
+            ("britannica", "Britannica", collect_from_britannica),
         ]
 
         for source_key, source_name, collector in sources:
@@ -332,7 +389,7 @@ def get_industry_daily_terms():
         return text
 
     def split_sentences(text):
-        pieces = re.split(r"[。！？]", clean_text(text))
+        pieces = re.split(r"[。！？.!?]", clean_text(text))
         out = []
         for p in pieces:
             p = p.strip(" \n\t\r，,；;")
@@ -347,17 +404,6 @@ def get_industry_daily_terms():
     used_sources = set()
     with requests.Session() as session:
         session.headers.update(DEFAULT_HEADERS)
-        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_api"]["url"])
-        if response is not None:
-            try:
-                data = response.json()
-                wiki_sentences = split_sentences(data.get("extract", ""))
-                if wiki_sentences:
-                    used_sources.add("wiki_api")
-                    scraped_sentences.extend(wiki_sentences)
-            except Exception:
-                pass
-
         response = request_with_retry(session, INDUSTRY_SOURCE_MAP["baike"]["url"])
         if response is not None:
             soup = BeautifulSoup(response.text, "html.parser")
@@ -385,16 +431,45 @@ def get_industry_daily_terms():
                     used_sources.add("wiki_html")
                     scraped_sentences.extend(wiki_html_sentences)
 
-        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_en_api"]["url"])
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["wiki_en_html"]["url"])
         if response is not None:
-            try:
-                data = response.json()
-                en_sentences = split_sentences(data.get("extract", ""))
-                if en_sentences:
-                    used_sources.add("wiki_en_api")
-                    scraped_sentences.extend(en_sentences)
-            except Exception:
-                pass
+            soup = BeautifulSoup(response.text, "html.parser")
+            content = soup.select_one("div.mw-parser-output")
+            if content:
+                wiki_en_sentences = []
+                for p in content.find_all("p", recursive=False):
+                    wiki_en_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
+                if wiki_en_sentences:
+                    used_sources.add("wiki_en_html")
+                    scraped_sentences.extend(wiki_en_sentences)
+
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["techtarget"]["url"])
+        if response is not None:
+            soup = BeautifulSoup(response.text, "html.parser")
+            body = soup.select_one("article") or soup.select_one("main")
+            if body:
+                techtarget_sentences = []
+                for p in body.find_all("p"):
+                    techtarget_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
+                if techtarget_sentences:
+                    used_sources.add("techtarget")
+                    scraped_sentences.extend(techtarget_sentences)
+
+        response = request_with_retry(session, INDUSTRY_SOURCE_MAP["britannica"]["url"])
+        if response is not None:
+            soup = BeautifulSoup(response.text, "html.parser")
+            body = (
+                soup.select_one("article")
+                or soup.select_one("section[data-title='Introduction']")
+                or soup.select_one("main")
+            )
+            if body:
+                britannica_sentences = []
+                for p in body.find_all("p"):
+                    britannica_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
+                if britannica_sentences:
+                    used_sources.add("britannica")
+                    scraped_sentences.extend(britannica_sentences)
 
     dedup = []
     seen = set()
