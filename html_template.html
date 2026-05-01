@@ -22,7 +22,7 @@
                     <div class="text-sm uppercase tracking-wide opacity-90 mb-2">Semiconductor Investment Dashboard</div>
                     <h1 id="hero_title" class="text-3xl md:text-4xl font-extrabold">中国半导体投资看板</h1>
                     <p class="text-cyan-50 mt-2" id="company_count">{{ data|length }}家公司 · 实时追踪</p>
-                    <p class="text-cyan-100/90 text-xs mt-1">以“认知 -> 观察 -> 筛选 -> 复盘”的课程路径，持续跟踪核心公司。</p>
+                    <p class="text-cyan-100/90 text-xs mt-1">面向选股实操：先看信号，再看结构，最后回到风险与数据表确认。</p>
                 </div>
                 <div class="text-right text-sm min-w-[280px]">
                     <div id="last_update_label" class="opacity-80">数据更新时间</div>
@@ -77,20 +77,6 @@
                         </select>
                         <label class="text-xs text-slate-500">快速检索</label>
                         <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
-                    </div>
-                </div>
-                <div class="toolbar-block toolbar-runtime">
-                    <div class="toolbar-block-label">数据刷新</div>
-                    <div class="toolbar-runtime-controls">
-                        <button id="manual_refresh_btn" class="chip-btn chip-btn-primary" onclick="manualRefresh()">立即刷新</button>
-                        <label class="text-xs text-slate-500">自动刷新间隔</label>
-                        <select id="refresh_interval" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
-                            <option value="300">5 分钟</option>
-                            <option value="900">15 分钟</option>
-                            <option value="1800">30 分钟</option>
-                            <option value="3600" selected>60 分钟</option>
-                            <option value="0">关闭</option>
-                        </select>
                     </div>
                 </div>
             </div>

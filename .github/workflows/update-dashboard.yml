@@ -3,6 +3,19 @@ name: Refresh Dashboard Every Hour
 on:
   schedule:
     - cron: "0 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/update-dashboard.yml"
+      - "china_semiconductor_report.py"
+      - "config/**"
+      - "scripts/**"
+      - "html_template.html"
+      - "app.js"
+      - "dashboard.js"
+      - "styles.css"
+      - "requirements.txt"
   workflow_dispatch:
 
 concurrency:
