@@ -28,15 +28,6 @@
                     <div id="last_update_label" class="opacity-80">数据更新时间</div>
                     <div id="last_update" class="text-2xl font-bold mt-1" data-update-iso="{{ data_time_iso }}">{{ data_time }}</div>
                     <div id="timezone_badge" class="text-[11px] mt-1 opacity-90">中国时间（Asia/Shanghai）</div>
-                    <div class="mt-3 flex gap-2 justify-end">
-                        <select id="refresh_interval" class="px-3 py-2 rounded-xl border border-white/30 bg-white/20 text-white text-sm">
-                            <option value="0">关闭自动刷新</option>
-                            <option value="300">每5分钟</option>
-                            <option value="600" selected>每10分钟</option>
-                            <option value="1800">每30分钟</option>
-                        </select>
-                        <button id="manual_refresh_btn" onclick="manualRefresh()" class="px-4 py-2 rounded-xl bg-white text-teal-700 text-sm font-semibold">立即刷新</button>
-                    </div>
                     <div class="mt-2 flex gap-2 justify-end">
                         <select id="locale_profile" class="px-3 py-2 rounded-xl border border-white/30 bg-white/20 text-white text-sm">
                             <option value="zh-CN|Asia/Shanghai" selected>中文 + 中国时间</option>

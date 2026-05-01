@@ -33,7 +33,7 @@
     const FLOATER_SIDE_STORAGE_KEY = 'semicon_floater_side_v1';
     const LOCALE_PROFILE_STORAGE_KEY = 'semicon_locale_profile_v1';
     const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v2';
-    const DEFAULT_REFRESH_SECONDS = 600;
+    const DEFAULT_REFRESH_SECONDS = 3600;
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
@@ -792,7 +792,11 @@
 
     function setupAutoRefresh() {
         const sel = document.getElementById('refresh_interval');
-        if (!sel) return;
+        if (!sel) {
+            if (refreshTimer) clearInterval(refreshTimer);
+            refreshTimer = setInterval(() => refreshAllContent(), DEFAULT_REFRESH_SECONDS * 1000);
+            return;
+        }
         const hasDefault = Array.from(sel.options).some(o => Number(o.value) === DEFAULT_REFRESH_SECONDS);
         if (!hasDefault) {
             sel.value = String(DEFAULT_REFRESH_SECONDS);

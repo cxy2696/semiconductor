@@ -1,12 +1,12 @@
-name: Refresh Dashboard Every 10 Minutes
+name: Refresh Dashboard Every Hour
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 concurrency:
-  group: refresh-dashboard-10m
+  group: refresh-dashboard-hourly
   cancel-in-progress: false
 
 permissions:
@@ -39,7 +39,7 @@ jobs:
           OPEN_REPORT: "0"
           KEEP_LOCAL_ARTIFACTS: "0"
           RUN_ONCE: "1"
-          INTERVAL_SECONDS: "600"
+          INTERVAL_SECONDS: "3600"
           PYTHON_BIN: "python"
           REFRESH_RETRIES: "2"
         run: bash ./scripts/refresh_dashboard.sh --once
