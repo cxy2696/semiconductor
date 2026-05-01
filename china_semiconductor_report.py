@@ -245,17 +245,86 @@ def get_industry_intro():
 
 industry_intro, industry_intro_source = get_industry_intro()
 
-industry_basics = [
-    {"term": "上游（设备/材料）", "desc": "定位：提供光刻、刻蚀、薄膜沉积、硅片与化学品等基础能力。案例公司：北方华创、中微公司、沪硅产业。典型行业：晶圆制造、先进封装产线建设。"},
-    {"term": "中游（设计/制造）", "desc": "定位：完成芯片架构设计、流片与量产制造，是技术和资本密集环节。案例公司：寒武纪、兆易创新、中芯国际。典型行业：AI算力、消费电子、工业控制。"},
-    {"term": "下游（封测/应用）", "desc": "定位：负责封装测试并将芯片导入终端场景，直接影响交付质量与可靠性。案例公司：长电科技、通富微电、华天科技。典型行业：汽车电子、通信设备、智能终端。"},
-    {"term": "Fabless", "desc": "专注芯片设计，不自建晶圆厂，依赖外部代工生产。"},
-    {"term": "Foundry(晶圆代工)", "desc": "提供制造能力，承接Fabless和部分IDM的量产需求。"},
-    {"term": "IDM", "desc": "覆盖设计、制造、封测的一体化模式，资本开支较高。"},
-    {"term": "封测", "desc": "对芯片进行封装与测试，直接影响良率和交付质量。"},
-    {"term": "成熟制程/先进制程", "desc": "成熟制程偏工业与车规，先进制程偏高性能计算与AI。"},
-    {"term": "国产替代", "desc": "关键设备、材料和芯片能力本土化，是中长期主线。"},
-]
+def get_industry_daily_terms():
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    }
+
+    def clean_text(text):
+        text = re.sub(r"\[[^\]]*\]", "", text or "")
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
+    def split_sentences(text):
+        pieces = re.split(r"[。！？]", clean_text(text))
+        out = []
+        for p in pieces:
+            p = p.strip(" \n\t\r，,；;")
+            if len(p) < 16:
+                continue
+            if len(p) > 100:
+                p = p[:100].rstrip("，,；; ") + "..."
+            out.append(p + ("。" if not p.endswith("...") else ""))
+        return out
+
+    scraped_sentences = []
+    with requests.Session() as session:
+        session.headers.update(headers)
+        try:
+            resp = session.get("https://zh.wikipedia.org/api/rest_v1/page/summary/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            scraped_sentences.extend(split_sentences(data.get("extract", "")))
+        except Exception:
+            pass
+        try:
+            resp = session.get("https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93", timeout=10)
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, "html.parser")
+            summary = soup.select_one("div.lemma-summary") or soup.select_one("div.J-summary")
+            if summary:
+                for p in summary.find_all("p"):
+                    scraped_sentences.extend(split_sentences(p.get_text(" ", strip=True)))
+        except Exception:
+            pass
+
+    dedup = []
+    seen = set()
+    for sentence in scraped_sentences:
+        if sentence in seen:
+            continue
+        seen.add(sentence)
+        dedup.append(sentence)
+        if len(dedup) >= 12:
+            break
+
+    if dedup:
+        default_pad = [
+            "半导体产业链通常拆分为上游设备材料、中游设计制造、下游封测与应用。",
+            "先进制程主要服务高性能计算与AI，成熟制程广泛用于车规和工业控制。",
+            "封装测试直接影响芯片良率、功耗表现与交付稳定性。",
+            "国产替代关注关键设备、材料与核心芯片的本土化能力。",
+            "行业景气观察通常结合订单、库存周期、资本开支和终端需求。",
+            "估值与波动结合观察可帮助识别潜在风险和机会窗口。"
+        ]
+        merged = dedup[:]
+        for item in default_pad:
+            if len(merged) >= 9:
+                break
+            if item not in merged:
+                merged.append(item)
+        return [{"term": f"每日术语 {idx + 1}", "desc": text} for idx, text in enumerate(merged[:9])]
+
+    return [
+        {"term": "每日术语 1", "desc": "半导体是现代电子系统基础材料，导电性介于绝缘体与导体之间。"},
+        {"term": "每日术语 2", "desc": "行业链路分为上游设备材料、中游设计制造、下游封测应用。"},
+        {"term": "每日术语 3", "desc": "国产替代聚焦设备、材料与关键芯片能力建设。"},
+        {"term": "每日术语 4", "desc": "先进制程偏向高性能计算与AI场景，成熟制程服务工业与车规。"},
+        {"term": "每日术语 5", "desc": "封测直接影响芯片良率、稳定性与交付质量。"},
+    ]
+
+industry_basics = get_industry_daily_terms()
 
 industry_source_refs = [
     {"name": "百度百科（半导体）", "url": "https://baike.baidu.com/item/%E5%8D%8A%E5%AF%BC%E4%BD%93"},
@@ -481,7 +550,7 @@ candidate_cols = ['code', 'name', 'market_cap', 'business_type', 'chain_segment'
 top_candidates = (
     df.dropna(subset=['market_cap'])
       .sort_values('market_cap', ascending=False)
-      .head(18)[candidate_cols]
+      .head(72)[candidate_cols]
       .to_dict(orient='records')
 )
 
@@ -508,6 +577,7 @@ def fetch_kline_entry(comp):
         key = f"{comp['name']}（{code_str}）"
         return key, {
             "code": code_str,
+            "market_cap": float(comp.get("market_cap") or 0),
             "business_type": comp.get("business_type", "其他"),
             "chain_segment": comp.get("chain_segment", "其他"),
             "date": hist.index.strftime("%Y-%m-%d").tolist(),
@@ -530,8 +600,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         key, payload = result
         if key not in kline_data:
             kline_data[key] = payload
-        if len(kline_data) >= 6:
-            break
 
 with open(pick_first_existing(_template_path_candidates), encoding="utf-8") as _tpl_file:
     html_template = _tpl_file.read()
@@ -614,6 +682,18 @@ print(f"HTML（完全基于Excel）→ {html_file}")
 print(f"GitHub Pages 输出 → {docs_html_file}")
 print(f"实时刷新数据输出 → {docs_payload_file}")
 
+# 默认在本地打开报告场景下保留产物，其余场景清理根目录本地产物以减少仓库噪音。
+ci_mode = os.environ.get("CI", "").lower() == "true"
+open_report_enabled = os.environ.get("OPEN_REPORT", "1") == "1"
+keep_local_artifacts = os.environ.get("KEEP_LOCAL_ARTIFACTS", "0") == "1" or (not ci_mode and open_report_enabled)
+if not keep_local_artifacts:
+    for local_file in [excel_file, html_file, latest_payload_file]:
+        try:
+            if os.path.exists(local_file):
+                os.remove(local_file)
+        except Exception:
+            pass
+
 # CI / workflow 环境默认不弹浏览器，本地可通过 OPEN_REPORT=1 启用自动打开
-if os.environ.get("CI", "").lower() != "true" and os.environ.get("OPEN_REPORT", "1") == "1":
+if not ci_mode and open_report_enabled and keep_local_artifacts:
     webbrowser.open(f"file://{os.path.abspath(html_file)}")

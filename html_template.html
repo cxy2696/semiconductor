@@ -203,7 +203,7 @@
                 <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:underline">{{ src.name }}</a>{% if not loop.last %}<span class="mx-1 text-slate-300">|</span>{% endif %}
                 {% endfor %}
             </div>
-            <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览</h4>
+            <h4 class="text-sm font-semibold text-slate-700 mb-2">术语速览（每日抓取 Tips）</h4>
             <div id="industry_basics_grid" class="industry-basics-grid mb-4">
                 {% for item in industry_basics %}
                 <div class="industry-basic-item">
@@ -251,7 +251,7 @@
 
         <section id="news_section" class="panel p-5">
             <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
-                <h2 id="news_title" class="panel-header text-xl">最新行业新闻</h2>
+                <h2 id="news_title" class="panel-header text-xl">最新行业新闻（Scraping Daily Tips）</h2>
                 <button onclick="randomizeNewsCards()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs hover:border-teal-400">换一批最新新闻</button>
             </div>
             <div id="news_grid" class="grid grid-cols-1 lg:grid-cols-2 gap-2 max-h-[42vh] overflow-auto pr-1"></div>

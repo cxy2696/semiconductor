@@ -160,7 +160,8 @@
         if (tzBadge) tzBadge.textContent = t.timezoneBadge;
         updateCompanyCount(filteredData.length || originalData.length, false);
         updateLastUpdateDisplay();
-        renderNewsCards(getLatestNewsItems());
+        const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
+        renderNewsCards(getLatestNewsItems(6, key));
         if (persist) {
             try { localStorage.setItem(LOCALE_PROFILE_STORAGE_KEY, `${currentLanguage}|${currentTimeZone}`); } catch (_) {}
         }
@@ -356,11 +357,29 @@
         renderKlines();
     }
 
-    function renderKlines() {
+    function getFilteredKlineEntries() {
+        if (!filteredData.length) return [];
+        const selectedCodes = new Set(filteredData.map(row => String(row.code || '')));
+        const filteredCap = {};
+        filteredData.forEach(row => { filteredCap[String(row.code || '')] = toNumber(row.market_cap) ?? 0; });
+        const matched = Object.entries(klineRuntimeData || {}).filter(([, item]) => selectedCodes.has(String(item?.code || '')));
+        const source = matched.length ? matched : Object.entries(klineRuntimeData || {});
+        return source.sort((a, b) => {
+            const capA = filteredCap[String(a[1]?.code || '')] ?? (toNumber(a[1]?.market_cap) ?? 0);
+            const capB = filteredCap[String(b[1]?.code || '')] ?? (toNumber(b[1]?.market_cap) ?? 0);
+            return capB - capA;
+        }).slice(0, 6);
+    }
+
+    function renderKlines(entries = getFilteredKlineEntries()) {
         const container = document.getElementById('kline_container');
         if (!container) return;
         container.innerHTML = '';
-        Object.entries(klineRuntimeData || {}).forEach(([name, d], idx) => {
+        if (!entries.length) {
+            container.innerHTML = '<div class="stat-card p-4 text-sm text-slate-500">当前筛选条件下暂无可展示K线。</div>';
+            return;
+        }
+        entries.forEach(([name, d], idx) => {
             const id = `kline_${idx}`;
             const card = document.createElement('div');
             card.className = 'text-center stat-card interactive-card p-3';
@@ -397,20 +416,36 @@
         `;
     }
 
-    function renderIndustryStaticContent() {
+    function renderIndustryStaticContent(keyword = '') {
         const introBox = document.getElementById('industry_intro_list');
         const basicsBox = document.getElementById('industry_basics_grid');
         const sourceBox = document.getElementById('industry_source_refs');
         const sourceBadge = document.getElementById('industry_intro_source_badge');
-        const introItems = Array.isArray(industryRuntimePayload.industry_intro) ? industryRuntimePayload.industry_intro : [];
-        const basicsItems = Array.isArray(industryRuntimePayload.industry_basics) ? industryRuntimePayload.industry_basics : [];
+        const introItemsRaw = Array.isArray(industryRuntimePayload.industry_intro) ? industryRuntimePayload.industry_intro : [];
+        const basicsItemsRaw = Array.isArray(industryRuntimePayload.industry_basics) ? industryRuntimePayload.industry_basics : [];
         const sourceItems = Array.isArray(industryRuntimePayload.industry_source_refs) ? industryRuntimePayload.industry_source_refs : [];
+        const key = String(keyword || '').trim().toLowerCase();
+        const dateKey = new Date().toISOString().slice(0, 10);
+        const rotateBy = (dateKey.charCodeAt(0) + dateKey.charCodeAt(dateKey.length - 1)) % 7;
+        const rotate = (arr) => {
+            if (!arr.length) return arr;
+            const idx = rotateBy % arr.length;
+            return arr.slice(idx).concat(arr.slice(0, idx));
+        };
+        const introItems = key
+            ? introItemsRaw.filter(text => String(text || '').toLowerCase().includes(key))
+            : rotate(introItemsRaw);
+        const basicsItems = key
+            ? basicsItemsRaw.filter(item => `${String(item?.term || '')} ${String(item?.desc || '')}`.toLowerCase().includes(key))
+            : rotate(basicsItemsRaw);
 
-        if (introBox && introItems.length) {
-            introBox.innerHTML = introItems.map(text => `<div class="stat-card p-4">${safeText(text, '')}</div>`).join('');
+        if (introBox) {
+            const displayIntro = (introItems.length ? introItems : introItemsRaw).slice(0, 3);
+            introBox.innerHTML = displayIntro.map(text => `<div class="stat-card p-4">${safeText(text, '')}</div>`).join('');
         }
-        if (basicsBox && basicsItems.length) {
-            basicsBox.innerHTML = basicsItems.map(item => `
+        if (basicsBox) {
+            const displayBasics = (basicsItems.length ? basicsItems : basicsItemsRaw).slice(0, 9);
+            basicsBox.innerHTML = displayBasics.map(item => `
                 <div class="industry-basic-item">
                     <div class="term">${safeText(item?.term, '术语')}</div>
                     <div class="desc">${safeText(item?.desc, '暂无说明')}</div>
@@ -444,9 +479,13 @@
         cards.innerHTML = rows.map(x => `<div class="stat-card p-3"><div class="flex items-center justify-between mb-1"><div class="text-sm font-semibold">${safeText(x.row.name)} <span class="text-xs text-slate-400">(${safeText(x.row.code)})</span></div><span class="text-xs px-2 py-0.5 rounded-full border ${x.risk >= 70 ? 'text-red-600 border-red-200 bg-red-50' : (x.risk >= 45 ? 'text-amber-600 border-amber-200 bg-amber-50' : 'text-emerald-600 border-emerald-200 bg-emerald-50')}">${x.risk >= 70 ? '高' : (x.risk >= 45 ? '中' : '低')}风险 · ${x.risk}</span></div><div class="text-xs text-slate-500">${safeText(x.row.chain_segment, '其他')} · ${safeText(x.row.business_type, '其他')}</div></div>`).join('');
     }
 
-    function getLatestNewsItems(limit = 6) {
+    function getLatestNewsItems(limit = 6, keyword = '') {
         const sorted = [...(newsPoolData || [])].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-        return sorted.slice(0, Math.min(limit, sorted.length || 0));
+        const key = String(keyword || '').trim().toLowerCase();
+        const filtered = key
+            ? sorted.filter(item => `${String(item?.title || '')} ${String(item?.date || '')}`.toLowerCase().includes(key))
+            : sorted;
+        return filtered.slice(0, Math.min(limit, filtered.length || 0));
     }
 
     function renderNewsCards(items) {
@@ -491,7 +530,8 @@
             const el = document.getElementById('last_update');
             if (el) el.dataset.updateIso = payload.data_time_iso;
         }
-        renderIndustryStaticContent();
+        const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
+        renderIndustryStaticContent(key);
         renderFilters();
         applyFilters();
         setRefreshStatus('', 'info');
@@ -543,10 +583,12 @@
         renderSummaryCards(snapshot);
         renderPickCards();
         renderTable();
-        renderNewsCards(getLatestNewsItems());
+        renderNewsCards(getLatestNewsItems(6, keyword));
+        renderIndustryStaticContent(keyword);
         renderAlerts(snapshot);
         renderIndustryKnowledge(snapshot);
         renderSupplyRisk(snapshot);
+        renderKlines(getFilteredKlineEntries());
         scheduleChartsRender();
     }
 
@@ -657,7 +699,8 @@
     }
 
     function randomizeNewsCards() {
-        const latestPool = getLatestNewsItems(18);
+        const key = (document.getElementById('quick_search')?.value || '').trim().toLowerCase();
+        const latestPool = getLatestNewsItems(18, key);
         const shuffled = [...latestPool].sort(() => Math.random() - 0.5).slice(0, 6);
         renderNewsCards(shuffled);
     }
