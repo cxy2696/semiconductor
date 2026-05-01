@@ -670,8 +670,68 @@
         const hasPlot = Boolean(node.querySelector('.plot-container'));
         const renderer = hasPlot ? Plotly.react : Plotly.newPlot;
         renderer(id, traces, finalLayout, options)
-            .then(() => bindChartZoom(id, node.dataset.chartZoomTitle || 'Chart'))
+            .then(() => {
+                const fallback = node.querySelector('.chart-fallback');
+                if (fallback) fallback.style.display = 'none';
+                bindChartZoom(id, node.dataset.chartZoomTitle || 'Chart');
+            })
             .catch(() => {});
+    }
+
+    function aggregateByPair(rows, key1, key2) {
+        const map = {};
+        rows.forEach(row => {
+            const k1 = String(row?.[key1] || '其他');
+            const k2 = String(row?.[key2] || '其他');
+            if (!map[k1]) map[k1] = {};
+            map[k1][k2] = (map[k1][k2] || 0) + 1;
+        });
+        return map;
+    }
+
+    function buildSunburstData(rootLabel, firstLevelMap) {
+        const labels = [rootLabel];
+        const parents = [''];
+        const values = [Object.values(firstLevelMap).reduce((sum, leaf) => sum + Object.values(leaf).reduce((s, v) => s + v, 0), 0)];
+
+        Object.entries(firstLevelMap).forEach(([k1, childMap]) => {
+            const firstValue = Object.values(childMap).reduce((s, v) => s + v, 0);
+            labels.push(k1);
+            parents.push(rootLabel);
+            values.push(firstValue);
+            Object.entries(childMap).forEach(([k2, count]) => {
+                labels.push(`${k2}`);
+                parents.push(k1);
+                values.push(count);
+            });
+        });
+        return { labels, parents, values };
+    }
+
+    function renderSegmentExtremes(segForChange) {
+        const box = document.getElementById('chain_extremes_list');
+        if (!box) return;
+        if (!segForChange.length) {
+            box.innerHTML = '';
+            return;
+        }
+        box.innerHTML = segForChange.map(seg => {
+            const rows = filteredData
+                .filter(row => String(row?.chain_segment || '其他') === seg)
+                .filter(row => toNumber(row?.change_pct) !== null);
+            if (!rows.length) {
+                return `<div class="stat-card p-3"><div class="text-xs text-slate-500">${safeText(seg)}</div><div class="text-sm text-slate-400 mt-1">暂无涨跌数据</div></div>`;
+            }
+            const topUp = [...rows].sort((a, b) => (toNumber(b.change_pct) ?? -999) - (toNumber(a.change_pct) ?? -999))[0];
+            const topDown = [...rows].sort((a, b) => (toNumber(a.change_pct) ?? 999) - (toNumber(b.change_pct) ?? 999))[0];
+            return `
+                <div class="stat-card p-3">
+                    <div class="text-xs text-slate-500 mb-1">${safeText(seg)} 链段极值</div>
+                    <div class="text-[12px]">涨幅最高：<span class="font-semibold">${safeText(topUp?.name, '-')}</span> <span class="positive">${fmt(topUp?.change_pct)}%</span></div>
+                    <div class="text-[12px] mt-1">跌幅最高：<span class="font-semibold">${safeText(topDown?.name, '-')}</span> <span class="negative">${fmt(topDown?.change_pct)}%</span></div>
+                </div>
+            `;
+        }).join('');
     }
 
     function scheduleChartsRender() {
@@ -696,10 +756,49 @@
         });
         const snapshot = computeSnapshot(filteredData);
         const segLabels = Object.keys(snapshot.segmentCounts).sort(sortBySegmentOrder);
-        plotChart('chain_segment_bar', [{ x: segLabels, y: segLabels.map(k => snapshot.segmentCounts[k]), type: 'bar' }], { height: 230 });
-        plotChart('chain_pie', [{ type: 'sunburst', labels: ['半导体产业链', ...segLabels], parents: ['', ...segLabels.map(() => '半导体产业链')], values: [snapshot.totalCount, ...segLabels.map(k => snapshot.segmentCounts[k])] }], { height: 320 });
-        plotChart('top20_chart', [{ x: snapshot.top20.map(x => x.row.name), y: snapshot.top20.map(x => x.cap), type: 'bar' }], { height: 380, xaxis: { tickangle: -35 } });
-        plotChart('board_pie', [{ values: Object.values(snapshot.boardCounts), labels: Object.keys(snapshot.boardCounts), type: 'pie', hole: 0.65 }], { height: 380 });
+
+        // 模块B-1：链段 -> 业务（饼图）
+        const segBizMap = aggregateByPair(filteredData, 'chain_segment', 'business_type');
+        const segBizSunburst = buildSunburstData('产业链', segBizMap);
+        plotChart('chain_pie', [{
+            type: 'sunburst',
+            labels: segBizSunburst.labels,
+            parents: segBizSunburst.parents,
+            values: segBizSunburst.values,
+            branchvalues: 'total'
+        }], { height: 320 });
+
+        // 模块B-1：链段 -> 板块（柱状图）
+        const segBoardMap = aggregateByPair(filteredData, 'chain_segment', 'board');
+        const allBoards = Array.from(new Set(filteredData.map(row => String(row?.board || '其他')))).sort();
+        const segBoardTraces = allBoards.map(board => ({
+            x: segLabels,
+            y: segLabels.map(seg => segBoardMap?.[seg]?.[board] || 0),
+            type: 'bar',
+            name: board
+        }));
+        plotChart('chain_segment_bar', segBoardTraces, { height: 250, barmode: 'stack', legend: { orientation: 'h' } });
+
+        // 市值Top20：补充业务标签
+        plotChart('top20_chart', [{
+            x: snapshot.top20.map(x => `${x.row.name}`),
+            y: snapshot.top20.map(x => x.cap),
+            type: 'bar',
+            text: snapshot.top20.map(x => String(x.row.business_type || '其他')),
+            textposition: 'outside',
+            hovertemplate: '<b>%{x}</b><br>业务: %{text}<br>市值: %{y:.2f} 亿<extra></extra>'
+        }], { height: 380, xaxis: { tickangle: -35 } });
+
+        // 板块 -> 业务
+        const boardBizMap = aggregateByPair(filteredData, 'board', 'business_type');
+        const boardBizSunburst = buildSunburstData('板块', boardBizMap);
+        plotChart('board_pie', [{
+            type: 'sunburst',
+            labels: boardBizSunburst.labels,
+            parents: boardBizSunburst.parents,
+            values: boardBizSunburst.values,
+            branchvalues: 'total'
+        }], { height: 380 });
         const regionSorted = Object.entries(snapshot.regionCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
         const regionCoordMap = {
             北京: [116.4, 39.9], 上海: [121.47, 31.23], 天津: [117.2, 39.13], 重庆: [106.55, 29.56],
@@ -747,14 +846,23 @@
                 }
             }
         );
-        const bizSorted = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1]).slice(0, 12);
-        plotChart('business_chart', [{ x: bizSorted.map(x => x[0]), y: bizSorted.map(x => x[1]), type: 'bar' }], { height: 380, xaxis: { tickangle: -35 } });
+        // 业务 -> 地区
+        const bizRegionMap = aggregateByPair(filteredData, 'business_type', 'region');
+        const bizRegionSunburst = buildSunburstData('业务类型', bizRegionMap);
+        plotChart('business_chart', [{
+            type: 'sunburst',
+            labels: bizRegionSunburst.labels,
+            parents: bizRegionSunburst.parents,
+            values: bizRegionSunburst.values,
+            branchvalues: 'total'
+        }], { height: 380 });
         const segForChange = Object.keys(snapshot.segmentChangeAgg).sort(sortBySegmentOrder);
         const segAvg = segForChange.map(seg => {
             const v = snapshot.segmentChangeAgg[seg];
             return v && v.cnt ? Number((v.sum / v.cnt).toFixed(2)) : 0;
         });
-        plotChart('chain_change_chart', [{ x: segForChange, y: segAvg, type: 'bar' }], { height: 380 });
+        plotChart('chain_change_chart', [{ x: segForChange, y: segAvg, type: 'bar', marker: { color: '#0f766e' } }], { height: 380 });
+        renderSegmentExtremes(segForChange);
         plotChart('risk_segment_chart', [{ x: segForChange, y: segAvg.map(v => Math.min(100, Math.abs(v) * 8 + riskWeights.segment)), type: 'bar' }], { height: 300, yaxis: { range: [0, 100] } });
         renderKlines();
     }
@@ -826,6 +934,52 @@
             <div class="stat-card p-3"><div class="text-xs text-slate-500">链段实时知识点</div><div class="text-base font-semibold mt-1">${topSeg ? `${topSeg[0]}（${topSeg[1]}家）` : 'N/A'}</div><div class="text-xs text-slate-500 mt-1">${safeText(chainIntro)}</div></div>
             <div class="stat-card p-3"><div class="text-xs text-slate-500">样本均值</div><div class="text-sm mt-1">平均涨跌幅：<span class="font-semibold ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</span></div></div>
         `;
+    }
+
+    function renderIndustryGlossaryNotes(snapshot) {
+        const box = document.getElementById('industry_glossary_notes');
+        if (!box) return;
+        const topBoard = Object.entries(snapshot.boardCounts).sort((a, b) => b[1] - a[1])[0];
+        const topBiz = Object.entries(snapshot.businessCounts).sort((a, b) => b[1] - a[1])[0];
+        const topSeg = Object.entries(snapshot.segmentCounts).sort((a, b) => b[1] - a[1])[0];
+        const notes = [
+            {
+                term: '链段释义',
+                desc: '上游（设备/材料）决定产能扩张效率；中游（设计/代工/存储）决定产品兑现；下游（封测/功率等）决定交付与落地。'
+            },
+            {
+                term: '链段注意事项',
+                desc: topSeg
+                    ? `当前${topSeg[0]}链段占比最高（${topSeg[1]}家），需警惕单链段拥挤交易。`
+                    : '当前链段主导不明显，可保持均衡观察。'
+            },
+            {
+                term: '业务释义',
+                desc: '业务类型反映公司盈利模式与景气弹性，不同业务对估值容忍区间差异较大。'
+            },
+            {
+                term: '业务注意事项',
+                desc: topBiz
+                    ? `当前${topBiz[0]}最集中（${topBiz[1]}家），建议结合地区与板块做交叉验证。`
+                    : '业务分布分散，建议优先筛选高分与高流动性标的。'
+            },
+            {
+                term: '板块释义',
+                desc: '主板/中小板偏成熟与稳健，科创/创业偏成长与波动，适配不同风险偏好。'
+            },
+            {
+                term: '板块注意事项',
+                desc: topBoard
+                    ? `当前${topBoard[0]}公司最多（${topBoard[1]}家），需结合涨跌幅与估值避免追高。`
+                    : '板块分布均衡，可优先关注基本面改善信号。'
+            }
+        ];
+        box.innerHTML = notes.map(item => `
+            <div class="industry-basic-item">
+                <div class="term">${safeText(item.term)}</div>
+                <div class="desc">${safeText(item.desc)}</div>
+            </div>
+        `).join('');
     }
 
     function renderIndustryStaticContent(keyword = '') {
@@ -1033,6 +1187,7 @@
         renderGlobalComparisonCards();
         renderAlerts(snapshot);
         renderIndustryKnowledge(snapshot);
+        renderIndustryGlossaryNotes(snapshot);
         renderSupplyRisk(snapshot);
         renderKlines(getFilteredKlineEntries());
         scheduleChartsRender();

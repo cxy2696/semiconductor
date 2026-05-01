@@ -216,7 +216,7 @@
         <section id="charts_row_1" class="chart-grid-two">
             <div class="panel p-5">
                 <h2 class="panel-header text-xl mb-2">模块B｜产业链分布（细分）</h2>
-                <p class="section-subtitle">按“上游/中游/下游”及业务类型双层展示，并补充链段占比柱状图。</p>
+                <p class="section-subtitle">饼图细化到“链段→业务”，柱状图细化到“链段→板块”，用于观察结构层级。</p>
                 <div id="chain_pie" class="chart-container h-80"><div class="chart-fallback">图表加载中...</div></div>
                 <div id="chain_segment_bar" class="chart-container h-64 mt-3"><div class="chart-fallback">图表加载中...</div></div>
             </div>
@@ -230,12 +230,12 @@
         <section id="charts_row_2" class="chart-grid-two">
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">市值 Top20（亿元）</h3>
-                <p class="section-subtitle">颜色映射当日涨跌幅，帮助识别规模与短期动量的组合。</p>
+                <p class="section-subtitle">颜色映射当日涨跌幅，并在图中/悬浮提示标注公司业务类型。</p>
                 <div id="top20_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">板块分布</h3>
-                <p class="section-subtitle">观察不同上市板块的样本占比结构。</p>
+                <p class="section-subtitle">细化到“板块→业务”，观察不同板块内部赛道构成。</p>
                 <div id="board_pie" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
@@ -245,13 +245,14 @@
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">业务类型分布</h3>
-                <p class="section-subtitle">重点观察业务赛道的公司数量与头部集中情况。</p>
+                <p class="section-subtitle">细化到“业务→地区”，查看赛道在不同区域的承载分布。</p>
                 <div id="business_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
             </div>
             <div class="panel p-5">
                 <h3 class="panel-header text-xl mb-2">链段平均涨跌幅</h3>
-                <p class="section-subtitle">按上/中/下游统计平均涨跌幅，快速看当日景气强弱。</p>
+                <p class="section-subtitle">在均值之外补充每个链段“涨幅最高/跌幅最高”公司，便于定位异动来源。</p>
                 <div id="chain_change_chart" class="chart-container h-96"><div class="chart-fallback">图表加载中...</div></div>
+                <div id="chain_extremes_list" class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3"></div>
             </div>
         </section>
 
@@ -261,22 +262,20 @@
                 <span id="industry_intro_source_badge" class="text-[11px] px-2 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-700">来源：{{ industry_intro_source }}</span>
             </div>
             <div id="industry_intro_list" class="grid grid-cols-1 gap-4 text-sm text-slate-700 mb-3">
-                {% for text in industry_intro %}
-                <div class="stat-card p-4">{{ text }}</div>
-                {% endfor %}
+                <div class="stat-card p-4">正在加载“基本面与基本盘”实时解释...</div>
             </div>
             <div id="industry_source_refs" class="text-xs text-slate-500 mb-4">更新说明：本模块展示“基本面与基本盘”实时解释。</div>
             <h4 class="text-sm font-semibold text-slate-700 mb-2">基本面与基本盘要点（实时）</h4>
             <div id="industry_basics_grid" class="industry-basics-grid mb-4">
-                {% for item in industry_basics %}
                 <div class="industry-basic-item">
-                    <div class="term">{{ item.term }}</div>
-                    <div class="desc">{{ item.desc }}</div>
+                    <div class="term">实时更新</div>
+                    <div class="desc">模块加载后将根据当前筛选样本自动生成要点。</div>
                 </div>
-                {% endfor %}
             </div>
             <h4 class="text-sm font-semibold text-slate-700 mb-2">样本实时观察</h4>
             <div id="industry_live_metrics" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+            <h4 class="text-sm font-semibold text-slate-700 mb-2 mt-4">链段 / 业务 / 板块 释义与注意事项</h4>
+            <div id="industry_glossary_notes" class="industry-basics-grid mb-4"></div>
             <h4 id="global_compare_title" class="text-sm font-semibold text-slate-700 mb-2 mt-4">全球信号快照</h4>
             <p id="global_compare_desc" class="section-subtitle">从可访问中英文网站持续抓取，结合最新新闻进行每日随机更新。</p>
             <div id="global_compare_cards" class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3"></div>
