@@ -9,8 +9,9 @@
     <title>中国半导体行业报告</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+    <link rel="stylesheet" href="./styles.css?v={{ data_time_iso }}">
     <script defer src="./app.js?v={{ data_time_iso }}"></script>
-    <style>
+    {#
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&display=swap');
 
         :root {
@@ -281,7 +282,7 @@
                 background: transparent !important;
             }
         }
-    </style>
+    #}
 </head>
 <body class="min-h-screen">
 <div class="layout-shell">

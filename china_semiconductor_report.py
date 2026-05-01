@@ -531,6 +531,12 @@ docs_js_file = os.path.join(_docs_dir, "app.js")
 if os.path.exists(frontend_js_file):
     shutil.copyfile(frontend_js_file, docs_js_file)
 
+# 样式文件同步到 docs
+frontend_css_file = os.path.join(_base_dir, "styles.css")
+docs_css_file = os.path.join(_docs_dir, "styles.css")
+if os.path.exists(frontend_css_file):
+    shutil.copyfile(frontend_css_file, docs_css_file)
+
 # 禁用 Jekyll，确保静态文件按原样发布
 nojekyll_file = os.path.join(_docs_dir, ".nojekyll")
 with open(nojekyll_file, "w", encoding="utf-8") as f:

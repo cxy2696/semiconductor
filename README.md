@@ -23,13 +23,15 @@ China semiconductor market dashboard with real-time data/news aggregation and Gi
 ## Repository Layout
 
 - `china_semiconductor_report.py`: data + news fetch, scoring, chart payload generation, HTML build
-- `html_template.html`: JavaScript-first responsive frontend template
+- `html_template.html`: HTML template structure and data bindings
+- `styles.css`: external stylesheet for website layout and visual format
 - `app.js`: front-end JavaScript enhancement layer (mobile/tablet/desktop UX)
 - `company_metadata`: tracked company universe
 - `refresh_report_every_5m.sh`: local 24/7 loop (every 5 minutes)
 - `requirements.txt`: Python dependencies
 - `.github/workflows/update-dashboard.yml`: scheduled auto-refresh workflow
 - `docs/index.html`: GitHub Pages entrypoint (generated/updated by script)
+- `docs/styles.css`: stylesheet served by GitHub Pages
 - `docs/app.js`: front-end JavaScript served by GitHub Pages
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
 
