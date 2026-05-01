@@ -46,9 +46,9 @@
     };
 
     const TEXTS = {
-        'zh-CN': { title: '中国半导体投资学习课', refreshNow: '立即刷新', newsTitle: '课程模块E｜最新行业新闻', companiesUnit: '家公司', realTimeTrack: '实时追踪', realTimeData: '实时数据', timezoneBadge: '中国时间（Asia/Shanghai）' },
-        'en-US': { title: 'China Semiconductor Investment Course', refreshNow: 'Refresh now', newsTitle: 'Module E | Latest Industry News', companiesUnit: ' companies', realTimeTrack: 'real-time tracking', realTimeData: 'real-time data', timezoneBadge: 'EST/EDT (America/New_York)' },
-        'de-DE': { title: 'Investitionskurs Chinas Halbleiter', refreshNow: 'Jetzt aktualisieren', newsTitle: 'Modul E | Neueste Branchennachrichten', companiesUnit: ' Unternehmen', realTimeTrack: 'Echtzeit-Tracking', realTimeData: 'Echtzeitdaten', timezoneBadge: 'CET/CEST (Europe/Berlin)' }
+        'zh-CN': { title: '中国半导体投资看板', refreshNow: '立即刷新', newsTitle: '课程模块E｜最新行业新闻', companiesUnit: '家公司', realTimeTrack: '实时追踪', realTimeData: '实时数据', timezoneBadge: '中国时间（Asia/Shanghai）' },
+        'en-US': { title: 'China Semiconductor Investment Dashboard', refreshNow: 'Refresh now', newsTitle: 'Module E | Latest Industry News', companiesUnit: ' companies', realTimeTrack: 'real-time tracking', realTimeData: 'real-time data', timezoneBadge: 'EST/EDT (America/New_York)' },
+        'de-DE': { title: 'China Halbleiter-Investitionsdashboard', refreshNow: 'Jetzt aktualisieren', newsTitle: 'Modul E | Neueste Branchennachrichten', companiesUnit: ' Unternehmen', realTimeTrack: 'Echtzeit-Tracking', realTimeData: 'Echtzeitdaten', timezoneBadge: 'CET/CEST (Europe/Berlin)' }
     };
 
     function getRefreshStatusEl() {

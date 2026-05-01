@@ -1,4 +1,4 @@
-# China Semiconductor Investment Course Dashboard
+# China Semiconductor Investment Dashboard
 
 China semiconductor market learning dashboard with real-time data/news aggregation and GitHub-ready automation.
 

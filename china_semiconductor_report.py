@@ -624,16 +624,16 @@ html_content = template.render(
     industry_updated_time=_data_generated_cn.strftime("%Y-%m-%d %H:%M:%S"),
     kline_data=safe_kline_data,
     page_mode="all",
-    page_title="中国半导体投资学习课"
+    page_title="中国半导体投资看板"
 )
 
 page_render_specs = [
-    ("index.html", "all", "中国半导体投资学习课"),
-    ("overview.html", "overview", "模块A｜市场快照 - 中国半导体投资学习课"),
-    ("charts.html", "charts", "模块B｜图谱与K线 - 中国半导体投资学习课"),
-    ("knowledge.html", "knowledge", "模块C｜知识课堂 - 中国半导体投资学习课"),
-    ("risk-news.html", "risk-news", "模块D/E｜风险与新闻 - 中国半导体投资学习课"),
-    ("data-center.html", "data-center", "数据中心 - 中国半导体投资学习课"),
+    ("index.html", "all", "中国半导体投资看板"),
+    ("overview.html", "overview", "模块A｜市场快照 - 中国半导体投资看板"),
+    ("charts.html", "charts", "模块B｜图谱与K线 - 中国半导体投资看板"),
+    ("knowledge.html", "knowledge", "模块C｜知识课堂 - 中国半导体投资看板"),
+    ("risk-news.html", "risk-news", "模块D/E｜风险与新闻 - 中国半导体投资看板"),
+    ("data-center.html", "data-center", "数据中心 - 中国半导体投资看板"),
 ]
 
 latest_payload = {
