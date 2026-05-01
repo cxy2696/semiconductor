@@ -10,12 +10,17 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  refresh-dashboard:
+  build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
@@ -38,7 +43,6 @@ jobs:
           CI: "true"
           OPEN_REPORT: "0"
           KEEP_LOCAL_ARTIFACTS: "0"
-          RUN_ONCE: "1"
           INTERVAL_SECONDS: "3600"
           PYTHON_BIN: "python"
           REFRESH_RETRIES: "2"
@@ -123,14 +127,14 @@ jobs:
           print("Artifact validation passed.")
           PY
 
-      - name: Ensure GitHub Pages marker exists
-        run: touch docs/.nojekyll
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - name: Commit and push updates if changed
-        uses: stefanzweifel/git-auto-commit-action@v7.1.0
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          commit_message: "chore: refresh dashboard data and docs"
-          file_pattern: "docs/index.html docs/overview.html docs/charts.html docs/knowledge.html docs/risk-news.html docs/data-center.html docs/app.js docs/dashboard.js docs/styles.css docs/latest_data.json docs/.nojekyll"
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

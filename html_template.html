@@ -48,12 +48,15 @@
             <a class="course-nav-link" href="./data-center.html">数据中心</a>
         </nav>
 
-        <section class="toolbar p-3">
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-                <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
+        <section class="toolbar p-4" id="control_toolbar">
+            <div class="toolbar-grid">
+                <div class="toolbar-block">
+                    <div class="toolbar-block-label">模块跳转</div>
+                    <div id="toolbar_primary" class="flex items-center gap-2 flex-wrap">
                     <button id="nav_onboarding_btn" class="chip-btn" onclick="jumpTo('onboarding_section')">引导</button>
                     <button id="nav_method_btn" class="chip-btn" onclick="jumpTo('methodology_section')">选股逻辑</button>
                     <button id="nav_overview_btn" class="chip-btn" onclick="jumpTo('summary_cards')">概览</button>
+                    <button id="nav_decision_btn" class="chip-btn" onclick="jumpTo('decision_support_section')">决策辅助</button>
                     <button id="nav_pick_btn" class="chip-btn" onclick="jumpTo('pick_section')">候选精选</button>
                     <button id="nav_chart_btn" class="chip-btn" onclick="jumpTo('charts_row_1')">图表分析</button>
                     <button id="nav_risk_btn" class="chip-btn" onclick="jumpTo('supply_risk_section')">供应链风险</button>
@@ -62,15 +65,33 @@
                     <button id="reading_mode_btn" class="chip-btn" onclick="toggleReadingMode()">阅读模式：舒适</button>
                     <button id="floater_mode_btn" class="chip-btn" onclick="toggleSectionFloater()">板块浮窗：开</button>
                 </div>
-                <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap justify-end">
-                    <label class="text-xs text-slate-500">浏览视图</label>
-                    <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
-                        <option value="all">全部</option>
-                        <option value="charts">仅图表</option>
-                        <option value="table">仅数据表</option>
-                    </select>
-                    <label class="text-xs text-slate-500">快速检索</label>
-                    <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-56 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
+                </div>
+                <div class="toolbar-block">
+                    <div class="toolbar-block-label">视图与筛选</div>
+                    <div id="toolbar_secondary" class="flex items-center gap-2 flex-wrap">
+                        <label class="text-xs text-slate-500">浏览视图</label>
+                        <select id="view_mode" onchange="applyViewMode(this.value)" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+                            <option value="all">全部</option>
+                            <option value="charts">仅图表</option>
+                            <option value="table">仅数据表</option>
+                        </select>
+                        <label class="text-xs text-slate-500">快速检索</label>
+                        <input id="quick_search" type="text" placeholder="代码 / 公司 / 标签" oninput="applyFilters()" class="px-4 py-2 rounded-xl border border-slate-200 text-sm w-64 max-w-full focus:outline-none focus:ring-2 focus:ring-cyan-100">
+                    </div>
+                </div>
+                <div class="toolbar-block toolbar-runtime">
+                    <div class="toolbar-block-label">数据刷新</div>
+                    <div class="toolbar-runtime-controls">
+                        <button id="manual_refresh_btn" class="chip-btn chip-btn-primary" onclick="manualRefresh()">立即刷新</button>
+                        <label class="text-xs text-slate-500">自动刷新间隔</label>
+                        <select id="refresh_interval" class="px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+                            <option value="300">5 分钟</option>
+                            <option value="900">15 分钟</option>
+                            <option value="1800">30 分钟</option>
+                            <option value="3600" selected>60 分钟</option>
+                            <option value="0">关闭</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </section>
@@ -149,6 +170,15 @@
         </section>
 
         <section id="summary_cards" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3"></section>
+
+        <section id="decision_support_section" class="panel p-5">
+            <div class="flex items-center justify-between gap-2 mb-3 flex-wrap">
+                <h2 class="panel-header text-xl">选股决策辅助看板</h2>
+                <span class="text-[11px] px-2 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700">面向筛选后的可执行信号</span>
+            </div>
+            <p id="decision_support_meta" class="section-subtitle">从当前筛选结果中提取高分、估值、动量与集中度信号，帮助快速缩小观察范围。</p>
+            <div id="decision_support_cards" class="decision-support-grid"></div>
+        </section>
 
         <section id="filter_section" class="panel p-5">
             <div class="flex items-end gap-5 flex-wrap">
@@ -357,6 +387,7 @@
             <button id="toc_onboarding_btn" class="floating-toc-link" type="button" data-target="onboarding_section" onclick="jumpTo('onboarding_section')">引导</button>
             <button id="toc_method_btn" class="floating-toc-link" type="button" data-target="methodology_section" onclick="jumpTo('methodology_section')">选股逻辑</button>
             <button id="toc_overview_btn" class="floating-toc-link" type="button" data-target="summary_cards" onclick="jumpTo('summary_cards')">概览</button>
+            <button id="toc_decision_btn" class="floating-toc-link" type="button" data-target="decision_support_section" onclick="jumpTo('decision_support_section')">决策辅助</button>
             <button id="toc_pick_btn" class="floating-toc-link" type="button" data-target="pick_section" onclick="jumpTo('pick_section')">候选精选</button>
             <button id="toc_chart_btn" class="floating-toc-link" type="button" data-target="charts_row_1" onclick="jumpTo('charts_row_1')">图表分析</button>
             <button id="toc_industry_btn" class="floating-toc-link" type="button" data-target="industry_section" onclick="jumpTo('industry_section')">行业知识</button>

@@ -21,7 +21,7 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - Quick-search now drives all major modules (cards/charts/table/news/K-line/industry tips)
 - Multi-page course modules with top menu (`index`, `overview`, `charts`, `knowledge`, `risk-news`, `data-center`)
 - GitHub Actions schedule for continuous 24/7 refresh attempt every hour
-- Workflow includes artifact validation checks before auto-commit (guards unattended runs)
+- Workflow includes artifact validation checks before GitHub Pages deploy (guards unattended runs)
 - GitHub Pages output in `docs/index.html`
 - Optimized CI pipeline with dependency cache (`actions/setup-python` pip cache)
 
@@ -39,11 +39,13 @@ China semiconductor market learning dashboard with real-time data/news aggregati
 - `docs/latest_data.json`: live runtime payload used by auto-refresh
 - `docs/app.js` / `docs/dashboard.js` / `docs/styles.css`: static assets for GitHub Pages
 
-## Local Setup
+## Local Setup (Recommended)
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
 python -m pip install -r requirements.txt
-python china_semiconductor_report.py
+bash ./scripts/refresh_dashboard.sh --once
 ```
 
 Generated outputs:
@@ -58,23 +60,28 @@ Generated outputs:
 bash ./scripts/refresh_dashboard.sh
 ```
 
-This loop regenerates data/news/charts every 3600 seconds.  
+This loop regenerates data/news/charts every 3600 seconds by default.  
 The report page itself also auto-refreshes every hour.
+
+Optional custom interval:
+
+```bash
+INTERVAL_SECONDS=1800 bash ./scripts/refresh_dashboard.sh
+```
 
 ## GitHub 24/7 Refresh (Scheduled)
 
 Workflow: `.github/workflows/update-dashboard.yml` (fully automatic, no manual refresh needed)
 
 - Trigger: `0 * * * *` plus manual dispatch
-- Action: run `scripts/refresh_dashboard.sh --once`, retry transient failures automatically, update `docs` artifacts, and commit with GitHub Actions bot
+- Action: run `scripts/refresh_dashboard.sh --once`, retry transient failures automatically, validate `docs` artifacts, then deploy to GitHub Pages as a workflow artifact (no bot commit)
 - Concurrency policy: queued execution (`cancel-in-progress: false`) to avoid canceling long data-refresh runs
 
 After pushing this repository:
 
 1. Open repository settings
 2. Enable GitHub Pages
-3. Source: `Deploy from a branch`
-4. Branch: default branch, folder `/docs`
+3. Source: `GitHub Actions`
 
 Your dashboard URL will be:
 
@@ -82,6 +89,8 @@ Your dashboard URL will be:
 
 ## Notes
 
+- Source of truth is the root front-end files (`html_template.html`, `app.js`, `dashboard.js`, `styles.css`); `docs/*` is generated output for GitHub Pages.
+- You should only edit source files directly. In CI, `docs/*` is generated and deployed directly as an artifact (without committing generated files back to the repo).
 - GitHub scheduled workflows run continuously and automatically every hour. Exact second-level timing is best-effort on GitHub-hosted runners.
 - If one refresh cycle exceeds one hour, the next run is queued (not canceled) to keep updates reliable.
 - Runtime refresh failures no longer force hard page reload; current data stays visible and the next cycle retries automatically.

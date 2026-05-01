@@ -33,16 +33,28 @@
     const FLOATER_SIDE_STORAGE_KEY = 'semicon_floater_side_v1';
     const LOCALE_PROFILE_STORAGE_KEY = 'semicon_locale_profile_v1';
     const REFRESH_INTERVAL_STORAGE_KEY = 'semicon_refresh_interval_v2';
+    const VIEW_MODE_STORAGE_KEY = 'semicon_view_mode_v1';
+    const LAYOUT_MODE_STORAGE_KEY = 'semicon_layout_mode_v1';
     const DEFAULT_REFRESH_SECONDS = 3600;
     const defaultRiskWeights = { volatility: 35, valuation: 25, liquidity: 12, segment: 10, size: 8 };
     const riskWeights = { ...defaultRiskWeights };
     const PAGE_SECTION_PRESETS = {
-        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
-        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
-        charts: ['summary_cards', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
-        knowledge: ['methodology_section', 'summary_cards', 'industry_section', 'empty_state'],
-        'risk-news': ['methodology_section', 'summary_cards', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
-        'data-center': ['methodology_section', 'summary_cards', 'filter_section', 'action_section', 'table_section', 'empty_state']
+        all: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'pick_section', 'action_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section', 'table_section', 'empty_state', 'alert_banner'],
+        overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'pick_section', 'empty_state', 'alert_banner'],
+        charts: ['summary_cards', 'decision_support_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'empty_state'],
+        knowledge: ['methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'empty_state'],
+        'risk-news': ['methodology_section', 'summary_cards', 'decision_support_section', 'supply_risk_section', 'news_section', 'empty_state', 'alert_banner'],
+        'data-center': ['methodology_section', 'summary_cards', 'decision_support_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+    };
+    const TOOLBAR_TARGET_BUTTONS = {
+        onboarding_section: 'nav_onboarding_btn',
+        methodology_section: 'nav_method_btn',
+        summary_cards: 'nav_overview_btn',
+        decision_support_section: 'nav_decision_btn',
+        pick_section: 'nav_pick_btn',
+        charts_row_1: 'nav_chart_btn',
+        supply_risk_section: 'nav_risk_btn',
+        table_section: 'nav_table_btn'
     };
 
     const TEXTS = {
@@ -257,6 +269,63 @@
             <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">平均涨跌幅</div><div class="text-2xl font-semibold mt-1 ${(snapshot.avgChange ?? 0) >= 0 ? 'positive' : 'negative'}">${snapshot.avgChange === null ? 'N/A' : snapshot.avgChange.toFixed(2)}%</div></div>
             <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大涨幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topGainer?.name)}</div><div class="text-xl font-semibold positive">${fmt(topGainer?.change_pct)}%</div></div>
             <div class="glass rounded-2xl p-3 border border-emerald-100 h-full"><div class="text-xs text-gray-500">最大跌幅</div><div class="text-sm font-medium mt-1 truncate">${safeText(topLoser?.name)}</div><div class="text-xl font-semibold negative">${fmt(topLoser?.change_pct)}%</div></div>
+        `;
+    }
+
+    function isPickRow(row) {
+        return row?.is_pick === true || row?.is_pick === 1 || String(row?.is_pick).toLowerCase() === 'true';
+    }
+
+    function renderDecisionSupport(snapshot) {
+        const container = document.getElementById('decision_support_cards');
+        const meta = document.getElementById('decision_support_meta');
+        if (!container) return;
+        const sortedByScore = [...filteredData].sort((a, b) => (toNumber(b.invest_score) ?? -1) - (toNumber(a.invest_score) ?? -1));
+        const scoreLeader = sortedByScore[0];
+        const valueCandidate = [...filteredData]
+            .filter(row => (toNumber(row.invest_score) ?? 0) >= 65 && toNumber(row.pe_forward) !== null)
+            .sort((a, b) => (toNumber(a.pe_forward) ?? 9999) - (toNumber(b.pe_forward) ?? 9999))[0];
+        const momentumLeader = [...filteredData]
+            .filter(row => toNumber(row.change_pct) !== null)
+            .sort((a, b) => (toNumber(b.change_pct) ?? -999) - (toNumber(a.change_pct) ?? -999))[0];
+        const topSegment = Object.entries(snapshot.segmentCounts).sort((a, b) => b[1] - a[1])[0];
+        const concentration = topSegment && snapshot.totalCount ? Number((topSegment[1] / snapshot.totalCount) * 100).toFixed(1) : '0.0';
+        const pickCount = filteredData.filter(isPickRow).length;
+        const riskCount = (snapshot.alerts || []).length;
+
+        if (meta) {
+            meta.textContent = `当前范围：${filteredData.length}家公司，候选标的 ${pickCount} 家，异动提醒 ${riskCount} 家（|涨跌幅| > 5%）。`;
+        }
+
+        container.innerHTML = `
+            <article class="decision-card">
+                <div class="decision-kicker">评分优先</div>
+                <h3 class="decision-title">${safeText(scoreLeader?.name, '暂无数据')}</h3>
+                <div class="decision-main">${safeText(scoreLeader?.invest_score, 'N/A')} 分</div>
+                <p class="decision-sub">${safeText(scoreLeader?.code, '-')} · ${safeText(scoreLeader?.business_type, '未分类')}</p>
+                <div class="signal-pill signal-positive">${(toNumber(scoreLeader?.invest_score) ?? 0) >= 80 ? '高质量候选' : '持续观察'}</div>
+            </article>
+            <article class="decision-card">
+                <div class="decision-kicker">估值视角</div>
+                <h3 class="decision-title">${safeText(valueCandidate?.name, '暂无匹配')}</h3>
+                <div class="decision-main">${fmt(valueCandidate?.pe_forward)}x</div>
+                <p class="decision-sub">Forward P/E（在中高评分样本中）</p>
+                <div class="signal-pill signal-neutral">结合成长性二次确认</div>
+            </article>
+            <article class="decision-card">
+                <div class="decision-kicker">动量线索</div>
+                <h3 class="decision-title">${safeText(momentumLeader?.name, '暂无数据')}</h3>
+                <div class="decision-main ${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? 'positive' : 'negative'}">${fmt(momentumLeader?.change_pct)}%</div>
+                <p class="decision-sub">当日涨跌幅领先</p>
+                <div class="signal-pill ${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? 'signal-positive' : 'signal-risk'}">${(toNumber(momentumLeader?.change_pct) ?? 0) >= 0 ? '趋势偏强' : '回撤警惕'}</div>
+            </article>
+            <article class="decision-card">
+                <div class="decision-kicker">集中度监控</div>
+                <h3 class="decision-title">${topSegment ? safeText(topSegment[0]) : '暂无数据'}</h3>
+                <div class="decision-main">${concentration}%</div>
+                <p class="decision-sub">样本主链段占比</p>
+                <div class="signal-pill ${Number(concentration) > 45 ? 'signal-risk' : 'signal-neutral'}">${Number(concentration) > 45 ? '注意分散配置' : '分布较均衡'}</div>
+            </article>
         `;
     }
 
@@ -623,7 +692,7 @@
         filteredData = originalData.filter(row => {
             const regionMatch = allRegionFilters.length === 0 || (selectedRegions.length > 0 && selectedRegions.includes(row.region));
             const businessMatch = allBusinessFilters.length === 0 || (selectedBusiness.length > 0 && selectedBusiness.includes(row.business_type));
-            const pickMatch = !onlyPicks || row?.is_pick === true || row?.is_pick === 1 || String(row?.is_pick).toLowerCase() === 'true';
+            const pickMatch = !onlyPicks || isPickRow(row);
             const keywordMatch = !keyword || [row.code, row.name, row.business_type, row.invest_tags, row.board].map(v => String(v || '').toLowerCase()).some(v => v.includes(keyword));
             return regionMatch && businessMatch && pickMatch && keywordMatch;
         });
@@ -631,6 +700,7 @@
         updateCompanyCount(filteredData.length, true);
         updateLastUpdateDisplay();
         renderSummaryCards(snapshot);
+        renderDecisionSupport(snapshot);
         renderPickCards();
         renderTable();
         renderNewsCards(getLatestNewsItems(6, keyword));
@@ -688,25 +758,27 @@
 
     function applyViewMode(mode) {
         if (pageModeLocked) return;
-        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
+        const allIds = ['onboarding_section', 'methodology_section', 'industry_section', 'supply_risk_section', 'news_section', 'summary_cards', 'decision_support_section', 'pick_section', 'filter_section', 'action_section', 'charts_row_1', 'charts_row_2', 'table_section', 'empty_state'];
         allIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
         if (mode === 'charts') ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'empty_state'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
-        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        if (mode === 'table') ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'industry_section', 'supply_risk_section', 'news_section'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+        try { localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
 
     function rearrangeBlocks(mode) {
         const root = document.getElementById('report_root');
         if (!root) return;
         const presets = {
-            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
-            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
-            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
+            overview: ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'industry_section', 'supply_risk_section', 'pick_section', 'charts_row_1', 'charts_row_2', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state'],
+            'table-first': ['onboarding_section', 'methodology_section', 'filter_section', 'action_section', 'table_section', 'summary_cards', 'decision_support_section', 'supply_risk_section', 'industry_section', 'charts_row_1', 'charts_row_2', 'pick_section', 'news_section', 'empty_state'],
+            'chart-first': ['onboarding_section', 'methodology_section', 'summary_cards', 'decision_support_section', 'charts_row_1', 'charts_row_2', 'supply_risk_section', 'industry_section', 'pick_section', 'news_section', 'filter_section', 'action_section', 'table_section', 'empty_state']
         };
         (presets[mode] || presets.overview).forEach(id => {
             const el = document.getElementById(id);
             if (el) root.appendChild(el);
         });
         updateFloatingTocActive();
+        try { localStorage.setItem(LAYOUT_MODE_STORAGE_KEY, mode); } catch (_) {}
     }
 
     function toggleTableDensity() {
@@ -773,6 +845,11 @@
             if (active) link.setAttribute('aria-current', 'location');
             else link.removeAttribute('aria-current');
         });
+        Object.entries(TOOLBAR_TARGET_BUTTONS).forEach(([targetId, btnId]) => {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.classList.toggle('active', targetId === currentTarget);
+        });
     }
 
     function hardenExternalLinks() {
@@ -833,6 +910,22 @@
                 const picker = document.getElementById('locale_profile');
                 if (picker && Array.from(picker.options).some(o => o.value === profile)) picker.value = profile;
                 applyLocaleProfile(profile, false);
+            }
+        } catch (_) {}
+        try {
+            const savedViewMode = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+            const viewModeEl = document.getElementById('view_mode');
+            if (savedViewMode && viewModeEl && Array.from(viewModeEl.options).some(opt => opt.value === savedViewMode)) {
+                viewModeEl.value = savedViewMode;
+                applyViewMode(savedViewMode);
+            }
+        } catch (_) {}
+        try {
+            const savedLayoutMode = localStorage.getItem(LAYOUT_MODE_STORAGE_KEY);
+            const layoutModeEl = document.getElementById('layout_mode');
+            if (savedLayoutMode && layoutModeEl && Array.from(layoutModeEl.options).some(opt => opt.value === savedLayoutMode)) {
+                layoutModeEl.value = savedLayoutMode;
+                rearrangeBlocks(savedLayoutMode);
             }
         } catch (_) {}
     }
