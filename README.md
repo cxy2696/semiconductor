@@ -1,4 +1,4 @@
-# China Semiconductor Investment Dashboard
+# China Semiconductor Investment Dashboard built with Cursor Agent
 
 China semiconductor market learning dashboard with real-time data/news aggregation, GitHub Pages automation, and a native iOS app scaffold.
 
