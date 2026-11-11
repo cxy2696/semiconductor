@@ -125,6 +125,8 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
         "value-chain.html",
         "knowledge.html",
         "glossary.html",
+        "guide.html",
+        "status.html",
         "methodology.html",
         "about.html",
         "404.html",
@@ -142,6 +144,10 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
         "api/snapshot.zh.json",
         "api/snapshot.ja.json",
         "api/snapshot.de.json",
+        "api/search.en.json",
+        "api/search.zh.json",
+        "api/search.ja.json",
+        "api/search.de.json",
     ]
     for relative in required:
         if not (docs / relative).exists():

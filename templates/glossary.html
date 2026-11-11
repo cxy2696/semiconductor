@@ -21,7 +21,7 @@
 
 <section class="glossary-grid" id="glossary-list">
   {% for term in terms %}
-  <article class="glossary-item" data-category="{{ term.category }}" data-search="{{ (term.zh.term ~ ' ' ~ term.en.term ~ ' ' ~ term.ja.term ~ ' ' ~ term.zh.def ~ ' ' ~ term.en.def ~ ' ' ~ term.ja.def) | lower }}">
+  <article class="glossary-item" id="term-{{ term.id }}" data-category="{{ term.category }}" data-search="{{ (term.zh.term ~ ' ' ~ term.en.term ~ ' ' ~ term.ja.term ~ ' ' ~ term.zh.def ~ ' ' ~ term.en.def ~ ' ' ~ term.ja.def) | lower }}">
     <div class="glossary-top">
       <h2>{{ term[lang].term }}</h2>
       <span class="tag tag-sm">{{ t.glossary.categories[term.category] }}</span>

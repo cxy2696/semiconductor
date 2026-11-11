@@ -29,6 +29,8 @@ from .analytics import Analytics, Row
 from .charts import STAGE_COLORS, ScatterPoint, legend, range_bar, scatter, sparkline
 from .config import (
     ASSETS_DIR,
+    REPO_URL,
+    SNAPSHOT_DIR,
     DOCS_DIR,
     LOCALES,
     PAGES,
@@ -42,6 +44,7 @@ from .config import (
 from .content import KnowledgeDoc, load_all_knowledge, load_glossary
 from .i18n import bundle_for, lookup
 from .market import load_snapshot
+from .status import build_health
 from .taxonomy import Taxonomy
 from .universe import Company, load_universe
 from .utils import fmt_number, fmt_pct, fmt_price, fmt_usd_compact, rel_href, slugify, truncate, write_json, write_text
@@ -76,6 +79,7 @@ class SiteBuilder:
         self.knowledge = load_all_knowledge()
         self.glossary = load_glossary()
         self.build_time = datetime.now(SITE_TIMEZONE)
+        self.health = build_health(self.snapshot, self.analytics, self.knowledge["en"], now=self.build_time)
         self.views: dict[str, dict[str, dict[str, Any]]] = {
             locale.lang: {} for locale in LOCALES
         }
@@ -263,6 +267,8 @@ class SiteBuilder:
             "href": lambda key_, slug_=None, loc=locale, cur=path: self.href(cur, loc, key_, slug_),
             "abs": lambda key_, slug_=None, loc=locale: self.absolute(loc, key_, slug_),
             "news": (self.snapshot.get("news") or [])[:12],
+            "health": self.health,
+            "repo_url": REPO_URL,
         }
 
     # ---- pages ---------------------------------------------------------
@@ -281,8 +287,10 @@ class SiteBuilder:
             self._write(locale, "chain", "value-chain.html", "chain.html", self._chain_context(locale))
             self._write(locale, "knowledge", "knowledge.html", "knowledge.html", self._knowledge_context(locale))
             self._write(locale, "glossary", "glossary.html", "glossary.html", self._glossary_context(locale))
+            self._write(locale, "guide", "guide.html", "guide.html", self._guide_context(locale))
             self._write(locale, "method", "methodology.html", "methodology.html", self._method_context(locale))
             self._write(locale, "about", "about.html", "about.html", self._about_context(locale))
+            self._write(locale, "status", "status.html", "status.html", self._status_context(locale))
             for doc in self.knowledge[lang]:
                 self._write(locale, "topic", f"knowledge/{doc.slug}.html", "topic.html", self._topic_context(locale, doc))
             for row in self.analytics.rows:
@@ -334,7 +342,7 @@ class SiteBuilder:
                     "mcap": stat.market_cap_usd,
                     "median": stat.median_ret_30d,
                     "color": STAGE_COLORS.get(stage.id, "#64748b"),
-                    "href": self.href(ctx["path"], locale, "companies") + f"#stage-{stage.id}",
+                    "href": self.href(ctx["path"], locale, "companies") + f"?stage={stage.id}",
                 }
             )
 
@@ -602,6 +610,67 @@ class SiteBuilder:
         )
         return ctx
 
+    def _guide_context(self, locale: Locale) -> dict[str, Any]:
+        lang = locale.lang
+        t = bundle_for(lang)
+        ctx = self._base_context(
+            locale,
+            "guide",
+            f"{locale.slug + '/' if locale.slug else ''}guide.html",
+            f"{t['guide']['title']} · {t['site']['name']}",
+            t["guide"]["lede"],
+        )
+        ctx.update({"stage_count": len(self.taxonomy.stages), "company_count": len(self.companies), "topic_count": len(self.knowledge[lang])})
+        return ctx
+
+    def _status_context(self, locale: Locale) -> dict[str, Any]:
+        lang = locale.lang
+        t = bundle_for(lang)
+        ctx = self._base_context(
+            locale,
+            "status",
+            f"{locale.slug + '/' if locale.slug else ''}status.html",
+            f"{t['status']['title']} · {t['site']['name']}",
+            t["status"]["lede"],
+        )
+        recent = []
+        if SNAPSHOT_DIR.exists():
+            files = sorted((path for path in SNAPSHOT_DIR.glob("*.json") if path.name != "latest.json"), reverse=True)
+            for path in files[:6]:
+                try:
+                    size_kb = round(path.stat().st_size / 1024)
+                except OSError:
+                    size_kb = 0
+                recent.append({"name": path.name, "date": path.name[:10], "size_kb": size_kb})
+
+        unpriced = []
+        for company_id in self.health.unpriced:
+            view = self.views[lang].get(company_id)
+            if view:
+                unpriced.append({"id": company_id, "name": view["name"], "href": self.href(ctx["path"], locale, "company", company_id)})
+
+        stale_topics = []
+        doc_map = {doc.slug: doc for doc in self.knowledge[lang]}
+        for item in self.health.stale_topics:
+            doc = doc_map.get(item["slug"])
+            if doc:
+                stale_topics.append({"title": doc.title, "updated": doc.updated, "href": self.href(ctx["path"], locale, "topic", doc.slug)})
+
+        runbook = f"{REPO_URL}/blob/main/documentation/OPERATIONS_{locale.file_suffix}.md"
+        ctx.update(
+            {
+                "health": self.health,
+                "coverage_pct": round(self.health.coverage * 100, 1),
+                "unpriced": unpriced,
+                "recent_snapshots": recent,
+                "stale_topics": stale_topics,
+                "news_sources": self.health.news_sources,
+                "runbook_url": runbook,
+                "status_label": t["status"][self.health.label],
+            }
+        )
+        return ctx
+
     def _related_topics(self, stage_id: str) -> list[str]:
         mapping = {
             "eda_ip": ["eda-ip", "value-chain", "metrics"],
@@ -620,6 +689,66 @@ class SiteBuilder:
         self._write_json_file("latest_data.json", self._legacy_payload())
         for locale in LOCALES:
             self._write_json_file(f"api/snapshot.{locale.lang}.json", self._localized_payload(locale))
+            self._write_json_file(f"api/search.{locale.lang}.json", self._search_index(locale))
+
+    def _search_index(self, locale: Locale) -> dict[str, Any]:
+        lang = locale.lang
+        t = bundle_for(lang)
+        entries: list[dict[str, Any]] = []
+        page_specs = [
+            ("companies", "mapCompanies"),
+            ("chain", "mapChain"),
+            ("knowledge", "mapKnowledge"),
+            ("glossary", "mapGlossary"),
+            ("guide", "mapGuide"),
+            ("method", "mapMethod"),
+            ("about", "mapAbout"),
+            ("status", "mapStatus"),
+        ]
+        for key, desc_key in page_specs:
+            entries.append(
+                {
+                    "type": "page",
+                    "title": t["nav"][key if key != "method" else "method"],
+                    "subtitle": t["guide"][desc_key],
+                    "url": self._page_path(locale, key),
+                    "keywords": [],
+                }
+            )
+        for row in self.analytics.rows:
+            view = self.views[lang][row.company.id]
+            names = [row.company.names.get(code, "") for code in ("en", "zh", "ja", "de")]
+            entries.append(
+                {
+                    "type": "company",
+                    "title": view["name"],
+                    "subtitle": f"{view['symbol']} · {view['stage_short']}",
+                    "url": self._page_path(locale, "company", row.company.id),
+                    "keywords": names + [row.company.ticker, view["role_label"]] + view["products"],
+                }
+            )
+        for doc in self.knowledge[lang]:
+            entries.append(
+                {
+                    "type": "topic",
+                    "title": doc.title,
+                    "subtitle": doc.summary,
+                    "url": self._page_path(locale, "topic", doc.slug),
+                    "keywords": doc.tags,
+                }
+            )
+        for term in self.glossary:
+            terms = [term[code]["term"] for code in ("en", "zh", "ja", "de")]
+            entries.append(
+                {
+                    "type": "term",
+                    "title": term[lang]["term"],
+                    "subtitle": term[lang]["def"][:90] + ("…" if len(term[lang]["def"]) > 90 else ""),
+                    "url": self._page_path(locale, "glossary") + f"#term-{term['id']}",
+                    "keywords": terms,
+                }
+            )
+        return {"generated_at": str(self.snapshot.get("generated_at") or ""), "lang": lang, "entries": entries}
 
     def _write_json_file(self, relative: str, payload: dict[str, Any]) -> None:
         path = self.output / relative

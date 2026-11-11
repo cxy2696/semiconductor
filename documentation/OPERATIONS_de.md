@@ -62,6 +62,13 @@ Es gibt kein separates Monitoring-System; das Projekt nutzt **beobachtbare Artef
 
 Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu vergleichen.
 
+### 5.1 Statusseite und Leitfaden
+
+`/status.html` ist die menschenlesbare Oberfläche desselben Health-Checks: Build- und Snapshot-Zeit, Datenalter, Abdeckung, Titel ohne Kurs, Quellen, Anzahl der Schlagzeilen, letzte Snapshots und veraltete Inhalte. `python -m semcore status` gibt dieselbe Zusammenfassung als Markdown aus; der Pages-Workflow hängt sie an die Laufzusammenfassung.
+
+`/guide.html` erklärt die drei Lesepfade, die Farb- und Abdeckungskonventionen, die Website-Übersicht und die Tastaturkürzel. Wenn eine Seite oder ein Datenfeld hinzukommt, muss der Leitfaden mitgepflegt werden, damit die Orientierung korrekt bleibt.
+
+
 ## 6. Incident-Runbook
 
 ### 6.1 Die Kursquelle ist komplett ausgefallen

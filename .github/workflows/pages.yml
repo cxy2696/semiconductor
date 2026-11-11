@@ -59,6 +59,9 @@ jobs:
       - name: Validate
         run: python -m semcore validate
 
+      - name: Data health summary
+        run: python -m semcore status >> "$GITHUB_STEP_SUMMARY"
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

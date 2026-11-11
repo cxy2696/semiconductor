@@ -61,7 +61,9 @@ Free information is either fragmented news or quote pages that cover a single ma
 /knowledge.html            knowledge index
 /knowledge/{slug}.html     long-form topic
 /glossary.html             glossary
+/guide.html                how to use the desk
 /methodology.html          method and boundaries
+/status.html               data status and freshness
 /about.html                purpose, sources, licence, build information
 /en/...                    legacy English URLs, redirecting to /
 /zh/... /ja/... /de/...    localised mirrors with the same structure

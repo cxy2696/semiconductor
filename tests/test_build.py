@@ -20,6 +20,8 @@ def test_build_all_locales(tmp_path: Path, snapshot):
         "companies.html",
         "value-chain.html",
         "methodology.html",
+        "guide.html",
+        "status.html",
         "en/index.html",
     ):
         assert (site / relative).exists(), relative
@@ -33,6 +35,9 @@ def test_build_all_locales(tmp_path: Path, snapshot):
     for key in ("data", "news_pool", "kline_data", "industry_basics", "data_time_iso"):
         assert key in legacy
     assert (site / "sitemap.xml").exists()
+    search_index = json.loads((site / "api/search.en.json").read_text(encoding="utf-8"))
+    assert len(search_index["entries"]) > 200
+    assert {entry["type"] for entry in search_index["entries"]} >= {"company", "topic", "term", "page"}
     assert not validate_artifacts(site)
 
 

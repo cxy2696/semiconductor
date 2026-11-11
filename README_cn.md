@@ -10,6 +10,11 @@
 
 > 仅用于产业研究与学习，不构成投资建议。Not investment advice.
 
+
+| 指南 | 数据状态 |
+| --- | --- |
+| ![指南](documentation/screenshots/guide.png) | ![数据状态](documentation/screenshots/status.png) |
+
 ---
 
 ## 预览
@@ -47,6 +52,9 @@
 - **知识库**：12 篇四语长文——产业链、晶圆工艺、光刻、设备材料、先进封装、存储与 HBM、硅周期、政策、财务估值，以及新增的 EDA/IP、汽车半导体、AI 数据中心芯片。
 - **术语表**：52 条四语对照术语，支持搜索与分类筛选。
 - **方法**：因子定义、权重、阈值、数据完整度、已知局限与免责声明。
+- **指南**：三条阅读路径、每个数字背后的约定与一分钟站点地图（`/zh/guide.html`）。
+- **快速搜索**：按 ⌘K / Ctrl-K 跳转到任意公司、主题、术语或页面。
+- **数据状态**：`/zh/status.html` 展示新鲜度、覆盖率、来源与异常；`python -m semcore status` 输出同一份摘要。
 - **兼容**：继续输出旧版 `latest_data.json`，现有 iOS 客户端无需改动即可解码。
 - **iOS 客户端**：`ios/` 保留 SwiftUI 应用，说明见 [`ios/README_cn.md`](ios/README_cn.md)。
 

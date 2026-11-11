@@ -61,8 +61,9 @@ SiliconScope は株価端末ではなく、銘柄選びのツールでもあり�
 /knowledge.html            knowledge index
 /knowledge/{slug}.html     long-form topic
 /glossary.html             glossary
+/guide.html                使い方ガイド
 /methodology.html          method and boundaries
-/about.html                purpose, sources, licence, build information
+/status.html              データ状態/about.html                purpose, sources, licence, build information
 /en/...                    legacy English URLs, redirecting to /
 /zh/... /ja/... /de/...    localised mirrors with the same structure
 /api/snapshot.{lang}.json  localised data snapshot (en, zh, ja, de)

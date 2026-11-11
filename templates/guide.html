@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">GUIDE</span>
+  <h1>{{ t.guide.title }}</h1>
+  <p class="lede">{{ t.guide.lede }}</p>
+</header>
+
+<section class="section" id="paths">
+  <div class="section-head">
+    <div>
+      <span class="kicker">01 — {{ t.guide.pathsTitle }}</span>
+    </div>
+  </div>
+  <div class="three-col">
+    <article class="path-card">
+      <span class="path-number">A</span>
+      <h2>{{ t.guide.pathLearn }}</h2>
+      <p>{{ t.guide.pathLearnDesc }}</p>
+      <ol class="path-steps">
+        <li><a href="{{ href('chain') }}">{{ t.guide.pathLearn1 }}</a></li>
+        <li><a href="{{ href('topic', 'process-flow') }}">{{ t.guide.pathLearn2 }}</a></li>
+        <li><a href="{{ href('glossary') }}">{{ t.guide.pathLearn3 }}</a></li>
+      </ol>
+    </article>
+    <article class="path-card">
+      <span class="path-number">B</span>
+      <h2>{{ t.guide.pathResearch }}</h2>
+      <p>{{ t.guide.pathResearchDesc }}</p>
+      <ol class="path-steps">
+        <li><a href="{{ href('companies') }}">{{ t.guide.pathResearch1 }}</a></li>
+        <li><a href="{{ href('company', 'tsmc') }}">{{ t.guide.pathResearch2 }}</a></li>
+        <li><a href="{{ href('chain') }}#stage-design">{{ t.guide.pathResearch3 }}</a></li>
+      </ol>
+    </article>
+    <article class="path-card">
+      <span class="path-number">C</span>
+      <h2>{{ t.guide.pathMonitor }}</h2>
+      <p>{{ t.guide.pathMonitorDesc }}</p>
+      <ol class="path-steps">
+        <li><a href="{{ href('home') }}">{{ t.guide.pathMonitor1 }}</a></li>
+        <li><a href="{{ href('home') }}#lists">{{ t.guide.pathMonitor2 }}</a></li>
+        <li><a href="{{ href('method') }}">{{ t.guide.pathMonitor3 }}</a></li>
+      </ol>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="conventions">
+  <div class="section-head">
+    <div>
+      <span class="kicker">02 — {{ t.guide.conventionsTitle }}</span>
+    </div>
+  </div>
+  <div class="convention-grid">
+    <article class="convention">
+      <h2>{{ t.guide.convTime }}</h2>
+      <p>{{ t.guide.convTimeDesc }}</p>
+      <span class="convention-meta">{{ t.common.updated }} · {{ data_time }}</span>
+    </article>
+    <article class="convention">
+      <h2>{{ t.guide.convCoverage }}</h2>
+      <p>{{ t.guide.convCoverageDesc }}</p>
+      <span class="convention-meta">{{ t.status.coverage }} · {{ (health.coverage * 100) | round(1) }}%</span>
+    </article>
+    <article class="convention">
+      <h2>{{ t.guide.convColor }}</h2>
+      <p>{{ t.guide.convColorDesc }}</p>
+      <span class="convention-meta"><span class="pos">▲ +2.4%</span> <span class="sep">·</span> <span class="neg">▼ −1.8%</span></span>
+    </article>
+    <article class="convention">
+      <h2>{{ t.guide.convScore }}</h2>
+      <p>{{ t.guide.convScoreDesc }}</p>
+      <span class="convention-meta">{{ t.company.priorityTitle }} · 0–100</span>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="map">
+  <div class="section-head">
+    <div>
+      <span class="kicker">03 — {{ t.guide.mapTitle }}</span>
+    </div>
+  </div>
+  <div class="map-grid">
+    <a class="map-card" href="{{ href('companies') }}"><strong>{{ t.nav.companies }}</strong><span>{{ t.guide.mapCompanies }}</span><small>{{ company_count }}</small></a>
+    <a class="map-card" href="{{ href('chain') }}"><strong>{{ t.nav.chain }}</strong><span>{{ t.guide.mapChain }}</span><small>{{ stage_count }}</small></a>
+    <a class="map-card" href="{{ href('knowledge') }}"><strong>{{ t.nav.knowledge }}</strong><span>{{ t.guide.mapKnowledge }}</span><small>{{ topic_count }}</small></a>
+    <a class="map-card" href="{{ href('glossary') }}"><strong>{{ t.nav.glossary }}</strong><span>{{ t.guide.mapGlossary }}</span><small>52</small></a>
+    <a class="map-card" href="{{ href('method') }}"><strong>{{ t.nav.method }}</strong><span>{{ t.guide.mapMethod }}</span><small>→</small></a>
+    <a class="map-card" href="{{ href('status') }}"><strong>{{ t.nav.status }}</strong><span>{{ t.guide.mapStatus }}</span><small>{{ t.status[health.label] }}</small></a>
+    <a class="map-card" href="{{ href('about') }}"><strong>{{ t.nav.about }}</strong><span>{{ t.guide.mapAbout }}</span><small>→</small></a>
+    <a class="map-card" href="{{ href('guide') }}"><strong>{{ t.nav.guide }}</strong><span>{{ t.guide.mapGuide }}</span><small>→</small></a>
+  </div>
+</section>
+
+<section class="section panel shortcuts" id="shortcuts">
+  <div>
+    <span class="kicker">{{ t.guide.shortcutsTitle }}</span>
+    <ul class="shortcut-list">
+      <li><kbd>⌘K</kbd><span>{{ t.guide.shortcutSearch }}</span></li>
+      <li><kbd>T</kbd><span>{{ t.guide.shortcutTheme }}</span></li>
+      <li><kbd>Esc</kbd><span>{{ t.guide.shortcutClose }}</span></li>
+    </ul>
+  </div>
+  <a class="btn btn-primary" href="{{ href('companies') }}">{{ t.home.ctaCompanies }}</a>
+</section>
+
+<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
+{% endblock %}

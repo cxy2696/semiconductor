@@ -37,6 +37,15 @@
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.coverage }}</span><span class="kpi-value">{{ (kpis.coverage * 100) | num(1) }}%</span></div>
 </section>
 
+<section class="guide-strip">
+  <div class="guide-strip-copy">
+    <span class="kicker">{{ t.nav.guide }}</span>
+    <strong>{{ t.home.guideTitle }}</strong>
+    <p>{{ t.home.guideDesc }}</p>
+  </div>
+  <a class="btn btn-ghost" href="{{ href('guide') }}">{{ t.home.guideCta }} →</a>
+</section>
+
 <section class="section" id="structure">
   <div class="section-head">
     <div>

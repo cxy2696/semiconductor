@@ -61,7 +61,9 @@ SiliconScope 不是行情终端，也不是选股工具。它是一个**研究�
 /knowledge.html            知识库索引
 /knowledge/{slug}.html     知识长文
 /glossary.html             术语表
+/guide.html                使用指南
 /methodology.html          方法与边界
+/status.html              数据状态与更新
 /about.html                目的、来源、许可、构建信息
 /en/...                    旧英文 URL，重定向到 /
 /zh/... /ja/... /de/...    结构一致的本地化镜像

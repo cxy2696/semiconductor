@@ -38,6 +38,9 @@ jobs:
       - name: Validate generated site
         run: python -m semcore validate
 
+      - name: Data health summary
+        run: python -m semcore status >> "$GITHUB_STEP_SUMMARY"
+
       - name: Check generated site size
         run: |
           du -sh docs

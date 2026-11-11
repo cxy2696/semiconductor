@@ -23,6 +23,7 @@ I18N_DIR = DATA_DIR / "i18n"
 
 SITE_NAME = "SiliconScope"
 SITE_URL = os.environ.get("SITE_URL", "https://cxy2696.github.io/semiconductor").rstrip("/")
+REPO_URL = "https://github.com/cxy2696/semiconductor"
 SITE_TIMEZONE = ZoneInfo("Asia/Shanghai")
 SITE_TZ_LABEL = "UTC+8"
 
@@ -65,8 +66,10 @@ PAGES = {
     "chain": "value-chain.html",
     "knowledge": "knowledge.html",
     "glossary": "glossary.html",
+    "guide": "guide.html",
     "method": "methodology.html",
     "about": "about.html",
+    "status": "status.html",
 }
 
 RSS_FEEDS = [

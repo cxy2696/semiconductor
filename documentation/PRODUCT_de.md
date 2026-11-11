@@ -61,8 +61,9 @@ Kostenlose Informationen sind entweder fragmentierte Nachrichten oder Kursseiten
 /knowledge.html            knowledge index
 /knowledge/{slug}.html     long-form topic
 /glossary.html             glossary
+/guide.html                Leitfaden
 /methodology.html          method and boundaries
-/about.html                purpose, sources, licence, build information
+/status.html               Datenstatus/about.html                purpose, sources, licence, build information
 /en/...                    legacy English URLs, redirecting to /
 /zh/... /ja/... /de/...    localised mirrors with the same structure
 /api/snapshot.{lang}.json  localised data snapshot (en, zh, ja, de)

@@ -11,6 +11,9 @@ from pathlib import Path
 
 from .config import DOCS_DIR, ROOT, SITE_URL, SITE_VERSION
 from .market import fetch_snapshot, load_snapshot, save_snapshot
+from .analytics import Analytics
+from .content import load_all_knowledge
+from .status import build_health, to_markdown
 from .taxonomy import Taxonomy
 from .universe import load_universe
 
@@ -94,6 +97,22 @@ def cmd_serve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_status(args: argparse.Namespace) -> int:
+    snapshot = load_snapshot()
+    if not snapshot:
+        _print("No snapshot found. Run `python -m semcore fetch` first.")
+        return 1
+    taxonomy = Taxonomy.load()
+    companies = load_universe(taxonomy=taxonomy)
+    analytics = Analytics.build(companies, snapshot, taxonomy)
+    health = build_health(snapshot, analytics, load_all_knowledge()["en"])
+    if args.json:
+        _print(json.dumps(health.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        _print(to_markdown(health))
+    return 0
+
+
 def cmd_info(args: argparse.Namespace) -> int:
     snapshot = load_snapshot() or {}
     taxonomy = Taxonomy.load()
@@ -149,6 +168,10 @@ def build_parser() -> argparse.ArgumentParser:
     serve.add_argument("--port", type=int, default=8000)
     serve.add_argument("--dir", help="Directory to serve")
     serve.set_defaults(func=cmd_serve)
+
+    status = sub.add_parser("status", help="Print data health as Markdown or JSON")
+    status.add_argument("--json", action="store_true", help="Emit JSON instead of Markdown")
+    status.set_defaults(func=cmd_status)
 
     info = sub.add_parser("info", help="Print repository and snapshot status")
     info.set_defaults(func=cmd_info)
