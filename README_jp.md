@@ -13,9 +13,6 @@ SiliconScopeは、**8つのバリューチェーン段階、13の本社地域、
 > 本サイトは業界調査と学習のみを目的としています。投資助言ではありません。
 
 
-| ガイド | データ状態 |
-| --- | --- |
-| ![ガイド](documentation/screenshots/guide.png) | ![データ状態](documentation/screenshots/status.png) |
 
 ---
 
@@ -27,13 +24,18 @@ SiliconScopeはリサーチデスクであり、相場端末や銘柄選定ツ�
 
 ## プレビュー
 
-![SiliconScope のホーム](documentation/screenshots/home.png)
+![SiliconScope のホーム](documentation/screenshots/home-jp.png)
 
 ![企業マップ](documentation/screenshots/companies.png)
 
 | ダークモード | モバイル |
 | --- | --- |
 | ![ダークモード](documentation/screenshots/home-dark.png) | ![モバイル](documentation/screenshots/home-mobile.png) |
+
+| ガイド | データ状態 |
+| --- | --- |
+| ![ガイド](documentation/screenshots/guide.png) | ![データ状態](documentation/screenshots/status.png) |
+
 
 ---
 

@@ -11,9 +11,6 @@
 > 仅用于产业研究与学习，不构成投资建议。Not investment advice.
 
 
-| 指南 | 数据状态 |
-| --- | --- |
-| ![指南](documentation/screenshots/guide.png) | ![数据状态](documentation/screenshots/status.png) |
 
 ---
 
@@ -26,6 +23,11 @@
 | 深色模式 | 移动端 |
 | --- | --- |
 | ![深色模式](documentation/screenshots/home-dark.png) | ![移动端](documentation/screenshots/home-mobile.png) |
+
+| 指南 | 数据状态 |
+| --- | --- |
+| ![指南](documentation/screenshots/guide.png) | ![数据状态](documentation/screenshots/status.png) |
+
 
 ---
 

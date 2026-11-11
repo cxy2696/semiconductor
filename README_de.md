@@ -13,10 +13,6 @@ SiliconScope deckt **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börs
 > Nur für Branchenrecherche und Lernen. Keine Anlageberatung.
 
 
-| Leitfaden | Datenstatus |
-| --- | --- |
-| ![Leitfaden](documentation/screenshots/guide.png) | ![Datenstatus](documentation/screenshots/status.png) |
-
 ---
 
 ## Zweck
@@ -27,13 +23,17 @@ SiliconScope ist ein Research-Desk, kein Kurs-Terminal und kein Werkzeug zur Akt
 
 ## Vorschau
 
-![SiliconScope-Startseite](documentation/screenshots/home.png)
+![SiliconScope-Startseite](documentation/screenshots/home-de.png)
 
 ![Unternehmenskarte](documentation/screenshots/companies.png)
 
 | Dark Mode | Mobil |
 | --- | --- |
 | ![Dark Mode](documentation/screenshots/home-dark.png) | ![Mobil](documentation/screenshots/home-mobile.png) |
+
+| Leitfaden | Datenstatus |
+| --- | --- |
+| ![Leitfaden](documentation/screenshots/guide.png) | ![Datenstatus](documentation/screenshots/status.png) |
 
 ---
 

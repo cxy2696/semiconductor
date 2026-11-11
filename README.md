@@ -13,9 +13,6 @@ SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 list
 > For industry research and learning only. Not investment advice.
 
 
-| Guide | Data status |
-| --- | --- |
-| ![Guide](documentation/screenshots/guide.png) | ![Data status](documentation/screenshots/status.png) |
 
 ---
 
@@ -34,6 +31,11 @@ SiliconScope is a research desk, not a quote terminal or a stock picker. It help
 | Dark mode | Mobile |
 | --- | --- |
 | ![Dark mode](documentation/screenshots/home-dark.png) | ![Mobile](documentation/screenshots/home-mobile.png) |
+
+| Guide | Data status |
+| --- | --- |
+| ![Guide](documentation/screenshots/guide.png) | ![Data status](documentation/screenshots/status.png) |
+
 
 ---
 
