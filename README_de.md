@@ -48,7 +48,7 @@ SiliconScope ist ein statisches Dashboard für die Halbleiter-Wertschöpfungsket
 - **Wissensbasis**: 12 ausführliche Themen in vier Sprachen – Wertschöpfungskette, Waferprozess, Lithografie, Ausrüstung und Materialien, Advanced Packaging, Speicher und HBM, Silizium-Zyklus, Politik, Finanzen und Bewertung sowie die neuen Themen EDA/IP, Automotive und KI-Rechenzentren.
 - **Glossar**: 52 Begriffe mit gleichwertigen Definitionen in vier Sprachen, mit Volltextsuche und Kategoriefiltern.
 - **Methodik**: Faktordefinitionen, Gewichtungen, Schwellenwerte, Datenabdeckung, bekannte Grenzen und Haftungsausschluss.
-- **Leitfaden**: drei Lesepfade, die Konventionen hinter jeder Zahl und eine Website-Übersicht (`/de/guide.html`).
+- **Leitfaden**: sechs praktische Aufgaben, eine Seitentabelle, FAQ und die Konventionen hinter jeder Zahl (`/de/guide.html`).
 - **Schnellsuche**: ⌘K / Strg-K springt zu jedem Unternehmen, Thema, Begriff oder jeder Seite.
 - **Datenstatus**: `/de/status.html` zeigt Aktualität, Abdeckung, Quellen und Hinweise; `python -m semcore status` liefert dieselbe Zusammenfassung für CI.
 - **Kompatibilität**: Das Legacy-`latest_data.json` wird weiterhin ausgegeben, sodass der bestehende iOS-Client es ohne Änderungen dekodieren kann.

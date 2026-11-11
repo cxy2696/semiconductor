@@ -51,7 +51,7 @@ SiliconScope is a static dashboard for the semiconductor value chain. It brings 
 - **Glossary**: 52 terms with equivalent definitions in four languages, with full-text search and category filters.
 - **Method**: factor definitions, weights, thresholds, data coverage, known limitations and disclaimer.
 - **Compatibility**: continues to emit the legacy `latest_data.json`, so the existing iOS client decodes it without changes.
-- **Guide**: three reading paths, the conventions behind every number and a one-minute site map (`/guide.html`).
+- **Guide**: six practical tasks, a page-by-page answer table, FAQs and the conventions behind every number (`/guide.html`).
 - **Quick search**: press ⌘K / Ctrl-K to jump to any company, topic, term or page.
 - **Data status**: `/status.html` shows freshness, coverage, sources and data notes; `python -m semcore status` prints the same summary for CI.
 - **iOS client**: the SwiftUI app under `ios/` still points at `latest_data.json`; see [`ios/README_en.md`](ios/README_en.md).

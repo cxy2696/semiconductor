@@ -160,7 +160,6 @@ class SiteBuilder:
             "role_desc": self.taxonomy.role_desc(company.role, lang),
             "products": products,
             "product_text": "、".join(products) if lang in {"zh", "ja"} else ", ".join(products),
-            "plain": self._plain_text(row, locale, products),
             "watch": self.taxonomy.stage_metrics(company.stage, lang),
             "note": company.note(lang),
             "price": row.price,
@@ -368,14 +367,6 @@ class SiteBuilder:
 
         movers = analytics.movers(5)
         regime = analytics.regime
-        home_brief = t["home"]["brief"]["text"].format(
-            breadth=fmt_number((regime["breadth"] or 0) * 100, 0),
-            median=fmt_pct(regime["median"]),
-            leader=self.taxonomy.stage_label(regime["leader"], lang, short=True) if regime["leader"] else "—",
-            laggard=self.taxonomy.stage_label(regime["laggard"], lang, short=True) if regime["laggard"] else "—",
-            coverage=fmt_number(analytics.coverage_ratio * 100, 1),
-            count=len(self.companies),
-        )
         ctx.update(
             {
                 "stage_cards": stage_cards,
@@ -389,7 +380,6 @@ class SiteBuilder:
                     "gainers": [self.views[lang][row.company.id] for row in movers["gainers"]],
                     "losers": [self.views[lang][row.company.id] for row in movers["losers"]],
                 },
-                "home_brief": home_brief,
                 "regime_read": t["home"]["regime"]["read"][regime["label"]],
                 "scatter_svg": Markup(
                     scatter(
@@ -704,27 +694,6 @@ class SiteBuilder:
         )
         return ctx
 
-    def _plain_text(self, row: Row, locale: Locale, products: list[str]) -> str:
-        lang = locale.lang
-        t = bundle_for(lang)
-        company = row.company
-        sentences = [
-            t["company"]["plainIntro"].format(
-                name=company.name(lang),
-                role=self.taxonomy.role_label(company.role, lang),
-                stage=self.taxonomy.stage_label(company.stage, lang),
-                products="、".join(products) if lang in {"zh", "ja"} else ", ".join(products),
-            )
-        ]
-        if row.ret_30d is not None:
-            sentences.append(t["company"]["plainMove"].format(ret=fmt_pct(row.ret_30d)))
-        if row.pe is not None and row.pe > 0 and row.roe is not None:
-            sentences.append(t["company"]["plainValue"].format(pe=fmt_number(row.pe, 1), roe=fmt_number(row.roe, 1)))
-        else:
-            sentences.append(t["company"]["plainNoValue"])
-        sentences.append(t["company"]["plainCoverage"].format(coverage=f"{round(row.coverage * 100)}%"))
-        return " ".join(sentences)
-
     def _related_topics(self, stage_id: str) -> list[str]:
         mapping = {
             "eda_ip": ["eda-ip", "value-chain", "metrics"],
@@ -749,22 +718,21 @@ class SiteBuilder:
         lang = locale.lang
         t = bundle_for(lang)
         entries: list[dict[str, Any]] = []
-        page_specs = [
-            ("companies", "mapCompanies"),
-            ("chain", "mapChain"),
-            ("knowledge", "mapKnowledge"),
-            ("glossary", "mapGlossary"),
-            ("guide", "mapGuide"),
-            ("method", "mapMethod"),
-            ("about", "mapAbout"),
-            ("status", "mapStatus"),
-        ]
-        for key, desc_key in page_specs:
+        read_desc: dict[str, str] = {}
+        for row in t["guide"]["read"]:
+            read_desc.setdefault(row["key"], row["action"])
+        page_desc = {
+            "method": t["method"]["lede"],
+            "about": t["about"]["lede"],
+            "guide": t["guide"]["lede"],
+            **read_desc,
+        }
+        for key in ("home", "companies", "chain", "knowledge", "glossary", "guide", "method", "about", "status"):
             entries.append(
                 {
                     "type": "page",
-                    "title": t["nav"][key if key != "method" else "method"],
-                    "subtitle": t["guide"][desc_key],
+                    "title": t["nav"][key],
+                    "subtitle": page_desc.get(key, t["site"]["description"]),
                     "url": self._page_path(locale, key),
                     "keywords": [],
                 }

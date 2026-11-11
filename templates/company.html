@@ -42,18 +42,12 @@
   </div>
 </header>
 
-<section class="panel company-plain">
-  <h2 class="panel-title">{{ t.company.plainTitle }}</h2>
-  <p>{{ company.plain }}</p>
-  {% if company.watch %}
-  <div class="watch-block">
-    <h3>{{ t.company.watch }}</h3>
-    <ul>
-      {% for item in company.watch %}<li>{{ item }}</li>{% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-</section>
+{% if company.watch %}
+<div class="watch-strip">
+  <span class="watch-label">{{ t.company.watch }}</span>
+  <ul>{% for item in company.watch %}<li>{{ item }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
 
 <section class="panel price-panel">
   <div class="price-panel-head">

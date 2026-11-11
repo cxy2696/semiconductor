@@ -65,8 +65,6 @@
     "kpi": {
       "companies": "覆盖公司",
       "mcap": "样本总市值",
-      "breadth": "30 日上涨占比",
-      "median": "30 日涨跌中位数",
       "coverage": "行情覆盖率"
     },
     "regime": {
@@ -128,16 +126,12 @@
       "cta": "查看完整方法"
     },
     "guideTitle": "第一次来？",
-    "guideDesc": "在指南里选一条阅读路径，或按 ⌘K 跳到任意公司、主题或术语。",
-    "guideCta": "打开指南",
-    "brief": {
-      "label": "一段话读懂",
-      "text": "上涨宽度 {breadth}%，30 个交易日涨跌中位数 {median}%。{leader} 领先，{laggard} 落后。{count} 家公司中有 {coverage}% 能拿到可用行情，其余标记为缺失。"
-    }
+    "guideDesc": "打开指南看六个实用任务与数字口径，或按 ⌘K 直接跳转。",
+    "guideCta": "打开指南"
   },
   "companies": {
     "title": "公司图谱",
-    "lede": "一张表看清全球主要半导体公司的位置、行情与数据质量。行情为延时或收盘数据，估值口径为静态 PE 与 PB。",
+    "lede": "按环节、总部与上市地筛选 175 家公司。排序、打开公司页，或在同一环节内对比。",
     "searchPlaceholder": "搜索公司、代码、产品",
     "filterStage": "环节",
     "filterCountry": "总部",
@@ -193,15 +187,10 @@
     "priorityDesc": "各因子为同类公司中的百分位；缺失因子按剩余权重归一。",
     "founded": "成立年份",
     "fiscalYearEnd": "财年结束月",
-    "plainTitle": "用大白话说",
-    "plainIntro": "{name} 是{stage}环节的{role}公司，主要做{products}。",
-    "plainMove": "最近 30 个交易日，股价变动 {ret}%。",
-    "plainValue": "当前静态市盈率 {pe} 倍，ROE 为 {roe}%。",
-    "plainNoValue": "估值或盈利数据不完整，阅读优先级分数时需要谨慎。",
-    "plainCoverage": "行情与因子完整度为{coverage}。",
     "watch": "值得关注",
     "priceChart": "30 日股价走势",
-    "priceChartNote": "最近 30 个交易日的收盘价，未做分红调整。"
+    "priceChartNote": "最近 30 个交易日的收盘价，未做分红调整。",
+    "dataNoteShort": "延时收盘价与公司财报"
   },
   "chain": {
     "title": "产业链全景",
@@ -366,23 +355,7 @@
   },
   "guide": {
     "title": "如何使用本站",
-    "lede": "一份简短指南：三种阅读方式，以及每个数字背后的口径。",
-    "pathsTitle": "选择一条阅读路径",
-    "pathLearn": "学习产业链",
-    "pathLearnDesc": "先看结构，再逐个工艺深入。",
-    "pathLearn1": "读产业链全景",
-    "pathLearn2": "看晶圆制造工艺",
-    "pathLearn3": "查不熟悉的术语",
-    "pathResearch": "研究一家公司",
-    "pathResearchDesc": "从公司图谱进入公司页，再对比同环节公司。",
-    "pathResearch1": "筛选公司图谱",
-    "pathResearch2": "打开公司页",
-    "pathResearch3": "对比同环节公司",
-    "pathMonitor": "跟踪市场",
-    "pathMonitorDesc": "先看市场状态，再看研究清单，最后回到方法。",
-    "pathMonitor1": "看市场状态",
-    "pathMonitor2": "看研究清单",
-    "pathMonitor3": "读方法",
+    "lede": "一份简短指南：你实际会做的几件事，以及每个数字背后的口径。",
     "conventionsTitle": "如何读这张看板",
     "convTime": "数据有明确时间",
     "convTimeDesc": "快照时间显示在页头、页脚与数据状态页。行情为延时或收盘价。",
@@ -392,15 +365,6 @@
     "convColorDesc": "上涨为青色并带加号，下跌为铜色并带减号；颜色只是辅助，符号与箭头才是语义。",
     "convScore": "分数只决定阅读顺序",
     "convScoreDesc": "研究优先级只决定阅读顺序，不是推荐、目标价或盈利预测。",
-    "mapTitle": "站点地图",
-    "mapCompanies": "筛选、排序并打开 175 家公司。",
-    "mapChain": "八个环节的赚钱方式与代表公司。",
-    "mapKnowledge": "12 篇四语长文。",
-    "mapGlossary": "52 条四语术语。",
-    "mapMethod": "因子、权重、阈值与局限。",
-    "mapAbout": "目的、来源、许可与构建信息。",
-    "mapGuide": "本页。",
-    "mapStatus": "数据新鲜度、覆盖率、来源与异常记录。",
     "shortcutsTitle": "键盘",
     "shortcutSearch": "打开快速搜索",
     "shortcutTheme": "切换明暗主题",
@@ -411,6 +375,15 @@
     "jumpCite": "引用",
     "tasksTitle": "实用任务",
     "tasks": [
+      {
+        "title": "先认识产业链",
+        "key": "chain",
+        "steps": [
+          "先通读一遍产业链，从 EDA 到封装。",
+          "打开一个你关心的工艺，例如光刻或先进封装。",
+          "遇到陌生术语，去术语表查四语解释。"
+        ]
+      },
       {
         "title": "找一家公司",
         "key": "companies",
@@ -433,18 +406,9 @@
         "title": "两分钟读懂一家公司",
         "key": "companies",
         "steps": [
-          "先看“用大白话说”。",
+          "先看页面顶部的定位说明。",
           "再看 30 日股价图与 52 周区间。",
           "读优先级拆解与数据完整度，再决定是否相信分数。"
-        ]
-      },
-      {
-        "title": "查一个指标",
-        "key": "glossary",
-        "steps": [
-          "公司表格下方有 PE、PB、ROE、市值的口径说明。",
-          "术语表提供四语详细定义。",
-          "字段缺失时显示为 —。"
         ]
       },
       {

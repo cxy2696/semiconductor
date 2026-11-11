@@ -65,8 +65,6 @@
     "kpi": {
       "companies": "対象企業",
       "mcap": "サンプル時価総額",
-      "breadth": "30日上昇比率",
-      "median": "30日騰落中央値",
       "coverage": "市況カバー率"
     },
     "regime": {
@@ -128,16 +126,12 @@
       "cta": "手法の全文を読む"
     },
     "guideTitle": "はじめての方へ",
-    "guideDesc": "ガイドで読書パスを選ぶか、⌘K で企業・テーマ・用語へ移動できます。",
-    "guideCta": "ガイドを開く",
-    "brief": {
-      "label": "ひとことで言うと",
-      "text": "上昇比率は {breadth}%、30営業日の騰落中央値は {median}%。{leader} が先行し、{laggard} が遅れています。{count} 社のうち {coverage}% が利用可能な市況を持ち、残りは欠損として扱います。"
-    }
+    "guideDesc": "ガイドには6つの実務タスクと数字の前提があります。⌘K で直接移動もできます。",
+    "guideCta": "ガイドを開く"
   },
   "companies": {
     "title": "企業マップ",
-    "lede": "世界の主要半導体企業の位置・市況・データ品質を一表で俯瞰する。市況は遅延または終値ベース、バリュエーションは静的 PER と PBR を用いる。",
+    "lede": "175社を工程・本社・上場市場で絞り込みます。並べ替え、企業ページ、同工程比較に使えます。",
     "searchPlaceholder": "企業名・コード・製品で検索",
     "filterStage": "工程",
     "filterCountry": "本社",
@@ -193,15 +187,10 @@
     "priorityDesc": "各因子は同業内のパーセンタイル。欠損は残りの重みで再正規化する。",
     "founded": "設立年",
     "fiscalYearEnd": "決算月",
-    "plainTitle": "やさしく言うと",
-    "plainIntro": "{name} は{stage}工程の{role}企業で、{products}を中心に手掛けています。",
-    "plainMove": "直近30営業日で株価は {ret}% 動きました。",
-    "plainValue": "静的 PER は {pe} 倍、ROE は {roe}% です。",
-    "plainNoValue": "バリュエーションまたは収益性のデータが不足しているため、優先度スコアは慎重に読んでください。",
-    "plainCoverage": "市況と因子の充足度は{coverage}です。",
     "watch": "注目点",
     "priceChart": "30営業日の株価",
-    "priceChartNote": "直近30営業日の終値です。配当調整はしていません。"
+    "priceChartNote": "直近30営業日の終値です。配当調整はしていません。",
+    "dataNoteShort": "遅延終値と企業開示"
   },
   "chain": {
     "title": "バリューチェーン全景",
@@ -366,23 +355,7 @@
   },
   "guide": {
     "title": "このデスクの使い方",
-    "lede": "読み方の3つの道筋と、数字の前提を短くまとめたガイドです。",
-    "pathsTitle": "読書パスを選ぶ",
-    "pathLearn": "バリューチェーンを学ぶ",
-    "pathLearnDesc": "まず構造、次に工程を一つずつ。",
-    "pathLearn1": "バリューチェーンを読む",
-    "pathLearn2": "ウェハ工程を見る",
-    "pathLearn3": "用語を引く",
-    "pathResearch": "企業を調べる",
-    "pathResearchDesc": "企業マップからプロフィールへ、そして同業比較へ。",
-    "pathResearch1": "企業マップを絞り込む",
-    "pathResearch2": "企業ページを開く",
-    "pathResearch3": "同じ工程で比較する",
-    "pathMonitor": "市場を追う",
-    "pathMonitorDesc": "市場状態、リサーチリスト、方法の順に。",
-    "pathMonitor1": "市場状態を見る",
-    "pathMonitor2": "リサーチリストを見る",
-    "pathMonitor3": "方法を読む",
+    "lede": "実際に使う作業と、数字の前提を短くまとめたガイドです。",
     "conventionsTitle": "デスクの読み方",
     "convTime": "データには時刻がある",
     "convTimeDesc": "スナップショット時刻はヘッダー・フッター・データ状態ページに表示されます。市況は遅延または終値です。",
@@ -392,15 +365,6 @@
     "convColorDesc": "上昇はティールとプラス記号、下落は銅色とマイナス記号。色だけでなく記号と矢印が意味を持ちます。",
     "convScore": "スコアは読む順序",
     "convScoreDesc": "研究優先度は読む順序を決めるだけで、推奨・目標株価・予測ではありません。",
-    "mapTitle": "サイトマップ",
-    "mapCompanies": "175社を絞り込み、並べ替え、開く。",
-    "mapChain": "8工程の収益構造と代表企業。",
-    "mapKnowledge": "4言語・12本の長編トピック。",
-    "mapGlossary": "4言語の定義を持つ52の用語。",
-    "mapMethod": "因子、重み、閾値、限界。",
-    "mapAbout": "目的、出典、ライセンス、ビルド情報。",
-    "mapGuide": "このページ。",
-    "mapStatus": "鮮度、充足度、出典、データの注記。",
     "shortcutsTitle": "キーボード",
     "shortcutSearch": "クイック検索を開く",
     "shortcutTheme": "ライト／ダークを切り替える",
@@ -411,6 +375,15 @@
     "jumpCite": "引用",
     "tasksTitle": "実務タスク",
     "tasks": [
+      {
+        "title": "バリューチェーンを知る",
+        "key": "chain",
+        "steps": [
+          "EDAからパッケージングまで一度通して読む。",
+          "光刻や先端実装など、気になる工程を開く。",
+          "不明な用語は用語集で確認する。"
+        ]
+      },
       {
         "title": "企業を探す",
         "key": "companies",
@@ -433,18 +406,9 @@
         "title": "2分で企業を読む",
         "key": "companies",
         "steps": [
-          "まず「やさしく言うと」を読みます。",
+          "まずページ上部の位置づけを読みます。",
           "30営業日の株価チャートと52週レンジを見ます。",
           "優先度の内訳とデータ充足度を確認してからスコアを信頼します。"
-        ]
-      },
-      {
-        "title": "指標を確認する",
-        "key": "glossary",
-        "steps": [
-          "企業表の下に PER・PBR・ROE・時価総額の説明があります。",
-          "詳しい定義は4言語の用語集にあります。",
-          "欠損は — で表示されます。"
         ]
       },
       {

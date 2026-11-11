@@ -65,8 +65,6 @@
     "kpi": {
       "companies": "Companies",
       "mcap": "Sample market cap",
-      "breadth": "Advancers (30d)",
-      "median": "Median 30-day return",
       "coverage": "Quote coverage"
     },
     "regime": {
@@ -128,16 +126,12 @@
       "cta": "Read the full method"
     },
     "guideTitle": "New here?",
-    "guideDesc": "Pick a reading path in the guide, or press ⌘K to jump to any company, topic or term.",
-    "guideCta": "Open the guide",
-    "brief": {
-      "label": "In one paragraph",
-      "text": "Breadth is {breadth}% and the median 30-session move is {median}%. {leader} leads and {laggard} lags. {coverage}% of the {count} companies have a usable quote; the rest are flagged as missing."
-    }
+    "guideDesc": "Open the guide for six short tasks and the numbers behind them, or press ⌘K to jump.",
+    "guideCta": "Open the guide"
   },
   "companies": {
     "title": "Company map",
-    "lede": "One table for the position, quotes and data quality of the world's major semiconductor companies. Quotes are delayed or closing prices; valuation uses static P/E and P/B.",
+    "lede": "Filter 175 companies by stage, country and listing. Sort the table, open a profile, or compare within a stage.",
     "searchPlaceholder": "Search company, ticker, product",
     "filterStage": "Stage",
     "filterCountry": "HQ",
@@ -193,15 +187,10 @@
     "priorityDesc": "Each factor is a percentile within peers; missing factors are renormalised.",
     "founded": "Founded",
     "fiscalYearEnd": "Fiscal year end",
-    "plainTitle": "In plain language",
-    "plainIntro": "{name} is a {role} company in the {stage} stage, focused on {products}.",
-    "plainMove": "Over the last 30 sessions the share moved {ret}%.",
-    "plainValue": "It trades at {pe}× earnings, with an ROE of {roe}%.",
-    "plainNoValue": "Valuation or profitability data is incomplete, so read the priority score with care.",
-    "plainCoverage": "Quote and factor coverage is {coverage}.",
     "watch": "What to watch",
     "priceChart": "30-session price",
-    "priceChartNote": "Daily closes from the last 30 sessions. Not adjusted for dividends."
+    "priceChartNote": "Daily closes from the last 30 sessions. Not adjusted for dividends.",
+    "dataNoteShort": "Delayed closes and filings"
   },
   "chain": {
     "title": "The value chain",
@@ -366,23 +355,7 @@
   },
   "guide": {
     "title": "How to use this desk",
-    "lede": "A short guide to the three ways to read the site, and to the numbers behind it.",
-    "pathsTitle": "Choose a reading path",
-    "pathLearn": "Learn the chain",
-    "pathLearnDesc": "Start with structure, then one process at a time.",
-    "pathLearn1": "Read the value chain",
-    "pathLearn2": "Take the wafer process",
-    "pathLearn3": "Look up unfamiliar terms",
-    "pathResearch": "Research a company",
-    "pathResearchDesc": "Move from the map to a profile, then to peers.",
-    "pathResearch1": "Filter the company map",
-    "pathResearch2": "Open a company profile",
-    "pathResearch3": "Compare within the stage",
-    "pathMonitor": "Track the market",
-    "pathMonitorDesc": "Read the state, then the screens, then the method.",
-    "pathMonitor1": "Check the market state",
-    "pathMonitor2": "Review the research lists",
-    "pathMonitor3": "Read the method",
+    "lede": "A short guide to the tasks you will actually do, and to the numbers behind them.",
     "conventionsTitle": "How to read the desk",
     "convTime": "Data has a timestamp",
     "convTimeDesc": "The snapshot time is shown in the header, footer and status page. Quotes are delayed or closing prices.",
@@ -392,15 +365,6 @@
     "convColorDesc": "Up is teal with a plus sign; down is copper with a minus sign. Signs and arrows carry the meaning, not colour alone.",
     "convScore": "Scores sort reading order",
     "convScoreDesc": "The priority score sorts reading order. It is not a recommendation, target price or forecast.",
-    "mapTitle": "Site map",
-    "mapCompanies": "Filter, sort and open any of the 175 companies.",
-    "mapChain": "Eight stages, their economics and representative companies.",
-    "mapKnowledge": "Twelve long-form topics in four languages.",
-    "mapGlossary": "52 terms with four-language definitions.",
-    "mapMethod": "Factors, weights, thresholds and limitations.",
-    "mapAbout": "Purpose, sources, licence and build details.",
-    "mapGuide": "This page.",
-    "mapStatus": "Freshness, coverage, sources and data notes.",
     "shortcutsTitle": "Keyboard",
     "shortcutSearch": "Open quick search",
     "shortcutTheme": "Toggle light / dark",
@@ -411,6 +375,15 @@
     "jumpCite": "Cite",
     "tasksTitle": "Practical tasks",
     "tasks": [
+      {
+        "title": "Learn the chain",
+        "key": "chain",
+        "steps": [
+          "Read the value chain once, from EDA to packaging.",
+          "Open one process you care about, such as lithography or packaging.",
+          "Look up unfamiliar terms in the glossary."
+        ]
+      },
       {
         "title": "Find a company",
         "key": "companies",
@@ -433,18 +406,9 @@
         "title": "Read a company in two minutes",
         "key": "companies",
         "steps": [
-          "Start with “In plain language”.",
+          "Start with the positioning line at the top.",
           "Check the 30-session chart and the 52-week range.",
           "Read the priority breakdown and data coverage before trusting the score."
-        ]
-      },
-      {
-        "title": "Check a metric",
-        "key": "glossary",
-        "steps": [
-          "Use the note under the company table for P/E, P/B, ROE and market cap.",
-          "Open the glossary for a longer definition in four languages.",
-          "Look for the — when a field is missing."
         ]
       },
       {
@@ -577,7 +541,7 @@
     "runbookText": "Failure handling, service levels and change management are documented in OPERATIONS.",
     "staleTopics": "Content older than 12 months",
     "recentSnapshots": "Recent snapshots",
-    "none": "Nothing to report.",
+    "none": "Nothing needs attention.",
     "viewMethod": "Read the method",
     "guide": "Open the guide",
     "quotes": "Quotes",

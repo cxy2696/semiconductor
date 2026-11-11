@@ -1096,3 +1096,13 @@ body.search-open { overflow: hidden; }
 
 @media (max-width: 1100px) { .task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .task-grid { grid-template-columns: 1fr; } .guide-jump { gap: 5px; } }
+
+/* ---------- compact watch strip ---------- */
+.watch-strip {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: 0 0 18px; padding: 10px 0 0;
+  border-top: 1px dashed var(--line);
+}
+.watch-label { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.watch-strip ul { display: flex; gap: 6px; flex-wrap: wrap; }
+.watch-strip li { font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--ink-2); }

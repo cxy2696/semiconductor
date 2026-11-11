@@ -66,7 +66,7 @@ Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu verglei
 
 `/status.html` ist die menschenlesbare Oberfläche desselben Health-Checks: Build- und Snapshot-Zeit, Datenalter, Abdeckung, Titel ohne Kurs, Quellen, Anzahl der Schlagzeilen, letzte Snapshots und veraltete Inhalte. `python -m semcore status` gibt dieselbe Zusammenfassung als Markdown aus; der Pages-Workflow hängt sie an die Laufzusammenfassung.
 
-`/guide.html` erklärt die drei Lesepfade, die Farb- und Abdeckungskonventionen, die Website-Übersicht und die Tastaturkürzel. Wenn eine Seite oder ein Datenfeld hinzukommt, muss der Leitfaden mitgepflegt werden, damit die Orientierung korrekt bleibt.
+`/guide.html` erklärt sechs praktische Aufgaben, welche Seite welche Frage beantwortet, die Farb- und Abdeckungskonventionen, FAQ und Tastaturkürzel. Wenn eine Seite oder ein Datenfeld hinzukommt, muss der Leitfaden mitgepflegt werden, damit die Orientierung korrekt bleibt.
 
 
 ## 6. Incident-Runbook

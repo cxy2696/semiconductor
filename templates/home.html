@@ -33,14 +33,8 @@
 <section class="kpi-grid" aria-label="{{ t.common.total }}">
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.companies }}</span><span class="kpi-value">{{ kpis.companies }}</span></div>
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.mcap }}</span><span class="kpi-value">{{ kpis.mcap | usd }}</span></div>
-  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.breadth }}</span><span class="kpi-value">{{ (kpis.breadth * 100) | num(0) }}%</span></div>
-  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.median }}</span><span class="kpi-value {{ 'pos' if (kpis.median or 0) >= 0 else 'neg' }}">{{ kpis.median | pct }}</span></div>
+  <div class="kpi"><span class="kpi-label">{{ t.status.news }}</span><span class="kpi-value">{{ health.news_count }}</span></div>
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.coverage }}</span><span class="kpi-value">{{ (kpis.coverage * 100) | num(1) }}%</span></div>
-</section>
-
-<section class="brief">
-  <span class="kicker">{{ t.home.brief.label }}</span>
-  <p>{{ home_brief }}</p>
 </section>
 
 <section class="guide-strip">

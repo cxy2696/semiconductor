@@ -65,8 +65,6 @@
     "kpi": {
       "companies": "Unternehmen",
       "mcap": "Marktkapitalisierung",
-      "breadth": "Aufsteiger (30 T)",
-      "median": "Median-Rendite 30 T",
       "coverage": "Kursabdeckung"
     },
     "regime": {
@@ -128,16 +126,12 @@
       "cta": "Vollständige Methodik"
     },
     "guideTitle": "Zum ersten Mal hier?",
-    "guideDesc": "Wählen Sie im Leitfaden einen Lesepfad oder springen Sie mit ⌘K zu Unternehmen, Themen und Begriffen.",
-    "guideCta": "Leitfaden öffnen",
-    "brief": {
-      "label": "In einem Absatz",
-      "text": "Die Marktbreite liegt bei {breadth}%, die Median-Rendite über 30 Sitzungen bei {median}%. {leader} führt, {laggard} läuft nach. Von {count} Unternehmen haben {coverage}% einen nutzbaren Kurs; der Rest ist als fehlend markiert."
-    }
+    "guideDesc": "Im Leitfaden stehen sechs kurze Aufgaben und die Zahlen dahinter; ⌘K springt direkt.",
+    "guideCta": "Leitfaden öffnen"
   },
   "companies": {
     "title": "Unternehmenskarte",
-    "lede": "Eine Tabelle für Position, Kurse und Datenqualität der wichtigsten Halbleiterunternehmen. Kurse sind verzögert oder Schlusskurse; die Bewertung nutzt statisches KGV und KBV.",
+    "lede": "175 Unternehmen nach Stufe, Land und Börse filtern. Sortieren, Profil öffnen oder innerhalb einer Stufe vergleichen.",
     "searchPlaceholder": "Unternehmen, Kürzel, Produkt suchen",
     "filterStage": "Stufe",
     "filterCountry": "Hauptsitz",
@@ -193,15 +187,10 @@
     "priorityDesc": "Jeder Faktor ist ein Perzentil innerhalb der Peergruppe; fehlende Faktoren werden renormiert.",
     "founded": "Gegründet",
     "fiscalYearEnd": "Geschäftsjahresende",
-    "plainTitle": "Einfach gesagt",
-    "plainIntro": "{name} ist ein {role}-Unternehmen in der Stufe {stage} und konzentriert sich auf {products}.",
-    "plainMove": "In den letzten 30 Sitzungen bewegte sich die Aktie um {ret}%.",
-    "plainValue": "Das statische KGV liegt bei {pe}, die ROE bei {roe}%.",
-    "plainNoValue": "Bewertungs- oder Rentabilitätsdaten sind unvollständig; lesen Sie den Prioritätsscore mit Vorsicht.",
-    "plainCoverage": "Die Abdeckung von Kurs und Faktoren ist {coverage}.",
     "watch": "Worauf zu achten ist",
     "priceChart": "Kursverlauf 30 Sitzungen",
-    "priceChartNote": "Tagesschlusskurse der letzten 30 Sitzungen, nicht dividendenbereinigt."
+    "priceChartNote": "Tagesschlusskurse der letzten 30 Sitzungen, nicht dividendenbereinigt.",
+    "dataNoteShort": "Verzögerte Schlusskurse und Berichte"
   },
   "chain": {
     "title": "Die Wertschöpfungskette",
@@ -366,23 +355,7 @@
   },
   "guide": {
     "title": "So nutzen Sie diesen Desk",
-    "lede": "Eine kurze Anleitung zu den drei Lesewegen und zu den Zahlen dahinter.",
-    "pathsTitle": "Lesepfad wählen",
-    "pathLearn": "Wertschöpfungskette lernen",
-    "pathLearnDesc": "Zuerst die Struktur, dann ein Prozess nach dem anderen.",
-    "pathLearn1": "Wertschöpfungskette lesen",
-    "pathLearn2": "Waferprozess ansehen",
-    "pathLearn3": "Begriffe nachschlagen",
-    "pathResearch": "Ein Unternehmen recherchieren",
-    "pathResearchDesc": "Von der Karte zum Profil, dann zu den Peers.",
-    "pathResearch1": "Unternehmenskarte filtern",
-    "pathResearch2": "Unternehmensprofil öffnen",
-    "pathResearch3": "Innerhalb der Stufe vergleichen",
-    "pathMonitor": "Den Markt beobachten",
-    "pathMonitorDesc": "Erst die Marktlage, dann die Research-Listen, dann die Methodik.",
-    "pathMonitor1": "Marktlage prüfen",
-    "pathMonitor2": "Research-Listen ansehen",
-    "pathMonitor3": "Methodik lesen",
+    "lede": "Eine kurze Anleitung zu den Aufgaben, die Sie wirklich tun, und zu den Zahlen dahinter.",
     "conventionsTitle": "Den Desk lesen",
     "convTime": "Daten haben einen Zeitstempel",
     "convTimeDesc": "Die Snapshot-Zeit steht in Kopfzeile, Fußzeile und Datenstatus. Kurse sind verzögert oder Schlusskurse.",
@@ -392,15 +365,6 @@
     "convColorDesc": "Aufwärts ist Türkis mit Pluszeichen, abwärts Kupfer mit Minuszeichen. Zeichen und Pfeile tragen die Bedeutung, nicht die Farbe allein.",
     "convScore": "Scores ordnen die Lektüre",
     "convScoreDesc": "Die Priorität sortiert die Lektüre. Sie ist keine Empfehlung, kein Kursziel und keine Prognose.",
-    "mapTitle": "Website-Übersicht",
-    "mapCompanies": "175 Unternehmen filtern, sortieren und öffnen.",
-    "mapChain": "Acht Stufen, ihre Ökonomie und repräsentative Unternehmen.",
-    "mapKnowledge": "Zwölf ausführliche Themen in vier Sprachen.",
-    "mapGlossary": "52 Begriffe mit viersprachigen Definitionen.",
-    "mapMethod": "Faktoren, Gewichte, Schwellen und Grenzen.",
-    "mapAbout": "Zweck, Quellen, Lizenz und Build-Details.",
-    "mapGuide": "Diese Seite.",
-    "mapStatus": "Aktualität, Abdeckung, Quellen und Datenhinweise.",
     "shortcutsTitle": "Tastatur",
     "shortcutSearch": "Schnellsuche öffnen",
     "shortcutTheme": "Hell / dunkel umschalten",
@@ -411,6 +375,15 @@
     "jumpCite": "Zitieren",
     "tasksTitle": "Praktische Aufgaben",
     "tasks": [
+      {
+        "title": "Die Kette verstehen",
+        "key": "chain",
+        "steps": [
+          "Die Wertschöpfungskette einmal von EDA bis Packaging lesen.",
+          "Eine Stufe öffnen, die Sie interessiert, etwa Lithografie oder Packaging.",
+          "Unbekannte Begriffe im Glossar nachschlagen."
+        ]
+      },
       {
         "title": "Ein Unternehmen finden",
         "key": "companies",
@@ -433,18 +406,9 @@
         "title": "Ein Unternehmen in zwei Minuten lesen",
         "key": "companies",
         "steps": [
-          "Mit „Einfach gesagt“ beginnen.",
+          "Mit der Positionierung oben beginnen.",
           "Kursverlauf der 30 Sitzungen und 52-Wochen-Spanne prüfen.",
           "Prioritätsaufschlüsselung und Abdeckung lesen, bevor der Score zählt."
-        ]
-      },
-      {
-        "title": "Eine Kennzahl prüfen",
-        "key": "glossary",
-        "steps": [
-          "Die Notiz unter der Tabelle erklärt KGV, KBV, ROE und Marktkapitalisierung.",
-          "Das Glossar bietet längere Definitionen in vier Sprachen.",
-          "Fehlende Werte erscheinen als —."
         ]
       },
       {

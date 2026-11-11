@@ -66,7 +66,7 @@ Export `coverage` and `errors` once a quarter to compare trends.
 
 `/status.html` is the human-readable face of the health check: build and snapshot time, data age, coverage, unpriced symbols, sources, headline count, recent snapshots and stale content. `python -m semcore status` prints the same summary as Markdown, and the Pages workflow appends it to the run's step summary.
 
-`/guide.html` explains the three reading paths, the colour and coverage conventions, the site map and keyboard shortcuts. When a section or data field is added, update the guide so wayfinding stays accurate.
+`/guide.html` explains six practical tasks, which page answers which question, the colour and coverage conventions, FAQs and keyboard shortcuts. When a section or data field is added, update the guide so wayfinding stays accurate.
 
 
 ## 6. Incident runbook
