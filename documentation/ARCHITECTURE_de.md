@@ -47,7 +47,7 @@ Designvorgaben:
 | `semcore/build.py` | Seiten-Orchestrierung und Kontexte | Datenabruf |
 | `templates/` | HTML-Struktur | Inline-Datenberechnungen |
 | `assets/` | Designsystem und Progressive-Enhancement-JS | Geschäftsdaten |
-| `docs/` | Build-Ausgabe (GitHub Pages) | Manuelle Änderungen |
+| `docs/` | Generierte Website (CI-Build, nicht committet) | Manuelle Änderungen |
 | `documentation/` | Produkt / Architektur / Daten / Methodik / Betrieb / Roadmap in vier Sprachen | Nutzerseitige Seiten |
 
 ## 3. Build-Pipeline

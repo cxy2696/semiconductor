@@ -43,6 +43,14 @@
   <span class="filter-count" id="filter-count">{{ t.common.showing }} {{ rows | length }} {{ t.companies.count }}</span>
 </section>
 
+<section class="insight-strip" aria-label="{{ t.companies.title }}">
+  <div><span>{{ t.companies.insight.priced }}</span><strong>{{ insight.priced }} / {{ rows | length }}</strong></div>
+  <div><span>{{ t.companies.insight.medianPe }}</span><strong>{{ insight.median_pe | num(1) }}</strong></div>
+  <div><span>{{ t.companies.insight.medianRoe }}</span><strong>{{ insight.median_roe | num(1) }}{% if insight.median_roe is not none %}%{% endif %}</strong></div>
+  <div><span>{{ t.companies.insight.medianRet }}</span><strong class="{{ 'pos' if (insight.median_ret or 0) >= 0 else 'neg' }}">{{ insight.median_ret | pct }}</strong></div>
+</section>
+<p class="metrics-note">{{ t.companies.metricsNote }}</p>
+
 <section class="panel table-panel">
   <div class="table-scroll">
     <table class="data-table" id="companies-table">

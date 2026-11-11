@@ -89,7 +89,7 @@ python -m semcore validate
 python -m pytest
 ```
 
-Build output goes to `docs/`: `docs/index.html` (English), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json`, and redirect stubs under `docs/en/`.
+Build output goes to `docs/`: `docs/index.html` (English), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json`, and redirect stubs under `docs/en/`. The directory is generated and ignored by git; GitHub Actions builds and deploys it.
 
 ## Directory layout
 
@@ -110,7 +110,7 @@ data/
 content/knowledge/       12 topics × 4 languages (flat: <slug>_en.md etc.)
 templates/               Jinja2 templates
 assets/                  design-system CSS + native JS (no dependencies)
-docs/                    build output (GitHub Pages)
+docs/                    generated site (built locally and by CI; ignored by git)
 documentation/           product / architecture / data / method / operations docs (four languages)
 ios/                     SwiftUI iPhone client
 tests/                   pytest suite

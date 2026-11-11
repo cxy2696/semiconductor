@@ -79,7 +79,12 @@
       "dispersion": "Dispersion (IQR)",
       "leader": "Leading stage",
       "laggard": "Lagging stage",
-      "thresholds": "Thresholds: expansion when breadth ≥ 60% and median return > 2%; contraction when breadth ≤ 40% and median return < -2%; otherwise neutral."
+      "thresholds": "Thresholds: expansion when breadth ≥ 60% and median return > 2%; contraction when breadth ≤ 40% and median return < -2%; otherwise neutral.",
+      "read": {
+        "expansion": "Most names are advancing. Momentum screens are more likely to trigger; check whether the move is broad or concentrated.",
+        "neutral": "The market is mixed. Prefer company-level evidence over a stage-wide call.",
+        "contraction": "Most names are falling. Treat rallies as tentative and read coverage before acting on a screen."
+      }
     },
     "chain": {
       "title": "Value-chain structure",
@@ -124,7 +129,11 @@
     },
     "guideTitle": "New here?",
     "guideDesc": "Pick a reading path in the guide, or press ⌘K to jump to any company, topic or term.",
-    "guideCta": "Open the guide"
+    "guideCta": "Open the guide",
+    "brief": {
+      "label": "In one paragraph",
+      "text": "Breadth is {breadth}% and the median 30-session move is {median}%. {leader} leads and {laggard} lags. {coverage}% of the {count} companies have a usable quote; the rest are flagged as missing."
+    }
   },
   "companies": {
     "title": "Company map",
@@ -153,7 +162,14 @@
     },
     "empty": "No companies match these filters.",
     "sortHint": "Click a header to sort",
-    "unpriced": "Unpriced"
+    "unpriced": "Unpriced",
+    "insight": {
+      "medianPe": "Median P/E",
+      "medianRoe": "Median ROE",
+      "medianRet": "Median 30D",
+      "priced": "With quote"
+    },
+    "metricsNote": "P/E is static (last annual EPS), P/B is book value, ROE is return on equity, and market cap is converted to USD. Missing fields show as —."
   },
   "company": {
     "back": "Back to companies",
@@ -174,7 +190,14 @@
     "priorityTitle": "Priority breakdown",
     "priorityDesc": "Each factor is a percentile within peers; missing factors are renormalised.",
     "founded": "Founded",
-    "fiscalYearEnd": "Fiscal year end"
+    "fiscalYearEnd": "Fiscal year end",
+    "plainTitle": "In plain language",
+    "plainIntro": "{name} is a {role} company in the {stage} stage, focused on {products}.",
+    "plainMove": "Over the last 30 sessions the share moved {ret}%.",
+    "plainValue": "It trades at {pe}× earnings, with an ROE of {roe}%.",
+    "plainNoValue": "Valuation or profitability data is incomplete, so read the priority score with care.",
+    "plainCoverage": "Quote and factor coverage is {coverage}.",
+    "watch": "What to watch"
   },
   "chain": {
     "title": "The value chain",

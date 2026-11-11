@@ -81,7 +81,7 @@ python -m semcore validate
 python -m pytest
 ```
 
-构建产物在 `docs/`：`docs/index.html`（英文）、`docs/zh/`、`docs/ja/`、`docs/de/`、`docs/api/`、`docs/latest_data.json`。
+构建产物在 `docs/`：`docs/index.html`（英文）、`docs/zh/`、`docs/ja/`、`docs/de/`、`docs/api/`、`docs/latest_data.json`。该目录由构建生成并已被 git 忽略，由 GitHub Actions 构建与部署。
 
 ## 目录结构
 
@@ -101,7 +101,7 @@ data/
   snapshots/             行情快照（构建的唯一输入）
 templates/               Jinja2 模板
 assets/                  设计系统 CSS + 原生 JS（无依赖）
-docs/                    构建产物（GitHub Pages）
+docs/                    构建产物（本地与 CI 生成，已被 git 忽略）
 documentation/           产品 / 架构 / 数据 / 方法 / 运营文档（四语）
 ios/                     SwiftUI iPhone 客户端
 tests/                   pytest 测试

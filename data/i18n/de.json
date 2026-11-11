@@ -79,7 +79,12 @@
       "dispersion": "Streuung (IQR)",
       "leader": "Führende Stufe",
       "laggard": "Nachlaufende Stufe",
-      "thresholds": "Schwellen: Expansion bei Marktbreite ≥ 60 % und Median-Rendite > 2 %; Kontraktion bei Marktbreite ≤ 40 % und Median-Rendite < −2 %; sonst neutral."
+      "thresholds": "Schwellen: Expansion bei Marktbreite ≥ 60 % und Median-Rendite > 2 %; Kontraktion bei Marktbreite ≤ 40 % und Median-Rendite < −2 %; sonst neutral.",
+      "read": {
+        "expansion": "Die meisten Titel steigen. Momentum-Listen lösen häufiger aus; prüfen Sie, ob die Bewegung breit oder konzentriert ist.",
+        "neutral": "Der Markt ist gemischt. Unternehmensbezogene Evidenz ist besser als ein Urteil über die ganze Stufe.",
+        "contraction": "Die meisten Titel fallen. Behandeln Sie Erholungen als vorläufig und prüfen Sie die Abdeckung, bevor Sie einer Liste folgen."
+      }
     },
     "chain": {
       "title": "Struktur der Wertschöpfungskette",
@@ -124,7 +129,11 @@
     },
     "guideTitle": "Zum ersten Mal hier?",
     "guideDesc": "Wählen Sie im Leitfaden einen Lesepfad oder springen Sie mit ⌘K zu Unternehmen, Themen und Begriffen.",
-    "guideCta": "Leitfaden öffnen"
+    "guideCta": "Leitfaden öffnen",
+    "brief": {
+      "label": "In einem Absatz",
+      "text": "Die Marktbreite liegt bei {breadth}%, die Median-Rendite über 30 Sitzungen bei {median}%. {leader} führt, {laggard} läuft nach. Von {count} Unternehmen haben {coverage}% einen nutzbaren Kurs; der Rest ist als fehlend markiert."
+    }
   },
   "companies": {
     "title": "Unternehmenskarte",
@@ -153,7 +162,14 @@
     },
     "empty": "Keine Unternehmen für diese Filter.",
     "sortHint": "Zum Sortieren auf eine Spaltenüberschrift klicken",
-    "unpriced": "Ohne Kurs"
+    "unpriced": "Ohne Kurs",
+    "insight": {
+      "medianPe": "Median-KGV",
+      "medianRoe": "Median-ROE",
+      "medianRet": "Median 30 T",
+      "priced": "Mit Kurs"
+    },
+    "metricsNote": "KGV ist statisch (letztes Jahres-EPS), KBV ist der Buchwert, ROE die Eigenkapitalrendite; Marktkapitalisierung in USD. Fehlende Felder erscheinen als —."
   },
   "company": {
     "back": "Zurück zur Unternehmenskarte",
@@ -174,7 +190,14 @@
     "priorityTitle": "Prioritätsaufschlüsselung",
     "priorityDesc": "Jeder Faktor ist ein Perzentil innerhalb der Peergruppe; fehlende Faktoren werden renormiert.",
     "founded": "Gegründet",
-    "fiscalYearEnd": "Geschäftsjahresende"
+    "fiscalYearEnd": "Geschäftsjahresende",
+    "plainTitle": "Einfach gesagt",
+    "plainIntro": "{name} ist ein {role}-Unternehmen in der Stufe {stage} und konzentriert sich auf {products}.",
+    "plainMove": "In den letzten 30 Sitzungen bewegte sich die Aktie um {ret}%.",
+    "plainValue": "Das statische KGV liegt bei {pe}, die ROE bei {roe}%.",
+    "plainNoValue": "Bewertungs- oder Rentabilitätsdaten sind unvollständig; lesen Sie den Prioritätsscore mit Vorsicht.",
+    "plainCoverage": "Die Abdeckung von Kurs und Faktoren ist {coverage}.",
+    "watch": "Worauf zu achten ist"
   },
   "chain": {
     "title": "Die Wertschöpfungskette",

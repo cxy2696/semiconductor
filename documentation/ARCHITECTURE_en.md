@@ -47,7 +47,7 @@ Design constraints:
 | `semcore/build.py` | Page orchestration and context | Data fetching |
 | `templates/` | HTML structure | Inline data calculations |
 | `assets/` | Design system and progressive-enhancement JS | Business data |
-| `docs/` | Build output (GitHub Pages) | Hand edits |
+| `docs/` | Generated site (built by CI, not committed) | Hand edits |
 | `documentation/` | Product / architecture / data / method / operations / roadmap, in four languages | User-visible pages |
 
 ## 3. Build pipeline

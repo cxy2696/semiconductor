@@ -89,7 +89,7 @@ python -m semcore validate
 python -m pytest
 ```
 
-ビルド出力は `docs/` に生成されます：`docs/index.html`（英語）、`docs/zh/`、`docs/ja/`、`docs/de/`、`docs/api/`、`docs/latest_data.json`、および `docs/en/` 配下のリダイレクトスタブです。
+ビルド出力は `docs/` に生成されます：`docs/index.html`（英語）、`docs/zh/`、`docs/ja/`、`docs/de/`、`docs/api/`、`docs/latest_data.json`、および `docs/en/` 配下のリダイレクトスタブです。このディレクトリは生成物であり git の管理外で、GitHub Actions がビルドして配備します。
 
 ## ディレクトリ構成
 
@@ -110,7 +110,7 @@ data/
 content/knowledge/       12 topics × 4 languages (flat: <slug>_en.md etc.)
 templates/               Jinja2 templates
 assets/                  design-system CSS + native JS (no dependencies)
-docs/                    build output (GitHub Pages)
+docs/                    生成サイト（ローカルと CI で生成、git 管理外）
 documentation/           product / architecture / data / method / operations docs (four languages)
 ios/                     SwiftUI iPhone client
 tests/                   pytest suite

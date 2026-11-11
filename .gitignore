@@ -6,3 +6,6 @@ venv/
 build/
 .pytest_cache/
 *.zip
+
+# Generated site (deployed by GitHub Actions)
+docs/

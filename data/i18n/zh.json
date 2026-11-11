@@ -79,7 +79,12 @@
       "dispersion": "离散度（IQR）",
       "leader": "领先环节",
       "laggard": "落后环节",
-      "thresholds": "判定阈值：宽度 ≥ 60% 且中位涨幅 > 2% 为扩张；宽度 ≤ 40% 且中位涨幅 < -2% 为收缩；其余为中性。"
+      "thresholds": "判定阈值：宽度 ≥ 60% 且中位涨幅 > 2% 为扩张；宽度 ≤ 40% 且中位涨幅 < -2% 为收缩；其余为中性。",
+      "read": {
+        "expansion": "多数标的在上涨。动能类清单更容易触发，但要看上涨是普遍还是集中。",
+        "neutral": "市场分化。与其对整个环节下判断，不如回到公司层面的证据。",
+        "contraction": "多数标的在下跌。反弹先当作试探，执行清单前先看数据完整度。"
+      }
     },
     "chain": {
       "title": "产业链结构",
@@ -124,7 +129,11 @@
     },
     "guideTitle": "第一次来？",
     "guideDesc": "在指南里选一条阅读路径，或按 ⌘K 跳到任意公司、主题或术语。",
-    "guideCta": "打开指南"
+    "guideCta": "打开指南",
+    "brief": {
+      "label": "一段话读懂",
+      "text": "上涨宽度 {breadth}%，30 个交易日涨跌中位数 {median}%。{leader} 领先，{laggard} 落后。{count} 家公司中有 {coverage}% 能拿到可用行情，其余标记为缺失。"
+    }
   },
   "companies": {
     "title": "公司图谱",
@@ -153,7 +162,14 @@
     },
     "empty": "没有符合条件的公司，请调整筛选。",
     "sortHint": "点击表头排序",
-    "unpriced": "未定价"
+    "unpriced": "未定价",
+    "insight": {
+      "medianPe": "PE 中位数",
+      "medianRoe": "ROE 中位数",
+      "medianRet": "30 日中位数",
+      "priced": "有行情"
+    },
+    "metricsNote": "PE 为静态市盈率（最近年度 EPS），PB 为市净率，ROE 为净资产收益率，市值为美元折算。缺失字段显示为 —。"
   },
   "company": {
     "back": "返回公司图谱",
@@ -174,7 +190,14 @@
     "priorityTitle": "研究优先级拆解",
     "priorityDesc": "各因子为同类公司中的百分位；缺失因子按剩余权重归一。",
     "founded": "成立年份",
-    "fiscalYearEnd": "财年结束月"
+    "fiscalYearEnd": "财年结束月",
+    "plainTitle": "用大白话说",
+    "plainIntro": "{name} 是{stage}环节的{role}公司，主要做{products}。",
+    "plainMove": "最近 30 个交易日，股价变动 {ret}%。",
+    "plainValue": "当前静态市盈率 {pe} 倍，ROE 为 {roe}%。",
+    "plainNoValue": "估值或盈利数据不完整，阅读优先级分数时需要谨慎。",
+    "plainCoverage": "行情与因子完整度为{coverage}。",
+    "watch": "值得关注"
   },
   "chain": {
     "title": "产业链全景",

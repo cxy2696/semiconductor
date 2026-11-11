@@ -12,8 +12,8 @@
   <div>
     <div class="company-tags">
       <span class="stage-badge" style="--stage-color: {{ company.color }}">{{ company.stage_label }}</span>
-      <span class="tag">{{ company.market_label }}</span>
-      <span class="tag">{{ company.country_label }}</span>
+      <span class="tag">{{ company.market_label }} · {{ company.exchange }}</span>
+      {% if company.country_label != company.market_label %}<span class="tag">{{ company.country_label }}</span>{% endif %}
       <span class="tag">{{ company.role_label }}</span>
     </div>
     <h1>{{ company.name }}</h1>
@@ -41,6 +41,19 @@
     {% endif %}
   </div>
 </header>
+
+<section class="panel company-plain">
+  <h2 class="panel-title">{{ t.company.plainTitle }}</h2>
+  <p>{{ company.plain }}</p>
+  {% if company.watch %}
+  <div class="watch-block">
+    <h3>{{ t.company.watch }}</h3>
+    <ul>
+      {% for item in company.watch %}<li>{{ item }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>
 
 <section class="metric-grid">
   <div class="metric"><span>{{ t.companies.table.mcap }}</span><strong>{{ company.mcap_text }}</strong></div>

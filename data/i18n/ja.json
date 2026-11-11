@@ -79,7 +79,12 @@
       "dispersion": "分散（IQR）",
       "leader": "先行工程",
       "laggard": "遅行工程",
-      "thresholds": "判定基準：上昇比率 ≥ 60% かつ騰落中央値 > 2% を拡大、上昇比率 ≤ 40% かつ騰落中央値 < -2% を収縮、それ以外を中立とする。"
+      "thresholds": "判定基準：上昇比率 ≥ 60% かつ騰落中央値 > 2% を拡大、上昇比率 ≤ 40% かつ騰落中央値 < -2% を収縮、それ以外を中立とする。",
+      "read": {
+        "expansion": "多くの銘柄が上昇しています。モメンタム系リストは反応しやすい一方、上昇が広いのか偏っているのかを確認してください。",
+        "neutral": "市場はまちまちです。工程全体で判断するより、企業ごとの根拠を優先してください。",
+        "contraction": "多くの銘柄が下落しています。反発は暫定的に扱い、リストを見る前に充足度を確認してください。"
+      }
     },
     "chain": {
       "title": "バリューチェーン構造",
@@ -124,7 +129,11 @@
     },
     "guideTitle": "はじめての方へ",
     "guideDesc": "ガイドで読書パスを選ぶか、⌘K で企業・テーマ・用語へ移動できます。",
-    "guideCta": "ガイドを開く"
+    "guideCta": "ガイドを開く",
+    "brief": {
+      "label": "ひとことで言うと",
+      "text": "上昇比率は {breadth}%、30営業日の騰落中央値は {median}%。{leader} が先行し、{laggard} が遅れています。{count} 社のうち {coverage}% が利用可能な市況を持ち、残りは欠損として扱います。"
+    }
   },
   "companies": {
     "title": "企業マップ",
@@ -153,7 +162,14 @@
     },
     "empty": "条件に合う企業がありません。フィルタを調整してください。",
     "sortHint": "見出しをクリックして並べ替え",
-    "unpriced": "市況なし"
+    "unpriced": "市況なし",
+    "insight": {
+      "medianPe": "PER 中央値",
+      "medianRoe": "ROE 中央値",
+      "medianRet": "30日 中央値",
+      "priced": "市況あり"
+    },
+    "metricsNote": "PER は静的（直近年度 EPS）、PBR は純資産倍率、ROE は自己資本利益率、時価総額は USD 換算です。欠損は — で表示します。"
   },
   "company": {
     "back": "企業マップに戻る",
@@ -174,7 +190,14 @@
     "priorityTitle": "研究優先度の内訳",
     "priorityDesc": "各因子は同業内のパーセンタイル。欠損は残りの重みで再正規化する。",
     "founded": "設立年",
-    "fiscalYearEnd": "決算月"
+    "fiscalYearEnd": "決算月",
+    "plainTitle": "やさしく言うと",
+    "plainIntro": "{name} は{stage}工程の{role}企業で、{products}を中心に手掛けています。",
+    "plainMove": "直近30営業日で株価は {ret}% 動きました。",
+    "plainValue": "静的 PER は {pe} 倍、ROE は {roe}% です。",
+    "plainNoValue": "バリュエーションまたは収益性のデータが不足しているため、優先度スコアは慎重に読んでください。",
+    "plainCoverage": "市況と因子の充足度は{coverage}です。",
+    "watch": "注目点"
   },
   "chain": {
     "title": "バリューチェーン全景",

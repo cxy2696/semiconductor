@@ -47,7 +47,7 @@
 | `semcore/build.py` | 页面编排与上下文 | 数据抓取 |
 | `templates/` | HTML 结构 | 内联数据计算 |
 | `assets/` | 设计系统与渐进增强 JS | 业务数据 |
-| `docs/` | 构建产物（GitHub Pages） | 手工修改 |
+| `docs/` | 构建产物（CI 生成，不提交） | 手工修改 |
 | `documentation/` | 产品 / 架构 / 数据 / 方法 / 运营 / 路线图，四语 | 用户可见页面 |
 
 ## 3. 构建流水线

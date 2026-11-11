@@ -24,6 +24,7 @@
         <span>{{ t.home.regime.leader }}<strong>{{ tax.stage_label(analytics.regime.leader, lang, short=True) if analytics.regime.leader else '—' }}</strong></span>
         <span>{{ t.home.regime.laggard }}<strong>{{ tax.stage_label(analytics.regime.laggard, lang, short=True) if analytics.regime.laggard else '—' }}</strong></span>
       </div>
+      <p class="regime-read">{{ regime_read }}</p>
       <p class="fineprint">{{ t.home.regime.thresholds }}</p>
     </div>
   </aside>
@@ -35,6 +36,11 @@
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.breadth }}</span><span class="kpi-value">{{ (kpis.breadth * 100) | num(0) }}%</span></div>
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.median }}</span><span class="kpi-value {{ 'pos' if (kpis.median or 0) >= 0 else 'neg' }}">{{ kpis.median | pct }}</span></div>
   <div class="kpi"><span class="kpi-label">{{ t.home.kpi.coverage }}</span><span class="kpi-value">{{ (kpis.coverage * 100) | num(1) }}%</span></div>
+</section>
+
+<section class="brief">
+  <span class="kicker">{{ t.home.brief.label }}</span>
+  <p>{{ home_brief }}</p>
 </section>
 
 <section class="guide-strip">

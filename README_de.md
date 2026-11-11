@@ -87,7 +87,7 @@ python -m semcore validate
 python -m pytest
 ```
 
-Die Build-Ausgabe liegt in `docs/`: `docs/index.html` (Englisch), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json` sowie Weiterleitungsstubs unter `docs/en/`.
+Die Build-Ausgabe liegt in `docs/`: `docs/index.html` (Englisch), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json` sowie Weiterleitungsstubs unter `docs/en/`. Das Verzeichnis wird generiert und von git ignoriert; GitHub Actions baut und deployt es.
 
 ## Verzeichnisstruktur
 
@@ -108,7 +108,7 @@ data/
 content/knowledge/       12 topics × 4 languages (flat: <slug>_en.md etc.)
 templates/               Jinja2 templates
 assets/                  design-system CSS + native JS (no dependencies)
-docs/                    build output (GitHub Pages)
+docs/                    generierte Website (lokal und in CI erzeugt, von git ignoriert)
 documentation/           product / architecture / data / method / operations docs (four languages)
 ios/                     SwiftUI iPhone client
 tests/                   pytest suite
