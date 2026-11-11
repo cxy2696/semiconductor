@@ -1,0 +1,366 @@
+[
+  {
+    "id": "wafer",
+    "category": "material",
+    "zh": {"term": "晶圆", "def": "由单晶硅（或其他化合物半导体）切成的圆形薄片，是芯片制造的载体。主流尺寸为 200mm 与 300mm，越大单片可切割的芯片越多、单位成本越低。"},
+    "en": {"term": "Wafer", "def": "A thin circular slice of monocrystalline silicon (or a compound semiconductor) on which chips are built. Mainstream diameters are 200mm and 300mm; larger wafers yield more die per slice and lower unit cost."},
+    "ja": {"term": "ウェハ", "def": "単結晶シリコン（または化合物半導体）を薄くスライスした円盤で、チップ製造の基板となる。主流は 200mm と 300mm で、大口径ほど 1 枚から取れるダイが増え、単位コストが下がる。"}
+  },
+  {
+    "id": "node",
+    "category": "process",
+    "zh": {"term": "制程节点", "def": "如 7nm、5nm、3nm 的工艺代际名称，早已不等同于任何物理尺寸，而是衡量晶体管密度、性能与功耗的综合标签。判断节点强弱要看每平方毫米晶体管数与 SRAM 密度。"},
+    "en": {"term": "Process node", "def": "Generational labels such as 7nm, 5nm and 3nm that no longer correspond to a physical dimension. They are shorthand for density, performance and power. Judge a node by transistors per mm² and SRAM density, not the number."},
+    "ja": {"term": "プロセスノード", "def": "7nm、5nm、3nm などの世代名で、もはや物理寸法とは一致しない。密度・性能・消費電力を表す総合的な指標であり、実力は mm² 当たりのトランジスタ数と SRAM 密度で判断する。"}
+  },
+  {
+    "id": "euv",
+    "category": "equipment",
+    "zh": {"term": "EUV 光刻", "def": "使用 13.5nm 极紫外光的光刻技术，是 7nm 以下关键层的唯一方案。整机由阿斯麦独家供应，光源、反射镜与掩模保护膜构成极高的产业链门槛。"},
+    "en": {"term": "EUV lithography", "def": "Lithography using 13.5nm extreme-ultraviolet light, the only viable route for critical layers below 7nm. ASML is the sole tool supplier; the light source, mirrors and pellicles form steep supply-chain barriers."},
+    "ja": {"term": "EUV 露光", "def": "13.5nm の極端紫外光を用いる露光技術で、7nm 以降のクリティカル層で唯一の手段。装置は ASML の独占供給であり、光源・ミラー・ペリクルが高い参入障壁を形成する。"}
+  },
+  {
+    "id": "duv",
+    "category": "equipment",
+    "zh": {"term": "DUV 光刻", "def": "以 248nm（KrF）或 193nm（ArF）为准分子激光光源的光刻，配合浸没式与多重曝光仍可支撑 7nm 级制造，是成熟制程与多数产线的主力。"},
+    "en": {"term": "DUV lithography", "def": "Lithography based on 248nm KrF or 193nm ArF excimer lasers. With immersion and multi-patterning it still supports down to 7nm-class production, and it remains the workhorse of mature fabs."},
+    "ja": {"term": "DUV 露光", "def": "248nm（KrF）や 193nm（ArF）のエキシマレーザーを用いる露光。液浸と多重パターニングを組み合わせれば 7nm 級まで対応でき、成熟ノードの主力である。"}
+  },
+  {
+    "id": "etch",
+    "category": "process",
+    "zh": {"term": "刻蚀", "def": "用等离子体选择性去除材料，把光刻定义的图形转移到薄膜上。按机理分为干法（RIE、ICP）与湿法，高深宽比刻蚀是 3D NAND 与先进逻辑的关键。"},
+    "en": {"term": "Etch", "def": "Selective removal of material with plasma to transfer the lithographic pattern into a film. Dry etch (RIE, ICP) and wet etch are the two families; high-aspect-ratio etch is critical for 3D NAND and advanced logic."},
+    "ja": {"term": "エッチング", "def": "プラズマで材料を選択的に除去し、リソグラフィのパターンを薄膜に転写する工程。ドライ（RIE、ICP）とウェットがあり、高アスペクト比エッチングは 3D NAND と先端ロジックの鍵となる。"}
+  },
+  {
+    "id": "deposition",
+    "category": "process",
+    "zh": {"term": "薄膜沉积", "def": "在晶圆表面生长或淀积绝缘层、导电层与阻挡层。主要方式包括 CVD、PECVD、PVD 溅射与 ALD，先进节点对厚度均匀性与台阶覆盖率要求极高。"},
+    "en": {"term": "Deposition", "def": "Growth or deposition of insulating, conductive and barrier films on the wafer. Main methods are CVD, PECVD, PVD sputtering and ALD; advanced nodes demand extreme thickness uniformity and step coverage."},
+    "ja": {"term": "成膜", "def": "ウェハ上に絶縁膜・導電膜・バリア膜を成長・堆積させる工程。CVD、PECVD、PVD スパッタ、ALD が代表的手法で、先端ノードでは膜厚均一性と段差被覆性が厳しく問われる。"}
+  },
+  {
+    "id": "ald",
+    "category": "process",
+    "zh": {"term": "原子层沉积（ALD）", "def": "通过自限制的表面反应逐层生长薄膜，可实现原子级厚度控制与极佳的共形覆盖，是 High-k 栅介质、先进封装阻挡层的关键工艺。"},
+    "en": {"term": "Atomic layer deposition (ALD)", "def": "Layer-by-layer film growth through self-limiting surface reactions, delivering atomic-level thickness control and excellent conformality. Essential for high-k gate dielectrics and advanced-packaging barriers."},
+    "ja": {"term": "原子層堆積（ALD）", "def": "自己制限的な表面反応で 1 層ずつ膜を成長させ、原子レベルの膜厚制御と優れた被覆性を実現する。High-k ゲート絶縁膜や先端実装のバリア層に不可欠。"}
+  },
+  {
+    "id": "cmp",
+    "category": "process",
+    "zh": {"term": "化学机械抛光（CMP）", "def": "用抛光液与抛光垫把晶圆表面磨平，保证多层互连的平坦度。先进封装中的晶圆减薄与混合键合也依赖 CMP 级别的表面质量。"},
+    "en": {"term": "Chemical mechanical planarization (CMP)", "def": "Flattens the wafer surface with slurry and a polishing pad to keep multi-layer interconnect planar. Advanced packaging, wafer thinning and hybrid bonding also depend on CMP-grade surface quality."},
+    "ja": {"term": "化学機械研磨（CMP）", "def": "スラリーと研磨パッドでウェハ表面を平坦化し、多層配線の平坦性を確保する。先端実装の薄化やハイブリッドボンディングも CMP 級の表面品質に依存する。"}
+  },
+  {
+    "id": "ion_implant",
+    "category": "process",
+    "zh": {"term": "离子注入", "def": "把掺杂离子加速注入硅中，精确控制导电类型与浓度，形成源漏、阱区等。能量、剂量与角度决定器件电学特性。"},
+    "en": {"term": "Ion implantation", "def": "Accelerates dopant ions into silicon to set conductivity type and concentration for source/drain and well regions. Energy, dose and tilt angle determine device behaviour."},
+    "ja": {"term": "イオン注入", "def": "ドーパントイオンを加速してシリコンに打ち込み、ソース・ドレインやウェル領域の導電型と濃度を制御する。エネルギー・ドーズ・角度がデバイス特性を決める。"}
+  },
+  {
+    "id": "cleaning",
+    "category": "process",
+    "zh": {"term": "晶圆清洗", "def": "在每道关键工序前后去除颗粒、金属离子与有机残留。清洗步骤数量随节点推进而激增，单片清洗与超临界 CO₂ 是先进方案。"},
+    "en": {"term": "Wafer cleaning", "def": "Removes particles, metal ions and organic residue before and after critical steps. Clean steps multiply as nodes advance; single-wafer cleaning and supercritical CO₂ are advanced approaches."},
+    "ja": {"term": "ウェハ洗浄", "def": "各工程の前後で粒子・金属イオン・有機残留物を除去する。微細化で洗浄回数は急増し、枚葉洗浄や超臨界 CO₂ が先端手法となる。"}
+  },
+  {
+    "id": "metrology",
+    "category": "process",
+    "zh": {"term": "量测与检测", "def": "量测（metrology）测膜厚、线宽、套刻等参数；检测（inspection）找缺陷。两者合称过程控制，制程越先进，其占设备投资比重越高。"},
+    "en": {"term": "Metrology & inspection", "def": "Metrology measures film thickness, critical dimension and overlay; inspection finds defects. Together they form process control, and their share of equipment spending rises with node complexity."},
+    "ja": {"term": "計測・検査", "def": "計測は膜厚・線幅・重ね合わせを測り、検査は欠陥を検出する。両者を合わせてプロセス制御と呼び、微細化とともに装置投資に占める比率が上がる。"}
+  },
+  {
+    "id": "yield",
+    "category": "process",
+    "zh": {"term": "良率", "def": "合格芯片数占投片芯片数的比例，直接决定单位成本与毛利。良率爬坡速度是判断新产线、新制程竞争力的核心指标。"},
+    "en": {"term": "Yield", "def": "The share of good die among die started, which directly sets unit cost and gross margin. How fast yield ramps is the core test of a new fab or node."},
+    "ja": {"term": "歩留まり", "def": "投入したダイのうち良品の比率で、単位コストと粗利を直接左右する。新工場・新ノードの競争力は歩留まりの立ち上がり速度で判断する。"}
+  },
+  {
+    "id": "cleanroom",
+    "category": "process",
+    "zh": {"term": "洁净室", "def": "按单位体积尘粒数分级的超净生产环境，先进晶圆厂核心区达到 ISO Class 1 级别，并需控制温湿度、振动与分子污染物。"},
+    "en": {"term": "Cleanroom", "def": "An ultra-clean production environment graded by particles per unit volume. Leading-edge fabs reach ISO Class 1 in critical areas and also control temperature, humidity, vibration and molecular contamination."},
+    "ja": {"term": "クリーンルーム", "def": "単位体積当たりの塵埃数で等級分けされる超清浄環境。先端工場の核心エリアは ISO クラス 1 級に達し、温湿度・振動・分子汚染も管理する。"}
+  },
+  {
+    "id": "photoresist",
+    "category": "material",
+    "zh": {"term": "光刻胶", "def": "感光高分子材料，曝光后溶解性改变，从而把掩模图形转移到晶圆。EUV 胶的金属氧化物体系与配方是材料端最难攻克的环节之一。"},
+    "en": {"term": "Photoresist", "def": "A photosensitive polymer whose solubility changes on exposure, transferring the mask pattern to the wafer. EUV metal-oxide resists and their formulations are among the hardest materials problems."},
+    "ja": {"term": "フォトレジスト", "def": "露光で溶解性が変わる感光性高分子で、マスクパターンをウェハに転写する。EUV 用の金属酸化物レジストとその処方は材料面で最も難しい領域の一つ。"}
+  },
+  {
+    "id": "mask",
+    "category": "material",
+    "zh": {"term": "掩模版（光罩）", "def": "承载芯片版图的石英基板，通过光刻把图形投影到晶圆。先进节点一套掩模版价格可达数百万美元，EUV 掩模还需额外的缺陷检测与保护膜。"},
+    "en": {"term": "Photomask", "def": "A quartz plate carrying the chip layout that is projected onto the wafer. A leading-edge mask set can cost millions of dollars; EUV masks also need dedicated defect inspection and pellicles."},
+    "ja": {"term": "フォトマスク", "def": "チップのレイアウトを担う石英基板で、露光によりウェハへ転写する。先端ノードの 1 セットは数百万ドルに達し、EUV 用は欠陥検査とペリクルも必要とする。"}
+  },
+  {
+    "id": "electronic_gas",
+    "category": "material",
+    "zh": {"term": "电子特气", "def": "用于刻蚀、沉积、掺杂与清洗的高纯气体，如 NF₃、WF₆、SiH₄、高纯氨。纯度常达 6N 以上，供应稳定性直接影响产线良率。"},
+    "en": {"term": "Electronic specialty gas", "def": "High-purity gases for etch, deposition, doping and cleaning, such as NF₃, WF₆, SiH₄ and electronic-grade ammonia. Purity often exceeds 6N, and supply stability directly affects yield."},
+    "ja": {"term": "電子特殊ガス", "def": "エッチング・成膜・ドーピング・洗浄に使う高純度ガス（NF₃、WF₆、SiH₄、高純度アンモニアなど）。純度は 6N 以上が多く、安定供給が歩留まりに直結する。"}
+  },
+  {
+    "id": "target",
+    "category": "material",
+    "zh": {"term": "溅射靶材", "def": "PVD 工艺中被等离子体轰击、淀积成薄膜的高纯金属材料，如铜、铝、钛、钽靶。纯度与晶粒控制决定薄膜质量。"},
+    "en": {"term": "Sputtering target", "def": "High-purity metal (copper, aluminium, titanium, tantalum) bombarded by plasma to form a PVD film. Purity and grain control determine film quality."},
+    "ja": {"term": "スパッタリングターゲット", "def": "PVD でプラズマにより叩かれ薄膜となる高純度金属（銅・アルミ・チタン・タンタルなど）。純度と結晶粒径の制御が膜質を決める。"}
+  },
+  {
+    "id": "slurry",
+    "category": "material",
+    "zh": {"term": "CMP 抛光液", "def": "由磨料颗粒与化学添加剂组成的浆料，兼顾机械磨削与化学腐蚀。配方与磨料粒径决定抛光速率与表面缺陷水平。"},
+    "en": {"term": "CMP slurry", "def": "A suspension of abrasive particles and chemical additives combining mechanical abrasion with chemical attack. Formulation and particle size set removal rate and defectivity."},
+    "ja": {"term": "CMP スラリー", "def": "砥粒と化学添加剤からなる懸濁液で、機械的研磨と化学的作用を両立させる。処方と粒径が研磨速度と欠陥水準を決める。"}
+  },
+  {
+    "id": "emc",
+    "category": "material",
+    "zh": {"term": "塑封料（EMC）", "def": "环氧树脂基封装材料，用于包覆芯片与引线、抵抗湿气与应力。先进封装对低翘曲、高导热与高可靠性提出更高要求。"},
+    "en": {"term": "Epoxy molding compound (EMC)", "def": "An epoxy-based encapsulant protecting die and wires against moisture and stress. Advanced packaging demands lower warpage, higher thermal conductivity and higher reliability."},
+    "ja": {"term": "封止材（EMC）", "def": "エポキシ樹脂系の封止材料で、チップとワイヤを湿気・応力から保護する。先端実装では低反り・高熱伝導・高信頼性が求められる。"}
+  },
+  {
+    "id": "substrate",
+    "category": "material",
+    "zh": {"term": "封装基板", "def": "连接芯片与 PCB 的高密度载板，承担供电、信号与散热。ABF 载板是先进封装与 CPU/GPU 的关键瓶颈之一。"},
+    "en": {"term": "Package substrate", "def": "A high-density carrier connecting die to the PCB, handling power, signal and heat. ABF substrates are a key bottleneck for advanced packaging and CPUs/GPUs."},
+    "ja": {"term": "パッケージ基板", "def": "チップと PCB をつなぐ高密度基板で、電力・信号・放熱を担う。ABF 基板は先端実装や CPU／GPU の重要なボトルネックである。"}
+  },
+  {
+    "id": "sic",
+    "category": "material",
+    "zh": {"term": "碳化硅（SiC）", "def": "宽禁带半导体材料，击穿场强约为硅的 10 倍，适合高压高温场景。衬底长晶慢、缺陷控制难，是车用主驱逆变器的关键材料。"},
+    "en": {"term": "Silicon carbide (SiC)", "def": "A wide-bandgap material with roughly 10× the breakdown field of silicon, suited to high voltage and temperature. Slow crystal growth and defect control make substrates the bottleneck for EV traction inverters."},
+    "ja": {"term": "炭化ケイ素（SiC）", "def": "ワイドバンドギャップ材料で、絶縁破壊電界はシリコンの約 10 倍。高圧・高温に適し、結晶成長が遅く欠陥制御が難しい基板が EV 主機インバータの鍵となる。"}
+  },
+  {
+    "id": "gan",
+    "category": "material",
+    "zh": {"term": "氮化镓（GaN）", "def": "宽禁带材料，电子迁移率高，适合高频高功率密度场景，如快充、数据中心电源与射频。常以硅基 GaN 外延形式生产。"},
+    "en": {"term": "Gallium nitride (GaN)", "def": "A wide-bandgap material with high electron mobility, suited to high-frequency, high-power-density uses such as fast chargers, data-centre power and RF. Usually grown as GaN-on-Si."},
+    "ja": {"term": "窒化ガリウム（GaN）", "def": "電子移動度が高いワイドバンドギャップ材料で、急速充電器・データセンター電源・RF など高周波高電力密度用途に適する。多くは GaN-on-Si で形成する。"}
+  },
+  {
+    "id": "soi",
+    "category": "material",
+    "zh": {"term": "SOI 衬底", "def": "在硅片内嵌入氧化层形成绝缘埋层，可降低寄生电容与功耗，用于 RF 前端与 FD-SOI 低功耗逻辑。主要采用 SmartCut 键合剥离工艺。"},
+    "en": {"term": "SOI substrate", "def": "A wafer with a buried oxide layer that cuts parasitic capacitance and power, used in RF front-ends and FD-SOI low-power logic. Mostly made with the SmartCut layer-transfer process."},
+    "ja": {"term": "SOI 基板", "def": "シリコン中に酸化膜の埋め込み層を形成し、寄生容量と消費電力を抑える基板。RF フロントエンドや FD-SOI 低電力ロジックに使われ、主に SmartCut 法で製造する。"}
+  },
+  {
+    "id": "foundry",
+    "category": "business",
+    "zh": {"term": "晶圆代工", "def": "只做制造、不做自有品牌芯片的商业模式，靠生産能力利用率、制程组合与客户结构赚钱。规模效应极强，先进制程呈现寡头格局。"},
+    "en": {"term": "Foundry", "def": "A model that manufactures but does not sell its own branded chips, earning on utilisation, node mix and customer mix. Scale effects are powerful, and leading edge is oligopolistic."},
+    "ja": {"term": "ファウンドリ", "def": "製造のみを行い自社ブランドのチップを持たない事業モデル。稼働率・ノード構成・顧客構成で収益を上げる。規模の経済が強く、先端は寡占構造にある。"}
+  },
+  {
+    "id": "fabless",
+    "category": "business",
+    "zh": {"term": "无晶圆厂（Fabless）", "def": "只做芯片设计、把制造与封测外包的公司，资本开支轻、研发投入重。成败取决于产品定义、客户导入与代工生産能力获取。"},
+    "en": {"term": "Fabless", "def": "A company that designs chips and outsources fabrication and packaging. Asset-light with heavy R&D; success depends on product definition, design wins and securing foundry capacity."},
+    "ja": {"term": "ファブレス", "def": "設計のみを行い、製造と後工程を外部に委託する企業。軽資産で研究開発中心。製品定義、設計採用、ファウンドリ生産能力の確保が成否を分ける。"}
+  },
+  {
+    "id": "idm",
+    "category": "business",
+    "zh": {"term": "IDM", "def": "垂直整合制造，设计、制造、封测一体化。优势是工艺协同与供应可控，劣势是资本开支重、先进制程追赶成本高。"},
+    "en": {"term": "IDM", "def": "Integrated device manufacturer: design, fabrication and packaging under one roof. Advantages are process co-optimisation and supply control; drawbacks are heavy capex and costly leading-edge catch-up."},
+    "ja": {"term": "IDM", "def": "設計・製造・後工程を一貫して行う垂直統合型。プロセス協調と供給管理が強みだが、設備投資が重く先端追従コストが高い。"}
+  },
+  {
+    "id": "osat",
+    "category": "business",
+    "zh": {"term": "封测代工（OSAT）", "def": "外包封装与测试服务商，把裸片加工为可交付芯片。传统封装毛利偏低，先进封装（2.5D/3D、CoWoS、混合键合）正在抬升行业价值量。"},
+    "en": {"term": "OSAT", "def": "Outsourced semiconductor assembly and test: turns bare die into deliverable parts. Traditional packaging is low-margin, while advanced packaging (2.5D/3D, CoWoS, hybrid bonding) lifts value capture."},
+    "ja": {"term": "OSAT", "def": "後工程のアウトソーシング事業者で、ベアダイを出荷可能な形に仕上げる。従来実装は利幅が薄いが、先端実装（2.5D/3D、CoWoS、ハイブリッドボンディング）が付加価値を高めている。"}
+  },
+  {
+    "id": "eda",
+    "category": "design",
+    "zh": {"term": "EDA", "def": "电子设计自动化软件，覆盖电路设计、仿真、布局布线、验证与签核。三大厂商占据主要份额，是芯片设计不可绕过的工具层。"},
+    "en": {"term": "EDA", "def": "Electronic design automation software spanning circuit design, simulation, place-and-route, verification and sign-off. Three vendors dominate and the layer is effectively unavoidable."},
+    "ja": {"term": "EDA", "def": "回路設計・シミュレーション・配置配線・検証・サインオフを担う電子設計自動化ソフト。3 社が主要シェアを持ち、チップ設計で避けて通れない層である。"}
+  },
+  {
+    "id": "ip_core",
+    "category": "design",
+    "zh": {"term": "IP 核", "def": "可复用的电路设计模块，如 CPU 核、接口 PHY、NPU。IP 授权让设计公司无需从零开发，缩短上市时间并降低风险。"},
+    "en": {"term": "IP core", "def": "A reusable circuit block such as a CPU core, interface PHY or NPU. IP licensing lets designers skip reinvention, shortening time-to-market and reducing risk."},
+    "ja": {"term": "IP コア", "def": "CPU コア、インターフェース PHY、NPU など再利用可能な回路ブロック。IP ライセンスにより一から開発せずに済み、市場投入を早めリスクを下げる。"}
+  },
+  {
+    "id": "tapeout",
+    "category": "design",
+    "zh": {"term": "流片（Tape-out）", "def": "设计数据交付晶圆厂开始试产的节点。一次先进制程流片成本可达数千万美元，因此首次成功率至关重要。"},
+    "en": {"term": "Tape-out", "def": "The hand-off of design data to the fab for first silicon. A leading-edge tape-out can cost tens of millions of dollars, so first-pass success matters enormously."},
+    "ja": {"term": "テープアウト", "def": "設計データをファブに渡し試作を開始する節目。先端ノードでは 1 回数千万ドルに達することもあり、初回成功率が極めて重要。"}
+  },
+  {
+    "id": "cowos",
+    "category": "packaging",
+    "zh": {"term": "CoWoS", "def": "Chip-on-Wafer-on-Substrate，台积电主导的 2.5D 封装，把 GPU 与 HBM 通过硅中介层互连。AI 加速卡的生産能力瓶颈长期集中于此。"},
+    "en": {"term": "CoWoS", "def": "Chip-on-Wafer-on-Substrate, TSMC's 2.5D packaging that links GPU dies and HBM through a silicon interposer. It has long been the capacity bottleneck for AI accelerator cards."},
+    "ja": {"term": "CoWoS", "def": "Chip-on-Wafer-on-Substrate。TSMC が主導する 2.5D 実装で、GPU ダイと HBM をシリコンインターポーザで接続する。AI アクセラレータカードの生産能力ボトルネックが長期にわたり集中する工程。"}
+  },
+  {
+    "id": "chiplet",
+    "category": "packaging",
+    "zh": {"term": "芯粒（Chiplet）", "def": "把大芯片拆成多个小裸片，分别用最适合的工艺制造后再封装互连。可提升良率、降低成本，并让不同功能模块独立迭代。"},
+    "en": {"term": "Chiplet", "def": "Splitting a large chip into smaller dies built on their most suitable processes and then packaging them together. This improves yield, lowers cost and lets functions iterate independently."},
+    "ja": {"term": "チップレット", "def": "大きなチップを複数の小型ダイに分割し、それぞれ最適なプロセスで製造してから実装・接続する。歩留まり向上・コスト低減・機能ごとの独立更新を可能にする。"}
+  },
+  {
+    "id": "hybrid_bonding",
+    "category": "packaging",
+    "zh": {"term": "混合键合", "def": "不经焊球，直接把两片晶圆的铜垫与介质层键合，互连间距可降至 10µm 以下，是 3D 堆叠与下一代 HBM 的核心工艺。"},
+    "en": {"term": "Hybrid bonding", "def": "Directly bonding copper pads and dielectric layers of two wafers without solder bumps, enabling pitches below 10µm. It is central to 3D stacking and next-generation HBM."},
+    "ja": {"term": "ハイブリッドボンディング", "def": "はんだバンプを介さず、2 枚のウェハの銅パッドと絶縁膜を直接接合する。ピッチを 10µm 未満にでき、3D 積層と次世代 HBM の中核技術となる。"}
+  },
+  {
+    "id": "tcb",
+    "category": "packaging",
+    "zh": {"term": "热压键合（TCB）", "def": "用加热加压把芯片逐颗键合到基板或堆叠层上，是 HBM 堆叠与 2.5D 封装的主流设备工艺，对温度曲线与共面性要求极高。"},
+    "en": {"term": "Thermocompression bonding (TCB)", "def": "Bonds die one by one to a substrate or stack with heat and pressure. It is the mainstream process for HBM stacking and 2.5D packaging, demanding tight thermal profiles and coplanarity."},
+    "ja": {"term": "熱圧着ボンディング（TCB）", "def": "加熱と加圧でダイを基板や積層層に 1 個ずつ接合する。HBM 積層や 2.5D 実装の主流工程で、温度プロファイルと共平面性の要求が厳しい。"}
+  },
+  {
+    "id": "wlcsp",
+    "category": "packaging",
+    "zh": {"term": "晶圆级封装（WLCSP）", "def": "在晶圆上完成封装与植球后再切割，封装尺寸接近芯片本身。适合小尺寸、低引脚数的模拟与图像传感器。"},
+    "en": {"term": "Wafer-level chip-scale packaging (WLCSP)", "def": "Packaging and balling are completed on the wafer before dicing, so the package is close to die size. Suited to small, low-pin-count analog and image sensors."},
+    "ja": {"term": "ウェハレベル実装（WLCSP）", "def": "ウェハ上で実装とボール形成を終えてから分割するため、パッケージがダイ寸法に近い。小型・少ピンのアナログやイメージセンサに適する。"}
+  },
+  {
+    "id": "dram",
+    "category": "memory",
+    "zh": {"term": "DRAM", "def": "动态随机存储器，靠电容存储电荷，需定期刷新。标准化程度高、周期性强，成本取决于制程微缩与每片晶圆位元数。"},
+    "en": {"term": "DRAM", "def": "Dynamic random-access memory storing charge in capacitors and requiring refresh. Highly standardised and cyclical; cost hinges on process scaling and bits per wafer."},
+    "ja": {"term": "DRAM", "def": "コンデンサに電荷を蓄える動的ランダムアクセスメモリで、定期的なリフレッシュが必要。標準化度が高く周期性が強い。コストは微細化とウェハ当たりビット数で決まる。"}
+  },
+  {
+    "id": "nand",
+    "category": "memory",
+    "zh": {"term": "NAND 闪存", "def": "非易失存储，按页读写、按块擦除，用于 SSD 与移动存储。3D NAND 通过堆叠层数提升密度，层数竞赛是成本核心。"},
+    "en": {"term": "NAND flash", "def": "Non-volatile memory read and written by page and erased by block, used in SSDs and mobile storage. 3D NAND raises density by stacking layers, making the layer race the cost driver."},
+    "ja": {"term": "NAND フラッシュ", "def": "ページ単位で読み書きしブロック単位で消去する不揮発メモリ。SSD やモバイル記憶に使う。3D NAND は積層数で密度を上げ、積層競争がコストの鍵となる。"}
+  },
+  {
+    "id": "hbm",
+    "category": "memory",
+    "zh": {"term": "高带宽内存（HBM）", "def": "通过 TSV 垂直堆叠多层 DRAM，并以超宽接口与 GPU 相连，带宽可达数 TB/s。HBM 的堆叠层数、良率与散热决定 AI 芯片的实际供给。"},
+    "en": {"term": "High-bandwidth memory (HBM)", "def": "Multiple DRAM dies stacked vertically with TSVs and connected to a GPU over an ultra-wide interface, reaching multi-TB/s bandwidth. Stack height, yield and thermals set real AI chip supply."},
+    "ja": {"term": "高帯域メモリ（HBM）", "def": "TSV で DRAM を多層積層し、超広帯域インターフェースで GPU と接続する。帯域は数 TB/s に達する。積層数・歩留まり・放熱が AI チップの実供給を決める。"}
+  },
+  {
+    "id": "ddr5",
+    "category": "memory",
+    "zh": {"term": "DDR5", "def": "第五代双倍数据率内存标准，内置电源管理与片上 ECC，速率与容量显著提升。服务器换代是 DDR5 渗透的主要动力。"},
+    "en": {"term": "DDR5", "def": "The fifth-generation double-data-rate memory standard with on-module power management and on-die ECC, substantially raising speed and density. Server refresh drives adoption."},
+    "ja": {"term": "DDR5", "def": "第 5 世代の DDR メモリ規格で、モジュール上の電源管理とオンダイ ECC を備え、速度と容量を大幅に向上させた。サーバ更新が普及の主因。"}
+  },
+  {
+    "id": "bit_growth",
+    "category": "memory",
+    "zh": {"term": "位元增长", "def": "存储行业的核心供需指标：全行业位元供给增速与需求增速之差决定价格方向。供给由资本开支与制程迁移决定，需求由服务器、手机与 AI 拉动。"},
+    "en": {"term": "Bit growth", "def": "The core memory supply-demand metric: the gap between industry bit supply growth and demand growth sets price direction. Supply follows capex and node migration; demand follows servers, phones and AI."},
+    "ja": {"term": "ビット成長率", "def": "メモリ需給の核心指標。業界のビット供給成長率と需要成長率の差が価格方向を決める。供給は設備投資と微細化、需要はサーバ・スマホ・AI に左右される。"}
+  },
+  {
+    "id": "capex",
+    "category": "economics",
+    "zh": {"term": "资本开支", "def": "用于厂房、设备与生産能力扩张的长期投入。半导体资本开支具有强周期性，且领先于行业收入 2–4 个季度，是判断设备景气的先行指标。"},
+    "en": {"term": "Capital expenditure", "def": "Long-term investment in fabs, equipment and capacity. Semiconductor capex is strongly cyclical and leads industry revenue by roughly two to four quarters, making it a leading indicator for equipment."},
+    "ja": {"term": "設備投資", "def": "工場・装置・生産能力拡張への長期投資。半導体の設備投資は周期性が強く、業界売上に 2〜4 四半期先行するため、装置市況の先行指標となる。"}
+  },
+  {
+    "id": "utilization",
+    "category": "economics",
+    "zh": {"term": "生産能力利用率", "def": "实际投片量占可用生産能力的比例。超过 90% 往往意味着涨价与扩产，低于 70% 则价格承压。是判断代工与存储景气的直接指标。"},
+    "en": {"term": "Capacity utilisation", "def": "Actual wafer starts as a share of available capacity. Above 90% usually signals pricing power and expansion; below 70% pressures prices. A direct read on foundry and memory health."},
+    "ja": {"term": "稼働率", "def": "実際の投入量が利用可能生産能力に占める比率。90% 超は値上げ・増産のシグナル、70% 未満は価格下落圧力となる。ファウンドリとメモリの景況を直接示す。"}
+  },
+  {
+    "id": "book_to_bill",
+    "category": "economics",
+    "zh": {"term": "订单出货比", "def": "新增订单与同期出货金额之比，大于 1 表示订单增长快于交付。设备厂商常用它判断景气拐点，但需结合订单质量与取消率。"},
+    "en": {"term": "Book-to-bill", "def": "New orders divided by revenue shipped in the same period; above 1 means orders are outpacing deliveries. Equipment makers use it to spot inflections, though order quality and cancellations matter."},
+    "ja": {"term": "ブック・トゥ・ビル", "def": "新規受注高を同期の出荷額で割った比率。1 超は受注が出荷を上回ることを示す。装置メーカーは転換点の判断に使うが、受注品質と取消率も確認する。"}
+  },
+  {
+    "id": "inventory_days",
+    "category": "economics",
+    "zh": {"term": "库存天数", "def": "存货除以日均销货成本，衡量渠道与厂商库存压力。半导体周期中库存天数见顶回落往往先于价格反弹。"},
+    "en": {"term": "Inventory days", "def": "Inventory divided by daily cost of goods sold, gauging inventory pressure at vendors and in the channel. In semiconductor cycles, peaking and rolling inventory days often precede a price recovery."},
+    "ja": {"term": "在庫日数", "def": "棚卸資産を日次売上原価で割った指標で、メーカーとチャネルの在庫圧力を測る。半導体サイクルでは在庫日数のピークアウトが価格反転に先行することが多い。"}
+  },
+  {
+    "id": "asp",
+    "category": "economics",
+    "zh": {"term": "平均售价（ASP）", "def": "单位产品平均销售价格。存储看每 GB 价格，代工看每片晶圆价格，设备看单台售价。ASP 与出货量的组合决定收入质量。"},
+    "en": {"term": "Average selling price (ASP)", "def": "Average revenue per unit: per GB for memory, per wafer for foundries, per tool for equipment. The mix of ASP and volume determines revenue quality."},
+    "ja": {"term": "平均販売価格（ASP）", "def": "製品 1 単位当たりの平均売価。メモリは GB 当たり、ファウンドリはウェハ当たり、装置は 1 台当たりで見る。ASP と数量の組み合わせが売上の質を決める。"}
+  },
+  {
+    "id": "gross_margin",
+    "category": "economics",
+    "zh": {"term": "毛利率", "def": "收入扣除直接成本后的比例，反映定价权与制造成本。设计公司通常 40%–60%，代工 30%–55%，封测 15%–30%，设备 40%–55%。"},
+    "en": {"term": "Gross margin", "def": "Revenue less direct cost, reflecting pricing power and manufacturing cost. Typical ranges: fabless 40%–60%, foundry 30%–55%, OSAT 15%–30%, equipment 40%–55%."},
+    "ja": {"term": "粗利率", "def": "売上から直接原価を引いた比率で、価格決定力と製造コストを映す。目安はファブレス 40〜60%、ファウンドリ 30〜55%、OSAT 15〜30%、装置 40〜55%。"}
+  },
+  {
+    "id": "silicon_cycle",
+    "category": "economics",
+    "zh": {"term": "硅周期", "def": "半导体行业约 3–5 年的供需循环，由资本开支、库存与终端换机共同驱动。识别周期位置比预测单一季度更重要。"},
+    "en": {"term": "Silicon cycle", "def": "The roughly three-to-five-year supply-demand cycle driven by capex, inventory and end-device replacement. Locating the cycle matters more than forecasting any single quarter."},
+    "ja": {"term": "シリコンサイクル", "def": "設備投資・在庫・端末買い替えが生む約 3〜5 年の需給循環。単一四半期の予測よりも現在の局面を把握することが重要。"}
+  },
+  {
+    "id": "hhi",
+    "category": "economics",
+    "zh": {"term": "赫芬达尔指数（HHI）", "def": "各参与者份额平方和，衡量市场集中度。半导体设备与存储环节 HHI 极高，意味着定价权强、但也更易受地缘与供应中断冲击。"},
+    "en": {"term": "Herfindahl-Hirschman Index (HHI)", "def": "The sum of squared market shares, measuring concentration. Equipment and memory have very high HHI, implying pricing power but also greater exposure to geopolitics and supply disruption."},
+    "ja": {"term": "ハーフィンダール指数（HHI）", "def": "各社シェアの二乗和で市場集中度を測る。装置とメモリは HHI が非常に高く、価格決定力が強い一方、地政学や供給途絶の影響を受けやすい。"}
+  },
+  {
+    "id": "export_control",
+    "category": "policy",
+    "zh": {"term": "出口管制", "def": "限制特定技术、设备与产品对外出口的行政措施。半导体领域的管制集中在先进制程设备、EDA 与 AI 芯片，直接改变全球生産能力与客户结构。"},
+    "en": {"term": "Export controls", "def": "Administrative restrictions on exporting certain technologies, tools and products. In semiconductors they focus on leading-edge equipment, EDA and AI chips, directly reshaping capacity and customer mix."},
+    "ja": {"term": "輸出管理", "def": "特定の技術・装置・製品の輸出を制限する行政措置。半導体では先端装置、EDA、AI チップが対象となり、世界の生産能力と顧客構成を直接変える。"}
+  },
+  {
+    "id": "entity_list",
+    "category": "policy",
+    "zh": {"term": "实体清单", "def": "美国商务部的一种出口限制名单，被列入者采购受管制物项需申请许可。对半导体企业而言，清单变化会改变供应链与订单可见度。"},
+    "en": {"term": "Entity List", "def": "A US Commerce Department export-restriction list; listed parties need licences to buy controlled items. For semiconductor firms, list changes alter supply chains and order visibility."},
+    "ja": {"term": "エンティティリスト", "def": "米国商務省の輸出制限リスト。掲載されると規制対象品目の購入に許可が必要になる。半導体企業にとってはサプライチェーンと受注の見通しを変える。"}
+  },
+  {
+    "id": "chips_act",
+    "category": "policy",
+    "zh": {"term": "芯片法案", "def": "以补贴与税收优惠吸引本土制造的政策组合，美国、欧盟、日本、韩国均有类似安排。效果体现为资本开支前置与生産能力地理再分布。"},
+    "en": {"term": "CHIPS Act", "def": "A policy package of subsidies and tax credits to attract domestic manufacturing, mirrored in the EU, Japan and Korea. Effects show up as pulled-forward capex and a geographic redistribution of capacity."},
+    "ja": {"term": "CHIPS 法", "def": "補助金と税制優遇で国内製造を誘致する政策パッケージ。EU・日本・韓国にも類似制度がある。効果は設備投資の前倒しと生産能力の地理的再配置として現れる。"}
+  },
+  {
+    "id": "localization",
+    "category": "policy",
+    "zh": {"term": "国产化率", "def": "本土供应商在某一环节的采购占比。衡量供应链自主程度，但需区分“可替代”与“可验证量产”，否则容易高估实际能力。"},
+    "en": {"term": "Localisation rate", "def": "The share of procurement sourced from domestic suppliers in a given step. It measures supply-chain autonomy, but distinguish substitutability from verified volume production."},
+    "ja": {"term": "国産化率", "def": "ある工程で国内サプライヤーが占める調達比率。サプライチェーンの自立度を測るが、「代替可能」と「量産検証済み」を区別しないと実力を過大評価する。"}
+  }
+]

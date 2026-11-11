@@ -1,7 +1,2 @@
-akshare
-beautifulsoup4
-jinja2
-openpyxl
-pandas
-requests
-yfinance
+jinja2>=3.1,<4
+requests>=2.31,<3

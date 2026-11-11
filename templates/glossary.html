@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">GLOSSARY · {{ terms | length }}</span>
+  <h1>{{ t.glossary.title }}</h1>
+  <p class="lede">{{ t.glossary.lede }}</p>
+</header>
+
+<section class="filter-bar filter-bar-glossary">
+  <div class="filter-search">
+    <label class="visually-hidden" for="glossary-search">{{ t.glossary.searchPlaceholder }}</label>
+    <input id="glossary-search" type="search" placeholder="{{ t.glossary.searchPlaceholder }}" autocomplete="off">
+  </div>
+  <div class="chip-row" id="glossary-categories">
+    <button type="button" class="chip is-active" data-category="">{{ t.common.all }}</button>
+    {% for category in categories %}
+    <button type="button" class="chip" data-category="{{ category }}">{{ t.glossary.categories[category] }}</button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="glossary-grid" id="glossary-list">
+  {% for term in terms %}
+  <article class="glossary-item" data-category="{{ term.category }}" data-search="{{ (term.zh.term ~ ' ' ~ term.en.term ~ ' ' ~ term.ja.term ~ ' ' ~ term.zh.def ~ ' ' ~ term.en.def ~ ' ' ~ term.ja.def) | lower }}">
+    <div class="glossary-top">
+      <h2>{{ term[lang].term }}</h2>
+      <span class="tag tag-sm">{{ t.glossary.categories[term.category] }}</span>
+    </div>
+    {% set others = ['zh', 'en', 'ja'] | reject('equalto', lang) | list %}
+    <p class="glossary-alt">{{ term[others[0]].term }}<span class="sep">·</span>{{ term[others[1]].term }}</p>
+    <p class="glossary-def">{{ term[lang].def }}</p>
+    <details class="glossary-details">
+      <summary>{{ t.glossary.allLanguages }}</summary>
+      <div class="glossary-lang"><span>中文</span><p>{{ term.zh.def }}</p></div>
+      <div class="glossary-lang"><span>English</span><p>{{ term.en.def }}</p></div>
+      <div class="glossary-lang"><span>日本語</span><p>{{ term.ja.def }}</p></div>
+    </details>
+  </article>
+  {% endfor %}
+</section>
+<p class="empty" id="glossary-empty" hidden>{{ t.common.none }}</p>
+{% endblock %}

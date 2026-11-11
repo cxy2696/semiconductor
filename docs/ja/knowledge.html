@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja-JP" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ナレッジベース · 半導体産業インテリジェンスデスク</title>
+  <meta name="description" content="テーマ別に整理した半導体産業の知識。各記事は単独で読め、リサーチリストの補完にもなる。産業解説であり、投資助言ではない。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/ja/knowledge.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/knowledge.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/knowledge.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="ナレッジベース · 半導体産業インテリジェンスデスク">
+  <meta property="og:description" content="テーマ別に整理した半導体産業の知識。各記事は単独で読め、リサーチリストの補完にもなる。産業解説であり、投資助言ではない。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/ja/knowledge.html">
+  <meta property="og:locale" content="ja-JP">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css?v=2.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-knowledge">
+  <a class="skip-link" href="#main">本文へスキップ</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半導体産業インテリジェンスデスク</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="ホーム">
+        <a href="index.html" >ホーム</a>
+        <a href="companies.html" >企業マップ</a>
+        <a href="value-chain.html" >バリューチェーン</a>
+        <a href="knowledge.html" aria-current="page">ナレッジ</a>
+        <a href="glossary.html" >用語集</a>
+        <a href="methodology.html" >手法</a>
+        <a href="about.html" >このサイト</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">言語</label>
+        <select id="locale-switch" class="locale-switch" aria-label="言語">
+          <option value="../knowledge.html" >中文</option>
+          <option value="../en/knowledge.html" >English</option>
+          <option value="knowledge.html" selected>日本語</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="テーマ" title="テーマ">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="メニュー">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="ホーム">
+      <a href="index.html">ホーム</a>
+      <a href="companies.html">企業マップ</a>
+      <a href="value-chain.html">バリューチェーン</a>
+      <a href="knowledge.html">ナレッジ</a>
+      <a href="glossary.html">用語集</a>
+      <a href="methodology.html">手法</a>
+      <a href="about.html">このサイト</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<header class="page-head">
+  <span class="kicker">KNOWLEDGE BASE · 9</span>
+  <h1>ナレッジベース</h1>
+  <p class="lede">テーマ別に整理した半導体産業の知識。各記事は単独で読め、リサーチリストの補完にもなる。産業解説であり、投資助言ではない。</p>
+</header>
+
+<section class="doc-grid">
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-foundation">基礎</span>
+      <span class="doc-meta">約 8 分</span>
+    </div>
+    <h2><a href="knowledge/value-chain.html">バリューチェーン全景：どこで利益が生まれるか</a></h2>
+    <p>8つの工程を一本の鎖に戻し、粗利・資本集約度・サイクル伝播の違いを理解する。企業名の暗記より構造の把握を優先する。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">バリューチェーン</span><span class="tag tag-sm">ビジネスモデル</span><span class="tag tag-sm">粗利構造</span>    </div>
+    <a class="text-link" href="knowledge/value-chain.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-foundation">基礎</span>
+      <span class="doc-meta">約 9 分</span>
+    </div>
+    <h2><a href="knowledge/process-flow.html">ウェハ製造：8つの工程群とクリーンルーム</a></h2>
+    <p>洗浄・露光・エッチングから計測まで、ウェハがチップになる過程と、工程数が装置・材料の需要を押し上げる理由を整理する。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">プロセス</span><span class="tag tag-sm">ウェハ工場</span><span class="tag tag-sm">歩留まり</span>    </div>
+    <a class="text-link" href="knowledge/process-flow.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-advanced">発展</span>
+      <span class="doc-meta">約 10 分</span>
+    </div>
+    <h2><a href="knowledge/lithography.html">露光：DUV から High-NA EUV まで</a></h2>
+    <p>露光は微細化の限界と先端ノードのコスト構造を決める。解像度・重ね合わせ・光源を理解すると、装置価値の配分が見えてくる。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">露光</span><span class="tag tag-sm">EUV</span><span class="tag tag-sm">装置</span>    </div>
+    <a class="text-link" href="knowledge/lithography.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">核心</span>
+      <span class="doc-meta">約 9 分</span>
+    </div>
+    <h2><a href="knowledge/equipment-materials.html">装置と材料：「ツルハシを売る」ビジネス</a></h2>
+    <p>装置は設備投資に、材料はウェハ生産量に連動する。両者のビジネスモデルの違いを理解すると、上流の景況と評価が読める。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">装置</span><span class="tag tag-sm">材料</span><span class="tag tag-sm">設備投資</span>    </div>
+    <a class="text-link" href="knowledge/equipment-materials.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-advanced">発展</span>
+      <span class="doc-meta">約 10 分</span>
+    </div>
+    <h2><a href="knowledge/advanced-packaging.html">先端実装：CoWoS、HBM、チップレット</a></h2>
+    <p>微細化が鈍るなか、実装が演算性能を引き上げる主戦場になった。2.5D/3D、ハイブリッドボンディング、生産能力ボトルネックを理解する。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">実装</span><span class="tag tag-sm">CoWoS</span><span class="tag tag-sm">チップレット</span><span class="tag tag-sm">HBM</span>    </div>
+    <a class="text-link" href="knowledge/advanced-packaging.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">核心</span>
+      <span class="doc-meta">約 9 分</span>
+    </div>
+    <h2><a href="knowledge/memory-hbm.html">メモリと HBM：サイクルの母</a></h2>
+    <p>メモリは半導体で最も商品化された領域であり、最も大きく循環する。HBM は AI の中心に戻したが、需給は依然ビットとウェハで決まる。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">メモリ</span><span class="tag tag-sm">HBM</span><span class="tag tag-sm">サイクル</span>    </div>
+    <a class="text-link" href="knowledge/memory-hbm.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">核心</span>
+      <span class="doc-meta">約 8 分</span>
+    </div>
+    <h2><a href="knowledge/cycle.html">シリコンサイクル：現在地の見つけ方</a></h2>
+    <p>設備投資・在庫・最終需要が半導体サイクルを動かす。転換点を予測するより、検証可能な指標で現在地を測る。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">サイクル</span><span class="tag tag-sm">設備投資</span><span class="tag tag-sm">在庫</span>    </div>
+    <a class="text-link" href="knowledge/cycle.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">核心</span>
+      <span class="doc-meta">約 8 分</span>
+    </div>
+    <h2><a href="knowledge/policy.html">輸出管理と産業政策：外生変数</a></h2>
+    <p>半導体は政策密度の高い産業である。輸出管理・補助金・国産化目標は、生産能力の地理的分布と企業の売上構成を直接変える。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">政策</span><span class="tag tag-sm">輸出管理</span><span class="tag tag-sm">補助金</span>    </div>
+    <a class="text-link" href="knowledge/policy.html">全文を読む →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">核心</span>
+      <span class="doc-meta">約 9 分</span>
+    </div>
+    <h2><a href="knowledge/metrics.html">財務と評価：半導体企業の読み方</a></h2>
+    <p>半導体の損益はサイクルで大きく振れるため、PER 単独では誤読する。粗利率・在庫・設備投資・正常化利益で比較する。</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">財務</span><span class="tag tag-sm">バリュエーション</span><span class="tag tag-sm">指標</span>    </div>
+    <a class="text-link" href="knowledge/metrics.html">全文を読む →</a>
+  </article>
+</section>
+
+<p class="disclaimer-line">研究目的のみ。投資助言ではありません。</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>世界の半導体バリューチェーンを読み解く三言語リサーチデスク</p>
+        <p class="footer-note">研究目的のみ。投資助言ではありません。</p>
+      </div>
+      <div>
+        <h3>企業マップ</h3>
+        <a href="companies.html">企業マップ</a>
+        <a href="value-chain.html">バリューチェーン</a>
+        <a href="glossary.html">用語集</a>
+      </div>
+      <div>
+        <h3>ナレッジ</h3>
+        <a href="knowledge/value-chain.html">バリューチェーン全景：どこで利益が生まれるか</a>
+        <a href="knowledge/process-flow.html">ウェハ製造：8つの工程群とクリーンルーム</a>
+        <a href="knowledge/lithography.html">露光：DUV から High-NA EUV まで</a>
+        <a href="knowledge/equipment-materials.html">装置と材料：「ツルハシを売る」ビジネス</a>
+      </div>
+      <div>
+        <h3>このサイト</h3>
+        <a href="methodology.html">手法</a>
+        <a href="about.html">このサイト</a>
+        <a href="../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静的ビルド · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
+      <span>データスナップショット: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../assets/js/app.js?v=2.0.0"></script>
+</body>
+</html>

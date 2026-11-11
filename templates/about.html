@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">ABOUT</span>
+  <h1>{{ t.about.title }}</h1>
+  <p class="lede">{{ t.about.lede }}</p>
+</header>
+
+<section class="prose about-prose">
+  <h2>{{ t.about.missionTitle }}</h2>
+  <p>{{ t.about.mission }}</p>
+
+  <h2>{{ t.about.audienceTitle }}</h2>
+  <p>{{ t.about.audience }}</p>
+
+  <h2>{{ t.about.scopeTitle }}</h2>
+  <p>{{ t.about.scope }}</p>
+  <div class="metric-grid">
+    <div class="metric"><span>{{ t.home.kpi.companies }}</span><strong>{{ analytics.rows | length }}</strong></div>
+    <div class="metric"><span>{{ t.common.total }}</span><strong>{{ analytics.total_market_cap_usd | usd }}</strong></div>
+    <div class="metric"><span>{{ t.companies.coverage }}</span><strong>{{ coverage_pct }}%</strong></div>
+    <div class="metric"><span>{{ t.common.asOf }}</span><strong>{{ data_time }}</strong></div>
+  </div>
+
+  <h2>{{ t.about.sourcesTitle }}</h2>
+  <p>{{ t.about.sources }}</p>
+  <table class="data-table compact">
+    <thead><tr><th>{{ t.common.source }}</th><th>URL</th><th>{{ t.common.note }}</th></tr></thead>
+    <tbody>
+      {% for name, url, kind in sources %}
+      <tr><td>{{ name }}</td><td><a href="{{ url }}" target="_blank" rel="noopener noreferrer">{{ url | replace('https://', '') | truncate(42) }}</a></td><td>{{ kind }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>{{ t.about.cadenceTitle }}</h2>
+  <p>{{ t.about.cadence }}</p>
+
+  <h2>{{ t.about.licenseTitle }}</h2>
+  <p>{{ t.about.license }}</p>
+
+  <h2>{{ t.about.contributeTitle }}</h2>
+  <p>{{ t.about.contribute }}</p>
+
+  <h2>{{ t.about.disclaimerTitle }}</h2>
+  <p class="disclaimer-box">{{ t.about.disclaimer }}</p>
+
+  <h2>Build</h2>
+  <dl class="fact-list">
+    <div><dt>{{ t.footer.built }}</dt><dd>v{{ site_version }} · {{ build_time }} UTC+8</dd></div>
+    <div><dt>{{ t.footer.data }}</dt><dd>{{ data_time }} · {{ snapshot.dataset }}</dd></div>
+    <div><dt>{{ t.common.source }}</dt><dd>{{ snapshot.sources.quotes }} · {{ snapshot.sources.fx }}</dd></div>
+    <div><dt>{{ t.companies.coverage }}</dt><dd>{{ priced }} / {{ analytics.rows | length }}</dd></div>
+    <div><dt>JSON</dt><dd><a href="{{ root }}latest_data.json">latest_data.json</a> · <a href="{{ root }}api/snapshot.{{ lang }}.json">api/snapshot.{{ lang }}.json</a></dd></div>
+  </dl>
+  {% if errors %}
+  <h2>Data notes</h2>
+  <ul class="error-list">
+    {% for error in errors[:12] %}<li>{{ error }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</section>
+{% endblock %}

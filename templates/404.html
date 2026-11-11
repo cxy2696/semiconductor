@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ locale.code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }}</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="{{ root }}assets/css/main.css?v={{ site_version }}">
+</head>
+<body class="page-404">
+  <main class="wrap notfound">
+    <span class="kicker">404</span>
+    <h1>{{ t.notFound.title }}</h1>
+    <p>{{ t.notFound.body }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ href('home') }}">{{ t.nav.home }}</a>
+      <a class="btn btn-ghost" href="{{ href('companies') }}">{{ t.nav.companies }}</a>
+    </div>
+  </main>
+</body>
+</html>

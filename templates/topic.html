@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ href('home') }}">{{ t.nav.home }}</a>
+  <span aria-hidden="true">/</span>
+  <a href="{{ href('knowledge') }}">{{ t.nav.knowledge }}</a>
+  <span aria-hidden="true">/</span>
+  <span>{{ doc.title }}</span>
+</nav>
+
+<article class="article-layout">
+  <div class="article-main">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="doc-level level-{{ doc.level }}">{{ t.knowledge.levels[doc.level] }}</span>
+        <span>{{ t.knowledge.readingTime.format(minutes=doc.minutes) }}</span>
+        {% if doc.updated %}<span>{{ t.common.asOf }} {{ doc.updated }}</span>{% endif %}
+      </div>
+      <h1>{{ doc.title }}</h1>
+      <p class="lede">{{ doc.summary }}</p>
+    </header>
+    <div class="prose">
+      {{ doc.html | safe }}
+    </div>
+
+    {% if related_docs %}
+    <section class="article-related">
+      <h2>{{ t.knowledge.related }}</h2>
+      <div class="three-col">
+        {% for related in related_docs %}
+        <a class="doc-card" href="{{ href('topic', related.slug) }}">
+          <span class="doc-level">{{ t.knowledge.levels[related.level] }}</span>
+          <span class="doc-title">{{ related.title }}</span>
+          <span class="doc-summary">{{ related.summary }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <nav class="article-pager" aria-label="{{ t.common.related }}">
+      {% if prev_doc %}
+      <a href="{{ href('topic', prev_doc.slug) }}"><span>← {{ t.common.prev }}</span><strong>{{ prev_doc.title }}</strong></a>
+      {% else %}<span></span>{% endif %}
+      {% if next_doc %}
+      <a class="pager-next" href="{{ href('topic', next_doc.slug) }}"><span>{{ t.common.next }} →</span><strong>{{ next_doc.title }}</strong></a>
+      {% endif %}
+    </nav>
+  </div>
+
+  <aside class="article-aside">
+    <div class="toc panel">
+      <span class="kicker">{{ t.knowledge.toc }}</span>
+      <nav>
+        {% for item in doc.toc %}
+        <a class="toc-level-{{ item.level }}" href="#{{ item.id }}">{{ item.text }}</a>
+        {% endfor %}
+      </nav>
+      <div class="toc-tags">
+        {% for tag in doc.tags %}<span class="tag tag-sm">{{ t.tags.get(tag, tag) }}</span>{% endfor %}
+      </div>
+    </div>
+  </aside>
+</article>
+
+<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
+{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">{{ article_jsonld | tojson }}</script>
+{% endblock %}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cxy2696.github.io/semiconductor/sitemap.xml

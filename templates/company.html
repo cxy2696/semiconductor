@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ href('home') }}">{{ t.nav.home }}</a>
+  <span aria-hidden="true">/</span>
+  <a href="{{ href('companies') }}">{{ t.nav.companies }}</a>
+  <span aria-hidden="true">/</span>
+  <span>{{ company.name }}</span>
+</nav>
+
+<header class="company-head">
+  <div>
+    <div class="company-tags">
+      <span class="stage-badge" style="--stage-color: {{ company.color }}">{{ company.stage_label }}</span>
+      <span class="tag">{{ company.market_label }}</span>
+      <span class="tag">{{ company.country_label }}</span>
+      <span class="tag">{{ company.role_label }}</span>
+    </div>
+    <h1>{{ company.name }}</h1>
+    <p class="company-symbol-line">{{ company.symbol }} · {{ t.company.hq }} {{ company.hq }}</p>
+    <p class="lede">{{ positioning }}</p>
+    {% if company.note %}<p class="company-note">{{ company.note }}</p>{% endif %}
+  </div>
+  <div class="company-price">
+    <span class="kicker">{{ t.company.marketData }}</span>
+    {% if company.priced %}
+    <div class="price-value">{{ company.price_text }}</div>
+    <div class="price-change {{ 'pos' if (company.change_1d or 0) >= 0 else 'neg' }}">
+      {{ company.change_1d | pct }} <span class="muted">1D</span>
+      <span class="sep">·</span>
+      {{ company.ret_30d | pct }} <span class="muted">30D</span>
+    </div>
+    <div class="price-range">
+      <span>{{ company.low_52w | price(company.currency) }}</span>
+      {{ company.range_bar }}
+      <span>{{ company.high_52w | price(company.currency) }}</span>
+    </div>
+    <span class="fineprint">{{ t.common.asOf }} {{ company.as_of or '—' }} · {{ t.common.source }}: {{ snapshot.sources.quotes }}</span>
+    {% else %}
+    <p class="empty">{{ t.company.unpriced }}</p>
+    {% endif %}
+  </div>
+</header>
+
+<section class="metric-grid">
+  <div class="metric"><span>{{ t.companies.table.mcap }}</span><strong>{{ company.mcap_text }}</strong></div>
+  <div class="metric"><span>{{ t.companies.table.pe }}</span><strong>{{ company.pe | num(1) }}</strong></div>
+  <div class="metric"><span>{{ t.companies.table.pb }}</span><strong>{{ company.pb | num(2) }}</strong></div>
+  <div class="metric"><span>{{ t.companies.table.roe }}</span><strong>{{ company.roe | num(1) }}{% if company.roe is not none %}%{% endif %}</strong></div>
+  <div class="metric"><span>{{ t.companies.table.score }}</span><strong>{{ company.priority if company.priority is not none else '—' }}</strong></div>
+  <div class="metric"><span>{{ t.common.confidence }}</span><strong class="cov-{{ company.coverage_level }}">{{ company.coverage_label }}</strong></div>
+</section>
+
+<section class="two-col company-body">
+  <div class="panel">
+    <h2 class="panel-title">{{ t.company.profile }}</h2>
+    <dl class="fact-list">
+      <div><dt>{{ t.company.ticker }}</dt><dd>{{ company.symbol }}</dd></div>
+      <div><dt>{{ t.company.exchange }}</dt><dd>{{ company.exchange }} · {{ company.market_label }}</dd></div>
+      <div><dt>{{ t.company.currency }}</dt><dd>{{ company.currency }}</dd></div>
+      <div><dt>{{ t.company.website }}</dt><dd>{% if company.website %}<a href="{{ company.website }}" target="_blank" rel="noopener noreferrer">{{ company.website | replace('https://', '') | replace('/', '') }}</a>{% else %}—{% endif %}</dd></div>
+      <div><dt>{{ t.company.products }}</dt><dd class="product-tags">{% for product in company.products %}<span class="tag">{{ product }}</span>{% endfor %}</dd></div>
+    </dl>
+    {% if company.flags %}
+    <div class="flag-row">
+      {% for flag in company.flags %}<span class="flag">{{ flag }}</span>{% endfor %}
+    </div>
+    {% endif %}
+    <p class="fineprint">{{ t.company.dataNote }}</p>
+  </div>
+
+  <div class="panel">
+    <h2 class="panel-title">{{ t.company.priorityTitle }}</h2>
+    <p class="fineprint">{{ t.company.priorityDesc }}</p>
+    <ul class="factor-list">
+      {% for key in ['quality', 'valuation', 'momentum', 'size'] %}
+      <li>
+        <span class="factor-name">{{ company.factor_labels[key] }}</span>
+        <span class="factor-track"><i style="width: {{ (company.factors[key] or 0) | round(1) }}%"></i></span>
+        <span class="factor-value">{{ company.factors[key] | num(0) if company.factors[key] is not none else '—' }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="fineprint">{{ t.method.factors }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <span class="kicker">PEERS</span>
+      <h2>{{ t.company.peers }}</h2>
+    </div>
+  </div>
+  <div class="panel table-panel">
+    <table class="data-table compact">
+      <thead>
+        <tr>
+          <th>{{ t.companies.table.company }}</th>
+          <th>{{ t.companies.table.market }}</th>
+          <th class="num">{{ t.companies.table.mcap }}</th>
+          <th class="num">{{ t.companies.table.change30d }}</th>
+          <th class="num">{{ t.companies.table.pe }}</th>
+          <th class="num">{{ t.companies.table.roe }}</th>
+          <th class="num">{{ t.companies.table.score }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for peer in peers %}
+        <tr>
+          <td><a class="company-link" href="{{ href('company', peer.id) }}"><span class="company-name">{{ peer.name }}</span><span class="company-symbol">{{ peer.symbol }}</span></a></td>
+          <td>{{ peer.market_label }}</td>
+          <td class="num">{{ peer.mcap_text }}</td>
+          <td class="num {{ 'pos' if (peer.ret_30d or 0) >= 0 else 'neg' }}">{{ peer.ret_30d | pct }}</td>
+          <td class="num">{{ peer.pe | num(1) }}</td>
+          <td class="num">{{ peer.roe | num(1) }}{% if peer.roe is not none %}%{% endif %}</td>
+          <td class="num">{{ peer.priority if peer.priority is not none else '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% if related_docs %}
+<section class="section">
+  <div class="section-head">
+    <div>
+      <span class="kicker">{{ t.company.relatedReading }}</span>
+    </div>
+  </div>
+  <div class="three-col">
+    {% for doc in related_docs %}
+    <a class="doc-card" href="{{ href('topic', doc.slug) }}">
+      <span class="doc-level">{{ t.knowledge.levels[doc.level] }}</span>
+      <span class="doc-title">{{ doc.title }}</span>
+      <span class="doc-summary">{{ doc.summary }}</span>
+      <span class="doc-meta">{{ t.knowledge.readingTime.format(minutes=doc.minutes) }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">UNIVERSE · {{ rows | length }}</span>
+  <h1>{{ t.companies.title }}</h1>
+  <p class="lede">{{ t.companies.lede }}</p>
+  <p class="fineprint">{{ t.company.dataNote }} · {{ t.companies.coverage }} {{ coverage_pct }}%</p>
+</header>
+
+<section class="filter-bar" aria-label="{{ t.companies.title }}">
+  <div class="filter-search">
+    <label class="visually-hidden" for="company-search">{{ t.companies.searchPlaceholder }}</label>
+    <input id="company-search" type="search" placeholder="{{ t.companies.searchPlaceholder }}" autocomplete="off">
+  </div>
+  <label class="filter-select">
+    <span>{{ t.companies.filterStage }}</span>
+    <select id="filter-stage">
+      <option value="">{{ t.common.all }}</option>
+      {% for stage in stages %}
+      <option value="{{ stage.id }}">{{ tax.stage_label(stage.id, lang) }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label class="filter-select">
+    <span>{{ t.companies.filterCountry }}</span>
+    <select id="filter-country">
+      <option value="">{{ t.common.all }}</option>
+      {% for country in countries %}
+      <option value="{{ country }}">{{ tax.country_label(country, lang) }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label class="filter-select">
+    <span>{{ t.companies.filterMarket }}</span>
+    <select id="filter-market">
+      <option value="">{{ t.common.all }}</option>
+      {% for market in markets %}
+      <option value="{{ market }}">{{ tax.market_label(market, lang) }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="button" class="btn btn-ghost btn-sm" id="filter-reset">{{ t.common.reset }}</button>
+  <span class="filter-count" id="filter-count">{{ t.common.showing }} {{ rows | length }} {{ t.companies.count }}</span>
+</section>
+
+<section class="panel table-panel">
+  <div class="table-scroll">
+    <table class="data-table" id="companies-table">
+      <thead>
+        <tr>
+          <th class="col-company">{{ t.companies.table.company }}</th>
+          <th>{{ t.companies.table.stage }}</th>
+          <th class="col-role">{{ t.companies.table.role }}</th>
+          <th class="num">{{ t.companies.table.price }}</th>
+          <th class="num">{{ t.companies.table.change1d }}</th>
+          <th class="num">{{ t.companies.table.change30d }}</th>
+          <th class="num">{{ t.companies.table.mcap }}</th>
+          <th class="num">{{ t.companies.table.pe }}</th>
+          <th class="num col-pb">{{ t.companies.table.pb }}</th>
+          <th class="num">{{ t.companies.table.roe }}</th>
+          <th class="num">{{ t.companies.table.score }}</th>
+          <th class="col-spark">{{ t.companies.table.trend }}</th>
+          <th>{{ t.companies.table.confidence }}</th>
+        </tr>
+      </thead>
+      <tbody id="company-rows">
+        {% for row in rows %}
+        <tr
+          data-name="{{ (row.name ~ ' ' ~ row.ticker ~ ' ' ~ row.symbol ~ ' ' ~ row.id ~ ' ' ~ (row.products | join(' '))) | lower }}"
+          data-stage="{{ row.stage }}"
+          data-country="{{ row.country }}"
+          data-market="{{ row.market }}"
+          data-price="{{ row.price if row.price is not none else '' }}"
+          data-change="{{ row.change_1d if row.change_1d is not none else '' }}"
+          data-ret="{{ row.ret_30d if row.ret_30d is not none else '' }}"
+          data-mcap="{{ row.mcap_usd if row.mcap_usd is not none else '' }}"
+          data-pe="{{ row.pe if row.pe is not none else '' }}"
+          data-pb="{{ row.pb if row.pb is not none else '' }}"
+          data-roe="{{ row.roe if row.roe is not none else '' }}"
+          data-priority="{{ row.priority if row.priority is not none else '' }}"
+        >
+          <td class="col-company">
+            <a class="company-link" href="{{ href('company', row.id) }}">
+              <span class="company-name">{{ row.name }}</span>
+              <span class="company-symbol">{{ row.symbol }}</span>
+            </a>
+          </td>
+          <td><span class="stage-badge" style="--stage-color: {{ row.color }}">{{ row.stage_short }}</span></td>
+          <td class="col-role muted">{{ row.role_label }}</td>
+          <td class="num">{{ row.price_text }}</td>
+          <td class="num {{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}">{{ row.change_1d | pct }}</td>
+          <td class="num {{ 'pos' if (row.ret_30d or 0) >= 0 else 'neg' }}">{{ row.ret_30d | pct }}</td>
+          <td class="num">{{ row.mcap_text }}</td>
+          <td class="num">{{ row.pe | num(1) }}</td>
+          <td class="num col-pb">{{ row.pb | num(2) }}</td>
+          <td class="num">{{ row.roe | num(1) }}{% if row.roe is not none %}%{% endif %}</td>
+          <td class="num"><span class="score-pill">{{ row.priority if row.priority is not none else '—' }}</span></td>
+          <td class="col-spark">{{ row.spark }}</td>
+          <td><span class="cov cov-{{ row.coverage_level }}" title="{{ row.coverage_label }}">{{ row.coverage_label }}</span></td>
+        </tr>
+        {% endfor %}
+        <tr id="no-results" hidden>
+          <td colspan="13" class="empty">{{ t.companies.empty }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<p class="fineprint">{{ t.companies.sortHint }} · {{ t.footer.notAdvice }}</p>
+{% endblock %}

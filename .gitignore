@@ -1,12 +1,8 @@
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.DS_Store
 .venv/
 venv/
-
-# Generated artifacts
-中国半导体行业报告.xlsx
-中国半导体行业报告.html
-/latest_data.json
+.DS_Store
+build/
+.pytest_cache/
+*.zip

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">METHOD</span>
+  <h1>{{ t.method.title }}</h1>
+  <p class="lede">{{ t.method.lede }}</p>
+</header>
+
+<section class="prose method-prose">
+  <h2>{{ t.method.purposeTitle }}</h2>
+  <p>{{ t.method.purpose }}</p>
+
+  <h2>{{ t.method.notTitle }}</h2>
+  <p>{{ t.method.not }}</p>
+
+  <h2>{{ t.method.universeTitle }}</h2>
+  <p>{{ t.method.universe }}</p>
+
+  <h2>{{ t.method.factorsTitle }}</h2>
+  <p>{{ t.method.factors }}</p>
+  <table class="data-table compact formula-table">
+    <thead>
+      <tr>
+        <th>{{ t.method.factorLabel }}</th>
+        <th>{{ t.method.definitionLabel }}</th>
+        <th class="num">{{ t.method.weight }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, definition, weight in factors %}
+      <tr>
+        <td><strong>{{ key }}</strong></td>
+        <td>{{ definition }}</td>
+        <td class="num">{{ weight }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <pre class="formula">{{ t.method.scoreFormula }}</pre>
+
+  <h2>{{ t.method.confidenceTitle }}</h2>
+  <p>{{ t.method.confidence }}</p>
+
+  <h2>{{ t.method.regimeTitle }}</h2>
+  <p>{{ t.method.regime }}</p>
+  <div class="regime-readout">
+    <div><span>{{ t.home.regime.title }}</span><strong>{{ t.home.regime[regime.label] }}</strong></div>
+    <div><span>{{ t.home.regime.breadth }}</span><strong>{{ (regime.breadth * 100) | num(0) }}%</strong></div>
+    <div><span>{{ t.common.median }} 30D</span><strong>{{ regime.median | pct }}</strong></div>
+    <div><span>n</span><strong>{{ regime.sample }}</strong></div>
+  </div>
+
+  <h2>{{ t.method.screensTitle }}</h2>
+  <ul>
+    <li>{{ t.method.screenQuality }}</li>
+    <li>{{ t.method.screenValue }}</li>
+    <li>{{ t.method.screenMomentum }}</li>
+  </ul>
+
+  <h2>{{ t.method.limitsTitle }}</h2>
+  <p>{{ t.method.limits }}</p>
+
+  <h2>{{ t.method.disclaimerTitle }}</h2>
+  <p class="disclaimer-box">{{ t.method.disclaimer }}</p>
+</section>
+{% endblock %}

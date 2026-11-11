@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>产业链全景 · 半导体产业情报台</title>
+  <meta name="description" content="半导体不是一条直线，而是主流程与支撑层交织的网络。理解每个环节如何赚钱、被什么指标约束，比记住公司名单更重要。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/value-chain.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/value-chain.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/value-chain.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/value-chain.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/value-chain.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="产业链全景 · 半导体产业情报台">
+  <meta property="og:description" content="半导体不是一条直线，而是主流程与支撑层交织的网络。理解每个环节如何赚钱、被什么指标约束，比记住公司名单更重要。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/value-chain.html">
+  <meta property="og:locale" content="zh-CN">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/main.css?v=2.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-chain">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半导体产业情报台</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="首页">
+        <a href="index.html" >首页</a>
+        <a href="companies.html" >公司图谱</a>
+        <a href="value-chain.html" aria-current="page">产业链</a>
+        <a href="knowledge.html" >知识库</a>
+        <a href="glossary.html" >术语表</a>
+        <a href="methodology.html" >方法</a>
+        <a href="about.html" >关于</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">语言</label>
+        <select id="locale-switch" class="locale-switch" aria-label="语言">
+          <option value="value-chain.html" selected>中文</option>
+          <option value="en/value-chain.html" >English</option>
+          <option value="ja/value-chain.html" >日本語</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="主题" title="主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="菜单">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="首页">
+      <a href="index.html">首页</a>
+      <a href="companies.html">公司图谱</a>
+      <a href="value-chain.html">产业链</a>
+      <a href="knowledge.html">知识库</a>
+      <a href="glossary.html">术语表</a>
+      <a href="methodology.html">方法</a>
+      <a href="about.html">关于</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<header class="page-head">
+  <span class="kicker">VALUE CHAIN</span>
+  <h1>产业链全景</h1>
+  <p class="lede">半导体不是一条直线，而是主流程与支撑层交织的网络。理解每个环节如何赚钱、被什么指标约束，比记住公司名单更重要。</p>
+</header>
+
+<section class="panel chain-map" aria-label="主流程">
+  <span class="kicker">主流程</span>
+  <div class="chain-flow">
+    <a class="chain-step" href="#stage-eda_ip" style="--stage-color: #6d5efc">
+      <span class="chain-step-order">1</span>
+      <span class="chain-step-name">EDA / IP 与设计服务</span>
+      <span class="chain-step-count">2 家公司</span>
+      <span class="chain-step-ret neg">-42.45% · 30D</span>
+    </a>
+<span class="chain-arrow" aria-hidden="true">→</span>    <a class="chain-step" href="#stage-design" style="--stage-color: #2f80ed">
+      <span class="chain-step-order">2</span>
+      <span class="chain-step-name">芯片设计（Fabless）</span>
+      <span class="chain-step-count">42 家公司</span>
+      <span class="chain-step-ret neg">-15.51% · 30D</span>
+    </a>
+<span class="chain-arrow" aria-hidden="true">→</span>    <a class="chain-step" href="#stage-manufacturing" style="--stage-color: #0f9d8f">
+      <span class="chain-step-order">3</span>
+      <span class="chain-step-name">晶圆制造（代工 / IDM）</span>
+      <span class="chain-step-count">24 家公司</span>
+      <span class="chain-step-ret neg">-20.62% · 30D</span>
+    </a>
+<span class="chain-arrow" aria-hidden="true">→</span>    <a class="chain-step" href="#stage-memory" style="--stage-color: #e08b2f">
+      <span class="chain-step-order">4</span>
+      <span class="chain-step-name">存储芯片</span>
+      <span class="chain-step-count">3 家公司</span>
+      <span class="chain-step-ret neg">-31.91% · 30D</span>
+    </a>
+<span class="chain-arrow" aria-hidden="true">→</span>    <a class="chain-step" href="#stage-packaging" style="--stage-color: #b5527d">
+      <span class="chain-step-order">5</span>
+      <span class="chain-step-name">封装与测试</span>
+      <span class="chain-step-count">8 家公司</span>
+      <span class="chain-step-ret neg">-27.07% · 30D</span>
+    </a>
+<span class="chain-arrow" aria-hidden="true">→</span>    <a class="chain-step" href="#stage-module" style="--stage-color: #5b6b7a">
+      <span class="chain-step-order">6</span>
+      <span class="chain-step-name">模组与系统</span>
+      <span class="chain-step-count">2 家公司</span>
+      <span class="chain-step-ret neg">-38.36% · 30D</span>
+    </a>
+  </div>
+  <div class="chain-support">
+    <span class="kicker">支撑层</span>
+    <div class="chain-support-row">
+      <a class="chain-step chain-step-support" href="#stage-equipment" style="--stage-color: #c8553d">
+        <span class="chain-step-name">半导体设备</span>
+        <span class="chain-step-count">28 家公司</span>
+        <span class="chain-step-ret neg">-31.33%</span>
+        <span class="chain-step-count">$1.94T</span>
+        <span class="chain-step-summary">产业链的“卖铲人”：光刻、刻蚀、薄膜沉积、CMP、清洗、离子注入、量测检测、测试设备。技术壁垒与客户认证周期极长，景气度领先于晶圆厂收入。</span>
+      </a>
+      <a class="chain-step chain-step-support" href="#stage-materials" style="--stage-color: #8a9a5b">
+        <span class="chain-step-name">半导体材料</span>
+        <span class="chain-step-count">15 家公司</span>
+        <span class="chain-step-ret neg">-30.32%</span>
+        <span class="chain-step-count">$157.4B</span>
+        <span class="chain-step-summary">硅片、光刻胶、电子特气、靶材、CMP 抛光液、封装基板与塑封料。单晶硅片与光刻胶等环节高度集中，认证周期长；材料收入比设备更平滑。</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="stage-section" id="stage-eda_ip">
+  <div class="stage-head" style="--stage-color: #6d5efc">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>EDA / IP 与设计服务</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>2</dd></div>
+      <div><dt>合计</dt><dd>$202.9B</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-42.45%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>芯片设计的基础设施：EDA 工具、指令集与处理器 IP、接口 IP、设计服务。毛利率最高、收入最可预期，但规模有限且高度依赖生态锁定。</p>
+      <h3>如何赚钱</h3>
+      <p>收入以授权（license）+ 版税（royalty）为主；客户切换成本极高，因此定价权强。观察指标：license 与 royalty 结构、单芯片版税率、先进制程 IP 认证进度。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>版税率</li><li>续约率</li><li>研发费用率</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/arm.html">
+            <span class="rank-name">Arm</span>
+            <span class="rank-meta">NASDAQ:ARM</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 95.7%"></i></span>
+            <span class="rank-score">$194.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/verisilicon.html">
+            <span class="rank-name">芯原股份</span>
+            <span class="rank-meta">SSE:688521</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 4.3%"></i></span>
+            <span class="rank-score">$8.7B</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-design">
+  <div class="stage-head" style="--stage-color: #2f80ed">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>芯片设计（Fabless）</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>42</dd></div>
+      <div><dt>合计</dt><dd>$7.52T</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-15.51%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>无晶圆厂设计公司：定义产品、完成前端与后端设计，把制造外包给代工厂。成败取决于产品定义、客户导入速度与代工生産能力获取能力。</p>
+      <h3>如何赚钱</h3>
+      <p>典型的轻资产模型：研发费用率高（15%–25%），库存与生産能力预付款占用现金。观察指标：设计中标数、客户集中度、平均售价（ASP）、毛利率与库存周转。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>设计中标数</li><li>客户集中度</li><li>库存周转</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/nvidia.html">
+            <span class="rank-name">英伟达</span>
+            <span class="rank-meta">NASDAQ:NVDA</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 54.1%"></i></span>
+            <span class="rank-score">$4.07T</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/avgo.html">
+            <span class="rank-name">博通</span>
+            <span class="rank-meta">NASDAQ:AVGO</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 21.1%"></i></span>
+            <span class="rank-score">$1.58T</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/amd.html">
+            <span class="rank-name">超威半导体</span>
+            <span class="rank-meta">NASDAQ:AMD</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 11.2%"></i></span>
+            <span class="rank-score">$845.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/mediatek.html">
+            <span class="rank-name">联发科</span>
+            <span class="rank-meta">TWSE:2454</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.5%"></i></span>
+            <span class="rank-score">$186.5B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/qcom.html">
+            <span class="rank-name">高通</span>
+            <span class="rank-meta">NASDAQ:QCOM</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.5%"></i></span>
+            <span class="rank-score">$185.7B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/marvell.html">
+            <span class="rank-name">迈威尔</span>
+            <span class="rank-meta">NASDAQ:MRVL</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.8%"></i></span>
+            <span class="rank-score">$135.4B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/cambricon.html">
+            <span class="rank-name">寒武纪</span>
+            <span class="rank-meta">SSE:688256</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.0%"></i></span>
+            <span class="rank-score">$78.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/mpwr.html">
+            <span class="rank-name">芯源系统</span>
+            <span class="rank-meta">NASDAQ:MPWR</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 0.9%"></i></span>
+            <span class="rank-score">$66.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/hygon.html">
+            <span class="rank-name">海光信息</span>
+            <span class="rank-meta">SSE:688041</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 0.9%"></i></span>
+            <span class="rank-score">$66.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/alab.html">
+            <span class="rank-name">Astera Labs</span>
+            <span class="rank-meta">NASDAQ:ALAB</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 0.5%"></i></span>
+            <span class="rank-score">$37.8B</span>
+          </a>
+        </li>
+      </ul>
+      <a class="text-link" href="companies.html#stage-design">查看全部 →</a>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-manufacturing">
+  <div class="stage-head" style="--stage-color: #0f9d8f">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>晶圆制造（代工 / IDM）</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>24</dd></div>
+      <div><dt>合计</dt><dd>$3.12T</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-20.62%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>资本最密集的环节：把设计图形转移到硅片上。代工厂靠生産能力利用率与制程组合赚钱，IDM 同时承担设计与制造。先进制程只有少数玩家，成熟制程竞争更充分。</p>
+      <h3>如何赚钱</h3>
+      <p>单座先进晶圆厂资本开支可达百亿美元级，折旧压力大。观察指标：生産能力利用率、晶圆 ASP、制程占比、资本开支强度、折旧占收入比。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>产能利用率</li><li>晶圆 ASP</li><li>折旧占收入</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/tsmc.html">
+            <span class="rank-name">台积电</span>
+            <span class="rank-meta">TWSE:2330</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 57.9%"></i></span>
+            <span class="rank-score">$1.81T</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/intel.html">
+            <span class="rank-name">英特尔</span>
+            <span class="rank-meta">NASDAQ:INTC</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 9.9%"></i></span>
+            <span class="rank-score">$309.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/txn.html">
+            <span class="rank-name">德州仪器</span>
+            <span class="rank-meta">NASDAQ:TXN</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 8.8%"></i></span>
+            <span class="rank-score">$274.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/adi.html">
+            <span class="rank-name">亚德诺</span>
+            <span class="rank-meta">NASDAQ:ADI</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 6.1%"></i></span>
+            <span class="rank-score">$190.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/smic.html">
+            <span class="rank-name">中芯国际</span>
+            <span class="rank-meta">SSE:688981</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 4.4%"></i></span>
+            <span class="rank-score">$138.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/infineon.html">
+            <span class="rank-name">英飞凌</span>
+            <span class="rank-meta">XETRA:IFX</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.3%"></i></span>
+            <span class="rank-score">$71.3B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/nxpi.html">
+            <span class="rank-name">恩智浦</span>
+            <span class="rank-meta">NASDAQ:NXPI</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.1%"></i></span>
+            <span class="rank-score">$65.9B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/stmicro.html">
+            <span class="rank-name">意法半导体</span>
+            <span class="rank-meta">Euronext Paris:STMPA</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.3%"></i></span>
+            <span class="rank-score">$40.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/umc.html">
+            <span class="rank-name">联电</span>
+            <span class="rank-meta">TWSE:2303</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.2%"></i></span>
+            <span class="rank-score">$38.4B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/mchp.html">
+            <span class="rank-name">微芯科技</span>
+            <span class="rank-meta">NASDAQ:MCHP</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.1%"></i></span>
+            <span class="rank-score">$32.8B</span>
+          </a>
+        </li>
+      </ul>
+      <a class="text-link" href="companies.html#stage-manufacturing">查看全部 →</a>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-memory">
+  <div class="stage-head" style="--stage-color: #e08b2f">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>存储芯片</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>3</dd></div>
+      <div><dt>合计</dt><dd>$2.45T</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-31.91%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>标准化程度最高的半导体品类：DRAM、NAND、NOR 与 HBM。强周期、寡头格局，价格由供需与库存决定，HBM 把存储重新拉回 AI 叙事中心。</p>
+      <h3>如何赚钱</h3>
+      <p>看 bit 供需与单位成本下降曲线：bit 出货增速、合约价、库存周数、资本开支。HBM 的关键是堆叠层数、良率与客户认证。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>位元出货增速</li><li>合约价</li><li>库存周数</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/samsung.html">
+            <span class="rank-name">三星电子</span>
+            <span class="rank-meta">KRX:005930</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 39.7%"></i></span>
+            <span class="rank-score">$971.4B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/micron.html">
+            <span class="rank-name">美光</span>
+            <span class="rank-meta">NASDAQ:MU</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 33.5%"></i></span>
+            <span class="rank-score">$820.4B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/skhynix.html">
+            <span class="rank-name">SK海力士</span>
+            <span class="rank-meta">KRX:000660</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 26.8%"></i></span>
+            <span class="rank-score">$656.9B</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-equipment">
+  <div class="stage-head" style="--stage-color: #c8553d">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>半导体设备</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>28</dd></div>
+      <div><dt>合计</dt><dd>$1.94T</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-31.33%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>产业链的“卖铲人”：光刻、刻蚀、薄膜沉积、CMP、清洗、离子注入、量测检测、测试设备。技术壁垒与客户认证周期极长，景气度领先于晶圆厂收入。</p>
+      <h3>如何赚钱</h3>
+      <p>收入来自晶圆厂资本开支，波动大于终端需求。观察指标：book-to-bill、在手订单、中国大陆收入占比、服务与备件收入占比（经常性收入）。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>订单出货比</li><li>在手订单</li><li>服务收入占比</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/asml.html">
+            <span class="rank-name">阿斯麦</span>
+            <span class="rank-meta">Euronext Amsterdam:ASML</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 29.9%"></i></span>
+            <span class="rank-score">$580.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/amat.html">
+            <span class="rank-name">应用材料</span>
+            <span class="rank-meta">NASDAQ:AMAT</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 15.2%"></i></span>
+            <span class="rank-score">$295.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/lrcx.html">
+            <span class="rank-name">泛林集团</span>
+            <span class="rank-meta">NASDAQ:LRCX</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 14.3%"></i></span>
+            <span class="rank-score">$277.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/klac.html">
+            <span class="rank-name">科磊</span>
+            <span class="rank-meta">NASDAQ:KLAC</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 10.3%"></i></span>
+            <span class="rank-score">$199.3B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/advantest.html">
+            <span class="rank-name">爱德万测试</span>
+            <span class="rank-meta">TSE:6857</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 7.0%"></i></span>
+            <span class="rank-score">$135.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/tel.html">
+            <span class="rank-name">东京电子</span>
+            <span class="rank-meta">TSE:8035</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 6.6%"></i></span>
+            <span class="rank-score">$129.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/naura.html">
+            <span class="rank-name">北方华创</span>
+            <span class="rank-meta">SZSE:002371</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 3.0%"></i></span>
+            <span class="rank-score">$58.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/ter.html">
+            <span class="rank-name">泰瑞达</span>
+            <span class="rank-meta">NASDAQ:TER</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.0%"></i></span>
+            <span class="rank-score">$38.3B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/amec.html">
+            <span class="rank-name">中微公司</span>
+            <span class="rank-meta">SSE:688012</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.8%"></i></span>
+            <span class="rank-score">$35.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/disco.html">
+            <span class="rank-name">迪思科</span>
+            <span class="rank-meta">TSE:6146</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.6%"></i></span>
+            <span class="rank-score">$31.1B</span>
+          </a>
+        </li>
+      </ul>
+      <a class="text-link" href="companies.html#stage-equipment">查看全部 →</a>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-materials">
+  <div class="stage-head" style="--stage-color: #8a9a5b">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>半导体材料</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>15</dd></div>
+      <div><dt>合计</dt><dd>$157.4B</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-30.32%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>硅片、光刻胶、电子特气、靶材、CMP 抛光液、封装基板与塑封料。单晶硅片与光刻胶等环节高度集中，认证周期长；材料收入比设备更平滑。</p>
+      <h3>如何赚钱</h3>
+      <p>单价与纯度/规格强相关，客户黏性高。观察指标：生産能力扩张、长约价格、国产化率、原材料成本（如多晶硅、白银、铜）。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>产能扩张</li><li>长约价格</li><li>国产化率</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/shinetsu.html">
+            <span class="rank-name">信越化学</span>
+            <span class="rank-meta">TSE:4063</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 41.3%"></i></span>
+            <span class="rank-score">$65.0B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/entg.html">
+            <span class="rank-name">英特格</span>
+            <span class="rank-meta">NASDAQ:ENTG</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 13.5%"></i></span>
+            <span class="rank-score">$21.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/zhongchuan-teqi.html">
+            <span class="rank-name">中船特气</span>
+            <span class="rank-meta">SSE:688146</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 7.2%"></i></span>
+            <span class="rank-score">$11.3B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/nsig.html">
+            <span class="rank-name">沪硅产业</span>
+            <span class="rank-meta">SSE:688126</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 6.7%"></i></span>
+            <span class="rank-score">$10.5B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/globalwafers.html">
+            <span class="rank-name">环球晶圆</span>
+            <span class="rank-meta">TWSE:6488</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 5.7%"></i></span>
+            <span class="rank-score">$8.9B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/jiangfeng.html">
+            <span class="rank-name">江丰电子</span>
+            <span class="rank-meta">SZSE:300666</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 5.2%"></i></span>
+            <span class="rank-score">$8.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/youyan.html">
+            <span class="rank-name">有研硅</span>
+            <span class="rank-meta">SSE:688432</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 4.0%"></i></span>
+            <span class="rank-score">$6.3B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/tianyue.html">
+            <span class="rank-name">天岳先进</span>
+            <span class="rank-meta">SSE:688234</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 3.7%"></i></span>
+            <span class="rank-score">$5.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/tokyo-ohka.html">
+            <span class="rank-name">东京应化</span>
+            <span class="rank-meta">TSE:4186</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 3.5%"></i></span>
+            <span class="rank-score">$5.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/sumco.html">
+            <span class="rank-name">胜高</span>
+            <span class="rank-meta">TSE:3436</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.7%"></i></span>
+            <span class="rank-score">$4.2B</span>
+          </a>
+        </li>
+      </ul>
+      <a class="text-link" href="companies.html#stage-materials">查看全部 →</a>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-packaging">
+  <div class="stage-head" style="--stage-color: #b5527d">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>封装与测试</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>8</dd></div>
+      <div><dt>合计</dt><dd>$128.2B</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-27.07%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>把裸片变成可交付的芯片：划片、贴装、键合、塑封、植球、成品测试。先进封装（2.5D/3D、CoWoS、混合键合）已成为 AI 算力的瓶颈环节，价值量快速上升。</p>
+      <h3>如何赚钱</h3>
+      <p>传统封测毛利偏低（15%–25%），先进封装可显著抬升毛利。观察指标：生産能力利用率、先进封装收入占比、CoWoS/HBM 相关订单、测试时长（test hours）。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>产能利用率</li><li>先进封装占比</li><li>测试时长</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/ase.html">
+            <span class="rank-name">日月光投控</span>
+            <span class="rank-meta">TWSE:3711</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 63.3%"></i></span>
+            <span class="rank-score">$81.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/jcet.html">
+            <span class="rank-name">长电科技</span>
+            <span class="rank-meta">SSE:600584</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 11.0%"></i></span>
+            <span class="rank-score">$14.1B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/tfme.html">
+            <span class="rank-name">通富微电</span>
+            <span class="rank-meta">SZSE:002156</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 8.3%"></i></span>
+            <span class="rank-score">$10.6B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/amkr.html">
+            <span class="rank-name">安靠</span>
+            <span class="rank-meta">NASDAQ:AMKR</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 6.7%"></i></span>
+            <span class="rank-score">$8.5B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/huatian.html">
+            <span class="rank-name">华天科技</span>
+            <span class="rank-meta">SZSE:002185</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 6.1%"></i></span>
+            <span class="rank-score">$7.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/yongsi.html">
+            <span class="rank-name">甬矽电子</span>
+            <span class="rank-meta">SSE:688362</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 2.2%"></i></span>
+            <span class="rank-score">$2.8B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/jingfang.html">
+            <span class="rank-name">晶方科技</span>
+            <span class="rank-meta">SSE:603005</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 1.7%"></i></span>
+            <span class="rank-score">$2.1B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/liyang.html">
+            <span class="rank-name">利扬芯片</span>
+            <span class="rank-meta">SSE:688135</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 0.8%"></i></span>
+            <span class="rank-score">$1.0B</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="stage-section" id="stage-module">
+  <div class="stage-head" style="--stage-color: #5b6b7a">
+    <div>
+      <span class="kicker">环节统计</span>
+      <h2>模组与系统</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>家公司</dt><dd>2</dd></div>
+      <div><dt>合计</dt><dd>$24.4B</dd></div>
+      <div><dt>中位数 30D</dt><dd class="neg">-38.36%</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>存储模组、板卡与子系统。靠近终端需求、周转快但毛利薄，是观察渠道库存与终端景气的敏感窗口。</p>
+      <h3>如何赚钱</h3>
+      <p>核心是库存管理与采购时点：低价备货可在涨价周期放大利润，也会在下行周期放大亏损。观察指标：存货周转天数、合约价与现货价差、渠道库存。</p>
+      <h3>关键指标</h3>
+      <ul class="metric-list">
+<li>存货周转天数</li><li>合约/现货价差</li><li>渠道库存</li>      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">代表公司</h3>
+      <ul class="stage-company-list">
+        <li>
+          <a href="companies/longsys.html">
+            <span class="rank-name">江波龙</span>
+            <span class="rank-meta">SZSE:301308</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 62.2%"></i></span>
+            <span class="rank-score">$15.2B</span>
+          </a>
+        </li>
+        <li>
+          <a href="companies/biwin.html">
+            <span class="rank-name">佰维存储</span>
+            <span class="rank-meta">SSE:688525</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: 37.8%"></i></span>
+            <span class="rank-score">$9.2B</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<p class="fineprint">环节划分以公司主要收入来源为准；同一公司可能同时具备设计与制造能力，此处只取主分类。</p>
+<p class="disclaimer-line">仅供研究，不构成投资建议</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>全球半导体产业链研究与学习台</p>
+        <p class="footer-note">仅供研究，不构成投资建议</p>
+      </div>
+      <div>
+        <h3>公司图谱</h3>
+        <a href="companies.html">公司图谱</a>
+        <a href="value-chain.html">产业链</a>
+        <a href="glossary.html">术语表</a>
+      </div>
+      <div>
+        <h3>知识库</h3>
+        <a href="knowledge/value-chain.html">产业链全景：谁在赚钱，钱在哪</a>
+        <a href="knowledge/process-flow.html">晶圆制造：八大工艺与洁净室</a>
+        <a href="knowledge/lithography.html">光刻：从 DUV 到 High-NA EUV</a>
+        <a href="knowledge/equipment-materials.html">设备与材料：卖铲人的生意</a>
+      </div>
+      <div>
+        <h3>关于</h3>
+        <a href="methodology.html">方法</a>
+        <a href="about.html">关于</a>
+        <a href="latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静态构建 · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
+      <span>数据快照: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="assets/js/app.js?v=2.0.0"></script>
+</body>
+</html>

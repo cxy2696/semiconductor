@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>晶圆制造：八大工艺与洁净室 · 半导体产业情报台</title>
+  <meta name="description" content="从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/knowledge/process-flow.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/knowledge/process-flow.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/knowledge/process-flow.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge/process-flow.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge/process-flow.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="晶圆制造：八大工艺与洁净室 · 半导体产业情报台">
+  <meta property="og:description" content="从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/knowledge/process-flow.html">
+  <meta property="og:locale" content="zh-CN">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css?v=2.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "SiliconScope"}, "dateModified": "2026-11-10", "description": "\u4ece\u6e05\u6d17\u3001\u5149\u523b\u3001\u523b\u8680\u5230\u91cf\u6d4b\uff0c\u7406\u89e3\u4e00\u7247\u6676\u5706\u5982\u4f55\u5728\u6570\u767e\u9053\u5de5\u5e8f\u91cc\u53d8\u6210\u82af\u7247\uff0c\u4ee5\u53ca\u4e3a\u4ec0\u4e48\u5de5\u5e8f\u6570\u4f1a\u63a8\u9ad8\u8bbe\u5907\u4e0e\u6750\u6599\u5f3a\u5ea6\u3002", "headline": "\u6676\u5706\u5236\u9020\uff1a\u516b\u5927\u5de5\u827a\u4e0e\u6d01\u51c0\u5ba4", "inLanguage": "zh-CN"}</script>
+</head>
+<body class="page-topic">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="../index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半导体产业情报台</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="首页">
+        <a href="../index.html" >首页</a>
+        <a href="../companies.html" >公司图谱</a>
+        <a href="../value-chain.html" >产业链</a>
+        <a href="../knowledge.html" aria-current="page">知识库</a>
+        <a href="../glossary.html" >术语表</a>
+        <a href="../methodology.html" >方法</a>
+        <a href="../about.html" >关于</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">语言</label>
+        <select id="locale-switch" class="locale-switch" aria-label="语言">
+          <option value="process-flow.html" selected>中文</option>
+          <option value="../en/knowledge/process-flow.html" >English</option>
+          <option value="../ja/knowledge/process-flow.html" >日本語</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="主题" title="主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="菜单">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="首页">
+      <a href="../index.html">首页</a>
+      <a href="../companies.html">公司图谱</a>
+      <a href="../value-chain.html">产业链</a>
+      <a href="../knowledge.html">知识库</a>
+      <a href="../glossary.html">术语表</a>
+      <a href="../methodology.html">方法</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">首页</a>
+  <span aria-hidden="true">/</span>
+  <a href="../knowledge.html">知识库</a>
+  <span aria-hidden="true">/</span>
+  <span>晶圆制造：八大工艺与洁净室</span>
+</nav>
+
+<article class="article-layout">
+  <div class="article-main">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="doc-level level-foundation">基础</span>
+        <span>约 9 分钟</span>
+<span>截至 2026-11-10</span>      </div>
+      <h1>晶圆制造：八大工艺与洁净室</h1>
+      <p class="lede">从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。</p>
+    </header>
+    <div class="prose">
+      <p>芯片制造不是一次“印刷”，而是把同一套图形转移流程重复数百次。先进逻辑芯片的工序数可以超过一千道，生产周期长达三到四个月。</p>
+<h2 id="前道八大工艺">前道八大工艺</h2>
+<ol><li><strong>清洗</strong>：每道关键工序前后去除颗粒、金属离子与有机残留。</li><li><strong>氧化/扩散</strong>：高温炉管生长氧化层、驱入掺杂。</li><li><strong>光刻</strong>：涂胶、曝光、显影，把掩模图形转移到光刻胶。</li><li><strong>刻蚀</strong>：用等离子体选择性去除材料，把图形转移到薄膜。</li><li><strong>薄膜沉积</strong>：CVD、PECVD、PVD 与 ALD 生长绝缘层、导电层与阻挡层。</li><li><strong>离子注入</strong>：精确控制掺杂类型与浓度，形成源漏与阱区。</li><li><strong>CMP</strong>：用抛光液与抛光垫把表面磨平，保证多层互连的平坦度。</li><li><strong>量测与检测</strong>：测膜厚、线宽、套刻，找缺陷，合称过程控制。</li></ol>
+<h2 id="为什么工序数重要">为什么工序数重要</h2>
+<p>工序数增加意味着三件事同时发生：设备投资上升、材料消耗上升、良率管理难度上升。这也是为什么先进制程的单片晶圆价值量远高于成熟制程，而设备与材料公司在其中分到的份额也更大。</p>
+<h2 id="洁净室与良率">洁净室与良率</h2>
+<p>先进晶圆厂的核心区达到 ISO Class 1 级别，每立方英尺大于 0.5 微米的颗粒不超过 1 个。良率不是某一个环节的结果，而是所有环节缺陷密度的乘积。一个环节的颗粒污染，可能让整批晶圆报废。</p>
+<h2 id="后道与先进封装">后道与先进封装</h2>
+<p>晶圆完成前道后进入后道：划片、贴装、键合、塑封、植球、成品测试。传统封装是劳动与材料密集型，先进封装则越来越像前道——需要光刻、沉积、CMP 与洁净室。</p>
+<h2 id="观察指标">观察指标</h2>
+<ul><li>产能利用率：高于 90% 往往意味着涨价与扩产。</li><li>晶圆 ASP：制程组合变化会直接改变均价。</li><li>良率爬坡：新产线竞争力的核心。</li><li>折旧占收入比：越先进的产线，这个数字越高。</li></ul>
+<h2 id="参考来源">参考来源</h2>
+<ul><li><a href="https://www.tsmc.com/english/dedicatedFoundry/technology" rel="noopener">TSMC: Technology</a></li><li><a href="https://www.appliedmaterials.com/" rel="noopener">Applied Materials: Semiconductor process</a></li><li><a href="https://en.wikipedia.org/wiki/Wafer_fabrication" rel="noopener">Wikipedia: Wafer fabrication</a></li></ul>
+    </div>
+
+    <section class="article-related">
+      <h2>相关主题</h2>
+      <div class="three-col">
+        <a class="doc-card" href="value-chain.html">
+          <span class="doc-level">基础</span>
+          <span class="doc-title">产业链全景：谁在赚钱，钱在哪</span>
+          <span class="doc-summary">把八个环节放回一条链上，理解毛利、资本强度与周期传导的差异，而不是背公司名单。</span>
+        </a>
+        <a class="doc-card" href="lithography.html">
+          <span class="doc-level">进阶</span>
+          <span class="doc-title">光刻：从 DUV 到 High-NA EUV</span>
+          <span class="doc-summary">光刻决定图形能画多小，也决定先进制程的成本结构。理解分辨率、套刻与光源，才能看懂设备端的价值分配。</span>
+        </a>
+        <a class="doc-card" href="equipment-materials.html">
+          <span class="doc-level">核心</span>
+          <span class="doc-title">设备与材料：卖铲人的生意</span>
+          <span class="doc-summary">设备跟着资本开支波动，材料跟着晶圆产出走。理解两者的商业模式差异，才能读懂半导体上游的景气与估值。</span>
+        </a>
+      </div>
+    </section>
+
+    <nav class="article-pager" aria-label="相关内容">
+      <a href="value-chain.html"><span>← 上一篇</span><strong>产业链全景：谁在赚钱，钱在哪</strong></a>
+      <a class="pager-next" href="lithography.html"><span>下一篇 →</span><strong>光刻：从 DUV 到 High-NA EUV</strong></a>
+    </nav>
+  </div>
+
+  <aside class="article-aside">
+    <div class="toc panel">
+      <span class="kicker">本页目录</span>
+      <nav>
+        <a class="toc-level-2" href="#前道八大工艺">前道八大工艺</a>
+        <a class="toc-level-2" href="#为什么工序数重要">为什么工序数重要</a>
+        <a class="toc-level-2" href="#洁净室与良率">洁净室与良率</a>
+        <a class="toc-level-2" href="#后道与先进封装">后道与先进封装</a>
+        <a class="toc-level-2" href="#观察指标">观察指标</a>
+        <a class="toc-level-2" href="#参考来源">参考来源</a>
+      </nav>
+      <div class="toc-tags">
+<span class="tag tag-sm">制程</span><span class="tag tag-sm">晶圆厂</span><span class="tag tag-sm">良率</span>      </div>
+    </div>
+  </aside>
+</article>
+
+<p class="disclaimer-line">仅供研究，不构成投资建议</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>全球半导体产业链研究与学习台</p>
+        <p class="footer-note">仅供研究，不构成投资建议</p>
+      </div>
+      <div>
+        <h3>公司图谱</h3>
+        <a href="../companies.html">公司图谱</a>
+        <a href="../value-chain.html">产业链</a>
+        <a href="../glossary.html">术语表</a>
+      </div>
+      <div>
+        <h3>知识库</h3>
+        <a href="value-chain.html">产业链全景：谁在赚钱，钱在哪</a>
+        <a href="process-flow.html">晶圆制造：八大工艺与洁净室</a>
+        <a href="lithography.html">光刻：从 DUV 到 High-NA EUV</a>
+        <a href="equipment-materials.html">设备与材料：卖铲人的生意</a>
+      </div>
+      <div>
+        <h3>关于</h3>
+        <a href="../methodology.html">方法</a>
+        <a href="../about.html">关于</a>
+        <a href="../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静态构建 · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
+      <span>数据快照: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../assets/js/app.js?v=2.0.0"></script>
+</body>
+</html>

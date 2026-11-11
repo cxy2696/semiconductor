@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja-JP" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>半導体産業インテリジェンスデスク · 世界の半導体バリューチェーンを読み解く三言語リサーチデスク</title>
+  <meta name="description" content="8つの工程、11の本社地域、120社以上を対象に、検証可能な市況・構造・知識・手法を提供する中英日三言語のリサーチダッシュボード。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/ja/index.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/index.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/index.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="半導体産業インテリジェンスデスク · 世界の半導体バリューチェーンを読み解く三言語リサーチデスク">
+  <meta property="og:description" content="8つの工程、11の本社地域、120社以上を対象に、検証可能な市況・構造・知識・手法を提供する中英日三言語のリサーチダッシュボード。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/ja/index.html">
+  <meta property="og:locale" content="ja-JP">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css?v=2.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-home">
+  <a class="skip-link" href="#main">本文へスキップ</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半導体産業インテリジェンスデスク</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="ホーム">
+        <a href="index.html" aria-current="page">ホーム</a>
+        <a href="companies.html" >企業マップ</a>
+        <a href="value-chain.html" >バリューチェーン</a>
+        <a href="knowledge.html" >ナレッジ</a>
+        <a href="glossary.html" >用語集</a>
+        <a href="methodology.html" >手法</a>
+        <a href="about.html" >このサイト</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">言語</label>
+        <select id="locale-switch" class="locale-switch" aria-label="言語">
+          <option value="../index.html" >中文</option>
+          <option value="../en/index.html" >English</option>
+          <option value="index.html" selected>日本語</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="テーマ" title="テーマ">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="メニュー">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="ホーム">
+      <a href="index.html">ホーム</a>
+      <a href="companies.html">企業マップ</a>
+      <a href="value-chain.html">バリューチェーン</a>
+      <a href="knowledge.html">ナレッジ</a>
+      <a href="glossary.html">用語集</a>
+      <a href="methodology.html">手法</a>
+      <a href="about.html">このサイト</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<section class="hero">
+  <div class="hero-copy">
+    <span class="kicker">SEMICONDUCTOR INTELLIGENCE</span>
+    <h1>バリューチェーン・企業・サイクル・知識を一枚のデスクに</h1>
+    <p class="lede">EDA から先端実装まで、中国本土から日韓台・米欧まで、同一の枠組みで世界の半導体産業構造を読む。すべての数値に出典と充足度を、すべての結論に手法と限界を添える。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="companies.html">企業マップを見る</a>
+      <a class="btn btn-ghost" href="methodology.html">手法を読む</a>
+    </div>
+  </div>
+  <aside class="hero-aside" aria-label="市場状態">
+    <div class="regime-card regime-contraction">
+      <span class="kicker">市場状態</span>
+      <div class="regime-label">収縮</div>
+      <p class="regime-desc">上昇比率・騰落中央値・分散の合成。現在の構造を記述するもので、方向を予測するものではない。</p>
+      <dl class="regime-stats">
+        <div><dt>上昇比率</dt><dd>9%</dd></div>
+        <div><dt>中央値</dt><dd class="neg">-24.77%</dd></div>
+        <div><dt>分散（IQR）</dt><dd>21.3</dd></div>
+      </dl>
+      <div class="regime-foot">
+        <span>先行工程<strong>設計</strong></span>
+        <span>遅行工程<strong>メモリ</strong></span>
+      </div>
+      <p class="fineprint">判定基準：上昇比率 ≥ 60% かつ騰落中央値 &gt; 2% を拡大、上昇比率 ≤ 40% かつ騰落中央値 &lt; -2% を収縮、それ以外を中立とする。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="kpi-grid" aria-label="合計">
+  <div class="kpi"><span class="kpi-label">対象企業</span><span class="kpi-value">124</span></div>
+  <div class="kpi"><span class="kpi-label">サンプル時価総額</span><span class="kpi-value">$15.54T</span></div>
+  <div class="kpi"><span class="kpi-label">30日上昇比率</span><span class="kpi-value">9%</span></div>
+  <div class="kpi"><span class="kpi-label">30日騰落中央値</span><span class="kpi-value neg">-24.77%</span></div>
+  <div class="kpi"><span class="kpi-label">市況カバー率</span><span class="kpi-value">99.2%</span></div>
+</section>
+
+<section class="section" id="structure">
+  <div class="section-head">
+    <div>
+      <span class="kicker">01 — バリューチェーン</span>
+      <h2>バリューチェーン構造</h2>
+    </div>
+    <p class="section-desc">工程ごとの企業数・時価総額・30日パフォーマンス。装置と材料は主工程ではなく支援層に位置する。</p>
+  </div>
+  <div class="stage-grid">
+    <a class="stage-card" href="companies.html#stage-eda_ip" style="--stage-color: #6d5efc">
+      <span class="stage-card-name">EDA/IP</span>
+      <span class="stage-card-count">2<small>社</small></span>
+      <span class="stage-card-meta">合計 $202.9B</span>
+      <span class="stage-card-ret neg">-42.45%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 2.7%"></i></span>
+    </a>
+    <a class="stage-card" href="companies.html#stage-design" style="--stage-color: #2f80ed">
+      <span class="stage-card-name">設計</span>
+      <span class="stage-card-count">42<small>社</small></span>
+      <span class="stage-card-meta">合計 $7.52T</span>
+      <span class="stage-card-ret neg">-15.51%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 100.0%"></i></span>
+    </a>
+    <a class="stage-card" href="companies.html#stage-manufacturing" style="--stage-color: #0f9d8f">
+      <span class="stage-card-name">製造</span>
+      <span class="stage-card-count">24<small>社</small></span>
+      <span class="stage-card-meta">合計 $3.12T</span>
+      <span class="stage-card-ret neg">-20.62%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 41.6%"></i></span>
+    </a>
+    <a class="stage-card" href="companies.html#stage-memory" style="--stage-color: #e08b2f">
+      <span class="stage-card-name">メモリ</span>
+      <span class="stage-card-count">3<small>社</small></span>
+      <span class="stage-card-meta">合計 $2.45T</span>
+      <span class="stage-card-ret neg">-31.91%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 32.6%"></i></span>
+    </a>
+    <a class="stage-card" href="companies.html#stage-packaging" style="--stage-color: #b5527d">
+      <span class="stage-card-name">後工程</span>
+      <span class="stage-card-count">8<small>社</small></span>
+      <span class="stage-card-meta">合計 $128.2B</span>
+      <span class="stage-card-ret neg">-27.07%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 1.7%"></i></span>
+    </a>
+    <a class="stage-card" href="companies.html#stage-module" style="--stage-color: #5b6b7a">
+      <span class="stage-card-name">モジュール</span>
+      <span class="stage-card-count">2<small>社</small></span>
+      <span class="stage-card-meta">合計 $24.4B</span>
+      <span class="stage-card-ret neg">-38.36%</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: 0.3%"></i></span>
+    </a>
+  </div>
+  <div class="support-row">
+    <span class="support-label">支援層</span>
+    <a class="stage-chip" href="companies.html#stage-equipment" style="--stage-color: #c8553d">
+      <span>装置</span>
+      <span class="stage-chip-count">28</span>
+      <span class="neg">-31.33%</span>
+    </a>
+    <a class="stage-chip" href="companies.html#stage-materials" style="--stage-color: #8a9a5b">
+      <span>材料</span>
+      <span class="stage-chip-count">15</span>
+      <span class="neg">-30.32%</span>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="movers">
+  <div class="section-head">
+    <div>
+      <span class="kicker">02 — MOMENTUM</span>
+      <h2>モメンタムの両端</h2>
+    </div>
+    <p class="section-desc">30営業日騰落率で並べ、データ不足の企業は除外。モメンタムは値動きを示すもので、ファンダメンタルズの変化ではない。</p>
+  </div>
+  <div class="two-col">
+    <div class="panel">
+      <h3 class="panel-title">先行</h3>
+      <ol class="mover-list">
+        <li>
+          <a href="companies/espressif.html">
+            <span class="mover-name">楽鑫科技</span>
+            <span class="mover-sub">SSE:688018 · 設計</span>
+            <span class="mover-ret pos">+56.86%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="楽鑫科技 30-session trend"><path d="M3.0,21.4 L6.4,21.8 L9.8,23.1 L13.1,24.1 L16.5,24.1 L19.9,24.3 L23.3,23.4 L26.7,23.7 L30.0,25.5 L33.4,27.0 L36.8,21.7 L40.2,22.2 L43.6,23.2 L46.9,22.5 L50.3,15.4 L53.7,13.6 L57.1,15.1 L60.4,10.6 L63.8,14.5 L67.2,16.3 L70.6,14.7 L74.0,17.6 L77.3,18.6 L80.7,17.1 L84.1,16.8 L87.5,10.3 L90.9,7.1 L94.2,8.8 L97.6,7.6 L101.0,3.0 L101.0,30 L3.0,30 Z" fill="#0f766e" opacity="0.10"/><path d="M3.0,21.4 L6.4,21.8 L9.8,23.1 L13.1,24.1 L16.5,24.1 L19.9,24.3 L23.3,23.4 L26.7,23.7 L30.0,25.5 L33.4,27.0 L36.8,21.7 L40.2,22.2 L43.6,23.2 L46.9,22.5 L50.3,15.4 L53.7,13.6 L57.1,15.1 L60.4,10.6 L63.8,14.5 L67.2,16.3 L70.6,14.7 L74.0,17.6 L77.3,18.6 L80.7,17.1 L84.1,16.8 L87.5,10.3 L90.9,7.1 L94.2,8.8 L97.6,7.6 L101.0,3.0" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/bestechnic.html">
+            <span class="mover-name">恒玄科技</span>
+            <span class="mover-sub">SSE:688608 · 設計</span>
+            <span class="mover-ret pos">+30.46%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="恒玄科技 30-session trend"><path d="M3.0,14.6 L6.4,14.4 L9.8,16.7 L13.1,15.9 L16.5,16.8 L19.9,16.3 L23.3,16.5 L26.7,16.3 L30.0,21.2 L33.4,21.5 L36.8,21.3 L40.2,23.5 L43.6,25.1 L46.9,27.0 L50.3,18.0 L53.7,15.2 L57.1,15.5 L60.4,11.3 L63.8,11.9 L67.2,14.9 L70.6,13.5 L74.0,15.1 L77.3,20.4 L80.7,19.3 L84.1,18.6 L87.5,10.8 L90.9,7.6 L94.2,9.0 L97.6,7.5 L101.0,3.0 L101.0,30 L3.0,30 Z" fill="#0f766e" opacity="0.10"/><path d="M3.0,14.6 L6.4,14.4 L9.8,16.7 L13.1,15.9 L16.5,16.8 L19.9,16.3 L23.3,16.5 L26.7,16.3 L30.0,21.2 L33.4,21.5 L36.8,21.3 L40.2,23.5 L43.6,25.1 L46.9,27.0 L50.3,18.0 L53.7,15.2 L57.1,15.5 L60.4,11.3 L63.8,11.9 L67.2,14.9 L70.6,13.5 L74.0,15.1 L77.3,20.4 L80.7,19.3 L84.1,18.6 L87.5,10.8 L90.9,7.6 L94.2,9.0 L97.6,7.5 L101.0,3.0" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/goodix.html">
+            <span class="mover-name">匯頂科技</span>
+            <span class="mover-sub">SSE:603160 · 設計</span>
+            <span class="mover-ret pos">+18.94%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="匯頂科技 30-session trend"><path d="M3.0,13.9 L6.4,15.2 L9.8,16.3 L13.1,17.3 L16.5,16.8 L19.9,18.1 L23.3,20.6 L26.7,20.0 L30.0,22.8 L33.4,23.9 L36.8,24.6 L40.2,26.9 L43.6,27.0 L46.9,25.4 L50.3,19.7 L53.7,18.5 L57.1,20.9 L60.4,13.2 L63.8,9.4 L67.2,10.6 L70.6,5.9 L74.0,8.6 L77.3,12.8 L80.7,8.0 L84.1,9.7 L87.5,5.6 L90.9,3.6 L94.2,3.0 L97.6,4.8 L101.0,3.1 L101.0,30 L3.0,30 Z" fill="#0f766e" opacity="0.10"/><path d="M3.0,13.9 L6.4,15.2 L9.8,16.3 L13.1,17.3 L16.5,16.8 L19.9,18.1 L23.3,20.6 L26.7,20.0 L30.0,22.8 L33.4,23.9 L36.8,24.6 L40.2,26.9 L43.6,27.0 L46.9,25.4 L50.3,19.7 L53.7,18.5 L57.1,20.9 L60.4,13.2 L63.8,9.4 L67.2,10.6 L70.6,5.9 L74.0,8.6 L77.3,12.8 L80.7,8.0 L84.1,9.7 L87.5,5.6 L90.9,3.6 L94.2,3.0 L97.6,4.8 L101.0,3.1" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/rockchip.html">
+            <span class="mover-name">瑞芯微</span>
+            <span class="mover-sub">SSE:603893 · 設計</span>
+            <span class="mover-ret pos">+17.78%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="瑞芯微 30-session trend"><path d="M3.0,8.9 L6.4,6.9 L9.8,8.5 L13.1,11.5 L16.5,10.8 L19.9,9.8 L23.3,16.0 L26.7,14.8 L30.0,16.0 L33.4,17.1 L36.8,17.5 L40.2,19.7 L43.6,27.0 L46.9,26.7 L50.3,20.0 L53.7,15.8 L57.1,17.0 L60.4,10.4 L63.8,11.9 L67.2,18.5 L70.6,13.4 L74.0,19.6 L77.3,24.0 L80.7,23.0 L84.1,23.5 L87.5,16.6 L90.9,8.9 L94.2,10.9 L97.6,11.2 L101.0,3.0 L101.0,30 L3.0,30 Z" fill="#0f766e" opacity="0.10"/><path d="M3.0,8.9 L6.4,6.9 L9.8,8.5 L13.1,11.5 L16.5,10.8 L19.9,9.8 L23.3,16.0 L26.7,14.8 L30.0,16.0 L33.4,17.1 L36.8,17.5 L40.2,19.7 L43.6,27.0 L46.9,26.7 L50.3,20.0 L53.7,15.8 L57.1,17.0 L60.4,10.4 L63.8,11.9 L67.2,18.5 L70.6,13.4 L74.0,19.6 L77.3,24.0 L80.7,23.0 L84.1,23.5 L87.5,16.6 L90.9,8.9 L94.2,10.9 L97.6,11.2 L101.0,3.0" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/smartsens.html">
+            <span class="mover-name">思特威</span>
+            <span class="mover-sub">SSE:688213 · 設計</span>
+            <span class="mover-ret pos">+17.67%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="思特威 30-session trend"><path d="M3.0,20.9 L6.4,22.6 L9.8,25.4 L13.1,27.0 L16.5,24.6 L19.9,19.7 L23.3,23.2 L26.7,20.8 L30.0,20.6 L33.4,20.4 L36.8,21.7 L40.2,16.9 L43.6,20.2 L46.9,17.7 L50.3,9.5 L53.7,8.6 L57.1,10.0 L60.4,4.2 L63.8,6.1 L67.2,14.8 L70.6,11.1 L74.0,15.7 L77.3,22.5 L80.7,14.7 L84.1,11.3 L87.5,6.6 L90.9,3.0 L94.2,8.7 L97.6,10.3 L101.0,6.1 L101.0,30 L3.0,30 Z" fill="#0f766e" opacity="0.10"/><path d="M3.0,20.9 L6.4,22.6 L9.8,25.4 L13.1,27.0 L16.5,24.6 L19.9,19.7 L23.3,23.2 L26.7,20.8 L30.0,20.6 L33.4,20.4 L36.8,21.7 L40.2,16.9 L43.6,20.2 L46.9,17.7 L50.3,9.5 L53.7,8.6 L57.1,10.0 L60.4,4.2 L63.8,6.1 L67.2,14.8 L70.6,11.1 L74.0,15.7 L77.3,22.5 L80.7,14.7 L84.1,11.3 L87.5,6.6 L90.9,3.0 L94.2,8.7 L97.6,10.3 L101.0,6.1" fill="none" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3 class="panel-title">遅行</h3>
+      <ol class="mover-list">
+        <li>
+          <a href="companies/tel.html">
+            <span class="mover-name">東京エレクトロン</span>
+            <span class="mover-sub">TSE:8035 · 装置</span>
+            <span class="mover-ret neg">-84.07%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="東京エレクトロン 30-session trend"><path d="M3.0,3.0 L6.4,25.4 L9.8,25.2 L13.1,24.8 L16.5,25.1 L19.9,24.8 L23.3,24.7 L26.7,24.9 L30.0,25.0 L33.4,24.9 L36.8,25.4 L40.2,25.5 L43.6,26.0 L46.9,25.8 L50.3,26.0 L53.7,26.1 L57.1,26.1 L60.4,26.4 L63.8,26.4 L67.2,26.6 L70.6,26.4 L74.0,26.2 L77.3,26.1 L80.7,26.4 L84.1,26.1 L87.5,26.3 L90.9,26.8 L94.2,27.0 L97.6,26.9 L101.0,26.6 L101.0,30 L3.0,30 Z" fill="#c2410c" opacity="0.10"/><path d="M3.0,3.0 L6.4,25.4 L9.8,25.2 L13.1,24.8 L16.5,25.1 L19.9,24.8 L23.3,24.7 L26.7,24.9 L30.0,25.0 L33.4,24.9 L36.8,25.4 L40.2,25.5 L43.6,26.0 L46.9,25.8 L50.3,26.0 L53.7,26.1 L57.1,26.1 L60.4,26.4 L63.8,26.4 L67.2,26.6 L70.6,26.4 L74.0,26.2 L77.3,26.1 L80.7,26.4 L84.1,26.1 L87.5,26.3 L90.9,26.8 L94.2,27.0 L97.6,26.9 L101.0,26.6" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/intel.html">
+            <span class="mover-name">インテル</span>
+            <span class="mover-sub">NASDAQ:INTC · 製造</span>
+            <span class="mover-ret neg">-49.86%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="インテル 30-session trend"><path d="M3.0,3.0 L6.4,3.1 L9.8,3.3 L13.1,4.4 L16.5,5.7 L19.9,5.5 L23.3,7.6 L26.7,8.5 L30.0,9.7 L33.4,9.2 L36.8,10.8 L40.2,11.8 L43.6,13.7 L46.9,13.0 L50.3,13.1 L53.7,12.6 L57.1,15.3 L60.4,14.7 L63.8,13.5 L67.2,12.4 L70.6,11.7 L74.0,12.9 L77.3,22.2 L80.7,24.3 L84.1,24.1 L87.5,24.9 L90.9,27.0 L94.2,25.6 L97.6,24.5 L101.0,24.9 L101.0,30 L3.0,30 Z" fill="#c2410c" opacity="0.10"/><path d="M3.0,3.0 L6.4,3.1 L9.8,3.3 L13.1,4.4 L16.5,5.7 L19.9,5.5 L23.3,7.6 L26.7,8.5 L30.0,9.7 L33.4,9.2 L36.8,10.8 L40.2,11.8 L43.6,13.7 L46.9,13.0 L50.3,13.1 L53.7,12.6 L57.1,15.3 L60.4,14.7 L63.8,13.5 L67.2,12.4 L70.6,11.7 L74.0,12.9 L77.3,22.2 L80.7,24.3 L84.1,24.1 L87.5,24.9 L90.9,27.0 L94.2,25.6 L97.6,24.5 L101.0,24.9" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/wonik.html">
+            <span class="mover-name">ウォニク IPS</span>
+            <span class="mover-sub">KRX:240810 · 装置</span>
+            <span class="mover-ret neg">-48.84%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="ウォニク IPS 30-session trend"><path d="M3.0,9.3 L6.4,7.1 L9.8,6.8 L13.1,3.0 L16.5,4.7 L19.9,3.7 L23.3,6.9 L26.7,6.1 L30.0,6.9 L33.4,7.1 L36.8,9.9 L40.2,15.8 L43.6,13.8 L46.9,13.9 L50.3,15.6 L53.7,15.1 L57.1,17.7 L60.4,18.0 L63.8,19.9 L67.2,18.5 L70.6,16.8 L74.0,17.9 L77.3,20.2 L80.7,19.4 L84.1,21.4 L87.5,20.8 L90.9,25.1 L94.2,27.0 L97.6,26.8 L101.0,26.5 L101.0,30 L3.0,30 Z" fill="#c2410c" opacity="0.10"/><path d="M3.0,9.3 L6.4,7.1 L9.8,6.8 L13.1,3.0 L16.5,4.7 L19.9,3.7 L23.3,6.9 L26.7,6.1 L30.0,6.9 L33.4,7.1 L36.8,9.9 L40.2,15.8 L43.6,13.8 L46.9,13.9 L50.3,15.6 L53.7,15.1 L57.1,17.7 L60.4,18.0 L63.8,19.9 L67.2,18.5 L70.6,16.8 L74.0,17.9 L77.3,20.2 L80.7,19.4 L84.1,21.4 L87.5,20.8 L90.9,25.1 L94.2,27.0 L97.6,26.8 L101.0,26.5" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/verisilicon.html">
+            <span class="mover-name">芯原股份</span>
+            <span class="mover-sub">SSE:688521 · EDA/IP</span>
+            <span class="mover-ret neg">-46.71%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="芯原股份 30-session trend"><path d="M3.0,3.4 L6.4,3.0 L9.8,3.6 L13.1,6.5 L16.5,6.3 L19.9,10.7 L23.3,14.4 L26.7,14.7 L30.0,16.9 L33.4,17.3 L36.8,19.1 L40.2,20.2 L43.6,19.9 L46.9,20.3 L50.3,19.1 L53.7,19.2 L57.1,20.4 L60.4,20.2 L63.8,21.2 L67.2,22.7 L70.6,22.0 L74.0,23.4 L77.3,25.5 L80.7,25.0 L84.1,27.0 L87.5,24.7 L90.9,22.5 L94.2,24.1 L97.6,23.5 L101.0,23.0 L101.0,30 L3.0,30 Z" fill="#c2410c" opacity="0.10"/><path d="M3.0,3.4 L6.4,3.0 L9.8,3.6 L13.1,6.5 L16.5,6.3 L19.9,10.7 L23.3,14.4 L26.7,14.7 L30.0,16.9 L33.4,17.3 L36.8,19.1 L40.2,20.2 L43.6,19.9 L46.9,20.3 L50.3,19.1 L53.7,19.2 L57.1,20.4 L60.4,20.2 L63.8,21.2 L67.2,22.7 L70.6,22.0 L74.0,23.4 L77.3,25.5 L80.7,25.0 L84.1,27.0 L87.5,24.7 L90.9,22.5 L94.2,24.1 L97.6,23.5 L101.0,23.0" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="companies/puran.html">
+            <span class="mover-name">普冉股份</span>
+            <span class="mover-sub">SSE:688766 · 設計</span>
+            <span class="mover-ret neg">-45.52%</span>
+            <svg class="spark" viewBox="0 0 104 30" role="img" aria-label="普冉股份 30-session trend"><path d="M3.0,3.3 L6.4,3.0 L9.8,5.6 L13.1,9.1 L16.5,9.3 L19.9,11.8 L23.3,14.5 L26.7,15.2 L30.0,16.8 L33.4,17.3 L36.8,19.3 L40.2,21.7 L43.6,21.2 L46.9,20.3 L50.3,20.9 L53.7,20.3 L57.1,22.1 L60.4,19.0 L63.8,21.6 L67.2,23.0 L70.6,19.5 L74.0,22.0 L77.3,24.3 L80.7,22.6 L84.1,25.3 L87.5,20.5 L90.9,22.5 L94.2,25.9 L97.6,27.0 L101.0,26.4 L101.0,30 L3.0,30 Z" fill="#c2410c" opacity="0.10"/><path d="M3.0,3.3 L6.4,3.0 L9.8,5.6 L13.1,9.1 L16.5,9.3 L19.9,11.8 L23.3,14.5 L26.7,15.2 L30.0,16.8 L33.4,17.3 L36.8,19.3 L40.2,21.7 L43.6,21.2 L46.9,20.3 L50.3,20.9 L53.7,20.3 L57.1,22.1 L60.4,19.0 L63.8,21.6 L67.2,23.0 L70.6,19.5 L74.0,22.0 L77.3,24.3 L80.7,22.6 L84.1,25.3 L87.5,20.5 L90.9,22.5 L94.2,25.9 L97.6,27.0 L101.0,26.4" fill="none" stroke="#c2410c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section panel chart-panel" id="valuation">
+  <div class="section-head section-head-tight">
+    <div>
+      <span class="kicker">03 — VALUATION</span>
+      <h2>バリュエーションと品質</h2>
+    </div>
+    <p class="section-desc">横軸は静的 PER、縦軸は ROE、バブル面積は時価総額。PER が正で項目が揃う企業のみ表示する。</p>
+  </div>
+  <svg class="scatter" viewBox="0 0 780 400" role="img" aria-label="横軸は静的 PER、縦軸は ROE、バブル面積は時価総額。PER が正で項目が揃う企業のみ表示する。"><desc>横軸は静的 PER、縦軸は ROE、バブル面積は時価総額。PER が正で項目が揃う企業のみ表示する。</desc><line x1="56" y1="356.0" x2="762" y2="356.0" stroke="#e2e8f0" stroke-width="1"/><text x="48" y="359.0" text-anchor="end" font-size="10" fill="#94a3b8">-2</text><line x1="56" y1="271.0" x2="762" y2="271.0" stroke="#e2e8f0" stroke-width="1"/><text x="48" y="274.0" text-anchor="end" font-size="10" fill="#94a3b8">24</text><line x1="56" y1="186.0" x2="762" y2="186.0" stroke="#e2e8f0" stroke-width="1"/><text x="48" y="189.0" text-anchor="end" font-size="10" fill="#94a3b8">50</text><line x1="56" y1="101.0" x2="762" y2="101.0" stroke="#e2e8f0" stroke-width="1"/><text x="48" y="104.0" text-anchor="end" font-size="10" fill="#94a3b8">76</text><line x1="56" y1="16.0" x2="762" y2="16.0" stroke="#e2e8f0" stroke-width="1"/><text x="48" y="19.0" text-anchor="end" font-size="10" fill="#94a3b8">102</text><text x="56.0" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">1</text><text x="148.4" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">2</text><text x="270.5" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">5</text><text x="362.8" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">10</text><text x="455.2" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">20</text><text x="577.3" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">50</text><text x="669.6" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">100</text><text x="762.0" y="372" text-anchor="middle" font-size="10" fill="#94a3b8">200</text><line x1="56" y1="16" x2="56" y2="356" stroke="#94a3b8" stroke-width="1"/><line x1="56" y1="356" x2="762" y2="356" stroke="#94a3b8" stroke-width="1"/><text x="409" y="394" text-anchor="middle" font-size="11" fill="#334155">PER（静的）</text><text x="14" y="186" text-anchor="middle" font-size="11" fill="#334155" transform="rotate(-90 14 186)">ROE（%）</text><circle cx="762.0" cy="347.5" r="3.3" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>宏微科技 · PE 290.5 · ROE 0.3% · $658.6M</title></circle><circle cx="762.0" cy="340.7" r="3.4" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>利揚芯片 · PE 268.5 · ROE 2.4% · $1.0B</title></circle><circle cx="576.8" cy="330.2" r="3.4" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>清溢光電 · PE 49.8 · ROE 5.6% · $1.5B</title></circle><circle cx="703.3" cy="337.0" r="3.4" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>華海誠科 · PE 128.7 · ROE 3.5% · $1.6B</title></circle><circle cx="688.9" cy="337.8" r="3.4" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>神工股份 · PE 115.6 · ROE 3.3% · $1.6B</title></circle><circle cx="663.5" cy="340.3" r="3.5" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>艾為電子 · PE 95.5 · ROE 2.5% · $2.1B</title></circle><circle cx="570.7" cy="334.2" r="3.5" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>晶方科技 · PE 47.6 · ROE 4.4% · $2.1B</title></circle><circle cx="529.7" cy="267.3" r="3.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>HPSP · PE 35.0 · ROE 24.8% · $2.2B</title></circle><circle cx="502.1" cy="292.8" r="3.5" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>聚辰股份 · PE 28.4 · ROE 17.0% · $2.3B</title></circle><circle cx="449.9" cy="318.9" r="3.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ウォニク IPS · PE 19.2 · ROE 9.1% · $2.5B</title></circle><circle cx="717.4" cy="344.0" r="3.5" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>斯達半導 · PE 143.1 · ROE 1.4% · $2.5B</title></circle><circle cx="712.5" cy="276.5" r="3.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>リーノ工業 · PE 137.9 · ROE 22.0% · $2.7B</title></circle><circle cx="762.0" cy="345.3" r="3.5" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>甬矽電子 · PE 383.4 · ROE 1.0% · $2.8B</title></circle><circle cx="624.5" cy="325.9" r="3.5" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>晶豊明源 · PE 71.3 · ROE 6.9% · $2.8B</title></circle><circle cx="372.2" cy="265.1" r="3.5" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>賽微電子 · PE 10.7 · ROE 25.5% · $2.8B</title></circle><circle cx="515.9" cy="327.1" r="3.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ACM Research · PE 31.5 · ROE 6.5% · $3.3B</title></circle><circle cx="515.0" cy="317.6" r="3.5" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>捷捷微電 · PE 31.3 · ROE 9.4% · $3.4B</title></circle><circle cx="561.7" cy="316.7" r="3.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>アイクストロン · PE 44.5 · ROE 9.7% · $4.0B</title></circle><circle cx="565.3" cy="284.6" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>全志科技 · PE 45.7 · ROE 19.5% · $4.4B</title></circle><circle cx="594.6" cy="336.0" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>匯頂科技 · PE 57.0 · ROE 3.8% · $4.4B</title></circle><circle cx="675.6" cy="338.5" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>恒玄科技 · PE 104.5 · ROE 3.0% · $4.8B</title></circle><circle cx="583.3" cy="318.1" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>思瑞浦 · PE 52.3 · ROE 9.3% · $5.1B</title></circle><circle cx="451.1" cy="348.5" r="3.6" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ASMPT · PE 19.4 · ROE 0.0% · $5.1B</title></circle><circle cx="457.6" cy="189.7" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>普冉股份 · PE 20.4 · ROE 48.5% · $5.2B</title></circle><circle cx="480.7" cy="232.9" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>東芯股份 · PE 24.2 · ROE 35.3% · $5.2B</title></circle><circle cx="762.0" cy="343.7" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>格科微 · PE 315.3 · ROE 1.5% · $5.5B</title></circle><circle cx="467.7" cy="297.5" r="3.6" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>東京応化工業 · PE 22.0 · ROE 15.6% · $5.6B</title></circle><circle cx="762.0" cy="331.9" r="3.6" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>富創精密 · PE 209.4 · ROE 5.1% · $5.9B</title></circle><circle cx="619.0" cy="334.2" r="3.6" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>士蘭微 · PE 68.4 · ROE 4.4% · $6.0B</title></circle><circle cx="495.7" cy="308.7" r="3.6" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>揚杰科技 · PE 27.1 · ROE 12.2% · $6.2B</title></circle><circle cx="604.3" cy="309.7" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>楽鑫科技 · PE 61.3 · ROE 11.8% · $6.2B</title></circle><circle cx="502.0" cy="295.6" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>晶晨股份 · PE 28.4 · ROE 16.1% · $6.2B</title></circle><circle cx="670.2" cy="323.0" r="3.6" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>有研硅 · PE 100.4 · ROE 7.8% · $6.3B</title></circle><circle cx="560.0" cy="296.6" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>復旦微電 · PE 43.9 · ROE 15.8% · $6.3B</title></circle><circle cx="532.9" cy="324.4" r="3.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>紫光国微 · PE 35.9 · ROE 7.4% · $6.5B</title></circle><circle cx="592.1" cy="312.2" r="3.6" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>華峰測控 · PE 55.9 · ROE 11.1% · $6.7B</title></circle><circle cx="762.0" cy="355.0" r="3.6" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>芯源微 · PE 1701.7 · ROE -2.0% · $6.8B</title></circle><circle cx="553.4" cy="298.0" r="3.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>思特威 · PE 41.8 · ROE 15.4% · $7.1B</title></circle><circle cx="483.4" cy="306.7" r="3.7" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>世界先進 · PE 24.7 · ROE 12.8% · $7.6B</title></circle><circle cx="551.8" cy="329.2" r="3.7" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>華天科技 · PE 41.3 · ROE 5.9% · $7.8B</title></circle><circle cx="602.9" cy="310.8" r="3.7" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>江豊電子 · PE 60.6 · ROE 11.5% · $8.2B</title></circle><circle cx="456.3" cy="287.7" r="3.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>北京君正 · PE 20.2 · ROE 18.6% · $8.3B</title></circle><circle cx="600.5" cy="315.0" r="3.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>聖邦股份 · PE 59.5 · ROE 10.2% · $8.4B</title></circle><circle cx="405.6" cy="316.9" r="3.7" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>アムコール · PE 13.8 · ROE 9.7% · $8.5B</title></circle><circle cx="413.5" cy="274.4" r="3.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>Novatek · PE 14.6 · ROE 22.6% · $8.9B</title></circle><circle cx="514.4" cy="328.9" r="3.7" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>GlobalWafers · PE 31.2 · ROE 6.0% · $8.9B</title></circle><circle cx="577.7" cy="328.7" r="3.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>Alchip · PE 50.2 · ROE 6.1% · $9.0B</title></circle><circle cx="304.4" cy="59.9" r="3.7" fill="#5b6b7a" fill-opacity="0.55" stroke="#5b6b7a" stroke-width="1"><title>佰維存儲 · PE 6.5 · ROE 88.1% · $9.2B</title></circle><circle cx="669.2" cy="341.9" r="3.7" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>晶合集成 · PE 99.7 · ROE 2.0% · $9.4B</title></circle><circle cx="610.4" cy="325.9" r="3.7" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>Onto Innovation · PE 64.1 · ROE 6.9% · $9.7B</title></circle><circle cx="598.4" cy="334.8" r="3.7" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>華潤微 · PE 58.6 · ROE 4.2% · $9.7B</title></circle><circle cx="428.2" cy="282.1" r="3.7" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>SCREEN ホールディングス · PE 16.3 · ROE 20.3% · $10.1B</title></circle><circle cx="460.1" cy="290.8" r="3.8" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>通富微電 · PE 20.8 · ROE 17.6% · $10.6B</title></circle><circle cx="668.5" cy="312.8" r="3.8" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>中船特気 · PE 99.1 · ROE 10.9% · $11.3B</title></circle><circle cx="495.2" cy="296.6" r="3.8" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>Realtek · PE 27.0 · ROE 15.8% · $11.7B</title></circle><circle cx="629.7" cy="234.7" r="3.8" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ハンミ半導体 · PE 74.1 · ROE 34.8% · $12.2B</title></circle><circle cx="626.5" cy="338.7" r="3.8" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>スカイワークス · PE 72.3 · ROE 3.0% · $12.4B</title></circle><circle cx="555.2" cy="330.4" r="3.8" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>長電科技 · PE 42.4 · ROE 5.5% · $14.1B</title></circle><circle cx="605.9" cy="258.9" r="3.9" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>瑞芯微 · PE 62.0 · ROE 27.4% · $14.8B</title></circle><circle cx="310.6" cy="46.2" r="3.9" fill="#5b6b7a" fill-opacity="0.55" stroke="#5b6b7a" stroke-width="1"><title>江波龍 · PE 6.8 · ROE 92.3% · $15.2B</title></circle><circle cx="640.2" cy="307.2" r="3.9" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>華海清科 · PE 80.2 · ROE 12.6% · $15.5B</title></circle><circle cx="530.8" cy="325.6" r="3.9" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>韋爾股份 · PE 35.3 · ROE 7.0% · $16.5B</title></circle><circle cx="584.1" cy="256.3" r="3.9" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>長川科技 · PE 52.6 · ROE 28.1% · $17.6B</title></circle><circle cx="674.8" cy="339.7" r="3.9" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>華虹半導体 · PE 104.0 · ROE 2.7% · $18.3B</title></circle><circle cx="564.4" cy="237.4" r="4.0" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>レーザーテック · PE 45.4 · ROE 33.9% · $19.9B</title></circle><circle cx="587.3" cy="321.4" r="4.0" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>エンテグリス · PE 53.9 · ROE 8.3% · $21.2B</title></circle><circle cx="581.9" cy="264.2" r="4.0" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>拓荊科技 · PE 51.8 · ROE 25.8% · $21.7B</title></circle><circle cx="688.2" cy="348.6" r="4.0" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>GlobalFoundries · PE 114.9 · ROE -0.0% · $22.6B</title></circle><circle cx="564.2" cy="330.8" r="4.1" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>Credo Technology · PE 45.3 · ROE 5.4% · $24.4B</title></circle><circle cx="415.1" cy="276.0" r="4.1" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>兆易創新 · PE 14.8 · ROE 22.1% · $25.7B</title></circle><circle cx="545.3" cy="326.7" r="4.1" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>オン・セミコンダクター · PE 39.3 · ROE 6.7% · $27.1B</title></circle><circle cx="575.1" cy="295.0" r="4.1" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>瀾起科技 · PE 49.2 · ROE 16.3% · $28.3B</title></circle><circle cx="534.6" cy="266.3" r="4.2" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ディスコ · PE 36.3 · ROE 25.1% · $31.1B</title></circle><circle cx="337.5" cy="355.3" r="4.2" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>ルネサス エレクトロニクス · PE 8.3 · ROE -2.1% · $31.8B</title></circle><circle cx="544.8" cy="316.9" r="4.2" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>マイクロチップ・テクノロジー · PE 39.2 · ROE 9.7% · $32.8B</title></circle><circle cx="568.3" cy="294.8" r="4.2" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>中微公司 · PE 46.7 · ROE 16.4% · $35.2B</title></circle><circle cx="643.0" cy="267.4" r="4.3" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>Astera Labs · PE 81.9 · ROE 24.8% · $37.8B</title></circle><circle cx="499.5" cy="235.8" r="4.3" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>テラダイン · PE 27.9 · ROE 34.4% · $38.3B</title></circle><circle cx="415.4" cy="290.9" r="4.3" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>UMC · PE 14.8 · ROE 17.6% · $38.4B</title></circle><circle cx="762.0" cy="345.6" r="4.3" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>STMicroelectronics · PE 253.2 · ROE 0.9% · $40.2B</title></circle><circle cx="617.9" cy="304.5" r="4.5" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>北方華創 · PE 67.8 · ROE 13.4% · $58.6B</title></circle><circle cx="457.8" cy="314.4" r="4.6" fill="#8a9a5b" fill-opacity="0.55" stroke="#8a9a5b" stroke-width="1"><title>信越化学工業 · PE 20.4 · ROE 10.4% · $65.0B</title></circle><circle cx="458.0" cy="266.5" r="4.6" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>NXP · PE 20.4 · ROE 25.1% · $65.9B</title></circle><circle cx="703.3" cy="310.6" r="4.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>海光信息 · PE 128.8 · ROE 11.6% · $66.0B</title></circle><circle cx="629.7" cy="283.5" r="4.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>モノリシック・パワー・システムズ · PE 74.1 · ROE 19.9% · $66.2B</title></circle><circle cx="611.1" cy="329.6" r="4.7" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>インフィニオン · PE 64.4 · ROE 5.8% · $71.3B</title></circle><circle cx="700.9" cy="257.7" r="4.7" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>寒武紀 · PE 126.4 · ROE 27.7% · $78.8B</title></circle><circle cx="528.2" cy="295.6" r="4.8" fill="#b5527d" fill-opacity="0.55" stroke="#b5527d" stroke-width="1"><title>ASE テクノロジー · PE 34.6 · ROE 16.2% · $81.2B</title></circle><circle cx="503.4" cy="252.6" r="5.2" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>東京エレクトロン · PE 28.7 · ROE 29.3% · $129.0B</title></circle><circle cx="580.6" cy="341.7" r="5.2" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>マーベル · PE 51.3 · ROE 2.1% · $135.4B</title></circle><circle cx="538.5" cy="159.7" r="5.2" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>アドバンテスト · PE 37.4 · ROE 57.6% · $135.6B</title></circle><circle cx="702.5" cy="339.0" r="5.2" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>中芯国際 · PE 128.0 · ROE 2.9% · $138.0B</title></circle><circle cx="404.0" cy="175.6" r="5.5" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>クアルコム · PE 13.6 · ROE 52.8% · $185.7B</title></circle><circle cx="608.6" cy="310.0" r="5.6" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>MediaTek · PE 63.3 · ROE 11.8% · $186.5B</title></circle><circle cx="566.4" cy="316.0" r="5.6" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>アナログ・デバイセズ · PE 46.1 · ROE 9.9% · $190.6B</title></circle><circle cx="762.0" cy="333.4" r="5.6" fill="#6d5efc" fill-opacity="0.55" stroke="#6d5efc" stroke-width="1"><title>Arm · PE 207.5 · ROE 4.6% · $194.2B</title></circle><circle cx="540.4" cy="269.7" r="5.6" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>コルベア · PE 37.9 · ROE 24.1% · $199.3B</title></circle><circle cx="542.8" cy="238.6" r="6.1" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>テキサス・インスツルメンツ · PE 38.6 · ROE 33.6% · $274.6B</title></circle><circle cx="521.4" cy="280.2" r="6.1" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ラムリサーチ · PE 32.9 · ROE 20.9% · $277.8B</title></circle><circle cx="517.4" cy="243.7" r="6.2" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>アプライドマテリアルズ · PE 31.9 · ROE 32.0% · $295.6B</title></circle><circle cx="587.4" cy="183.3" r="7.4" fill="#c8553d" fill-opacity="0.55" stroke="#c8553d" stroke-width="1"><title>ASML · PE 53.9 · ROE 50.5% · $580.8B</title></circle><circle cx="261.4" cy="203.9" r="7.6" fill="#e08b2f" fill-opacity="0.55" stroke="#e08b2f" stroke-width="1"><title>SK ハイニックス · PE 4.7 · ROE 44.1% · $656.9B</title></circle><circle cx="358.2" cy="59.5" r="8.1" fill="#e08b2f" fill-opacity="0.55" stroke="#e08b2f" stroke-width="1"><title>マイクロン · PE 9.7 · ROE 88.3% · $820.4B</title></circle><circle cx="683.4" cy="318.0" r="8.2" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>AMD · PE 110.9 · ROE 9.3% · $845.0B</title></circle><circle cx="307.0" cy="313.0" r="8.6" fill="#e08b2f" fill-opacity="0.55" stroke="#e08b2f" stroke-width="1"><title>サムスン電子 · PE 6.6 · ROE 10.8% · $971.4B</title></circle><circle cx="552.2" cy="240.9" r="10.1" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>ブロードコム · PE 41.4 · ROE 32.9% · $1.58T</title></circle><circle cx="492.6" cy="277.8" r="10.5" fill="#0f9d8f" fill-opacity="0.55" stroke="#0f9d8f" stroke-width="1"><title>TSMC · PE 26.5 · ROE 21.6% · $1.81T</title></circle><circle cx="462.3" cy="148.4" r="14.2" fill="#2f80ed" fill-opacity="0.55" stroke="#2f80ed" stroke-width="1"><title>NVIDIA · PE 21.1 · ROE 61.1% · $4.07T</title></circle></svg>
+  <div class="legend"><span class="legend-item"><span class="legend-dot" style="background:#6d5efc"></span>EDA/IP</span><span class="legend-item"><span class="legend-dot" style="background:#2f80ed"></span>設計</span><span class="legend-item"><span class="legend-dot" style="background:#0f9d8f"></span>製造</span><span class="legend-item"><span class="legend-dot" style="background:#e08b2f"></span>メモリ</span><span class="legend-item"><span class="legend-dot" style="background:#c8553d"></span>装置</span><span class="legend-item"><span class="legend-dot" style="background:#8a9a5b"></span>材料</span><span class="legend-item"><span class="legend-dot" style="background:#b5527d"></span>後工程</span><span class="legend-item"><span class="legend-dot" style="background:#5b6b7a"></span>モジュール</span></div>
+</section>
+
+<section class="section" id="lists">
+  <div class="section-head">
+    <div>
+      <span class="kicker">04 — RESEARCH LISTS</span>
+      <h2>リサーチリスト</h2>
+    </div>
+    <p class="section-desc">公開ルールで生成した読む順序の候補であり、推奨ではない。</p>
+  </div>
+  <div class="three-col">
+    <div class="panel list-card">
+      <h3 class="panel-title">品質優先</h3>
+      <p class="rule-text">品質優先：品質 ≥ 70 かつバリュエーション ≥ 50。</p>
+      <p class="empty">データなし</p>
+    </div>
+    <div class="panel list-card">
+      <h3 class="panel-title">バリュエーション調整</h3>
+      <p class="rule-text">バリュエーション調整：バリュエーション ≥ 70 かつ品質 ≥ 50。</p>
+      <p class="empty">データなし</p>
+    </div>
+    <div class="panel list-card">
+      <h3 class="panel-title">モメンタム先行</h3>
+      <p class="rule-text">モメンタム先行：モメンタム ≥ 80 かつ30日騰落率 &gt; 0。</p>
+      <p class="empty">データなし</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="signals">
+  <div class="two-col two-col-wide">
+    <div>
+      <div class="section-head section-head-tight">
+        <div>
+          <span class="kicker">05 — SIGNALS</span>
+          <h2>産業ニュース</h2>
+        </div>
+      </div>
+      <p class="section-desc">ホワイトリスト媒体の見出し・出典・リンクのみを集約し、全文は転載しない。</p>
+      <ul class="news-list">
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110VL217/nvidia-jensen-huang-management-probe-ceo.html" target="_blank" rel="noopener noreferrer">Spy probe highlights Nvidia&#39;s heavy reliance on CEO</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110PD253/taiwan-hardware-uk-production-manufacturing.html" target="_blank" rel="noopener noreferrer">UK space firms eye Taiwan&#39;s chip and hardware ecosystem, global satellite production scales up</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110PD238/ericsson-ceo-chips-6g-telecom.html" target="_blank" rel="noopener noreferrer">Ericsson CEO bets on AI and in-house RAN chips as 6G, satellite competition loom</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110PD221/nvidia-industrial-manufacturing-robot-testing-south-korea.html?chid=10" target="_blank" rel="noopener noreferrer">Nvidia showcases factory AI at Seoul event; Jensen Huang&#39;s daughter absent</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110PD242/nvidia-probe-jensen-huang-investigation-ceo.html" target="_blank" rel="noopener noreferrer">Nvidia legal chief accused of interfering in Megaspeed probe</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.digitimes.com/news/a20261110VL212/tsmc-revenue-demand-2026-growth.html" target="_blank" rel="noopener noreferrer">TSMC October 2026 revenue surges 59.7% on strong AI chip demand</a>
+          <span class="news-meta">DigiTimes · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.eetimes.com/saskatchewans-semiconductor-strength-is-connecting-the-pieces/" target="_blank" rel="noopener noreferrer">Saskatchewan’s Semiconductor Strength Is Connecting the Pieces</a>
+          <span class="news-meta">EE Times · 2026-11-10</span>
+        </li>
+        <li>
+          <a href="https://www.eetimes.com/we-source-chips-others-cannot-secure-2026/" target="_blank" rel="noopener noreferrer">We Source Chips Others Cannot Secure, 2026</a>
+          <span class="news-meta">EE Times · 2026-11-10</span>
+        </li>
+      </ul>
+      <p class="fineprint">見出しの著作権は原著者に帰属する。</p>
+    </div>
+    <div>
+      <div class="section-head section-head-tight">
+        <div>
+          <span class="kicker">06 — KNOWLEDGE</span>
+          <h2>ナレッジベース</h2>
+        </div>
+      </div>
+      <p class="section-desc">プロセス・装置・材料からサイクル・政策まで、構造化したノートで共通言語をつくる。</p>
+      <div class="doc-stack">
+        <a class="doc-card" href="knowledge/value-chain.html">
+          <span class="doc-level">基礎</span>
+          <span class="doc-title">バリューチェーン全景：どこで利益が生まれるか</span>
+          <span class="doc-summary">8つの工程を一本の鎖に戻し、粗利・資本集約度・サイクル伝播の違いを理解する。企業名の暗記より構造の把握を優先する。</span>
+          <span class="doc-meta">約 8 分</span>
+        </a>
+        <a class="doc-card" href="knowledge/process-flow.html">
+          <span class="doc-level">基礎</span>
+          <span class="doc-title">ウェハ製造：8つの工程群とクリーンルーム</span>
+          <span class="doc-summary">洗浄・露光・エッチングから計測まで、ウェハがチップになる過程と、工程数が装置・材料の需要を押し上げる理由を整理する。</span>
+          <span class="doc-meta">約 9 分</span>
+        </a>
+        <a class="doc-card" href="knowledge/lithography.html">
+          <span class="doc-level">発展</span>
+          <span class="doc-title">露光：DUV から High-NA EUV まで</span>
+          <span class="doc-summary">露光は微細化の限界と先端ノードのコスト構造を決める。解像度・重ね合わせ・光源を理解すると、装置価値の配分が見えてくる。</span>
+          <span class="doc-meta">約 10 分</span>
+        </a>
+      </div>
+      <a class="text-link" href="knowledge.html">ナレッジを開く →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section method-cta panel">
+  <div>
+    <span class="kicker">手法</span>
+    <h2>手法と限界</h2>
+    <p>スコアはリサーチの順序づけのみに使う。因子の定義・正規化・重み・閾値はすべて公開し、投資助言ではないことを明示する。</p>
+  </div>
+  <a class="btn btn-primary" href="methodology.html">手法の全文を読む</a>
+</section>
+
+<p class="disclaimer-line">研究目的のみ。投資助言ではありません。</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>世界の半導体バリューチェーンを読み解く三言語リサーチデスク</p>
+        <p class="footer-note">研究目的のみ。投資助言ではありません。</p>
+      </div>
+      <div>
+        <h3>企業マップ</h3>
+        <a href="companies.html">企業マップ</a>
+        <a href="value-chain.html">バリューチェーン</a>
+        <a href="glossary.html">用語集</a>
+      </div>
+      <div>
+        <h3>ナレッジ</h3>
+        <a href="knowledge/value-chain.html">バリューチェーン全景：どこで利益が生まれるか</a>
+        <a href="knowledge/process-flow.html">ウェハ製造：8つの工程群とクリーンルーム</a>
+        <a href="knowledge/lithography.html">露光：DUV から High-NA EUV まで</a>
+        <a href="knowledge/equipment-materials.html">装置と材料：「ツルハシを売る」ビジネス</a>
+      </div>
+      <div>
+        <h3>このサイト</h3>
+        <a href="methodology.html">手法</a>
+        <a href="about.html">このサイト</a>
+        <a href="../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静的ビルド · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
+      <span>データスナップショット: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../assets/js/app.js?v=2.0.0"></script>
+</body>
+</html>

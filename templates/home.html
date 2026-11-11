@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="kicker">{{ t.home.kicker }}</span>
+    <h1>{{ t.home.title }}</h1>
+    <p class="lede">{{ t.home.lede }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ href('companies') }}">{{ t.home.ctaCompanies }}</a>
+      <a class="btn btn-ghost" href="{{ href('method') }}">{{ t.home.ctaMethod }}</a>
+    </div>
+  </div>
+  <aside class="hero-aside" aria-label="{{ t.home.regime.title }}">
+    <div class="regime-card regime-{{ analytics.regime.label }}">
+      <span class="kicker">{{ t.home.regime.title }}</span>
+      <div class="regime-label">{{ t.home.regime[analytics.regime.label] }}</div>
+      <p class="regime-desc">{{ t.home.regime.desc }}</p>
+      <dl class="regime-stats">
+        <div><dt>{{ t.home.regime.breadth }}</dt><dd>{{ (analytics.regime.breadth * 100) | num(0) }}%</dd></div>
+        <div><dt>{{ t.common.median }}</dt><dd class="{{ 'pos' if (analytics.regime.median or 0) >= 0 else 'neg' }}">{{ analytics.regime.median | pct }}</dd></div>
+        <div><dt>{{ t.home.regime.dispersion }}</dt><dd>{{ analytics.regime.dispersion | num(1) }}</dd></div>
+      </dl>
+      <div class="regime-foot">
+        <span>{{ t.home.regime.leader }}<strong>{{ tax.stage_label(analytics.regime.leader, lang, short=True) if analytics.regime.leader else '—' }}</strong></span>
+        <span>{{ t.home.regime.laggard }}<strong>{{ tax.stage_label(analytics.regime.laggard, lang, short=True) if analytics.regime.laggard else '—' }}</strong></span>
+      </div>
+      <p class="fineprint">{{ t.home.regime.thresholds }}</p>
+    </div>
+  </aside>
+</section>
+
+<section class="kpi-grid" aria-label="{{ t.common.total }}">
+  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.companies }}</span><span class="kpi-value">{{ kpis.companies }}</span></div>
+  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.mcap }}</span><span class="kpi-value">{{ kpis.mcap | usd }}</span></div>
+  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.breadth }}</span><span class="kpi-value">{{ (kpis.breadth * 100) | num(0) }}%</span></div>
+  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.median }}</span><span class="kpi-value {{ 'pos' if (kpis.median or 0) >= 0 else 'neg' }}">{{ kpis.median | pct }}</span></div>
+  <div class="kpi"><span class="kpi-label">{{ t.home.kpi.coverage }}</span><span class="kpi-value">{{ (kpis.coverage * 100) | num(1) }}%</span></div>
+</section>
+
+<section class="section" id="structure">
+  <div class="section-head">
+    <div>
+      <span class="kicker">01 — {{ t.nav.chain }}</span>
+      <h2>{{ t.home.chain.title }}</h2>
+    </div>
+    <p class="section-desc">{{ t.home.chain.desc }}</p>
+  </div>
+  <div class="stage-grid">
+    {% for stage in flow_stages %}
+    <a class="stage-card" href="{{ stage.href }}" style="--stage-color: {{ stage.color }}">
+      <span class="stage-card-name">{{ stage.short }}</span>
+      <span class="stage-card-count">{{ stage.count }}<small>{{ t.common.companies }}</small></span>
+      <span class="stage-card-meta">{{ t.common.total }} {{ stage.mcap | usd }}</span>
+      <span class="stage-card-ret {{ 'pos' if (stage.median or 0) >= 0 else 'neg' }}">{{ stage.median | pct }}</span>
+      <span class="stage-card-bar" aria-hidden="true"><i style="width: {{ (stage.mcap / ((stage_cards | max(attribute='mcap')).mcap) * 100) | round(1) }}%"></i></span>
+    </a>
+    {% endfor %}
+  </div>
+  <div class="support-row">
+    <span class="support-label">{{ t.home.chain.support }}</span>
+    {% for stage in support_stages %}
+    <a class="stage-chip" href="{{ stage.href }}" style="--stage-color: {{ stage.color }}">
+      <span>{{ stage.short }}</span>
+      <span class="stage-chip-count">{{ stage.count }}</span>
+      <span class="{{ 'pos' if (stage.median or 0) >= 0 else 'neg' }}">{{ stage.median | pct }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" id="movers">
+  <div class="section-head">
+    <div>
+      <span class="kicker">02 — MOMENTUM</span>
+      <h2>{{ t.home.movers.title }}</h2>
+    </div>
+    <p class="section-desc">{{ t.home.movers.desc }}</p>
+  </div>
+  <div class="two-col">
+    {% for side in ['gainers', 'losers'] %}
+    <div class="panel">
+      <h3 class="panel-title">{{ t.home.movers[side] }}</h3>
+      <ol class="mover-list">
+        {% for item in movers[side] %}
+        <li>
+          <a href="{{ href('company', item.id) }}">
+            <span class="mover-name">{{ item.name }}</span>
+            <span class="mover-sub">{{ item.symbol }} · {{ item.stage_short }}</span>
+            <span class="mover-ret {{ 'pos' if (item.ret_30d or 0) >= 0 else 'neg' }}">{{ item.ret_30d | pct }}</span>
+            {{ item.spark }}
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section panel chart-panel" id="valuation">
+  <div class="section-head section-head-tight">
+    <div>
+      <span class="kicker">03 — VALUATION</span>
+      <h2>{{ t.home.scatter.title }}</h2>
+    </div>
+    <p class="section-desc">{{ t.home.scatter.desc }}</p>
+  </div>
+  {{ scatter_svg }}
+  {{ legend }}
+</section>
+
+<section class="section" id="lists">
+  <div class="section-head">
+    <div>
+      <span class="kicker">04 — RESEARCH LISTS</span>
+      <h2>{{ t.home.watchlist.title }}</h2>
+    </div>
+    <p class="section-desc">{{ t.home.watchlist.desc }}</p>
+  </div>
+  <div class="three-col">
+    {% for key in ['quality', 'value', 'momentum'] %}
+    <div class="panel list-card">
+      <h3 class="panel-title">{{ t.home.watchlist[key] }}</h3>
+      <p class="rule-text">{{ t.method['screen' ~ (key | capitalize)] }}</p>
+      {% if watchlists[key] %}
+      <ul class="rank-list">
+        {% for item in watchlists[key] %}
+        <li>
+          <a href="{{ href('company', item.id) }}">
+            <span class="rank-name">{{ item.name }}</span>
+            <span class="rank-meta">{{ item.stage_short }} · {{ item.mcap_text }}</span>
+            <span class="rank-score">{{ item.priority if item.priority is not none else '—' }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">{{ t.common.none }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" id="signals">
+  <div class="two-col two-col-wide">
+    <div>
+      <div class="section-head section-head-tight">
+        <div>
+          <span class="kicker">05 — SIGNALS</span>
+          <h2>{{ t.home.news.title }}</h2>
+        </div>
+      </div>
+      <p class="section-desc">{{ t.home.news.desc }}</p>
+      {% if news %}
+      <ul class="news-list">
+        {% for item in news[:8] %}
+        <li>
+          <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+          <span class="news-meta">{{ item.source }}{% if item.published %} · {{ item.published }}{% endif %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="fineprint">{{ t.home.news.sourceNote }}</p>
+      {% else %}
+      <p class="empty">{{ t.home.news.empty }}</p>
+      {% endif %}
+    </div>
+    <div>
+      <div class="section-head section-head-tight">
+        <div>
+          <span class="kicker">06 — KNOWLEDGE</span>
+          <h2>{{ t.home.knowledge.title }}</h2>
+        </div>
+      </div>
+      <p class="section-desc">{{ t.home.knowledge.desc }}</p>
+      <div class="doc-stack">
+        {% for doc in featured_docs %}
+        <a class="doc-card" href="{{ href('topic', doc.slug) }}">
+          <span class="doc-level">{{ t.knowledge.levels[doc.level] }}</span>
+          <span class="doc-title">{{ doc.title }}</span>
+          <span class="doc-summary">{{ doc.summary }}</span>
+          <span class="doc-meta">{{ t.knowledge.readingTime.format(minutes=doc.minutes) }}</span>
+        </a>
+        {% endfor %}
+      </div>
+      <a class="text-link" href="{{ href('knowledge') }}">{{ t.home.knowledge.cta }} →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section method-cta panel">
+  <div>
+    <span class="kicker">{{ t.nav.method }}</span>
+    <h2>{{ t.home.method.title }}</h2>
+    <p>{{ t.home.method.desc }}</p>
+  </div>
+  <a class="btn btn-primary" href="{{ href('method') }}">{{ t.home.method.cta }}</a>
+</section>
+
+<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
+{% endblock %}

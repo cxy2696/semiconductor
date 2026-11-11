@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <span class="kicker">VALUE CHAIN</span>
+  <h1>{{ t.chain.title }}</h1>
+  <p class="lede">{{ t.chain.lede }}</p>
+</header>
+
+<section class="panel chain-map" aria-label="{{ t.chain.flow }}">
+  <span class="kicker">{{ t.chain.flow }}</span>
+  <div class="chain-flow">
+    {% for block in flow_blocks %}
+    <a class="chain-step" href="#stage-{{ block.id }}" style="--stage-color: {{ block.color }}">
+      <span class="chain-step-order">{{ loop.index }}</span>
+      <span class="chain-step-name">{{ block.label }}</span>
+      <span class="chain-step-count">{{ block.count }} {{ t.common.companies }}</span>
+      <span class="chain-step-ret {{ 'pos' if (block.median or 0) >= 0 else 'neg' }}">{{ block.median | pct }} · 30D</span>
+    </a>
+    {% if not loop.last %}<span class="chain-arrow" aria-hidden="true">→</span>{% endif %}
+    {% endfor %}
+  </div>
+  <div class="chain-support">
+    <span class="kicker">{{ t.chain.support }}</span>
+    <div class="chain-support-row">
+      {% for block in support_blocks %}
+      <a class="chain-step chain-step-support" href="#stage-{{ block.id }}" style="--stage-color: {{ block.color }}">
+        <span class="chain-step-name">{{ block.label }}</span>
+        <span class="chain-step-count">{{ block.count }} {{ t.common.companies }}</span>
+        <span class="chain-step-ret {{ 'pos' if (block.median or 0) >= 0 else 'neg' }}">{{ block.median | pct }}</span>
+        <span class="chain-step-count">{{ block.mcap | usd }}</span>
+        <span class="chain-step-summary">{{ block.summary }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% for block in blocks %}
+<section class="stage-section" id="stage-{{ block.id }}">
+  <div class="stage-head" style="--stage-color: {{ block.color }}">
+    <div>
+      <span class="kicker">{{ t.chain.stageStats }}</span>
+      <h2>{{ block.label }}</h2>
+    </div>
+    <dl class="stage-head-stats">
+      <div><dt>{{ t.common.companies }}</dt><dd>{{ block.count }}</dd></div>
+      <div><dt>{{ t.common.total }}</dt><dd>{{ block.mcap | usd }}</dd></div>
+      <div><dt>{{ t.common.median }} 30D</dt><dd class="{{ 'pos' if (block.median or 0) >= 0 else 'neg' }}">{{ block.median | pct }}</dd></div>
+    </dl>
+  </div>
+  <div class="stage-body">
+    <div class="stage-narrative">
+      <p>{{ block.summary }}</p>
+      <h3>{{ t.chain.economics }}</h3>
+      <p>{{ block.economics }}</p>
+      <h3>{{ t.chain.metrics }}</h3>
+      <ul class="metric-list">
+        {% for metric in block.metrics %}<li>{{ metric }}</li>{% endfor %}
+      </ul>
+    </div>
+    <div class="stage-companies panel">
+      <h3 class="panel-title">{{ t.chain.companies }}</h3>
+      <ul class="stage-company-list">
+        {% for row in block.rows[:10] %}
+        <li>
+          <a href="{{ href('company', row.id) }}">
+            <span class="rank-name">{{ row.name }}</span>
+            <span class="rank-meta">{{ row.symbol }}</span>
+            <span class="stage-company-bar" aria-hidden="true"><i style="width: {{ ((row.mcap_usd or 0) / (block.stat.market_cap_usd or 1) * 100) | round(1) }}%"></i></span>
+            <span class="rank-score">{{ row.mcap_text }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% if block.rows | length > 10 %}
+      <a class="text-link" href="{{ href('companies') }}#stage-{{ block.id }}">{{ t.common.viewAll }} →</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+<p class="fineprint">{{ t.chain.note }}</p>
+<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
+{% endblock %}
