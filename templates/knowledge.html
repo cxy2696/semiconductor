@@ -6,9 +6,23 @@
   <p class="lede">{{ t.knowledge.lede }}</p>
 </header>
 
-<section class="doc-grid">
+<section class="filter-bar filter-bar-knowledge">
+  <div class="filter-search">
+    <label class="visually-hidden" for="knowledge-search">{{ t.knowledge.searchPlaceholder }}</label>
+    <input id="knowledge-search" type="search" placeholder="{{ t.knowledge.searchPlaceholder }}" autocomplete="off">
+  </div>
+  <div class="chip-row" id="knowledge-levels">
+    <button type="button" class="chip is-active" data-level="">{{ t.common.all }}</button>
+    {% for level in ['foundation', 'core', 'advanced'] %}
+    <button type="button" class="chip" data-level="{{ level }}">{{ t.knowledge.levels[level] }}</button>
+    {% endfor %}
+  </div>
+  <span class="filter-count" id="knowledge-count">{{ t.knowledge.count.format(count=docs | length) }}</span>
+</section>
+
+<section class="doc-grid" id="knowledge-grid">
   {% for doc in docs %}
-  <article class="doc-card doc-card-lg">
+  <article class="doc-card doc-card-lg" data-level="{{ doc.level }}" data-search="{{ (doc.title ~ ' ' ~ doc.summary ~ ' ' ~ (doc.tags | join(' '))) | lower }}">
     <div class="doc-card-top">
       <span class="doc-level level-{{ doc.level }}">{{ t.knowledge.levels[doc.level] }}</span>
       <span class="doc-meta">{{ t.knowledge.readingTime.format(minutes=doc.minutes) }}</span>
@@ -22,6 +36,7 @@
   </article>
   {% endfor %}
 </section>
+<p class="empty" id="knowledge-empty" hidden>{{ t.knowledge.empty }}</p>
 
 <p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
 {% endblock %}

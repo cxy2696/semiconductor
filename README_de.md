@@ -1,5 +1,7 @@
 # SiliconScope · Halbleiter-Intelligence-Desk
 
+[English](README.md) · [中文](README_cn.md) · [日本語](README_jp.md) · **Deutsch**
+
 **Ein viersprachiger Research-Desk für die globale Halbleiter-Wertschöpfungskette.**
 
 SiliconScope deckt **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börsennotierte Unternehmen** ab und bringt Kurse, Struktur, Wissen und Methodik auf einen prüfbaren Desk. Jede Seite ist eine zur Build-Zeit erzeugte statische Datei; die Site benötigt weder ein CDN noch ein Frontend-Framework.

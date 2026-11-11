@@ -49,6 +49,7 @@
   <div><span>{{ t.companies.insight.medianRoe }}</span><strong>{{ insight.median_roe | num(1) }}{% if insight.median_roe is not none %}%{% endif %}</strong></div>
   <div><span>{{ t.companies.insight.medianRet }}</span><strong class="{{ 'pos' if (insight.median_ret or 0) >= 0 else 'neg' }}">{{ insight.median_ret | pct }}</strong></div>
 </section>
+<div class="active-filters" id="active-filters" data-label-active="{{ t.companies.activeFilters }}" data-label-clear="{{ t.companies.clearAll }}"></div>
 <p class="metrics-note">{{ t.companies.metricsNote }}</p>
 
 <section class="panel table-panel">
@@ -114,5 +115,30 @@
     </table>
   </div>
 </section>
+<section class="company-cards" id="company-cards" aria-label="{{ t.companies.title }}">
+  {% for row in rows %}
+  <a class="company-card" href="{{ href('company', row.id) }}"
+     data-name="{{ (row.name ~ ' ' ~ row.ticker ~ ' ' ~ row.symbol ~ ' ' ~ row.id ~ ' ' ~ (row.products | join(' '))) | lower }}"
+     data-stage="{{ row.stage }}" data-country="{{ row.country }}" data-market="{{ row.market }}">
+    <span class="company-card-top">
+      <span class="company-card-name">{{ row.name }}</span>
+      <span class="company-card-symbol">{{ row.symbol }}</span>
+    </span>
+    <span class="company-card-price">
+      <strong>{{ row.price_text }}</strong>
+      <span class="{{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}">{{ row.change_1d | pct }}</span>
+      <span class="{{ 'pos' if (row.ret_30d or 0) >= 0 else 'neg' }}">{{ row.ret_30d | pct }} <small>30D</small></span>
+    </span>
+    <span class="company-card-meta">
+      <span class="stage-badge" style="--stage-color: {{ row.color }}">{{ row.stage_short }}</span>
+      <span>{{ row.mcap_text }}</span>
+      <span class="score-pill">{{ row.priority if row.priority is not none else '—' }}</span>
+      <span class="cov cov-{{ row.coverage_level }}">{{ row.coverage_label }}</span>
+    </span>
+    {{ row.spark }}
+  </a>
+  {% endfor %}
+</section>
+
 <p class="fineprint">{{ t.companies.sortHint }} · {{ t.footer.notAdvice }}</p>
 {% endblock %}

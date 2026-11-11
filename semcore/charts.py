@@ -160,3 +160,71 @@ def legend(stages: Sequence[tuple[str, str]]) -> str:
         for stage_id, label in stages
     )
     return f'<div class="legend">{items}</div>'
+
+
+def price_chart(
+    dates: Sequence[str],
+    values: Sequence[float],
+    width: int = 720,
+    height: int = 240,
+    currency: str = "",
+    label: str = "",
+) -> str:
+    """A small area chart for the last sessions of a single company."""
+    clean = [(str(d), float(v)) for d, v in zip(dates, values) if v is not None]
+    if len(clean) < 2:
+        return f'<p class="chart-empty">{_esc(label or "No price history")}</p>'
+
+    left, right, top, bottom = 54, 16, 16, 30
+    plot_w, plot_h = width - left - right, height - top - bottom
+    low = min(value for _, value in clean)
+    high = max(value for _, value in clean)
+    span = high - low or (high * 0.02 or 1.0)
+    low -= span * 0.08
+    high += span * 0.08
+
+    def sx(index: int) -> float:
+        return left + index * plot_w / (len(clean) - 1)
+
+    def sy(value: float) -> float:
+        return top + plot_h - (value - low) / (high - low) * plot_h
+
+    points = [(sx(index), sy(value)) for index, (_, value) in enumerate(clean)]
+    line = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in points)
+    area = f"{line} L{points[-1][0]:.1f},{top + plot_h} L{points[0][0]:.1f},{top + plot_h} Z"
+    rising = clean[-1][1] >= clean[0][1]
+    stroke = "#0f766e" if rising else "#b45309"
+    gradient_id = "priceFill"
+
+    parts = [
+        f'<svg class="price-chart" viewBox="0 0 {width} {height}" role="img" aria-label="{_esc(label or "30-session price")}">',
+        "<defs>",
+        f'<linearGradient id="{gradient_id}" x1="0" y1="0" x2="0" y2="1">',
+        f'<stop offset="0%" stop-color="{stroke}" stop-opacity="0.22"/>',
+        f'<stop offset="100%" stop-color="{stroke}" stop-opacity="0"/>',
+        "</linearGradient>",
+        "</defs>",
+    ]
+    for step in range(4):
+        value = low + (high - low) * step / 3
+        y = sy(value)
+        parts.append(f'<line x1="{left}" y1="{y:.1f}" x2="{width - right}" y2="{y:.1f}" stroke="{GRID}" stroke-width="1"/>')
+        digits = 0 if value >= 1000 else 2
+        parts.append(
+            f'<text x="{left - 8}" y="{y + 3:.1f}" text-anchor="end" font-size="9.5" fill="{MUTED}">{value:,.{digits}f}</text>'
+        )
+    parts.append(f'<path d="{area}" fill="url(#{gradient_id})"/>')
+    parts.append(f'<path d="{line}" fill="none" stroke="{stroke}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>')
+    parts.append(f'<circle cx="{points[-1][0]:.1f}" cy="{points[-1][1]:.1f}" r="3.4" fill="{stroke}"/>')
+    parts.append(
+        f'<text x="{left}" y="{height - 8}" font-size="9.5" fill="{MUTED}">{_esc(clean[0][0])}</text>'
+    )
+    parts.append(
+        f'<text x="{width - right}" y="{height - 8}" text-anchor="end" font-size="9.5" fill="{MUTED}">{_esc(clean[-1][0])}</text>'
+    )
+    currency_label = f" · {currency}" if currency else ""
+    parts.append(
+        f'<text x="{width - right}" y="{top + 10}" text-anchor="end" font-size="10" fill="{INK}">{clean[-1][1]:,.2f}{currency_label}</text>'
+    )
+    parts.append("</svg>")
+    return "".join(parts)

@@ -1,5 +1,7 @@
 # SiliconScope · Semiconductor Intelligence Desk
 
+**English** · [中文](README_cn.md) · [日本語](README_jp.md) · [Deutsch](README_de.md)
+
 **A four-language research desk for the global semiconductor value chain.**
 
 SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 listed companies**, putting quotes, structure, knowledge and method on one auditable desk. Every page is a static file generated at build time; the site depends on no CDN and no front-end framework.

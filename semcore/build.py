@@ -27,7 +27,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
 
 from .analytics import Analytics, Row
-from .charts import STAGE_COLORS, ScatterPoint, legend, range_bar, scatter, sparkline
+from .charts import STAGE_COLORS, ScatterPoint, legend, price_chart, range_bar, scatter, sparkline
 from .config import (
     ASSETS_DIR,
     REPO_URL,
@@ -462,12 +462,20 @@ class SiteBuilder:
         related_slugs = self._related_topics(row.company.stage)
         docs = [doc for doc in self.knowledge[lang] if doc.slug in related_slugs][:3]
         peers = [self.views[lang][peer.company.id] for peer in self.analytics.peers(row, 8)]
+        history = row.entry.get("history") or {}
+        price_svg = price_chart(
+            history.get("dates", []),
+            history.get("close", []),
+            currency=row.company.currency,
+            label=f"{view['name']} 30-session price",
+        )
         ctx.update(
             {
                 "company": view,
                 "row": row,
                 "peers": peers,
                 "related_docs": docs,
+                "price_chart_svg": Markup(price_svg),
                 "positioning": t["company"]["positioningTemplate"].format(
                     name=view["name"],
                     stage=view["stage_label"],

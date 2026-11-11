@@ -1,5 +1,7 @@
 # SiliconScope · 半导体产业情报台
 
+[English](README.md) · **中文** · [日本語](README_jp.md) · [Deutsch](README_de.md)
+
 **全球半导体产业链的四语研究看板** · A four-language research desk for the global semiconductor value chain.
 
 覆盖 **8 个产业链环节、13 个总部地区、175 家上市公司**。把公司位置、行情、长文说明与评分规则放在一起，方便从整条链走到单家公司。所有页面为构建期生成的静态文件，不依赖任何 CDN 或前端框架。

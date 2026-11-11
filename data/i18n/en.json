@@ -169,7 +169,9 @@
       "medianRet": "Median 30D",
       "priced": "With quote"
     },
-    "metricsNote": "P/E is static (last annual EPS), P/B is book value, ROE is return on equity, and market cap is converted to USD. Missing fields show as —."
+    "metricsNote": "P/E is static (last annual EPS), P/B is book value, ROE is return on equity, and market cap is converted to USD. Missing fields show as —.",
+    "activeFilters": "Active filters",
+    "clearAll": "Clear all"
   },
   "company": {
     "back": "Back to companies",
@@ -197,7 +199,9 @@
     "plainValue": "It trades at {pe}× earnings, with an ROE of {roe}%.",
     "plainNoValue": "Valuation or profitability data is incomplete, so read the priority score with care.",
     "plainCoverage": "Quote and factor coverage is {coverage}.",
-    "watch": "What to watch"
+    "watch": "What to watch",
+    "priceChart": "30-session price",
+    "priceChartNote": "Daily closes from the last 30 sessions. Not adjusted for dividends."
   },
   "chain": {
     "title": "The value chain",
@@ -222,7 +226,11 @@
     "related": "Related topics",
     "sources": "References",
     "toc": "On this page",
-    "all": "All topics"
+    "all": "All topics",
+    "searchPlaceholder": "Search topics",
+    "filterLevel": "Level",
+    "empty": "No topics match these filters.",
+    "count": "{count} topics"
   },
   "glossary": {
     "title": "Glossary",

@@ -54,6 +54,8 @@
     var countEl = doc.getElementById('filter-count');
     var emptyRow = doc.getElementById('no-results');
     var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr[data-name]'));
+    var cards = Array.prototype.slice.call(doc.querySelectorAll('#company-cards .company-card'));
+    var activeWrap = doc.getElementById('active-filters');
     var total = rows.length;
     var originalOrder = rows.slice();
     var sortState = { key: null, direction: 0 };
@@ -83,15 +85,20 @@
       var market = marketSelect ? marketSelect.value : '';
       var visible = 0;
 
+      var matchesFilters = function (node) {
+        return (
+          (!term || node.dataset.name.indexOf(term) !== -1) &&
+          (!stage || node.dataset.stage === stage) &&
+          (!country || node.dataset.country === country) &&
+          (!market || node.dataset.market === market)
+        );
+      };
       rows.forEach(function (row) {
-        var matches =
-          (!term || row.dataset.name.indexOf(term) !== -1) &&
-          (!stage || row.dataset.stage === stage) &&
-          (!country || row.dataset.country === country) &&
-          (!market || row.dataset.market === market);
+        var matches = matchesFilters(row);
         row.hidden = !matches;
         if (matches) visible += 1;
       });
+      cards.forEach(function (card) { card.hidden = !matchesFilters(card); });
 
       if (emptyRow) emptyRow.hidden = visible !== 0;
       if (countEl) {
@@ -100,6 +107,49 @@
         countEl.textContent = template.replace(/\d+/, String(visible));
       }
       syncUrl();
+      renderChips();
+    }
+
+    function renderChips() {
+      if (!activeWrap) return;
+      var items = [];
+      if (search && search.value.trim()) items.push({ key: 'q', label: search.value.trim() });
+      [['stage', stageSelect], ['country', countrySelect], ['market', marketSelect]].forEach(function (pair) {
+        var key = pair[0], el = pair[1];
+        if (el && el.value) items.push({ key: key, label: el.options[el.selectedIndex].text });
+      });
+      if (!items.length) {
+        activeWrap.hidden = true;
+        activeWrap.innerHTML = '';
+        return;
+      }
+      activeWrap.hidden = false;
+      activeWrap.innerHTML =
+        '<span class="active-label">' + escapeChip(activeWrap.dataset.labelActive || '') + '</span>' +
+        items.map(function (item) {
+          return '<button type="button" class="active-chip" data-clear="' + item.key + '">' +
+            escapeChip(item.label) + ' <span aria-hidden="true">×</span></button>';
+        }).join('') +
+        '<button type="button" class="active-clear" data-clear="all">' + escapeChip(activeWrap.dataset.labelClear || '') + '</button>';
+    }
+
+    function escapeChip(value) {
+      return String(value || '').replace(/[&<>"']/g, function (char) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+      });
+    }
+
+    if (activeWrap) {
+      activeWrap.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-clear]');
+        if (!button) return;
+        var key = button.dataset.clear;
+        if (key === 'all' || key === 'q') { if (search) search.value = ''; }
+        if (key === 'all' || key === 'stage') { if (stageSelect) stageSelect.value = ''; }
+        if (key === 'all' || key === 'country') { if (countrySelect) countrySelect.value = ''; }
+        if (key === 'all' || key === 'market') { if (marketSelect) marketSelect.value = ''; }
+        applyFilters();
+      });
     }
 
     function sortRows(key, isNumeric) {
@@ -201,6 +251,46 @@
     }
     if (gSearch) gSearch.addEventListener('input', filterGlossary);
     filterGlossary();
+  }
+
+  /* ---------- knowledge filters ---------- */
+  var knowledgeGrid = doc.getElementById('knowledge-grid');
+  if (knowledgeGrid) {
+    var knowledgeSearch = doc.getElementById('knowledge-search');
+    var knowledgeLevels = doc.getElementById('knowledge-levels');
+    var knowledgeCount = doc.getElementById('knowledge-count');
+    var knowledgeEmpty = doc.getElementById('knowledge-empty');
+    var knowledgeCards = Array.prototype.slice.call(knowledgeGrid.querySelectorAll('.doc-card'));
+    var knowledgeLevel = '';
+    var knowledgeTemplate = knowledgeCount ? knowledgeCount.textContent : '';
+
+    function filterKnowledge() {
+      var term = (knowledgeSearch && knowledgeSearch.value || '').trim().toLowerCase();
+      var visible = 0;
+      knowledgeCards.forEach(function (card) {
+        var match =
+          (!term || card.dataset.search.indexOf(term) !== -1) &&
+          (!knowledgeLevel || card.dataset.level === knowledgeLevel);
+        card.hidden = !match;
+        if (match) visible += 1;
+      });
+      if (knowledgeEmpty) knowledgeEmpty.hidden = visible !== 0;
+      if (knowledgeCount) knowledgeCount.textContent = knowledgeTemplate.replace(/\d+/, String(visible));
+    }
+
+    if (knowledgeLevels) {
+      knowledgeLevels.addEventListener('click', function (event) {
+        var button = event.target.closest('button[data-level]');
+        if (!button) return;
+        knowledgeLevel = button.dataset.level || '';
+        Array.prototype.forEach.call(knowledgeLevels.querySelectorAll('button'), function (item) {
+          item.classList.toggle('is-active', item === button);
+        });
+        filterKnowledge();
+      });
+    }
+    if (knowledgeSearch) knowledgeSearch.addEventListener('input', filterKnowledge);
+    filterKnowledge();
   }
 
   /* ---------- back to top ---------- */

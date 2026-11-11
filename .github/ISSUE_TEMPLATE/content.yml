@@ -1,0 +1,32 @@
+name: Content suggestion
+description: Suggest a knowledge topic, glossary term or wording change
+title: "content: "
+labels: ["content"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - Knowledge topic
+        - Glossary term
+        - Site wording
+        - Translation
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page or file
+      placeholder: "e.g. /knowledge/lithography.html or content/knowledge/lithography_en.md"
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      description: What should change, and why?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Reference (optional)

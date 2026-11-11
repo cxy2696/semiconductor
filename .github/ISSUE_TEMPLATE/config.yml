@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Data status
+    url: https://cxy2696.github.io/semiconductor/status.html
+    about: Check freshness, coverage and data notes before filing a report.

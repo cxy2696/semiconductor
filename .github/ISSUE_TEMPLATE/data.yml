@@ -1,0 +1,45 @@
+name: Data correction
+description: Report a wrong quote, classification, name or company detail
+title: "data: "
+labels: ["data"]
+body:
+  - type: input
+    id: company
+    attributes:
+      label: Company or ticker
+      placeholder: "e.g. TSMC / 2330"
+    validations:
+      required: true
+  - type: dropdown
+    id: field
+    attributes:
+      label: Field
+      options:
+        - Name or ticker
+        - Stage or role
+        - Quote or market cap
+        - P/E, P/B or ROE
+        - Founded or fiscal year
+        - Note or description
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What the site shows
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: What it should show
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Verifiable source
+      placeholder: "Exchange page, annual report or company filing"
+    validations:
+      required: true

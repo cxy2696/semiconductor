@@ -169,7 +169,9 @@
       "medianRet": "Median 30 T",
       "priced": "Mit Kurs"
     },
-    "metricsNote": "KGV ist statisch (letztes Jahres-EPS), KBV ist der Buchwert, ROE die Eigenkapitalrendite; Marktkapitalisierung in USD. Fehlende Felder erscheinen als —."
+    "metricsNote": "KGV ist statisch (letztes Jahres-EPS), KBV ist der Buchwert, ROE die Eigenkapitalrendite; Marktkapitalisierung in USD. Fehlende Felder erscheinen als —.",
+    "activeFilters": "Aktive Filter",
+    "clearAll": "Alle löschen"
   },
   "company": {
     "back": "Zurück zur Unternehmenskarte",
@@ -197,7 +199,9 @@
     "plainValue": "Das statische KGV liegt bei {pe}, die ROE bei {roe}%.",
     "plainNoValue": "Bewertungs- oder Rentabilitätsdaten sind unvollständig; lesen Sie den Prioritätsscore mit Vorsicht.",
     "plainCoverage": "Die Abdeckung von Kurs und Faktoren ist {coverage}.",
-    "watch": "Worauf zu achten ist"
+    "watch": "Worauf zu achten ist",
+    "priceChart": "Kursverlauf 30 Sitzungen",
+    "priceChartNote": "Tagesschlusskurse der letzten 30 Sitzungen, nicht dividendenbereinigt."
   },
   "chain": {
     "title": "Die Wertschöpfungskette",
@@ -222,7 +226,11 @@
     "related": "Verwandte Themen",
     "sources": "Referenzen",
     "toc": "Auf dieser Seite",
-    "all": "Alle Themen"
+    "all": "Alle Themen",
+    "searchPlaceholder": "Themen suchen",
+    "filterLevel": "Niveau",
+    "empty": "Keine Themen für diese Filter.",
+    "count": "{count} Themen"
   },
   "glossary": {
     "title": "Glossar",

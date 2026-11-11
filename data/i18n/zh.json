@@ -169,7 +169,9 @@
       "medianRet": "30 日中位数",
       "priced": "有行情"
     },
-    "metricsNote": "PE 为静态市盈率（最近年度 EPS），PB 为市净率，ROE 为净资产收益率，市值为美元折算。缺失字段显示为 —。"
+    "metricsNote": "PE 为静态市盈率（最近年度 EPS），PB 为市净率，ROE 为净资产收益率，市值为美元折算。缺失字段显示为 —。",
+    "activeFilters": "当前筛选",
+    "clearAll": "全部清除"
   },
   "company": {
     "back": "返回公司图谱",
@@ -197,7 +199,9 @@
     "plainValue": "当前静态市盈率 {pe} 倍，ROE 为 {roe}%。",
     "plainNoValue": "估值或盈利数据不完整，阅读优先级分数时需要谨慎。",
     "plainCoverage": "行情与因子完整度为{coverage}。",
-    "watch": "值得关注"
+    "watch": "值得关注",
+    "priceChart": "30 日股价走势",
+    "priceChartNote": "最近 30 个交易日的收盘价，未做分红调整。"
   },
   "chain": {
     "title": "产业链全景",
@@ -222,7 +226,11 @@
     "related": "相关主题",
     "sources": "参考来源",
     "toc": "本页目录",
-    "all": "全部主题"
+    "all": "全部主题",
+    "searchPlaceholder": "搜索主题",
+    "filterLevel": "难度",
+    "empty": "没有符合筛选的主题。",
+    "count": "{count} 篇主题"
   },
   "glossary": {
     "title": "术语表",

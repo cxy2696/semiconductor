@@ -55,6 +55,17 @@
   {% endif %}
 </section>
 
+<section class="panel price-panel">
+  <div class="price-panel-head">
+    <div>
+      <h2 class="panel-title">{{ t.company.priceChart }}</h2>
+      <p class="fineprint">{{ t.company.priceChartNote }}</p>
+    </div>
+    <span class="price-panel-return {{ 'pos' if (company.ret_30d or 0) >= 0 else 'neg' }}">{{ company.ret_30d | pct }} <small>30D</small></span>
+  </div>
+  {{ price_chart_svg }}
+</section>
+
 <section class="metric-grid">
   <div class="metric"><span>{{ t.companies.table.mcap }}</span><strong>{{ company.mcap_text }}</strong></div>
   <div class="metric"><span>{{ t.companies.table.pe }}</span><strong>{{ company.pe | num(1) }}</strong></div>

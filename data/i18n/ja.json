@@ -169,7 +169,9 @@
       "medianRet": "30日 中央値",
       "priced": "市況あり"
     },
-    "metricsNote": "PER は静的（直近年度 EPS）、PBR は純資産倍率、ROE は自己資本利益率、時価総額は USD 換算です。欠損は — で表示します。"
+    "metricsNote": "PER は静的（直近年度 EPS）、PBR は純資産倍率、ROE は自己資本利益率、時価総額は USD 換算です。欠損は — で表示します。",
+    "activeFilters": "適用中の条件",
+    "clearAll": "すべて解除"
   },
   "company": {
     "back": "企業マップに戻る",
@@ -197,7 +199,9 @@
     "plainValue": "静的 PER は {pe} 倍、ROE は {roe}% です。",
     "plainNoValue": "バリュエーションまたは収益性のデータが不足しているため、優先度スコアは慎重に読んでください。",
     "plainCoverage": "市況と因子の充足度は{coverage}です。",
-    "watch": "注目点"
+    "watch": "注目点",
+    "priceChart": "30営業日の株価",
+    "priceChartNote": "直近30営業日の終値です。配当調整はしていません。"
   },
   "chain": {
     "title": "バリューチェーン全景",
@@ -222,7 +226,11 @@
     "related": "関連テーマ",
     "sources": "参考資料",
     "toc": "このページの目次",
-    "all": "すべてのテーマ"
+    "all": "すべてのテーマ",
+    "searchPlaceholder": "テーマを検索",
+    "filterLevel": "難易度",
+    "empty": "条件に合うテーマがありません。",
+    "count": "{count} 本のテーマ"
   },
   "glossary": {
     "title": "用語集",
