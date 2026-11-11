@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de-DE" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodik · Halbleiter-Intelligence-Desk</title>
+  <meta name="description" content="Dieser Desk ist zuerst ein Research-Werkzeug und erst danach ein Datenprodukt. Die folgenden Regeln bestimmen jede Zahl und jede Reihenfolge.">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/de/methodology.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/methodology.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/zh/methodology.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/methodology.html">
+  <link rel="alternate" hreflang="de-DE" href="https://cxy2696.github.io/semiconductor/de/methodology.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/methodology.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="Methodik · Halbleiter-Intelligence-Desk">
+  <meta property="og:description" content="Dieser Desk ist zuerst ein Research-Werkzeug und erst danach ein Datenprodukt. Die folgenden Regeln bestimmen jede Zahl und jede Reihenfolge.">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/de/methodology.html">
+  <meta property="og:locale" content="de-DE">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/main.css?v=3.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="page-method">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">Halbleiter-Intelligence-Desk</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Start">
+        <a href="index.html" >Start</a>
+        <a href="companies.html" >Unternehmen</a>
+        <a href="value-chain.html" >Wertschöpfungskette</a>
+        <a href="knowledge.html" >Wissen</a>
+        <a href="glossary.html" >Glossar</a>
+        <a href="methodology.html" aria-current="page">Methodik</a>
+        <a href="about.html" >Über</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">Sprache</label>
+        <select id="locale-switch" class="locale-switch" aria-label="Sprache">
+          <option value="../methodology.html" >English</option>
+          <option value="../zh/methodology.html" >中文</option>
+          <option value="../ja/methodology.html" >日本語</option>
+          <option value="methodology.html" selected>Deutsch</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Design" title="Design">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="Menü">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="Start">
+      <a href="index.html">Start</a>
+      <a href="companies.html">Unternehmen</a>
+      <a href="value-chain.html">Wertschöpfungskette</a>
+      <a href="knowledge.html">Wissen</a>
+      <a href="glossary.html">Glossar</a>
+      <a href="methodology.html">Methodik</a>
+      <a href="about.html">Über</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<header class="page-head">
+  <span class="kicker">METHOD</span>
+  <h1>Methodik</h1>
+  <p class="lede">Dieser Desk ist zuerst ein Research-Werkzeug und erst danach ein Datenprodukt. Die folgenden Regeln bestimmen jede Zahl und jede Reihenfolge.</p>
+</header>
+
+<section class="prose method-prose">
+  <h2>Was es löst</h2>
+  <p>Es beantwortet drei Fragen in begrenzter Zeit: In welchem Zustand ist diese Stufe, welche Unternehmen zuerst lesen, und sind die Daten hinter meinem Urteil vollständig?</p>
+
+  <h2>Was es nicht tut</h2>
+  <p>Keine Kauf- oder Verkaufsempfehlungen, Kursziele oder Positionsgrößen. Keine Gewinnprognosen. Keine Ein-Faktor-Schlüsse als Antwort. Kein Verstecken fehlender Daten.</p>
+
+  <h2>Universum und Klassifikation</h2>
+  <p>Über 170 börsennotierte Halbleiterunternehmen, nach primärer Umsatzquelle in 8 Stufen eingeteilt. Jedes Unternehmen hat genau eine Hauptbörse, um Doppelzählung zu vermeiden. Aufnahmen und Entfernungen werden in den Datendateien dokumentiert.</p>
+
+  <h2>Faktordefinitionen</h2>
+  <p>Alle Faktoren werden innerhalb der Peergruppe auf 0–100 perzentilnormalisiert und dann gewichtet zu einem Research-Prioritätsscore zusammengeführt. Perzentile werden innerhalb einer Stufe berechnet; Stufen mit weniger als 8 Unternehmen fallen auf die Gesamtstichprobe zurück.</p>
+  <table class="data-table compact formula-table">
+    <thead>
+      <tr>
+        <th>Faktor</th>
+        <th>Definition</th>
+        <th class="num">Gewicht</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Qualität</strong></td>
+        <td>Qualität: Perzentil des ROE.</td>
+        <td class="num">0.30</td>
+      </tr>
+      <tr>
+        <td><strong>Bewertung</strong></td>
+        <td>Bewertung: inverses Perzentil des statischen KGV; KGV ≤ 0 gilt als fehlend und erhält einen neutralen Score.</td>
+        <td class="num">0.25</td>
+      </tr>
+      <tr>
+        <td><strong>Momentum</strong></td>
+        <td>Momentum: 60 % × Perzentil der 30-Tage-Rendite + 40 % × Position in der 52-Wochen-Spanne.</td>
+        <td class="num">0.25</td>
+      </tr>
+      <tr>
+        <td><strong>Größe</strong></td>
+        <td>Größe: Perzentil des logarithmierten Marktwerts in USD als Proxy für Liquidität und Widerstandskraft.</td>
+        <td class="num">0.20</td>
+      </tr>
+    </tbody>
+  </table>
+  <pre class="formula">Research-Priorität = 0,30 × Qualität + 0,25 × Bewertung + 0,25 × Momentum + 0,20 × Größe</pre>
+
+  <h2>Datenabdeckung</h2>
+  <p>Abdeckung ist der Anteil von 8 vorhandenen Feldern (Kurs, 1 T, 30 T, Marktkap., KGV, KBV, ROE, 52-Wochen-Spanne): ≥ 87,5 % hoch, ≥ 62,5 % mittel, sonst niedrig. Abdeckung misst Vollständigkeit, nicht Genauigkeit.</p>
+
+  <h2>Marktlage</h2>
+  <p>Marktbreite, Median-Rendite über 30 Tage und Streuung beschreiben die Struktur. Die Schwellen sind fix und öffentlich, damit Einschätzungen überprüfbar bleiben; die Lage prognostiziert keine Renditen.</p>
+  <div class="regime-readout">
+    <div><span>Marktlage</span><strong>Kontraktion</strong></div>
+    <div><span>Marktbreite</span><strong>9%</strong></div>
+    <div><span>Median 30D</span><strong>-22.94%</strong></div>
+    <div><span>n</span><strong>173</strong></div>
+  </div>
+
+  <h2>Regeln der Research-Liste</h2>
+  <ul>
+    <li>Qualität zuerst: Qualität ≥ 70 und Bewertung ≥ 50.</li>
+    <li>Bewertungsreset: Bewertung ≥ 70 und Qualität ≥ 50.</li>
+    <li>Momentum-Führer: Momentum ≥ 80 und 30-Tage-Rendite &gt; 0.</li>
+  </ul>
+
+  <h2>Bekannte Grenzen</h2>
+  <p>Kurse sind verzögert oder Schlusskurse, ohne Intraday-Signal. Statisches KGV benachteiligt Wachstumsunternehmen. Umsatzwachstum und Auftragsdaten fehlen. Die Klassifikation enthält redaktionelles Urteil. Die Währungsumrechnung trägt Tagesfehler.</p>
+
+  <h2>Haftungsausschluss</h2>
+  <p class="disclaimer-box">Dieser Desk dient ausschließlich der Branchenrecherche und dem Lernen und ist keine Empfehlung, Wertpapiere zu kaufen oder zu verkaufen. Daten können verzögert oder falsch sein; maßgeblich sind Börsen- und Unternehmensmitteilungen.</p>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>Ein viersprachiger Research-Desk für die globale Halbleiter-Wertschöpfungskette</p>
+        <p class="footer-note">Nur Research. Keine Anlageberatung.</p>
+      </div>
+      <div>
+        <h3>Unternehmen</h3>
+        <a href="companies.html">Unternehmen</a>
+        <a href="value-chain.html">Wertschöpfungskette</a>
+        <a href="glossary.html">Glossar</a>
+      </div>
+      <div>
+        <h3>Wissen</h3>
+        <a href="knowledge/value-chain.html">Die Wertschöpfungskette: Wer verdient das Geld</a>
+        <a href="knowledge/process-flow.html">Waferfertigung: acht Prozessfamilien</a>
+        <a href="knowledge/lithography.html">Lithografie: von DUV bis High-NA-EUV</a>
+        <a href="knowledge/equipment-materials.html">Ausrüstung und Materialien: die Schaufeln verkaufen</a>
+      </div>
+      <div>
+        <h3>Über</h3>
+        <a href="methodology.html">Methodik</a>
+        <a href="about.html">Über</a>
+        <a href="../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>Static Build · v3.0.0 · 2026-11-11 13:15 UTC+8</span>
+      <span>Daten-Snapshot: 2026-11-11 13:12 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../assets/js/app.js?v=3.0.0"></script>
+</body>
+</html>

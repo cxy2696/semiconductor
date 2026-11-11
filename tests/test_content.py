@@ -31,9 +31,9 @@ def test_markdown_rejects_unsafe_links():
 def test_knowledge_parity():
     docs = load_all_knowledge()
     slugs = {lang: [doc.slug for doc in items] for lang, items in docs.items()}
-    assert slugs["zh"] == slugs["en"] == slugs["ja"]
-    assert len(slugs["zh"]) >= 8
-    for doc in docs["zh"]:
+    assert slugs["en"] == slugs["zh"] == slugs["ja"] == slugs["de"]
+    assert len(slugs["en"]) >= 12
+    for doc in docs["en"]:
         assert doc.title and doc.summary and doc.html
         assert doc.toc, doc.slug
 
@@ -42,6 +42,6 @@ def test_glossary_trilingual():
     glossary = load_glossary()
     assert len(glossary) >= 40
     for term in glossary:
-        for lang in ("zh", "en", "ja"):
+        for lang in ("zh", "en", "ja", "de"):
             assert term[lang]["term"]
             assert len(term[lang]["def"]) > 20

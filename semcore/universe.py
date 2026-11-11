@@ -56,6 +56,8 @@ class Company:
     website: str
     currency: str
     quote_venue: str
+    founded: str
+    fiscal_year_end: str
     names: dict[str, str] = field(default_factory=dict)
     notes: dict[str, str] = field(default_factory=dict)
 
@@ -148,8 +150,20 @@ def load_universe(path: Path | None = None, taxonomy: Taxonomy | None = None) ->
                 website=website,
                 currency=row.get("currency", "USD"),
                 quote_venue=row.get("quote_venue", ""),
-                names={"zh": row.get("name_zh", ""), "en": row.get("name_en", ""), "ja": row.get("name_ja", "")},
-                notes={"zh": row.get("note_zh", ""), "en": row.get("note_en", ""), "ja": row.get("note_ja", "")},
+                founded=row.get("founded", ""),
+                fiscal_year_end=row.get("fiscal_year_end", ""),
+                names={
+                    "zh": row.get("name_zh", ""),
+                    "en": row.get("name_en", ""),
+                    "ja": row.get("name_ja", ""),
+                    "de": row.get("name_de", "") or row.get("name_en", ""),
+                },
+                notes={
+                    "zh": row.get("note_zh", ""),
+                    "en": row.get("note_en", ""),
+                    "ja": row.get("note_ja", ""),
+                    "de": row.get("note_de", ""),
+                },
             )
         )
 

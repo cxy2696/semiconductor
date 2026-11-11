@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de-DE" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Packaging: CoWoS, HBM und Chiplets · Halbleiter-Intelligence-Desk</title>
+  <meta name="description" content="Während die Skalierung langsamer wird, wird Packaging zum Haupthebel für Rechenleistung. 2.5D/3D, Hybrid Bonding und der Kapazitätsengpass hinter KI-Chips verstehen.">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/de/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/zh/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="de-DE" href="https://cxy2696.github.io/semiconductor/de/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge/advanced-packaging.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="Advanced Packaging: CoWoS, HBM und Chiplets · Halbleiter-Intelligence-Desk">
+  <meta property="og:description" content="Während die Skalierung langsamer wird, wird Packaging zum Haupthebel für Rechenleistung. 2.5D/3D, Hybrid Bonding und der Kapazitätsengpass hinter KI-Chips verstehen.">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/de/knowledge/advanced-packaging.html">
+  <meta property="og:locale" content="de-DE">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/css/main.css?v=3.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "SiliconScope"}, "dateModified": "2026-11-10", "description": "W\u00e4hrend die Skalierung langsamer wird, wird Packaging zum Haupthebel f\u00fcr Rechenleistung. 2.5D/3D, Hybrid Bonding und der Kapazit\u00e4tsengpass hinter KI-Chips verstehen.", "headline": "Advanced Packaging: CoWoS, HBM und Chiplets", "inLanguage": "de-DE"}</script>
+</head>
+<body class="page-topic">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="../index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">Halbleiter-Intelligence-Desk</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Start">
+        <a href="../index.html" >Start</a>
+        <a href="../companies.html" >Unternehmen</a>
+        <a href="../value-chain.html" >Wertschöpfungskette</a>
+        <a href="../knowledge.html" aria-current="page">Wissen</a>
+        <a href="../glossary.html" >Glossar</a>
+        <a href="../methodology.html" >Methodik</a>
+        <a href="../about.html" >Über</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">Sprache</label>
+        <select id="locale-switch" class="locale-switch" aria-label="Sprache">
+          <option value="../../knowledge/advanced-packaging.html" >English</option>
+          <option value="../../zh/knowledge/advanced-packaging.html" >中文</option>
+          <option value="../../ja/knowledge/advanced-packaging.html" >日本語</option>
+          <option value="advanced-packaging.html" selected>Deutsch</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Design" title="Design">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="Menü">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="Start">
+      <a href="../index.html">Start</a>
+      <a href="../companies.html">Unternehmen</a>
+      <a href="../value-chain.html">Wertschöpfungskette</a>
+      <a href="../knowledge.html">Wissen</a>
+      <a href="../glossary.html">Glossar</a>
+      <a href="../methodology.html">Methodik</a>
+      <a href="../about.html">Über</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Start</a>
+  <span aria-hidden="true">/</span>
+  <a href="../knowledge.html">Wissen</a>
+  <span aria-hidden="true">/</span>
+  <span>Advanced Packaging: CoWoS, HBM und Chiplets</span>
+</nav>
+
+<article class="article-layout">
+  <div class="article-main">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="doc-level level-advanced">Fortgeschritten</span>
+        <span>Etwa 10 Min.</span>
+<span>Stand 2026-11-10</span>      </div>
+      <h1>Advanced Packaging: CoWoS, HBM und Chiplets</h1>
+      <p class="lede">Während die Skalierung langsamer wird, wird Packaging zum Haupthebel für Rechenleistung. 2.5D/3D, Hybrid Bonding und der Kapazitätsengpass hinter KI-Chips verstehen.</p>
+    </header>
+    <div class="prose">
+      <p>Packaging bedeutete früher „den Chip einpacken“. Heute entscheidet es, ob ein KI-Beschleuniger überhaupt gebaut werden kann – und wie viele ausgeliefert werden.</p>
+<h2 id="warum-packaging-jetzt-zählt">Warum Packaging jetzt zählt</h2>
+<p>Da sich das Moore'sche Gesetz verlangsamt, wird es mit jedem Node teurer, die Transistordichte auf einem Die zu erhöhen. Die Industrie bewegte sich in zwei Richtungen: große Chips in Chiplets aufteilen und Speicher durch 2.5D/3D-Integration näher an die Recheneinheit bringen. Beides hängt von Advanced Packaging ab.</p>
+<h2 id="vier-etablierte-ansätze">Vier etablierte Ansätze</h2>
+<ul><li><strong>WLCSP</strong>: Packaging und Balling erfolgen auf dem Wafer; das Gehäuse kommt nah an die Die-Größe, geeignet für kleine Bauteile mit geringer Pinzahl.</li><li><strong>2.5D (CoWoS)</strong>: GPU und HBM werden über einen Silizium-Interposer verbunden; der etablierte Weg für KI-Beschleuniger.</li><li><strong>3D-Stacking (SoIC, Hybrid Bonding)</strong>: zwei Wafer werden direkt gebondet, mit einer Interconnect-Pitch unter 10 µm.</li><li><strong>Fan-out</strong>: neu aufgebrachtes Molding um das Die für hochdichte Verdrahtung, verbreitet in Smartphones und Netzwerk.</li></ul>
+<h2 id="wo-der-engpass-liegt">Wo der Engpass liegt</h2>
+<p>Das KI-Angebot wird durch CoWoS-Kapazität, die Ausbeute beim HBM-Stacking und ABF-Substrate begrenzt. CoWoS braucht Interposer, TSVs und hochpräzises Bonden; zusätzliche Kapazität braucht Quartale. HBM braucht TSVs, Stacking und Test; jede Ausbeutelücke begrenzt die Auslieferungen.</p>
+<h2 id="wo-ausrüstung-und-materialien-profitieren">Wo Ausrüstung und Materialien profitieren</h2>
+<p>Advanced Packaging zieht Frontend-Prozesse ins Backend: Lithografie für RDL, Abscheidung und CMP für Bump- und Bond-Grenzflächen, Inspektion für TSVs und Ausrichtung. Zu den Profiteuren zählen Packaging-Ausrüstung, Hybrid-Bonding-Werkzeuge, temporäre Bonding-Materialien und Test.</p>
+<h2 id="worauf-zu-achten-ist">Worauf zu achten ist</h2>
+<ul><li>Umsatzmix und Wachstum im Advanced Packaging.</li><li>CoWoS-/HBM-Capex und Kapazitätsprognosen.</li><li>Teststunden und Nachfrage nach Probe Cards.</li><li>Knappheit bei Substraten und Formmassen.</li></ul>
+<h2 id="häufige-fehldeutung">Häufige Fehldeutung</h2>
+<p>Packaging mit niedrigen Margen gleichzusetzen. Traditionelles Packaging ist margenschwach, aber Advanced Packaging ist kapital- und technologieintensiv, mit Margen nahe dem Frontend-Niveau.</p>
+<h2 id="referenzen">Referenzen</h2>
+<ul><li><a href="https://www.tsmc.com/english/dedicatedFoundry/technology" rel="noopener">TSMC: Advanced Packaging</a></li><li><a href="https://www.aseglobal.com/" rel="noopener">ASE Technology</a></li><li><a href="https://www.besi.com/" rel="noopener">BESI: Hybrid Bonding</a></li></ul>
+    </div>
+
+    <section class="article-related">
+      <h2>Verwandte Themen</h2>
+      <div class="three-col">
+        <a class="doc-card" href="value-chain.html">
+          <span class="doc-level">Grundlagen</span>
+          <span class="doc-title">Die Wertschöpfungskette: Wer verdient das Geld</span>
+          <span class="doc-summary">Die acht Stufen wieder auf eine Kette bringen und verstehen, warum sich Margen, Kapitalintensität und Zyklusübertragung so stark unterscheiden.</span>
+        </a>
+        <a class="doc-card" href="process-flow.html">
+          <span class="doc-level">Grundlagen</span>
+          <span class="doc-title">Waferfertigung: acht Prozessfamilien</span>
+          <span class="doc-summary">Von Reinigung und Lithografie bis Ätzen und Messtechnik: wie aus einem Wafer ein Chip wird und warum die Schrittanzahl die Ausrüstungs- und Materialintensität erhöht.</span>
+        </a>
+        <a class="doc-card" href="memory-hbm.html">
+          <span class="doc-level">Kern</span>
+          <span class="doc-title">Speicher und HBM: die Mutter der Zyklen</span>
+          <span class="doc-summary">Speicher ist der am stärksten commoditisierte Teil der Halbleiterbranche und der zyklischste. HBM hat ihn zurück in die KI-Erzählung geholt, doch Angebot und Nachfrage laufen weiter über Bits und Wafer.</span>
+        </a>
+      </div>
+    </section>
+
+    <nav class="article-pager" aria-label="Verwandt">
+      <a href="equipment-materials.html"><span>← Zurück</span><strong>Ausrüstung und Materialien: die Schaufeln verkaufen</strong></a>
+      <a class="pager-next" href="memory-hbm.html"><span>Weiter →</span><strong>Speicher und HBM: die Mutter der Zyklen</strong></a>
+    </nav>
+  </div>
+
+  <aside class="article-aside">
+    <div class="toc panel">
+      <span class="kicker">Auf dieser Seite</span>
+      <nav>
+        <a class="toc-level-2" href="#warum-packaging-jetzt-zählt">Warum Packaging jetzt zählt</a>
+        <a class="toc-level-2" href="#vier-etablierte-ansätze">Vier etablierte Ansätze</a>
+        <a class="toc-level-2" href="#wo-der-engpass-liegt">Wo der Engpass liegt</a>
+        <a class="toc-level-2" href="#wo-ausrüstung-und-materialien-profitieren">Wo Ausrüstung und Materialien profitieren</a>
+        <a class="toc-level-2" href="#worauf-zu-achten-ist">Worauf zu achten ist</a>
+        <a class="toc-level-2" href="#häufige-fehldeutung">Häufige Fehldeutung</a>
+        <a class="toc-level-2" href="#referenzen">Referenzen</a>
+      </nav>
+      <div class="toc-tags">
+<span class="tag tag-sm">Packaging</span><span class="tag tag-sm">CoWoS</span><span class="tag tag-sm">Chiplet</span><span class="tag tag-sm">HBM</span>      </div>
+    </div>
+  </aside>
+</article>
+
+<p class="disclaimer-line">Nur Research. Keine Anlageberatung.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>Ein viersprachiger Research-Desk für die globale Halbleiter-Wertschöpfungskette</p>
+        <p class="footer-note">Nur Research. Keine Anlageberatung.</p>
+      </div>
+      <div>
+        <h3>Unternehmen</h3>
+        <a href="../companies.html">Unternehmen</a>
+        <a href="../value-chain.html">Wertschöpfungskette</a>
+        <a href="../glossary.html">Glossar</a>
+      </div>
+      <div>
+        <h3>Wissen</h3>
+        <a href="value-chain.html">Die Wertschöpfungskette: Wer verdient das Geld</a>
+        <a href="process-flow.html">Waferfertigung: acht Prozessfamilien</a>
+        <a href="lithography.html">Lithografie: von DUV bis High-NA-EUV</a>
+        <a href="equipment-materials.html">Ausrüstung und Materialien: die Schaufeln verkaufen</a>
+      </div>
+      <div>
+        <h3>Über</h3>
+        <a href="../methodology.html">Methodik</a>
+        <a href="../about.html">Über</a>
+        <a href="../../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>Static Build · v3.0.0 · 2026-11-11 13:15 UTC+8</span>
+      <span>Daten-Snapshot: 2026-11-11 13:12 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../../assets/js/app.js?v=3.0.0"></script>
+</body>
+</html>

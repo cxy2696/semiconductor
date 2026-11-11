@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-11T07:21:33+08:00",
+  "updated": "2026-11-11T13:12:46+08:00",
   "note": "Measured mapping from company id to Eastmoney secid. Edit only with a verified quote.",
   "symbols": {
     "asml": {
@@ -744,6 +744,312 @@
     "hpsp": {
       "secid": "177.403870",
       "name": "HPSP",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "smhn": {
+      "secid": "185.SMHN",
+      "name": "SÜSS MicroTec via XETRA",
+      "method": "seed",
+      "checked": "2026-11-11"
+    },
+    "xfab": {
+      "secid": "186.XFAB",
+      "name": "X-FAB via Euronext Paris",
+      "method": "seed",
+      "checked": "2026-11-11"
+    },
+    "acm-sh": {
+      "secid": "1.688082",
+      "name": "盛美上海",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "skyverse": {
+      "secid": "1.688361",
+      "name": "中科飞测",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "jingce": {
+      "secid": "0.300567",
+      "name": "精测电子",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "njc": {
+      "secid": "1.605111",
+      "name": "新洁能",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "leadsemi": {
+      "secid": "1.688469",
+      "name": "芯联集成-U",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "crrc-times": {
+      "secid": "1.688187",
+      "name": "时代电气",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "sinowealth": {
+      "secid": "0.300327",
+      "name": "中颖电子",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "anjimicro": {
+      "secid": "1.688019",
+      "name": "安集科技",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "dinglong": {
+      "secid": "0.300054",
+      "name": "鼎龙股份",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "scc": {
+      "secid": "0.002916",
+      "name": "深南电路",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "demingli": {
+      "secid": "0.001309",
+      "name": "德明利",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "yoke": {
+      "secid": "0.002409",
+      "name": "雅克科技",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "psmc": {
+      "secid": "178.6770",
+      "name": "力积电",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "xingsen": {
+      "secid": "0.002436",
+      "name": "兴森科技",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "nanya": {
+      "secid": "178.2408",
+      "name": "南亚科",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "winbond": {
+      "secid": "178.2344",
+      "name": "华邦电",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "sanan": {
+      "secid": "1.600703",
+      "name": "三安光电",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "parade": {
+      "secid": "178.4966",
+      "name": "谱瑞-KY",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "kyec": {
+      "secid": "178.2449",
+      "name": "京元电子",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "gtc": {
+      "secid": "178.3443",
+      "name": "创意",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "hanlei": {
+      "secid": "178.3707",
+      "name": "汉磊",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "nikon": {
+      "secid": "176.7731",
+      "name": "尼康",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "canon": {
+      "secid": "176.7751",
+      "name": "佳能",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "chipbond": {
+      "secid": "178.6147",
+      "name": "颀邦",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "sas": {
+      "secid": "178.5483",
+      "name": "中美晶",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "ebara": {
+      "secid": "176.6361",
+      "name": "荏原制作所",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "kokusai": {
+      "secid": "176.6525",
+      "name": "科意半导体",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "ulvac": {
+      "secid": "176.6728",
+      "name": "优贝克集团",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "towa": {
+      "secid": "176.6315",
+      "name": "TOWA",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "isc": {
+      "secid": "177.095340",
+      "name": "ISC",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "kanto-denka": {
+      "secid": "176.4047",
+      "name": "关东电化工业",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "dbhitek": {
+      "secid": "177.000990",
+      "name": "DB HiTek",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "eugene": {
+      "secid": "177.084370",
+      "name": "EugeneTechnology",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "lx-semicon": {
+      "secid": "177.108320",
+      "name": "LX Semicon",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "jusung": {
+      "secid": "177.036930",
+      "name": "Jusung Engineering",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "techwing": {
+      "secid": "177.089030",
+      "name": "Techwing",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "mksi": {
+      "secid": "105.MKSI",
+      "name": "MKS Inc",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "cohr": {
+      "secid": "106.COHR",
+      "name": "Coherent Corp",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "lite": {
+      "secid": "105.LITE",
+      "name": "Lumentum Holdings Inc",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "powi": {
+      "secid": "105.POWI",
+      "name": "帕沃英蒂格盛",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "diod": {
+      "secid": "105.DIOD",
+      "name": "Diodes Inc",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "slab": {
+      "secid": "105.SLAB",
+      "name": "芯科实验室",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "fn": {
+      "secid": "106.FN",
+      "name": "Fabrinet",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "lattice": {
+      "secid": "105.LSCC",
+      "name": "莱迪思半导体",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "vsh": {
+      "secid": "106.VSH",
+      "name": "威世科技",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "semtech": {
+      "secid": "105.SMTC",
+      "name": "先科电子",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "wolf": {
+      "secid": "106.WOLF",
+      "name": "Wolfspeed Inc",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "amba": {
+      "secid": "105.AMBA",
+      "name": "安霸",
+      "method": "probe",
+      "checked": "2026-11-11"
+    },
+    "tower": {
+      "secid": "105.TSEM",
+      "name": "Tower半导体",
       "method": "probe",
       "checked": "2026-11-11"
     }

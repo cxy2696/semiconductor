@@ -10,13 +10,13 @@ from semcore.universe import UniverseError, load_universe
 
 def test_universe_is_consistent(taxonomy):
     companies = load_universe(taxonomy=taxonomy)
-    assert len(companies) >= 80
+    assert len(companies) >= 150
     ids = [company.id for company in companies]
     assert len(ids) == len(set(ids))
     for company in companies:
         assert company.stage in taxonomy.stage_by_id
         assert company.role in taxonomy.roles
-        assert company.name("zh") and company.name("en") and company.name("ja")
+        assert company.name("zh") and company.name("en") and company.name("ja") and company.name("de")
         assert company.currency
 
 

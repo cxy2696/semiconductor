@@ -80,6 +80,7 @@ class SiteBuilder:
             locale.lang: {} for locale in LOCALES
         }
         self.generated: list[str] = []
+        self.english_pages: list[str] = []
         self._build_views()
         self.env = self._environment()
 
@@ -110,12 +111,25 @@ class SiteBuilder:
         company = row.company
         flags = [lookup(lang, f"flags.{flag}") for flag in row.flags]
         factor_labels = {
-            "quality": {"zh": "质量", "en": "Quality", "ja": "品質"}[lang],
-            "valuation": {"zh": "估值", "en": "Valuation", "ja": "バリュエーション"}[lang],
-            "momentum": {"zh": "动能", "en": "Momentum", "ja": "モメンタム"}[lang],
-            "size": {"zh": "规模", "en": "Size", "ja": "規模"}[lang],
+            "quality": {"zh": "质量", "en": "Quality", "ja": "品質", "de": "Qualität"}[lang],
+            "valuation": {"zh": "估值", "en": "Valuation", "ja": "バリュエーション", "de": "Bewertung"}[lang],
+            "momentum": {"zh": "动能", "en": "Momentum", "ja": "モメンタム", "de": "Momentum"}[lang],
+            "size": {"zh": "规模", "en": "Size", "ja": "規模", "de": "Größe"}[lang],
         }
         products = [self.taxonomy.product_label(pid, lang) for pid in company.products]
+        month_names = {
+            "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            "zh": [f"{m} 月" for m in range(1, 13)],
+            "ja": [f"{m}月" for m in range(1, 13)],
+            "de": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+        }[lang]
+        fy_label = ""
+        try:
+            month = int(str(company.fiscal_year_end).strip())
+            if 1 <= month <= 12:
+                fy_label = month_names[month - 1]
+        except (TypeError, ValueError):
+            fy_label = company.fiscal_year_end
         return {
             "id": company.id,
             "name": company.name(lang),
@@ -128,6 +142,9 @@ class SiteBuilder:
             "country_label": self.taxonomy.country_label(company.country, lang),
             "hq": company.hq,
             "website": company.website,
+            "founded": company.founded,
+            "fiscal_year_end": company.fiscal_year_end,
+            "fiscal_year_end_label": fy_label,
             "currency": company.currency,
             "stage": company.stage,
             "stage_label": self.taxonomy.stage_label(company.stage, lang),
@@ -136,7 +153,7 @@ class SiteBuilder:
             "role_label": self.taxonomy.role_label(company.role, lang),
             "role_desc": self.taxonomy.role_desc(company.role, lang),
             "products": products,
-            "product_text": "、".join(products) if lang != "en" else ", ".join(products),
+            "product_text": "、".join(products) if lang in {"zh", "ja"} else ", ".join(products),
             "note": company.note(lang),
             "price": row.price,
             "price_text": fmt_price(row.price, company.currency),
@@ -271,6 +288,7 @@ class SiteBuilder:
             for row in self.analytics.rows:
                 self._write(locale, "company", f"companies/{row.company.id}.html", "company.html", self._company_context(locale, row))
 
+        self._write_english_redirects()
         self._copy_assets()
         self._write_payloads()
         self._write_extras()
@@ -288,6 +306,8 @@ class SiteBuilder:
         html_text = template_obj.render(**context)
         full.write_text(html_text, encoding="utf-8")
         self.generated.append(path)
+        if locale.lang == "en":
+            self.english_pages.append(path)
 
     # ---- contexts ------------------------------------------------------
     def _home_context(self, locale: Locale) -> dict[str, Any]:
@@ -584,14 +604,14 @@ class SiteBuilder:
 
     def _related_topics(self, stage_id: str) -> list[str]:
         mapping = {
-            "eda_ip": ["value-chain", "metrics"],
-            "design": ["value-chain", "metrics"],
-            "manufacturing": ["process-flow", "lithography", "cycle"],
-            "memory": ["memory-hbm", "cycle"],
-            "equipment": ["equipment-materials", "lithography"],
+            "eda_ip": ["eda-ip", "value-chain", "metrics"],
+            "design": ["value-chain", "eda-ip", "metrics"],
+            "manufacturing": ["process-flow", "lithography", "automotive"],
+            "memory": ["memory-hbm", "ai-datacenter", "cycle"],
+            "equipment": ["equipment-materials", "lithography", "ai-datacenter"],
             "materials": ["equipment-materials", "process-flow"],
-            "packaging": ["advanced-packaging", "process-flow"],
-            "module": ["memory-hbm", "cycle"],
+            "packaging": ["advanced-packaging", "ai-datacenter", "process-flow"],
+            "module": ["memory-hbm", "ai-datacenter", "cycle"],
         }
         return mapping.get(stage_id, ["value-chain"])
 
@@ -778,6 +798,24 @@ class SiteBuilder:
         for path in sorted(target.rglob("*")):
             if path.is_file():
                 self.generated.append(str(path.relative_to(self.output)))
+
+    def _write_english_redirects(self) -> None:
+        """Keep the old /en/ URLs alive now that English lives at the root."""
+        template = self.env.get_template("redirect.html")
+        for path in self.english_pages:
+            legacy = f"en/{path}"
+            target = rel_href(path, legacy)
+            html_text = template.render(
+                lang="en",
+                t=bundle_for("en"),
+                target=target,
+                site_name=SITE_NAME,
+                page_title=bundle_for("en")["redirect"]["title"],
+            )
+            full = self.output / legacy
+            full.parent.mkdir(parents=True, exist_ok=True)
+            full.write_text(html_text, encoding="utf-8")
+            self.generated.append(legacy)
 
     def _write_extras(self) -> None:
         write_text(self.output / ".nojekyll", "")

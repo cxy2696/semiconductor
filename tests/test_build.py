@@ -11,13 +11,24 @@ def test_build_all_locales(tmp_path: Path, snapshot):
     builder = SiteBuilder(snapshot=snapshot, output=tmp_path / "site")
     manifest = builder.build()
     site = tmp_path / "site"
-    assert manifest["pages"] > 300
-    for relative in ("index.html", "en/index.html", "ja/index.html", "companies.html", "value-chain.html", "methodology.html"):
+    assert manifest["pages"] > 600
+    for relative in (
+        "index.html",
+        "zh/index.html",
+        "ja/index.html",
+        "de/index.html",
+        "companies.html",
+        "value-chain.html",
+        "methodology.html",
+        "en/index.html",
+    ):
         assert (site / relative).exists(), relative
     company_pages = list((site / "companies").glob("*.html"))
-    assert len(company_pages) >= 80
+    assert len(company_pages) >= 150
+    for prefix in ("zh", "ja", "de"):
+        assert len(list((site / prefix / "companies").glob("*.html"))) >= 150
     topic_pages = list((site / "knowledge").glob("*.html"))
-    assert len(topic_pages) >= 8
+    assert len(topic_pages) >= 12
     legacy = json.loads((site / "latest_data.json").read_text(encoding="utf-8"))
     for key in ("data", "news_pool", "kline_data", "industry_basics", "data_time_iso"):
         assert key in legacy

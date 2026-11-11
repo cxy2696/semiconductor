@@ -8,22 +8,26 @@
       "label": {
         "zh": "EDA / IP 与设计服务",
         "en": "EDA / IP & design services",
-        "ja": "EDA / IP・設計サービス"
+        "ja": "EDA / IP・設計サービス",
+        "de": "EDA / IP & Designservices"
       },
       "short": {
         "zh": "EDA/IP",
         "en": "EDA/IP",
-        "ja": "EDA/IP"
+        "ja": "EDA/IP",
+        "de": "EDA/IP"
       },
       "summary": {
         "zh": "芯片设计的基础设施：EDA 工具、指令集与处理器 IP、接口 IP、设计服务。毛利率最高、收入最可预期，但规模有限且高度依赖生态锁定。",
         "en": "The tooling layer of chip design: EDA software, instruction-set and processor IP, interface IP and design services. Highest gross margins and recurring revenue, but limited scale and deeply ecosystem-locked.",
-        "ja": "チップ設計の基盤層。EDA ツール、命令セット／プロセッサ IP、インターフェース IP、設計サービス。粗利率が最も高く収益が読みやすい一方、規模は限定的でエコシステム依存度が高い。"
+        "ja": "チップ設計の基盤層。EDA ツール、命令セット／プロセッサ IP、インターフェース IP、設計サービス。粗利率が最も高く収益が読みやすい一方、規模は限定的でエコシステム依存度が高い。",
+        "de": "Die Werkzeugebene des Chipdesigns: EDA-Software, Befehlssatz- und Prozessor-IP, Schnittstellen-IP und Designservices. Höchste Bruttomargen und wiederkehrende Umsätze, aber begrenzte Skalierung und starke Ökosystembindung."
       },
       "economics": {
         "zh": "收入以授权（license）+ 版税（royalty）为主；客户切换成本极高，因此定价权强。观察指标：license 与 royalty 结构、单芯片版税率、先进制程 IP 认证进度。",
         "en": "Revenue is license plus royalty based. Switching costs are high, which supports pricing power. Watch license-versus-royalty mix, royalty per chip, and IP certification at leading-edge nodes.",
-        "ja": "収益はライセンス＋ロイヤルティが中心。スイッチングコストが高く価格決定力が強い。ライセンスとロイヤルティの構成、チップ当たりロイヤルティ、先端ノードでの IP 認定状況を確認する。"
+        "ja": "収益はライセンス＋ロイヤルティが中心。スイッチングコストが高く価格決定力が強い。ライセンスとロイヤルティの構成、チップ当たりロイヤルティ、先端ノードでの IP 認定状況を確認する。",
+        "de": "Der Umsatz basiert auf Lizenzen plus Royalties. Die Wechselkosten sind hoch, was die Preissetzungsmacht stützt. Beobachten: Lizenz- versus Royalty-Mix, Royalty pro Chip und IP-Zertifizierung an führenden Nodes."
       },
       "metrics": {
         "zh": [
@@ -40,6 +44,11 @@
           "ロイヤルティ率",
           "更新率",
           "研究開発費率"
+        ],
+        "de": [
+          "Royalty-Rate",
+          "Erneuerungsrate",
+          "F&E-Intensität"
         ]
       }
     },
@@ -50,22 +59,26 @@
       "label": {
         "zh": "芯片设计（Fabless）",
         "en": "Chip design (fabless)",
-        "ja": "チップ設計（ファブレス）"
+        "ja": "チップ設計（ファブレス）",
+        "de": "Chipdesign (Fabless)"
       },
       "short": {
         "zh": "设计",
         "en": "Design",
-        "ja": "設計"
+        "ja": "設計",
+        "de": "Design"
       },
       "summary": {
         "zh": "无晶圆厂设计公司：定义产品、完成前端与后端设计，把制造外包给代工厂。成败取决于产品定义、客户导入速度与代工生産能力获取能力。",
         "en": "Fabless companies define products and complete front-end and back-end design, outsourcing fabrication to foundries. Outcomes hinge on product definition, design-win velocity and access to foundry capacity.",
-        "ja": "ファブレス企業は製品を定義し、フロント／バックエンド設計を担い、製造をファウンドリに委託する。製品定義、設計採用の速度、ファウンドリの製造能力の確保が成否を分ける。"
+        "ja": "ファブレス企業は製品を定義し、フロント／バックエンド設計を担い、製造をファウンドリに委託する。製品定義、設計採用の速度、ファウンドリの製造能力の確保が成否を分ける。",
+        "de": "Fabless-Unternehmen definieren Produkte und übernehmen Front- und Backend-Design, während die Fertigung an Foundries geht. Der Erfolg hängt von Produktdefinition, Design-Wins und dem Zugang zu Foundry-Kapazität ab."
       },
       "economics": {
         "zh": "典型的轻资产模型：研发费用率高（15%–25%），库存与生産能力预付款占用现金。观察指标：设计中标数、客户集中度、平均售价（ASP）、毛利率与库存周转。",
         "en": "A light-asset model with high R&D intensity (15%–25% of revenue) and cash tied up in inventory and capacity prepayments. Watch design wins, customer concentration, ASP, gross margin and inventory turns.",
-        "ja": "軽資産モデルで研究開発費率は 15〜25%。在庫と生産能力前払いが現金を圧迫する。設計採用件数、顧客集中度、ASP、粗利率、在庫回転を確認する。"
+        "ja": "軽資産モデルで研究開発費率は 15〜25%。在庫と生産能力前払いが現金を圧迫する。設計採用件数、顧客集中度、ASP、粗利率、在庫回転を確認する。",
+        "de": "Ein leichtes Asset-Modell mit hoher F&E-Intensität (15–25 % des Umsatzes) und Kapitalbindung in Lager und Kapazitätsvorauszahlungen. Beobachten: Design-Wins, Kundenkonzentration, ASP, Bruttomarge und Lagerumschlag."
       },
       "metrics": {
         "zh": [
@@ -82,6 +95,11 @@
           "設計採用数",
           "顧客集中度",
           "在庫回転"
+        ],
+        "de": [
+          "Design-Wins",
+          "Kundenkonzentration",
+          "Lagerumschlag"
         ]
       }
     },
@@ -92,22 +110,26 @@
       "label": {
         "zh": "晶圆制造（代工 / IDM）",
         "en": "Wafer fabrication (foundry / IDM)",
-        "ja": "ウェハ製造（ファウンドリ / IDM）"
+        "ja": "ウェハ製造（ファウンドリ / IDM）",
+        "de": "Waferfertigung (Foundry / IDM)"
       },
       "short": {
         "zh": "制造",
         "en": "Manufacturing",
-        "ja": "製造"
+        "ja": "製造",
+        "de": "Fertigung"
       },
       "summary": {
         "zh": "资本最密集的环节：把设计图形转移到硅片上。代工厂靠生産能力利用率与制程组合赚钱，IDM 同时承担设计与制造。先进制程只有少数玩家，成熟制程竞争更充分。",
         "en": "The most capital-intensive layer: transferring design patterns onto silicon. Foundries earn on utilisation and node mix; IDMs carry both design and manufacturing. Leading edge is a handful of players, mature nodes are far more competitive.",
-        "ja": "最も資本集約的な工程。設計パターンをシリコンに転写する。ファウンドリは稼働率とノード構成で収益を上げ、IDM は設計と製造の両方を担う。先端ノードは数社、成熟ノードは競争が激しい。"
+        "ja": "最も資本集約的な工程。設計パターンをシリコンに転写する。ファウンドリは稼働率とノード構成で収益を上げ、IDM は設計と製造の両方を担う。先端ノードは数社、成熟ノードは競争が激しい。",
+        "de": "Die kapitalintensivste Stufe: Designs werden auf Silizium übertragen. Foundries verdienen an Auslastung und Node-Mix; IDMs tragen Design und Fertigung. Leading Edge ist ein Oligopol, reife Nodes sind umkämpfter."
       },
       "economics": {
         "zh": "单座先进晶圆厂资本开支可达百亿美元级，折旧压力大。观察指标：生産能力利用率、晶圆 ASP、制程占比、资本开支强度、折旧占收入比。",
         "en": "A single leading-edge fab can cost north of USD 10bn, so depreciation is heavy. Watch utilisation, wafer ASP, node mix, capex intensity and depreciation as a share of revenue.",
-        "ja": "先端工場 1 基の設備投資は 100 億ドル超に達し、減価償却負担が重い。稼働率、ウェハ ASP、ノード構成、設備投資強度、売上高に占める減価償却費を確認する。"
+        "ja": "先端工場 1 基の設備投資は 100 億ドル超に達し、減価償却負担が重い。稼働率、ウェハ ASP、ノード構成、設備投資強度、売上高に占める減価償却費を確認する。",
+        "de": "Eine führende Fab kostet über 10 Mrd. USD, die Abschreibung lastet schwer. Beobachten: Auslastung, Wafer-ASP, Node-Mix, Capex-Intensität und Abschreibungen im Verhältnis zum Umsatz."
       },
       "metrics": {
         "zh": [
@@ -124,6 +146,11 @@
           "稼働率",
           "ウェハ ASP",
           "売上高減価償却費率"
+        ],
+        "de": [
+          "Auslastung",
+          "Wafer-ASP",
+          "Abschreibung/Umsatz"
         ]
       }
     },
@@ -134,22 +161,26 @@
       "label": {
         "zh": "存储芯片",
         "en": "Memory",
-        "ja": "メモリ"
+        "ja": "メモリ",
+        "de": "Speicher"
       },
       "short": {
         "zh": "存储",
         "en": "Memory",
-        "ja": "メモリ"
+        "ja": "メモリ",
+        "de": "Speicher"
       },
       "summary": {
         "zh": "标准化程度最高的半导体品类：DRAM、NAND、NOR 与 HBM。强周期、寡头格局，价格由供需与库存决定，HBM 把存储重新拉回 AI 叙事中心。",
         "en": "The most standardised semiconductor category: DRAM, NAND, NOR and HBM. Deeply cyclical and oligopolistic; pricing is set by supply, demand and inventory. HBM has moved memory back to the centre of the AI story.",
-        "ja": "最も標準化された半導体カテゴリ。DRAM、NAND、NOR、HBM。強い周期性と寡占構造を持ち、価格は需給と在庫で決まる。HBM によりメモリは再び AI の中心に戻った。"
+        "ja": "最も標準化された半導体カテゴリ。DRAM、NAND、NOR、HBM。強い周期性と寡占構造を持ち、価格は需給と在庫で決まる。HBM によりメモリは再び AI の中心に戻った。",
+        "de": "Die standardisierteste Kategorie: DRAM, NAND, NOR und HBM. Stark zyklisch und oligopolistisch; Preise folgen Angebot, Nachfrage und Lagerbeständen. HBM hat den Speicher zurück ins Zentrum der KI-Erzählung gerückt."
       },
       "economics": {
         "zh": "看 bit 供需与单位成本下降曲线：bit 出货增速、合约价、库存周数、资本开支。HBM 的关键是堆叠层数、良率与客户认证。",
         "en": "Track bit supply/demand and the cost-per-bit curve: bit shipment growth, contract pricing, inventory weeks and capex. For HBM, watch stack height, yield and customer qualification.",
-        "ja": "ビット需給とビット当たりコストの低下曲線を追う。ビット出荷成長率、契約価格、在庫週数、設備投資。HBM では積層数、歩留まり、顧客認定が重要。"
+        "ja": "ビット需給とビット当たりコストの低下曲線を追う。ビット出荷成長率、契約価格、在庫週数、設備投資。HBM では積層数、歩留まり、顧客認定が重要。",
+        "de": "Bit-Angebot und -Nachfrage sowie die Kosten-pro-Bit-Kurve beobachten: Bit-Auslieferungen, Vertragspreise, Lagerwochen und Capex. Bei HBM zählen Stack-Höhe, Ausbeute und Kundenqualifikation."
       },
       "metrics": {
         "zh": [
@@ -166,6 +197,11 @@
           "ビット出荷成長",
           "契約価格",
           "在庫週数"
+        ],
+        "de": [
+          "Bit-Auslieferungswachstum",
+          "Vertragspreis",
+          "Lagerwochen"
         ]
       }
     },
@@ -176,22 +212,26 @@
       "label": {
         "zh": "半导体设备",
         "en": "Semiconductor equipment",
-        "ja": "半導体製造装置"
+        "ja": "半導体製造装置",
+        "de": "Halbleiterausrüstung"
       },
       "short": {
         "zh": "设备",
         "en": "Equipment",
-        "ja": "装置"
+        "ja": "装置",
+        "de": "Ausrüstung"
       },
       "summary": {
         "zh": "产业链的“卖铲人”：光刻、刻蚀、薄膜沉积、CMP、清洗、离子注入、量测检测、测试设备。技术壁垒与客户认证周期极长，景气度领先于晶圆厂收入。",
         "en": "The picks-and-shovels layer: lithography, etch, deposition, CMP, cleaning, ion implantation, metrology, inspection and test. Long technical and qualification cycles make equipment a leading indicator for fab revenue.",
-        "ja": "「ツルハシを売る」層。露光、エッチング、成膜、CMP、洗浄、イオン注入、計測検査、テスト装置。技術・認定サイクルが長く、装置市況はファブ売上に先行する。"
+        "ja": "「ツルハシを売る」層。露光、エッチング、成膜、CMP、洗浄、イオン注入、計測検査、テスト装置。技術・認定サイクルが長く、装置市況はファブ売上に先行する。",
+        "de": "Die Schaufelverkäufer: Lithografie, Ätzen, Abscheidung, CMP, Reinigung, Ionenimplantation, Messtechnik, Inspektion und Test. Lange technische und Qualifikationszyklen machen Ausrüstung zu einem Frühindikator für Fab-Umsätze."
       },
       "economics": {
         "zh": "收入来自晶圆厂资本开支，波动大于终端需求。观察指标：book-to-bill、在手订单、中国大陆收入占比、服务与备件收入占比（经常性收入）。",
         "en": "Revenue follows fab capex, so it swings harder than end demand. Watch book-to-bill, backlog, China revenue exposure and the share of service and spares (recurring revenue).",
-        "ja": "売上はファブの設備投資に連動し、最終需要以上に振れる。ブック・トゥ・ビル、受注残、中国売上比率、サービス・スペア部品（継続収益）比率を確認する。"
+        "ja": "売上はファブの設備投資に連動し、最終需要以上に振れる。ブック・トゥ・ビル、受注残、中国売上比率、サービス・スペア部品（継続収益）比率を確認する。",
+        "de": "Der Umsatz folgt dem Fab-Capex und schwankt stärker als die Endnachfrage. Beobachten: Book-to-Bill, Auftragsbestand, China-Umsatzanteil und den Anteil von Service und Ersatzteilen (wiederkehrende Umsätze)."
       },
       "metrics": {
         "zh": [
@@ -208,6 +248,11 @@
           "ブック・トゥ・ビル",
           "受注残",
           "サービス収入比率"
+        ],
+        "de": [
+          "Book-to-Bill",
+          "Auftragsbestand",
+          "Service-Umsatzanteil"
         ]
       }
     },
@@ -218,22 +263,26 @@
       "label": {
         "zh": "半导体材料",
         "en": "Semiconductor materials",
-        "ja": "半導体材料"
+        "ja": "半導体材料",
+        "de": "Halbleitermaterialien"
       },
       "short": {
         "zh": "材料",
         "en": "Materials",
-        "ja": "材料"
+        "ja": "材料",
+        "de": "Materialien"
       },
       "summary": {
         "zh": "硅片、光刻胶、电子特气、靶材、CMP 抛光液、封装基板与塑封料。单晶硅片与光刻胶等环节高度集中，认证周期长；材料收入比设备更平滑。",
         "en": "Silicon wafers, photoresist, specialty gases, sputtering targets, CMP slurries, substrates and molding compounds. Wafer and photoresist supply is concentrated, qualification is slow, and revenue is smoother than equipment.",
-        "ja": "シリコンウェハ、フォトレジスト、特殊ガス、スパッタリングターゲット、CMP スラリー、基板、封止材。ウェハやレジストは寡占的で認定に時間がかかるが、売上は装置より安定している。"
+        "ja": "シリコンウェハ、フォトレジスト、特殊ガス、スパッタリングターゲット、CMP スラリー、基板、封止材。ウェハやレジストは寡占的で認定に時間がかかるが、売上は装置より安定している。",
+        "de": "Siliziumwafer, Fotolack, Spezialgase, Sputtertargets, CMP-Slurries, Substrate und Formmassen. Wafer- und Lackangebot sind konzentriert, die Qualifikation langsam, die Umsätze stabiler als bei Ausrüstung."
       },
       "economics": {
         "zh": "单价与纯度/规格强相关，客户黏性高。观察指标：生産能力扩张、长约价格、国产化率、原材料成本（如多晶硅、白银、铜）。",
         "en": "Pricing scales with purity and specification, and customer stickiness is high. Watch capacity additions, long-term contract prices, localisation rates and raw-material costs such as polysilicon, silver and copper.",
-        "ja": "価格は純度・仕様に強く連動し、顧客粘着性が高い。生産能力拡張、長期契約価格、国産化率、原材料コスト（多結晶シリコン、銀、銅など）を確認する。"
+        "ja": "価格は純度・仕様に強く連動し、顧客粘着性が高い。生産能力拡張、長期契約価格、国産化率、原材料コスト（多結晶シリコン、銀、銅など）を確認する。",
+        "de": "Preise skalieren mit Reinheit und Spezifikation, die Kundenbindung ist hoch. Beobachten: Kapazitätserweiterungen, Langfristvertragspreise, Lokalisierungsquote und Rohstoffkosten wie Polysilizium, Silber und Kupfer."
       },
       "metrics": {
         "zh": [
@@ -250,6 +299,11 @@
           "生産能力拡張",
           "長期契約価格",
           "国産化率"
+        ],
+        "de": [
+          "Kapazitätsausbau",
+          "Vertragspreis",
+          "Lokalisierungsquote"
         ]
       }
     },
@@ -260,22 +314,26 @@
       "label": {
         "zh": "封装与测试",
         "en": "Packaging & test",
-        "ja": "パッケージング＆テスト"
+        "ja": "パッケージング＆テスト",
+        "de": "Packaging & Test"
       },
       "short": {
         "zh": "封测",
         "en": "Packaging",
-        "ja": "後工程"
+        "ja": "後工程",
+        "de": "Packaging"
       },
       "summary": {
         "zh": "把裸片变成可交付的芯片：划片、贴装、键合、塑封、植球、成品测试。先进封装（2.5D/3D、CoWoS、混合键合）已成为 AI 算力的瓶颈环节，价值量快速上升。",
         "en": "Turns bare die into shippable parts: dicing, attach, bonding, molding, balling and final test. Advanced packaging (2.5D/3D, CoWoS, hybrid bonding) is now an AI compute bottleneck and captures rising value.",
-        "ja": "ベアダイを出荷可能な形にする工程。ダイシング、実装、ボンディング、封止、ボール実装、最終テスト。先端実装（2.5D/3D、CoWoS、ハイブリッドボンディング）は AI 計算のボトルネックとなり、付加価値が急速に高まっている。"
+        "ja": "ベアダイを出荷可能な形にする工程。ダイシング、実装、ボンディング、封止、ボール実装、最終テスト。先端実装（2.5D/3D、CoWoS、ハイブリッドボンディング）は AI 計算のボトルネックとなり、付加価値が急速に高まっている。",
+        "de": "Macht aus Bare-Dies lieferbare Bauteile: Vereinzeln, Montage, Bonden, Molden, Balling und Endtest. Advanced Packaging (2.5D/3D, CoWoS, Hybrid Bonding) ist heute ein KI-Engpass und bindet steigenden Wert."
       },
       "economics": {
         "zh": "传统封测毛利偏低（15%–25%），先进封装可显著抬升毛利。观察指标：生産能力利用率、先进封装收入占比、CoWoS/HBM 相关订单、测试时长（test hours）。",
         "en": "Traditional OSAT margins are modest (15%–25%); advanced packaging lifts them materially. Watch utilisation, advanced-packaging revenue mix, CoWoS/HBM-linked orders and test hours.",
-        "ja": "従来の後工程は粗利率 15〜25% 程度だが、先端実装は大幅に改善する。稼働率、先端実装売上比率、CoWoS／HBM 関連受注、テスト時間を確認する。"
+        "ja": "従来の後工程は粗利率 15〜25% 程度だが、先端実装は大幅に改善する。稼働率、先端実装売上比率、CoWoS／HBM 関連受注、テスト時間を確認する。",
+        "de": "Klassisches Packaging hat bescheidene Margen (15–25 %); Advanced Packaging hebt sie deutlich. Beobachten: Auslastung, Advanced-Packaging-Umsatzmix, CoWoS-/HBM-Aufträge und Teststunden."
       },
       "metrics": {
         "zh": [
@@ -292,6 +350,11 @@
           "稼働率",
           "先端実装比率",
           "テスト時間"
+        ],
+        "de": [
+          "Auslastung",
+          "Advanced-Packaging-Anteil",
+          "Teststunden"
         ]
       }
     },
@@ -302,22 +365,26 @@
       "label": {
         "zh": "模组与系统",
         "en": "Modules & systems",
-        "ja": "モジュール・システム"
+        "ja": "モジュール・システム",
+        "de": "Module & Systeme"
       },
       "short": {
         "zh": "模组",
         "en": "Modules",
-        "ja": "モジュール"
+        "ja": "モジュール",
+        "de": "Module"
       },
       "summary": {
         "zh": "存储模组、板卡与子系统。靠近终端需求、周转快但毛利薄，是观察渠道库存与终端景气的敏感窗口。",
         "en": "Memory modules, boards and subsystems. Close to end demand, fast-turning but thin-margin, and a sensitive window into channel inventory and end-market health.",
-        "ja": "メモリモジュール、ボード、サブシステム。最終需要に近く回転は速いが利幅は薄い。チャネル在庫と最終需要の健全性を映す敏感な窓口。"
+        "ja": "メモリモジュール、ボード、サブシステム。最終需要に近く回転は速いが利幅は薄い。チャネル在庫と最終需要の健全性を映す敏感な窓口。",
+        "de": "Speichermodule, Boards und Subsysteme. Nahe an der Endnachfrage, schnell drehend, aber margenschwach – ein sensibles Fenster für Kanalbestände und Endmarktgesundheit."
       },
       "economics": {
         "zh": "核心是库存管理与采购时点：低价备货可在涨价周期放大利润，也会在下行周期放大亏损。观察指标：存货周转天数、合约价与现货价差、渠道库存。",
         "en": "The core is inventory timing: cheap procurement amplifies profit in upcycles and losses in downcycles. Watch inventory days, contract-versus-spot price spread and channel inventory.",
-        "ja": "要点は在庫管理と仕入れ timing。安値での仕込みは上昇局面で利益を増幅し、下降局面で損失を増幅する。在庫日数、契約価格とスポット価格の差、チャネル在庫を確認する。"
+        "ja": "要点は在庫管理と仕入れ timing。安値での仕込みは上昇局面で利益を増幅し、下降局面で損失を増幅する。在庫日数、契約価格とスポット価格の差、チャネル在庫を確認する。",
+        "de": "Der Kern ist das Lagertiming: günstiger Einkauf verstärkt Gewinne im Aufschwung und Verluste im Abschwung. Beobachten: Lagertage, Differenz zwischen Vertrags- und Spotpreis sowie Kanalbestände."
       },
       "metrics": {
         "zh": [
@@ -334,6 +401,11 @@
           "在庫日数",
           "契約・スポット価格差",
           "チャネル在庫"
+        ],
+        "de": [
+          "Lagertage",
+          "Vertrags-Spot-Spread",
+          "Kanalbestand"
         ]
       }
     }
@@ -344,12 +416,14 @@
       "label": {
         "zh": "EDA/IP 授权",
         "en": "EDA / IP licensing",
-        "ja": "EDA・IP ライセンス"
+        "ja": "EDA・IP ライセンス",
+        "de": "EDA/IP-Lizenzierung"
       },
       "desc": {
         "zh": "以软件授权与 IP 版税为主要收入",
         "en": "Revenue mainly from software licenses and IP royalties",
-        "ja": "ソフトウェアライセンスと IP ロイヤルティが主な収益源"
+        "ja": "ソフトウェアライセンスと IP ロイヤルティが主な収益源",
+        "de": "Umsatz vor allem aus Softwarelizenzen und IP-Royalties"
       }
     },
     {
@@ -357,12 +431,14 @@
       "label": {
         "zh": "无晶圆厂设计",
         "en": "Fabless",
-        "ja": "ファブレス"
+        "ja": "ファブレス",
+        "de": "Fabless"
       },
       "desc": {
         "zh": "自主设计、外包制造",
         "en": "Designs in-house, outsources fabrication",
-        "ja": "自社設計・製造委託"
+        "ja": "自社設計・製造委託",
+        "de": "Entwickelt selbst, vergibt die Fertigung"
       }
     },
     {
@@ -370,12 +446,14 @@
       "label": {
         "zh": "晶圆代工",
         "en": "Foundry",
-        "ja": "ファウンドリ"
+        "ja": "ファウンドリ",
+        "de": "Foundry"
       },
       "desc": {
         "zh": "为第三方提供晶圆制造服务",
         "en": "Provides wafer manufacturing for third parties",
-        "ja": "第三者向けにウェハ製造を提供"
+        "ja": "第三者向けにウェハ製造を提供",
+        "de": "Fertigt Wafer für Dritte"
       }
     },
     {
@@ -383,12 +461,14 @@
       "label": {
         "zh": "IDM",
         "en": "IDM",
-        "ja": "IDM"
+        "ja": "IDM",
+        "de": "IDM"
       },
       "desc": {
         "zh": "设计、制造、封测一体化",
         "en": "Integrated design, manufacturing and packaging",
-        "ja": "設計・製造・後工程を一貫"
+        "ja": "設計・製造・後工程を一貫",
+        "de": "Design, Fertigung und Packaging integriert"
       }
     },
     {
@@ -396,12 +476,14 @@
       "label": {
         "zh": "存储原厂",
         "en": "Memory maker",
-        "ja": "メモリメーカー"
+        "ja": "メモリメーカー",
+        "de": "Speicherhersteller"
       },
       "desc": {
         "zh": "DRAM/NAND/HBM 等存储芯片制造",
         "en": "Manufactures DRAM, NAND, HBM and related memory",
-        "ja": "DRAM・NAND・HBM などのメモリを製造"
+        "ja": "DRAM・NAND・HBM などのメモリを製造",
+        "de": "Fertigt DRAM, NAND, HBM und verwandten Speicher"
       }
     },
     {
@@ -409,12 +491,14 @@
       "label": {
         "zh": "设备厂商",
         "en": "Equipment vendor",
-        "ja": "製造装置メーカー"
+        "ja": "製造装置メーカー",
+        "de": "Ausrüstungshersteller"
       },
       "desc": {
         "zh": "前道/后道/测试设备与零部件",
         "en": "Front-end, back-end and test equipment and parts",
-        "ja": "前工程・後工程・テスト装置と部品"
+        "ja": "前工程・後工程・テスト装置と部品",
+        "de": "Frontend-, Backend- und Testausrüstung sowie Teile"
       }
     },
     {
@@ -422,12 +506,14 @@
       "label": {
         "zh": "材料厂商",
         "en": "Materials supplier",
-        "ja": "材料メーカー"
+        "ja": "材料メーカー",
+        "de": "Materiallieferant"
       },
       "desc": {
         "zh": "硅片、气体、光刻胶、靶材、基板等",
         "en": "Wafers, gases, photoresist, targets, substrates",
-        "ja": "ウェハ、ガス、レジスト、ターゲット、基板など"
+        "ja": "ウェハ、ガス、レジスト、ターゲット、基板など",
+        "de": "Wafer, Gase, Fotolack, Targets, Substrate"
       }
     },
     {
@@ -435,12 +521,14 @@
       "label": {
         "zh": "封测代工",
         "en": "OSAT",
-        "ja": "OSAT"
+        "ja": "OSAT",
+        "de": "OSAT"
       },
       "desc": {
         "zh": "封装与测试外包服务",
         "en": "Outsourced packaging and test services",
-        "ja": "後工程アウトソーシング"
+        "ja": "後工程アウトソーシング",
+        "de": "Ausgelagerte Packaging- und Testdienstleistungen"
       }
     },
     {
@@ -448,12 +536,14 @@
       "label": {
         "zh": "模组/系统",
         "en": "Module / system",
-        "ja": "モジュール・システム"
+        "ja": "モジュール・システム",
+        "de": "Modul/System"
       },
       "desc": {
         "zh": "存储模组、板卡与子系统集成",
         "en": "Memory modules, boards and subsystem integration",
-        "ja": "メモリモジュール・ボード・サブシステム統合"
+        "ja": "メモリモジュール・ボード・サブシステム統合",
+        "de": "Speichermodule, Boards und Subsystemintegration"
       }
     }
   ],
@@ -461,416 +551,546 @@
     "lithography": {
       "zh": "光刻",
       "en": "Lithography",
-      "ja": "露光"
+      "ja": "露光",
+      "de": "Lithografie"
     },
     "euv": {
       "zh": "EUV 光刻",
       "en": "EUV lithography",
-      "ja": "EUV 露光"
+      "ja": "EUV 露光",
+      "de": "EUV-Lithografie"
     },
     "duv": {
       "zh": "DUV 光刻",
       "en": "DUV lithography",
-      "ja": "DUV 露光"
+      "ja": "DUV 露光",
+      "de": "DUV-Lithografie"
     },
     "etch": {
       "zh": "刻蚀",
       "en": "Etch",
-      "ja": "エッチング"
+      "ja": "エッチング",
+      "de": "Ätzen"
     },
     "deposition": {
       "zh": "薄膜沉积",
       "en": "Deposition",
-      "ja": "成膜"
+      "ja": "成膜",
+      "de": "Abscheidung"
     },
     "ald": {
       "zh": "ALD",
       "en": "ALD",
-      "ja": "ALD"
+      "ja": "ALD",
+      "de": "ALD"
     },
     "cmp": {
       "zh": "CMP 抛光",
       "en": "CMP",
-      "ja": "CMP"
+      "ja": "CMP",
+      "de": "CMP"
     },
     "cleaning": {
       "zh": "清洗",
       "en": "Cleaning",
-      "ja": "洗浄"
+      "ja": "洗浄",
+      "de": "Reinigung"
     },
     "ion_implant": {
       "zh": "离子注入",
       "en": "Ion implantation",
-      "ja": "イオン注入"
+      "ja": "イオン注入",
+      "de": "Ionenimplantation"
     },
     "furnace": {
       "zh": "扩散/氧化炉",
       "en": "Furnace / diffusion",
-      "ja": "拡散炉"
+      "ja": "拡散炉",
+      "de": "Ofen/Diffusion"
     },
     "metrology": {
       "zh": "量测",
       "en": "Metrology",
-      "ja": "計測"
+      "ja": "計測",
+      "de": "Messtechnik"
     },
     "inspection": {
       "zh": "检测",
       "en": "Inspection",
-      "ja": "検査"
+      "ja": "検査",
+      "de": "Inspektion"
     },
     "test_ate": {
       "zh": "测试机（ATE）",
       "en": "ATE",
-      "ja": "テスタ（ATE）"
+      "ja": "テスタ（ATE）",
+      "de": "ATE"
     },
     "probe_card": {
       "zh": "探针卡",
       "en": "Probe card",
-      "ja": "プローブカード"
+      "ja": "プローブカード",
+      "de": "Probe Card"
     },
     "handler": {
       "zh": "分选机",
       "en": "Handler",
-      "ja": "ハンドラ"
+      "ja": "ハンドラ",
+      "de": "Handler"
     },
     "parts": {
       "zh": "设备零部件",
       "en": "Equipment parts",
-      "ja": "装置部品"
+      "ja": "装置部品",
+      "de": "Anlagenteile"
     },
     "wafer": {
       "zh": "硅片",
       "en": "Silicon wafer",
-      "ja": "シリコンウェハ"
+      "ja": "シリコンウェハ",
+      "de": "Wafer"
     },
     "soi_wafer": {
       "zh": "SOI 硅片",
       "en": "SOI wafer",
-      "ja": "SOI ウェハ"
+      "ja": "SOI ウェハ",
+      "de": "SOI-Wafer"
     },
     "sic_substrate": {
       "zh": "SiC 衬底",
       "en": "SiC substrate",
-      "ja": "SiC 基板"
+      "ja": "SiC 基板",
+      "de": "SiC-Substrat"
     },
     "photoresist": {
       "zh": "光刻胶",
       "en": "Photoresist",
-      "ja": "フォトレジスト"
+      "ja": "フォトレジスト",
+      "de": "Fotolack"
     },
     "photomask": {
       "zh": "掩模版",
       "en": "Photomask",
-      "ja": "フォトマスク"
+      "ja": "フォトマスク",
+      "de": "Fotomaske"
     },
     "electronic_gas": {
       "zh": "电子特气",
       "en": "Specialty gas",
-      "ja": "特殊ガス"
+      "ja": "特殊ガス",
+      "de": "Spezialgas"
     },
     "target": {
       "zh": "溅射靶材",
       "en": "Sputtering target",
-      "ja": "スパッタリングターゲット"
+      "ja": "スパッタリングターゲット",
+      "de": "Sputtertarget"
     },
     "slurry": {
       "zh": "CMP 抛光液",
       "en": "CMP slurry",
-      "ja": "CMP スラリー"
+      "ja": "CMP スラリー",
+      "de": "CMP-Slurry"
     },
     "emc": {
       "zh": "塑封料",
       "en": "Molding compound",
-      "ja": "封止材"
+      "ja": "封止材",
+      "de": "Formmasse"
     },
     "substrate": {
       "zh": "封装基板",
       "en": "Package substrate",
-      "ja": "パッケージ基板"
+      "ja": "パッケージ基板",
+      "de": "Substrat"
     },
     "gpu": {
       "zh": "GPU",
       "en": "GPU",
-      "ja": "GPU"
+      "ja": "GPU",
+      "de": "GPU"
     },
     "cpu": {
       "zh": "CPU",
       "en": "CPU",
-      "ja": "CPU"
+      "ja": "CPU",
+      "de": "CPU"
     },
     "ai_accel": {
       "zh": "AI 加速器",
       "en": "AI accelerator",
-      "ja": "AI アクセラレータ"
+      "ja": "AI アクセラレータ",
+      "de": "KI-Beschleuniger"
     },
     "fpga": {
       "zh": "FPGA",
       "en": "FPGA",
-      "ja": "FPGA"
+      "ja": "FPGA",
+      "de": "FPGA"
     },
     "soc": {
       "zh": "SoC",
       "en": "SoC",
-      "ja": "SoC"
+      "ja": "SoC",
+      "de": "SoC"
     },
     "mcu": {
       "zh": "MCU",
       "en": "MCU",
-      "ja": "MCU"
+      "ja": "MCU",
+      "de": "MCU"
     },
     "analog": {
       "zh": "模拟芯片",
       "en": "Analog",
-      "ja": "アナログ"
+      "ja": "アナログ",
+      "de": "Analog"
     },
     "pmic": {
       "zh": "电源管理",
       "en": "Power management",
-      "ja": "電源管理"
+      "ja": "電源管理",
+      "de": "Power Management"
     },
     "rf": {
       "zh": "射频",
       "en": "RF",
-      "ja": "RF"
+      "ja": "RF",
+      "de": "HF"
     },
     "cis": {
       "zh": "图像传感器",
       "en": "Image sensor",
-      "ja": "イメージセンサ"
+      "ja": "イメージセンサ",
+      "de": "Bildsensor"
     },
     "ddic": {
       "zh": "显示驱动",
       "en": "Display driver",
-      "ja": "ディスプレイドライバ"
+      "ja": "ディスプレイドライバ",
+      "de": "Displaytreiber"
     },
     "touch": {
       "zh": "触控/指纹",
       "en": "Touch & fingerprint",
-      "ja": "タッチ・指紋"
+      "ja": "タッチ・指紋",
+      "de": "Touch & Fingerprint"
     },
     "audio": {
       "zh": "音频 SoC",
       "en": "Audio SoC",
-      "ja": "オーディオ SoC"
+      "ja": "オーディオ SoC",
+      "de": "Audio-SoC"
     },
     "connectivity": {
       "zh": "连接/无线",
       "en": "Connectivity",
-      "ja": "コネクティビティ"
+      "ja": "コネクティビティ",
+      "de": "Konnektivität"
     },
     "interface": {
       "zh": "接口/内存接口",
       "en": "Interface",
-      "ja": "インターフェース"
+      "ja": "インターフェース",
+      "de": "Schnittstelle"
     },
     "security": {
       "zh": "安全芯片",
       "en": "Security chip",
-      "ja": "セキュリティチップ"
+      "ja": "セキュリティチップ",
+      "de": "Sicherheitschip"
     },
     "eeprom": {
       "zh": "EEPROM",
       "en": "EEPROM",
-      "ja": "EEPROM"
+      "ja": "EEPROM",
+      "de": "EEPROM"
     },
     "nor": {
       "zh": "NOR Flash",
       "en": "NOR flash",
-      "ja": "NOR フラッシュ"
+      "ja": "NOR フラッシュ",
+      "de": "NOR-Flash"
     },
     "nand": {
       "zh": "NAND Flash",
       "en": "NAND flash",
-      "ja": "NAND フラッシュ"
+      "ja": "NAND フラッシュ",
+      "de": "NAND-Flash"
     },
     "dram": {
       "zh": "DRAM",
       "en": "DRAM",
-      "ja": "DRAM"
+      "ja": "DRAM",
+      "de": "DRAM"
     },
     "hbm": {
       "zh": "HBM",
       "en": "HBM",
-      "ja": "HBM"
+      "ja": "HBM",
+      "de": "HBM"
     },
     "storage_module": {
       "zh": "存储模组",
       "en": "Memory module",
-      "ja": "メモリモジュール"
+      "ja": "メモリモジュール",
+      "de": "Speichermodul"
     },
     "igbt": {
       "zh": "IGBT",
       "en": "IGBT",
-      "ja": "IGBT"
+      "ja": "IGBT",
+      "de": "IGBT"
     },
     "mosfet": {
       "zh": "MOSFET",
       "en": "MOSFET",
-      "ja": "MOSFET"
+      "ja": "MOSFET",
+      "de": "MOSFET"
     },
     "sic_device": {
       "zh": "SiC 器件",
       "en": "SiC device",
-      "ja": "SiC デバイス"
+      "ja": "SiC デバイス",
+      "de": "SiC-Bauelement"
     },
     "gan": {
       "zh": "GaN 器件",
       "en": "GaN device",
-      "ja": "GaN デバイス"
+      "ja": "GaN デバイス",
+      "de": "GaN-Bauelement"
     },
     "discrete": {
       "zh": "分立器件",
       "en": "Discrete",
-      "ja": "ディスクリート"
+      "ja": "ディスクリート",
+      "de": "Diskrete Bauelemente"
     },
     "mems": {
       "zh": "MEMS",
       "en": "MEMS",
-      "ja": "MEMS"
+      "ja": "MEMS",
+      "de": "MEMS"
     },
     "ip": {
       "zh": "IP 授权",
       "en": "IP licensing",
-      "ja": "IP ライセンス"
+      "ja": "IP ライセンス",
+      "de": "IP-Lizenzierung"
     },
     "eda": {
       "zh": "EDA 工具",
       "en": "EDA tools",
-      "ja": "EDA ツール"
+      "ja": "EDA ツール",
+      "de": "EDA-Tools"
     },
     "design_service": {
       "zh": "设计服务",
       "en": "Design service",
-      "ja": "設計サービス"
+      "ja": "設計サービス",
+      "de": "Designservice"
     },
     "osat_service": {
       "zh": "封测服务",
       "en": "Packaging & test",
-      "ja": "後工程サービス"
+      "ja": "後工程サービス",
+      "de": "Packaging & Test"
     },
     "advanced_packaging": {
       "zh": "先进封装",
       "en": "Advanced packaging",
-      "ja": "先端実装"
+      "ja": "先端実装",
+      "de": "Advanced Packaging"
     },
     "wlcsp": {
       "zh": "晶圆级封装",
       "en": "WLCSP",
-      "ja": "ウェハレベル実装"
+      "ja": "ウェハレベル実装",
+      "de": "WLCSP"
     },
     "hybrid_bonding": {
       "zh": "混合键合",
       "en": "Hybrid bonding",
-      "ja": "ハイブリッドボンディング"
+      "ja": "ハイブリッドボンディング",
+      "de": "Hybrid Bonding"
     },
     "thermal": {
       "zh": "热管理",
       "en": "Thermal",
-      "ja": "熱管理"
+      "ja": "熱管理",
+      "de": "Thermomanagement"
     },
     "power_module": {
       "zh": "功率模块",
       "en": "Power module",
-      "ja": "パワーモジュール"
+      "ja": "パワーモジュール",
+      "de": "Leistungsmodul"
     },
     "foundry": {
       "zh": "晶圆代工",
       "en": "Foundry",
-      "ja": "ファウンドリ製造"
+      "ja": "ファウンドリ製造",
+      "de": "Foundry"
+    },
+    "led": {
+      "zh": "LED",
+      "en": "LED",
+      "ja": "LED",
+      "de": "LED"
+    },
+    "plating": {
+      "zh": "电镀",
+      "en": "Plating",
+      "ja": "めっき",
+      "de": "Galvanik"
+    },
+    "photonics": {
+      "zh": "光子学",
+      "en": "Photonics",
+      "ja": "フォトニクス",
+      "de": "Photonik"
+    },
+    "asic": {
+      "zh": "ASIC",
+      "en": "ASIC",
+      "ja": "ASIC",
+      "de": "ASIC"
+    },
+    "test_socket": {
+      "zh": "测试治具",
+      "en": "Test socket",
+      "ja": "テストソケット",
+      "de": "Testsocket"
+    },
+    "molding": {
+      "zh": "塑封设备",
+      "en": "Molding equipment",
+      "ja": "モールド装置",
+      "de": "Molding-Anlage"
     }
   },
   "countries": {
     "CN": {
       "zh": "中国大陆",
       "en": "Mainland China",
-      "ja": "中国本土"
+      "ja": "中国本土",
+      "de": "China (Festland)"
     },
     "HK": {
       "zh": "中国香港",
       "en": "Hong Kong",
-      "ja": "香港"
+      "ja": "香港",
+      "de": "Hongkong"
     },
     "TW": {
       "zh": "中国台湾",
       "en": "Taiwan",
-      "ja": "台湾"
+      "ja": "台湾",
+      "de": "Taiwan"
     },
     "US": {
       "zh": "美国",
       "en": "United States",
-      "ja": "米国"
+      "ja": "米国",
+      "de": "USA"
     },
     "JP": {
       "zh": "日本",
       "en": "Japan",
-      "ja": "日本"
+      "ja": "日本",
+      "de": "Japan"
     },
     "KR": {
       "zh": "韩国",
       "en": "South Korea",
-      "ja": "韓国"
+      "ja": "韓国",
+      "de": "Südkorea"
     },
     "NL": {
       "zh": "荷兰",
       "en": "Netherlands",
-      "ja": "オランダ"
+      "ja": "オランダ",
+      "de": "Niederlande"
     },
     "DE": {
       "zh": "德国",
       "en": "Germany",
-      "ja": "ドイツ"
+      "ja": "ドイツ",
+      "de": "Deutschland"
     },
     "FR": {
       "zh": "法国",
       "en": "France",
-      "ja": "フランス"
+      "ja": "フランス",
+      "de": "Frankreich"
     },
     "GB": {
       "zh": "英国",
       "en": "United Kingdom",
-      "ja": "イギリス"
+      "ja": "イギリス",
+      "de": "Vereinigtes Königreich"
     },
     "CH": {
       "zh": "瑞士",
       "en": "Switzerland",
-      "ja": "スイス"
+      "ja": "スイス",
+      "de": "Schweiz"
+    },
+    "IL": {
+      "zh": "以色列",
+      "en": "Israel",
+      "ja": "イスラエル",
+      "de": "Israel"
+    },
+    "TH": {
+      "zh": "泰国",
+      "en": "Thailand",
+      "ja": "タイ",
+      "de": "Thailand"
     }
   },
   "markets": {
     "CN": {
       "zh": "A股",
       "en": "A-shares",
-      "ja": "A 株"
+      "ja": "A 株",
+      "de": "A-Aktien"
     },
     "HK": {
       "zh": "港股",
       "en": "Hong Kong",
-      "ja": "香港株"
+      "ja": "香港株",
+      "de": "Hongkong"
     },
     "TW": {
       "zh": "台股",
       "en": "Taiwan",
-      "ja": "台湾株"
+      "ja": "台湾株",
+      "de": "Taiwan"
     },
     "US": {
       "zh": "美股",
       "en": "US",
-      "ja": "米国株"
+      "ja": "米国株",
+      "de": "USA"
     },
     "JP": {
       "zh": "日股",
       "en": "Japan",
-      "ja": "日本株"
+      "ja": "日本株",
+      "de": "Japan"
     },
     "KR": {
       "zh": "韩股",
       "en": "Korea",
-      "ja": "韓国株"
+      "ja": "韓国株",
+      "de": "Südkorea"
     },
     "EU": {
       "zh": "欧股",
       "en": "Europe",
-      "ja": "欧州株"
+      "ja": "欧州株",
+      "de": "Europa"
     }
   }
 }

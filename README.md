@@ -1,168 +1,195 @@
-# SiliconScope · 半导体产业情报台
+# SiliconScope · Semiconductor Intelligence Desk
 
-**全球半导体产业链的中英日三语研究看板** · A trilingual research desk for the global semiconductor value chain.
+**A four-language research desk for the global semiconductor value chain.**
 
-覆盖 **8 个产业链环节、11 个总部地区、124 家上市公司**，把行情、结构、知识与方法放在同一张可核查的桌面上。所有页面为构建期生成的静态文件，不依赖任何 CDN 或前端框架。
+SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 listed companies**, putting quotes, structure, knowledge and method on one auditable desk. Every page is a static file generated at build time; the site depends on no CDN and no front-end framework.
 
-- 站点：<https://cxy2696.github.io/semiconductor/>
-- 仓库：<https://github.com/cxy2696/semiconductor>
+- Site (English, default): <https://cxy2696.github.io/semiconductor/>
+- 中文: <https://cxy2696.github.io/semiconductor/zh/>
+- 日本語: <https://cxy2696.github.io/semiconductor/ja/>
+- Deutsch: <https://cxy2696.github.io/semiconductor/de/>
+- Repository: <https://github.com/cxy2696/semiconductor>
 
-> 仅用于产业研究与学习，不构成投资建议。Not investment advice.
+> For industry research and learning only. Not investment advice.
 
 ---
 
-## 预览
+## Purpose
 
-![SiliconScope 首页](documentation/screenshots/home.png)
+SiliconScope is a research desk, not a quote terminal or a stock picker. It helps a reader build a structural view of one value-chain stage or one company in 10–30 minutes, and makes clear how complete the data behind that view is. Quotes, classifications, long-form explanations and the scoring method are published together, so every number can be traced back to a snapshot file and a field definition.
 
-![公司图谱](documentation/screenshots/companies.png)
+---
 
-| 深色模式 | 移动端 |
+## Preview
+
+![SiliconScope home](documentation/screenshots/home.png)
+
+![Company map](documentation/screenshots/companies.png)
+
+| Dark mode | Mobile |
 | --- | --- |
-| ![深色模式](documentation/screenshots/home-dark.png) | ![移动端](documentation/screenshots/home-mobile.png) |
+| ![Dark mode](documentation/screenshots/home-dark.png) | ![Mobile](documentation/screenshots/home-mobile.png) |
 
 ---
 
-## 为什么重做
+## Why the rewrite
 
-原版是一个以 A 股为主的中文看板：1,000 行单文件脚本、Tailwind/Plotly CDN、把抓取失败当作构建失败、评分口径不透明。v2 保留“看板”这个形态，重做了产品逻辑与工程结构：
+The original was a Chinese dashboard focused on A-shares: a 1,000-line single-file script, Tailwind and Plotly loaded from CDNs, scrape failures treated as build failures, and scoring rules that were not disclosed. v2 rebuilt the product logic and the engineering structure. v3 moves the default language to English, adds German, widens coverage from 124 to 175 companies, and makes four-language content a maintained part of the repository.
 
-| 维度 | v1 | v2 |
-| --- | --- | --- |
-| 覆盖 | 中国 A 股 + 2 只港股 | 中国大陆 / 香港 / 台湾 / 美国 / 日本 / 韩国 / 欧洲，124 家 |
-| 语言 | 中 / 英 / 德 | **中 / 英 / 日**，独立 URL + hreflang |
-| 知识 | 抓取百科段落当“术语” | 9 篇结构化长文 + 52 条三语术语表 |
-| 评分 | 不公开权重的“投资评分” | 公开公式的研究优先级 + 数据完整度 + 风险标签 |
-| 前端 | CDN + 运行时渲染 | 构建期 HTML/SVG，零第三方资源 |
-| 数据 | 抓取失败即构建失败 | 快照兜底 + 覆盖率 + 过期标记 |
-| 运维 | 无文档 | 产品 / 架构 / 数据 / 方法 / 运营五份文档 + CI 校验 |
+| Dimension | v1 | v2 | v3 (current) |
+| --- | --- | --- | --- |
+| Coverage | China A-shares + 2 Hong Kong listings | 124 companies, 7 listing markets | **175 companies, 13 headquarters regions, 7 listing markets** |
+| Languages | Chinese / English / German | Chinese / English / Japanese | **English (default) / Chinese / Japanese / German** |
+| Knowledge | Scraped encyclopedia paragraphs | 9 topics × 3 languages | **12 topics × 4 languages + 52 four-language glossary terms** |
+| Scoring | Undisclosed weights | Published method | Published method + data coverage + risk flags |
+| Front end | CDN + runtime rendering | Static HTML/SVG | Static HTML/SVG, zero third-party assets |
+| Data | Scrape failure = build failure | Snapshot fallback | Snapshot fallback + stale flags + coverage |
+| Documentation | None | Mostly Chinese | **every document in `_en` / `_cn` / `_jp` / `_de`** |
 
-## 功能
+## Features
 
-- **首页**：市场状态读数（宽度 / 中位涨幅 / 离散度）、产业链结构、动能两端、估值-质量散点、三个公开规则生成的研究清单、行业动态。
-- **公司图谱**：124 家公司，可按环节、总部、上市地筛选与排序，附 30 日走势、PE/PB/ROE、研究优先级与数据完整度。
-- **公司页**：定位、行情、52 周区间、因子拆解、同环节对比、延伸阅读。
-- **产业链**：主流程 6 个环节 + 设备/材料支撑层，逐段解释“怎么赚钱、看什么指标、谁在里面”。
-- **知识库**：9 篇中英日长文（产业链、晶圆工艺、光刻、设备材料、先进封装、存储与 HBM、硅周期、政策、财务与估值）。
-- **术语表**：52 条三语对照术语，支持全文搜索与分类筛选。
-- **方法**：因子定义、权重、阈值、数据完整度、已知局限与免责声明。
-- **兼容**：继续输出旧版 `latest_data.json`，现有 iOS 客户端无需改动即可解码。
-- **iOS 客户端**：`ios/` 目录保留原 SwiftUI 应用，仍指向 `latest_data.json`；迁移到新版 `/api/` 的计划见路线图。
+- **Home**: market-state readings (breadth / median return / dispersion), value-chain structure, momentum extremes, a valuation-quality scatter, three screens produced by published rules, and industry news.
+- **Company map**: 175 companies with filtering and sorting by stage, headquarters and listing market, plus 30-day trends, PE/PB/ROE, research priority and data coverage.
+- **Company pages**: positioning, quote, 52-week range, year founded and fiscal year end, factor breakdown, peer comparison and further reading.
+- **Value chain**: six main-flow stages plus the equipment and materials support layer, explaining for each segment how it earns money, which metrics matter and who competes in it.
+- **Knowledge base**: 12 long-form topics in four languages — value chain, wafer process, lithography, equipment and materials, advanced packaging, memory and HBM, the silicon cycle, policy, financials and valuation, plus the new EDA/IP, automotive and AI data-centre topics.
+- **Glossary**: 52 terms with equivalent definitions in four languages, with full-text search and category filters.
+- **Method**: factor definitions, weights, thresholds, data coverage, known limitations and disclaimer.
+- **Compatibility**: continues to emit the legacy `latest_data.json`, so the existing iOS client decodes it without changes.
+- **iOS client**: the SwiftUI app under `ios/` still points at `latest_data.json`; see [`ios/README_en.md`](ios/README_en.md).
 
-## 快速开始
+## Quick start
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
 
-# 用仓库内快照构建（无需联网）
+# Build from the committed snapshot (no network required)
 python -m semcore build
 python -m semcore serve --port 8000
 
-# 抓取最新行情 / 汇率 / 资讯并重建
+# Fetch the latest quotes / FX / news and rebuild
 python -m semcore refresh
 
-# 校验数据契约与产物
+# Validate the data contract and generated artefacts
 python -m semcore validate
 
-# 测试
+# Tests
 python -m pytest
 ```
 
-构建产物在 `docs/`：`docs/index.html`（中文）、`docs/en/`、`docs/ja/`、`docs/api/`、`docs/latest_data.json`。
+Build output goes to `docs/`: `docs/index.html` (English), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json`, and redirect stubs under `docs/en/`.
 
-## 目录结构
+## Directory layout
 
 ```text
-semcore/                 Python 构建工具（数据抓取 → 分析 → 渲染）
-  sources/               东方财富行情、RSS 资讯、汇率
-  analytics.py           因子、研究优先级、风险标签、市场状态
-  build.py               静态站点生成（zh / en / ja）
-  validate.py            数据契约与产物校验
-  content.py             极简 Markdown 渲染与内容加载
+semcore/                 Python build tooling (fetch → analyse → render)
+  sources/               Eastmoney quotes, RSS news, FX
+  analytics.py           factors, research priority, risk flags, market state
+  build.py               four-locale static site generation
+  validate.py            data contract and artefact validation
+  content.py             minimal Markdown renderer and content loading
 data/
-  universe.csv           公司主数据（唯一事实来源，124 行）
-  taxonomy.json          环节 / 角色 / 产品 / 国家 / 市场标签（三语）
-  glossary.json          52 条三语术语
-  i18n/{zh,en,ja}.json   界面文案（221 个键，三语对齐）
-  symbols.json           公司 → 行情源代码的已核验映射
-  snapshots/             行情快照（构建的唯一输入）
-content/knowledge/       9 个主题 × 3 种语言
-templates/               Jinja2 模板
-assets/                  设计系统 CSS + 原生 JS（无依赖）
-docs/                    构建产物（GitHub Pages）
-documentation/           产品 / 架构 / 数据 / 方法 / 运营文档
-tests/                   pytest 测试
-ios/                     SwiftUI iPhone 客户端（消费 legacy payload）
-documentation/           产品 / 架构 / 数据 / 方法 / 运营文档 + 截图
+  universe.csv           175-company master data (part of the source of truth)
+  taxonomy.json          stage / role / product / country / market labels (four languages)
+  glossary.json          52 terms in four languages
+  i18n/{en,zh,ja,de}.json interface copy
+  symbols.json           verified company → quote-source symbol mapping
+  snapshots/             market snapshots (the only build input)
+content/knowledge/       12 topics × 4 languages (flat: <slug>_en.md etc.)
+templates/               Jinja2 templates
+assets/                  design-system CSS + native JS (no dependencies)
+docs/                    build output (GitHub Pages)
+documentation/           product / architecture / data / method / operations docs (four languages)
+ios/                     SwiftUI iPhone client
+tests/                   pytest suite
 ```
 
-## iOS 客户端
+## iOS client
 
-`ios/` 是原仓库的 SwiftUI 应用，仍在消费 `docs/latest_data.json`。v2 保留了这个 payload，并做了字段级兼容校验（124 家公司、40 组 K 线、无空值数组），因此现有客户端无需改动即可继续解码。
-
-升级方式（见 [ROADMAP](documentation/ROADMAP.md)）：
+`ios/` is the original SwiftUI app and still consumes `docs/latest_data.json`. v3 keeps that payload and performs field-level compatibility checks (175 companies, non-null OHLC arrays), so the existing client continues to decode it without changes.
 
 ```bash
 brew install xcodegen
-xcodegen generate --spec ios/project.yml
-open ios/SemiconductorApp.xcodeproj
+cd ios && xcodegen generate --spec project.yml
+open SemiconductorApp.xcodeproj
 ```
 
-## 数据与口径
+See [`ios/README_en.md`](ios/README_en.md) for simulator, signing and TestFlight instructions.
 
-- **行情、估值、52 周区间**：东方财富公开行情接口（延时或收盘价）。
-- **汇率**：open.er-api.com，失败时回退东方财富汇率对，再失败则复用上一份快照。
-- **行业动态**：白名单媒体 RSS（Tom's Hardware、Semiconductor Digest、EE Times、DigiTimes、Semiconductor Today），只保留标题、来源、日期与链接。
-- **快照**：`data/snapshots/latest.json` 是构建的唯一输入。抓取失败不会让站点变空，而是把上一份数据标记为 `stale` 并显示。
-- **分类**：每家公司只保留一个主上市地，按主要收入来源归入 8 个环节之一。
-- 详细字段、单位与限制见 [documentation/DATA.md](documentation/DATA.md)。
+## Data and definitions
 
-## 评分逻辑（摘要）
+- **Quotes, valuation, 52-week range**: Eastmoney public quote API (delayed or closing prices).
+- **FX**: open.er-api.com, falling back to Eastmoney FX pairs and then to the previous snapshot.
+- **Industry news**: whitelisted media RSS feeds; only title, source, date and link are retained.
+- **Snapshot**: `data/snapshots/latest.json` is the only build input. A failed fetch does not empty the site; the previous data is marked `stale` and displayed.
+- **Classification**: one primary listing per company; each company is assigned to one of 8 stages by its main revenue source. The taxonomy also holds 9 roles, 70 product tags, 13 headquarters regions and 7 listing markets.
+- **Company detail**: `data/universe.csv` carries names and notes in four languages, plus optional `founded` and `fiscal_year_end` fields surfaced on company pages.
+- Detailed fields, units and limitations are in [`documentation/DATA_en.md`](documentation/DATA_en.md).
+
+## Scoring summary
 
 ```text
-研究优先级 = 0.30 × 质量(ROE 百分位)
-           + 0.25 × 估值(静态 PE 倒数百分位)
-           + 0.25 × 动能(30 日涨跌 60% + 52 周区间位置 40%)
-           + 0.20 × 规模(log 市值百分位)
+research priority = 0.30 × quality (ROE percentile)
+                  + 0.25 × valuation (inverse static PE percentile)
+                  + 0.25 × momentum (30-day return 60% + 52-week range position 40%)
+                  + 0.20 × size (log market-cap percentile)
 ```
 
-- 百分位在同一环节内计算；环节样本少于 8 家时退回全样本。
-- 缺失因子按剩余权重重新归一，并扣减“数据完整度”。
-- 分数只用于**安排阅读顺序**，不是买卖建议、目标价或盈利预测。
+- Percentiles are computed within the same stage; stages with fewer than 8 companies fall back to the full sample.
+- Missing factors are renormalised by the remaining weights, and data coverage is reported alongside the score.
+- Scores are only used to **order reading**; they are not buy/sell advice, target prices or earnings forecasts.
 
-完整公式、阈值与局限见 [documentation/METHODOLOGY.md](documentation/METHODOLOGY.md)，或站内 `/methodology.html`。
+Full formulas, thresholds and limitations are in [`documentation/METHODOLOGY_en.md`](documentation/METHODOLOGY_en.md), or on the site at `/methodology.html`.
 
-## 三语实现
+## Four languages, English first
 
-- 中文为默认语言，挂在站点根路径；英文 `/en/`、日文 `/ja/`。
-- 每个页面输出 `hreflang` 与 `x-default`，语言切换保留当前页面。
-- 数据标签存于 `taxonomy.json` 与 `i18n/*.json`，内容存于 `content/knowledge/{lang}/`。
-- CI 校验三种语言的键与主题完全对齐，缺一即失败。
+- English is the default language at the site root `/` and is the `x-default`.
+- Chinese is at `/zh/`, Japanese at `/ja/` and German at `/de/`.
+- Every page emits four `hreflang` alternates, and the language switcher keeps the reader on the current page.
+- Legacy `/en/` links redirect to the root paths, so old URLs do not break.
+- Interface copy lives in `data/i18n/{en,zh,ja,de}.json`; data labels live in `taxonomy.json`; long-form content is flat: `content/knowledge/<slug>_<suffix>.md`.
+- CI checks that interface keys, knowledge slugs and glossary fields are complete in all four locales.
 
-## 部署
+## Documentation
 
-GitHub Pages 使用 Actions 工作流 `.github/workflows/pages.yml`：
+English is the canonical source. Every document has four language versions, using the `_en`, `_cn`, `_jp` and `_de` suffixes. `README.md` is the English entry point for GitHub, with `README_en.md` as its copy in the documentation set; the other READMEs are `README_cn.md`, `README_jp.md` and `README_de.md`.
 
-1. 仓库 Settings → Pages → Source 选择 **GitHub Actions**。
-2. 工作流在每日 08:30（北京时间）与手动触发时运行 `python -m semcore refresh`，随后构建、校验、部署。
-3. 若行情源不可用，工作流仍会用上一份快照完成构建，并在页面标注数据时点。
+| Document | English | 中文 | 日本語 | Deutsch |
+| --- | --- | --- | --- | --- |
+| Project README | [README.md](README.md) | [README_cn.md](README_cn.md) | [README_jp.md](README_jp.md) | [README_de.md](README_de.md) |
+| Product | [PRODUCT_en](documentation/PRODUCT_en.md) | [PRODUCT_cn](documentation/PRODUCT_cn.md) | [PRODUCT_jp](documentation/PRODUCT_jp.md) | [PRODUCT_de](documentation/PRODUCT_de.md) |
+| Architecture | [ARCHITECTURE_en](documentation/ARCHITECTURE_en.md) | [ARCHITECTURE_cn](documentation/ARCHITECTURE_cn.md) | [ARCHITECTURE_jp](documentation/ARCHITECTURE_jp.md) | [ARCHITECTURE_de](documentation/ARCHITECTURE_de.md) |
+| Data | [DATA_en](documentation/DATA_en.md) | [DATA_cn](documentation/DATA_cn.md) | [DATA_jp](documentation/DATA_jp.md) | [DATA_de](documentation/DATA_de.md) |
+| Method | [METHODOLOGY_en](documentation/METHODOLOGY_en.md) | [METHODOLOGY_cn](documentation/METHODOLOGY_cn.md) | [METHODOLOGY_jp](documentation/METHODOLOGY_jp.md) | [METHODOLOGY_de](documentation/METHODOLOGY_de.md) |
+| Operations | [OPERATIONS_en](documentation/OPERATIONS_en.md) | [OPERATIONS_cn](documentation/OPERATIONS_cn.md) | [OPERATIONS_jp](documentation/OPERATIONS_jp.md) | [OPERATIONS_de](documentation/OPERATIONS_de.md) |
+| Roadmap | [ROADMAP_en](documentation/ROADMAP_en.md) | [ROADMAP_cn](documentation/ROADMAP_cn.md) | [ROADMAP_jp](documentation/ROADMAP_jp.md) | [ROADMAP_de](documentation/ROADMAP_de.md) |
 
-`SITE_URL` 环境变量可覆盖 canonical 域名（默认 `https://cxy2696.github.io/semiconductor`）。
+The same convention applies to knowledge files, which are flat rather than split into language directories: `content/knowledge/eda-ip_en.md`, `content/knowledge/eda-ip_cn.md`, `content/knowledge/eda-ip_jp.md`, `content/knowledge/eda-ip_de.md`.
 
-## 参与
+## Deployment
 
-数据修正、术语补充、文档改进都欢迎。请附可核查来源，并说明影响范围。见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+GitHub Pages is driven by the Actions workflow `.github/workflows/pages.yml`:
 
-## 许可
+1. Repository Settings → Pages → Source: **GitHub Actions**.
+2. The workflow runs `python -m semcore refresh` at 08:30 Beijing time each weekday and on manual dispatch, then builds, validates and deploys.
+3. If the quote source is unavailable, the workflow still builds from the previous snapshot and marks the data timestamp on the page.
 
-- 代码：[MIT](LICENSE)
-- 文字内容：CC BY 4.0
-- 行情与新闻：版权归原始提供方，本站仅做引用与链接
+The `SITE_URL` environment variable overrides the canonical domain (default `https://cxy2696.github.io/semiconductor`).
 
-引用请注明 **SiliconScope** 与访问日期。
+## Contributing
+
+Corrections to data, additions to the glossary and improvements to the documentation are welcome. Please include a verifiable source and state the scope of the change. See [`CONTRIBUTING_en.md`](CONTRIBUTING_en.md).
+
+## Licence
+
+- Code: [MIT](LICENSE)
+- Written content: CC BY 4.0
+- Quotes and news: copyright remains with the original providers; this site only cites and links to them
+
+When citing, please credit **SiliconScope** and the access date.
 
 ---
 
-**免责声明**：本站仅用于产业研究与学习，不构成任何证券买卖建议。数据可能存在延迟或错误，请以交易所与公司公告为准。
+**Disclaimer**: This site is for industry research and learning only and does not constitute any recommendation to buy or sell securities. Data may be delayed or incorrect; always defer to exchange filings and company announcements.

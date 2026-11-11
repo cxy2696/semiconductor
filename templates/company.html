@@ -58,6 +58,8 @@
       <div><dt>{{ t.company.ticker }}</dt><dd>{{ company.symbol }}</dd></div>
       <div><dt>{{ t.company.exchange }}</dt><dd>{{ company.exchange }} · {{ company.market_label }}</dd></div>
       <div><dt>{{ t.company.currency }}</dt><dd>{{ company.currency }}</dd></div>
+      {% if company.founded %}<div><dt>{{ t.company.founded }}</dt><dd>{{ company.founded }}</dd></div>{% endif %}
+      {% if company.fiscal_year_end %}<div><dt>{{ t.company.fiscalYearEnd }}</dt><dd>{{ company.fiscal_year_end_label }}</dd></div>{% endif %}
       <div><dt>{{ t.company.website }}</dt><dd>{% if company.website %}<a href="{{ company.website }}" target="_blank" rel="noopener noreferrer">{{ company.website | replace('https://', '') | replace('/', '') }}</a>{% else %}—{% endif %}</dd></div>
       <div><dt>{{ t.company.products }}</dt><dd class="product-tags">{% for product in company.products %}<span class="tag">{{ product }}</span>{% endfor %}</dd></div>
     </dl>

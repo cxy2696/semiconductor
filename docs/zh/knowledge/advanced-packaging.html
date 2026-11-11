@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>先进封装：CoWoS、HBM 与 Chiplet · 半导体产业情报台</title>
+  <meta name="description" content="当制程微缩变慢，封装成为提升算力的主战场。理解 2.5D/3D、混合键合与产能瓶颈，才能看懂 AI 芯片的供给曲线。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/zh/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/zh/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="de-DE" href="https://cxy2696.github.io/semiconductor/de/knowledge/advanced-packaging.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge/advanced-packaging.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="先进封装：CoWoS、HBM 与 Chiplet · 半导体产业情报台">
+  <meta property="og:description" content="当制程微缩变慢，封装成为提升算力的主战场。理解 2.5D/3D、混合键合与产能瓶颈，才能看懂 AI 芯片的供给曲线。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/zh/knowledge/advanced-packaging.html">
+  <meta property="og:locale" content="zh-CN">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/css/main.css?v=3.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "SiliconScope"}, "dateModified": "2026-11-10", "description": "\u5f53\u5236\u7a0b\u5fae\u7f29\u53d8\u6162\uff0c\u5c01\u88c5\u6210\u4e3a\u63d0\u5347\u7b97\u529b\u7684\u4e3b\u6218\u573a\u3002\u7406\u89e3 2.5D/3D\u3001\u6df7\u5408\u952e\u5408\u4e0e\u4ea7\u80fd\u74f6\u9888\uff0c\u624d\u80fd\u770b\u61c2 AI \u82af\u7247\u7684\u4f9b\u7ed9\u66f2\u7ebf\u3002", "headline": "\u5148\u8fdb\u5c01\u88c5\uff1aCoWoS\u3001HBM \u4e0e Chiplet", "inLanguage": "zh-CN"}</script>
+</head>
+<body class="page-topic">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="../index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半导体产业情报台</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="首页">
+        <a href="../index.html" >首页</a>
+        <a href="../companies.html" >公司图谱</a>
+        <a href="../value-chain.html" >产业链</a>
+        <a href="../knowledge.html" aria-current="page">知识库</a>
+        <a href="../glossary.html" >术语表</a>
+        <a href="../methodology.html" >方法</a>
+        <a href="../about.html" >关于</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">语言</label>
+        <select id="locale-switch" class="locale-switch" aria-label="语言">
+          <option value="../../knowledge/advanced-packaging.html" >English</option>
+          <option value="advanced-packaging.html" selected>中文</option>
+          <option value="../../ja/knowledge/advanced-packaging.html" >日本語</option>
+          <option value="../../de/knowledge/advanced-packaging.html" >Deutsch</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="主题" title="主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="菜单">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="首页">
+      <a href="../index.html">首页</a>
+      <a href="../companies.html">公司图谱</a>
+      <a href="../value-chain.html">产业链</a>
+      <a href="../knowledge.html">知识库</a>
+      <a href="../glossary.html">术语表</a>
+      <a href="../methodology.html">方法</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">首页</a>
+  <span aria-hidden="true">/</span>
+  <a href="../knowledge.html">知识库</a>
+  <span aria-hidden="true">/</span>
+  <span>先进封装：CoWoS、HBM 与 Chiplet</span>
+</nav>
+
+<article class="article-layout">
+  <div class="article-main">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="doc-level level-advanced">进阶</span>
+        <span>约 10 分钟</span>
+<span>截至 2026-11-10</span>      </div>
+      <h1>先进封装：CoWoS、HBM 与 Chiplet</h1>
+      <p class="lede">当制程微缩变慢，封装成为提升算力的主战场。理解 2.5D/3D、混合键合与产能瓶颈，才能看懂 AI 芯片的供给曲线。</p>
+    </header>
+    <div class="prose">
+      <p>过去封装只是“把芯片包起来”，现在它决定了 AI 芯片能不能造出来、能造多少。</p>
+<h2 id="为什么封装变得关键">为什么封装变得关键</h2>
+<p>摩尔定律放缓后，单颗芯片的晶体管密度提升越来越贵。产业转向两条路：一是把大芯片拆成多个小芯片（Chiplet），二是把内存与计算芯片靠得更近（2.5D/3D）。两者都依赖先进封装。</p>
+<h2 id="四种主流方案">四种主流方案</h2>
+<ul><li><strong>WLCSP</strong>：在晶圆上完成封装与植球，尺寸接近芯片本身，适合小尺寸、低引脚数。</li><li><strong>2.5D（CoWoS）</strong>：GPU 与 HBM 通过硅中介层互连，是 AI 加速卡的主流方案。</li><li><strong>3D 堆叠（SoIC、混合键合）</strong>：把两片晶圆直接键合，互连间距可降到 10µm 以下。</li><li><strong>Fan-out</strong>：在芯片周围重构塑封，实现高密度布线，常用于手机与网络芯片。</li></ul>
+<h2 id="产能瓶颈在哪里">产能瓶颈在哪里</h2>
+<p>AI 芯片的瓶颈长期集中在 CoWoS 产能、HBM 堆叠良率与 ABF 基板。CoWoS 需要中介层、TSV 与高精度键合，扩产周期以季度计；HBM 需要 TSV、堆叠与测试，任何一环良率不达标都会限制出货。</p>
+<h2 id="设备与材料的机会">设备与材料的机会</h2>
+<p>先进封装把前道工艺引入后道：光刻用于 RDL，沉积与 CMP 用于凸点与键合面，检测用于 TSV 与键合对准。受益者包括封装设备商、混合键合设备商、临时键合材料商与测试设备商。</p>
+<h2 id="观察指标">观察指标</h2>
+<ul><li>先进封装收入占比与增速。</li><li>CoWoS/HBM 相关资本开支与产能指引。</li><li>测试时长（test hours）与探针卡需求。</li><li>封装基板与塑封料的供给紧张程度。</li></ul>
+<h2 id="常见误读">常见误读</h2>
+<p>把“封装”等同于低毛利。传统封装确实毛利偏低，但先进封装是资本与技术密集型，毛利率可以接近前道。</p>
+<h2 id="参考来源">参考来源</h2>
+<ul><li><a href="https://www.tsmc.com/english/dedicatedFoundry/technology" rel="noopener">TSMC: Advanced packaging</a></li><li><a href="https://www.aseglobal.com/" rel="noopener">ASE Technology</a></li><li><a href="https://www.besi.com/" rel="noopener">BESI: Hybrid bonding</a></li></ul>
+    </div>
+
+    <section class="article-related">
+      <h2>相关主题</h2>
+      <div class="three-col">
+        <a class="doc-card" href="value-chain.html">
+          <span class="doc-level">基础</span>
+          <span class="doc-title">产业链全景：谁在赚钱，钱在哪</span>
+          <span class="doc-summary">把八个环节放回一条链上，理解毛利、资本强度与周期传导的差异，而不是背公司名单。</span>
+        </a>
+        <a class="doc-card" href="process-flow.html">
+          <span class="doc-level">基础</span>
+          <span class="doc-title">晶圆制造：八大工艺与洁净室</span>
+          <span class="doc-summary">从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。</span>
+        </a>
+        <a class="doc-card" href="memory-hbm.html">
+          <span class="doc-level">核心</span>
+          <span class="doc-title">存储与 HBM：周期之母</span>
+          <span class="doc-summary">存储是半导体最标准的商品，也是周期波动最大的环节。HBM 把存储重新拉回 AI 中心，但供需逻辑仍然是 bit 与产能。</span>
+        </a>
+      </div>
+    </section>
+
+    <nav class="article-pager" aria-label="相关内容">
+      <a href="equipment-materials.html"><span>← 上一篇</span><strong>设备与材料：卖铲人的生意</strong></a>
+      <a class="pager-next" href="memory-hbm.html"><span>下一篇 →</span><strong>存储与 HBM：周期之母</strong></a>
+    </nav>
+  </div>
+
+  <aside class="article-aside">
+    <div class="toc panel">
+      <span class="kicker">本页目录</span>
+      <nav>
+        <a class="toc-level-2" href="#为什么封装变得关键">为什么封装变得关键</a>
+        <a class="toc-level-2" href="#四种主流方案">四种主流方案</a>
+        <a class="toc-level-2" href="#产能瓶颈在哪里">产能瓶颈在哪里</a>
+        <a class="toc-level-2" href="#设备与材料的机会">设备与材料的机会</a>
+        <a class="toc-level-2" href="#观察指标">观察指标</a>
+        <a class="toc-level-2" href="#常见误读">常见误读</a>
+        <a class="toc-level-2" href="#参考来源">参考来源</a>
+      </nav>
+      <div class="toc-tags">
+<span class="tag tag-sm">封装</span><span class="tag tag-sm">CoWoS</span><span class="tag tag-sm">芯粒</span><span class="tag tag-sm">HBM</span>      </div>
+    </div>
+  </aside>
+</article>
+
+<p class="disclaimer-line">仅供研究，不构成投资建议</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>全球半导体产业链研究与学习台</p>
+        <p class="footer-note">仅供研究，不构成投资建议</p>
+      </div>
+      <div>
+        <h3>公司图谱</h3>
+        <a href="../companies.html">公司图谱</a>
+        <a href="../value-chain.html">产业链</a>
+        <a href="../glossary.html">术语表</a>
+      </div>
+      <div>
+        <h3>知识库</h3>
+        <a href="value-chain.html">产业链全景：谁在赚钱，钱在哪</a>
+        <a href="process-flow.html">晶圆制造：八大工艺与洁净室</a>
+        <a href="lithography.html">光刻：从 DUV 到 High-NA EUV</a>
+        <a href="equipment-materials.html">设备与材料：卖铲人的生意</a>
+      </div>
+      <div>
+        <h3>关于</h3>
+        <a href="../methodology.html">方法</a>
+        <a href="../about.html">关于</a>
+        <a href="../../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静态构建 · v3.0.0 · 2026-11-11 13:15 UTC+8</span>
+      <span>数据快照: 2026-11-11 13:12 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../../assets/js/app.js?v=3.0.0"></script>
+</body>
+</html>

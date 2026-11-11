@@ -51,6 +51,8 @@ def _fetch_one(company: Company, cache: dict[str, Any]) -> tuple[str, dict[str, 
             return company.id, None, f"{company.id}: empty quote", resolved
         history = eastmoney.fetch_history(session, secid)
         entry = eastmoney.build_market_entry(company, quote, history, datetime.now(SITE_TIMEZONE))
+        if entry.get("price") is None:
+            return company.id, None, f"{company.id}: quote without price", resolved
         entry["symbol"] = secid
         entry["venue"] = company.quote_venue or company.exchange
         entry["resolved_name"] = resolved.get("name", "")

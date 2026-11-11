@@ -26,14 +26,15 @@
       <h2>{{ term[lang].term }}</h2>
       <span class="tag tag-sm">{{ t.glossary.categories[term.category] }}</span>
     </div>
-    {% set others = ['zh', 'en', 'ja'] | reject('equalto', lang) | list %}
-    <p class="glossary-alt">{{ term[others[0]].term }}<span class="sep">·</span>{{ term[others[1]].term }}</p>
+    {% set others = ['zh', 'en', 'ja', 'de'] | reject('equalto', lang) | list %}
+    <p class="glossary-alt">{{ term[others[0]].term }}<span class="sep">·</span>{{ term[others[1]].term }}<span class="sep">·</span>{{ term[others[2]].term }}</p>
     <p class="glossary-def">{{ term[lang].def }}</p>
     <details class="glossary-details">
       <summary>{{ t.glossary.allLanguages }}</summary>
       <div class="glossary-lang"><span>中文</span><p>{{ term.zh.def }}</p></div>
       <div class="glossary-lang"><span>English</span><p>{{ term.en.def }}</p></div>
       <div class="glossary-lang"><span>日本語</span><p>{{ term.ja.def }}</p></div>
+      <div class="glossary-lang"><span>Deutsch</span><p>{{ term.de.def }}</p></div>
     </details>
   </article>
   {% endfor %}

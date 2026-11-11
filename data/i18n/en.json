@@ -2,8 +2,8 @@
   "site": {
     "brand": "SiliconScope",
     "name": "Semiconductor Intelligence Desk",
-    "tagline": "A trilingual research desk for the global semiconductor value chain",
-    "description": "A Chinese–English–Japanese research dashboard covering 8 value-chain stages, 11 headquarters regions and 120+ companies, with verifiable quotes, structure, knowledge and method."
+    "tagline": "A four-language research desk for the global semiconductor value chain",
+    "description": "A four-language research dashboard covering 8 value-chain stages, 13 headquarters regions and 175 companies, with verifiable quotes, structure, knowledge and method."
   },
   "nav": {
     "home": "Home",
@@ -166,7 +166,9 @@
     "relatedReading": "Further reading",
     "positioningTemplate": "{name} sits in the {stage} stage and operates as a {role} company, with capabilities spanning {products}.",
     "priorityTitle": "Priority breakdown",
-    "priorityDesc": "Each factor is a percentile within peers; missing factors are renormalised."
+    "priorityDesc": "Each factor is a percentile within peers; missing factors are renormalised.",
+    "founded": "Founded",
+    "fiscalYearEnd": "Fiscal year end"
   },
   "chain": {
     "title": "The value chain",
@@ -222,7 +224,7 @@
     "notTitle": "What it does not do",
     "not": "No buy/sell calls, price targets or position sizing. No earnings forecasts. No single-factor conclusions dressed up as answers. No hiding of missing data.",
     "universeTitle": "Universe and classification",
-    "universe": "120+ listed semiconductor companies, classified into 8 stages by primary revenue source. Each company keeps one primary listing to avoid double counting. Additions and removals are recorded in the data files.",
+    "universe": "175 listed semiconductor companies, classified into 8 stages by primary revenue source. Each company keeps one primary listing to avoid double counting. Additions and removals are recorded in the data files.",
     "factorsTitle": "Factor definitions",
     "factors": "All factors are percentile-normalised to 0–100 within the peer set, then weighted into a research priority score. Percentiles are computed within a stage; stages with fewer than 8 companies fall back to the full sample.",
     "factorQuality": "Percentile of ROE among peers.",
@@ -260,7 +262,7 @@
     "audienceTitle": "Who it is for",
     "audience": "Students and researchers learning the value chain, analysts and practitioners who need a fast global view, and individual investors who want transparent data definitions.",
     "scopeTitle": "Scope",
-    "scope": "8 value-chain stages, 11 headquarters regions and 120+ listed companies across mainland China, Hong Kong, Taiwan, the US, Japan, Korea and Europe.",
+    "scope": "8 value-chain stages, 13 headquarters regions and 175 listed companies across mainland China, Hong Kong, Taiwan, the US, Japan, Korea, Europe and Israel.",
     "sourcesTitle": "Sources and definitions",
     "sources": "Quotes, valuation and 52-week ranges come from Eastmoney public quote APIs; FX from open.er-api.com; industry signals from allowlisted publisher RSS. Everything is written into a build-time snapshot; pages never call third-party APIs.",
     "cadenceTitle": "Cadence",
@@ -317,6 +319,12 @@
     "subsidies": "Subsidies",
     "financials": "Financials",
     "valuation": "Valuation",
-    "metrics": "Metrics"
+    "metrics": "Metrics",
+    "eda": "EDA",
+    "ip": "IP",
+    "automotive": "Automotive",
+    "sic": "SiC",
+    "ai-compute": "AI compute",
+    "networking": "Networking"
   }
 }

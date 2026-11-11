@@ -1,89 +1,103 @@
-# 参与贡献
+# Contributing
 
-感谢你愿意改进 SiliconScope。这个项目优先考虑**可核查**、**可维护**与**三语一致**，请按下面的流程提交变更。
+Thank you for improving SiliconScope. The project prioritises **auditability**, **maintainability** and **consistency across four languages**. Please follow the process below.
 
-## 环境
+## Environment
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
-python -m semcore build      # 用仓库内快照构建
+python -m semcore build      # build from the committed snapshot
 python -m semcore serve      # http://127.0.0.1:8000
 python -m pytest
 python -m semcore validate
 ```
 
-## 常见变更
+## Common changes
 
-### 新增或修正一家公司
+### Add or correct a company
 
-1. 编辑 `data/universe.csv`，一行一家公司，列含义见 `documentation/DATA.md`。
-2. 只保留一个主上市地（不要同一公司重复两行）。
-3. 在 PR 说明中附来源（交易所页面或年报），并说明分类依据。
-4. 运行 `python -m semcore validate --data-only`。
-5. 若新公司无法自动解析行情，运行 `python -m semcore fetch` 生成 `data/symbols.json` 映射；仍失败则在 PR 中注明，或设 `quote_venue = "unpriced"`。
+1. Edit `data/universe.csv`; one row per company. Column definitions are in `documentation/DATA_en.md`.
+2. Keep one primary listing per company; do not add the same company twice for different markets.
+3. Include a source in the pull request (exchange page or annual report) and explain the classification.
+4. Run `python -m semcore validate --data-only`.
+5. If the new company's quote cannot be resolved automatically, run `python -m semcore fetch` to generate the `data/symbols.json` mapping. If it still fails, note it in the pull request or set `quote_venue = "unpriced"`.
 
-### 新增术语
+The company master data is four-language. v3 adds these columns:
 
-1. 编辑 `data/glossary.json`，必须同时提供 `zh`、`en`、`ja` 的 `term` 与 `def`。
-2. `category` 使用已有分类（process / equipment / material / packaging / memory / design / business / economics / policy）。
-3. 定义保持 2–4 句，避免循环定义。
-4. 运行 `python -m pytest tests/test_content.py`。
+| Column | Required | Meaning |
+| --- | --- | --- |
+| `name_de` | Optional | German display name; blank falls back to `name_en` |
+| `note_de` | Optional | German company note; blank falls back to the English note |
+| `founded` | Optional | Year founded, four digits |
+| `fiscal_year_end` | Optional | Fiscal year-end month, `01`–`12` |
 
-### 新增知识长文
+Fill the German name and note where possible. Leave `founded` and `fiscal_year_end` blank when they cannot be verified; the fields are displayed only when present.
 
-1. 在 `content/knowledge/{zh,en,ja}/` 下创建同名 `.md` 文件，slug 使用小写连字符。
-2. front matter 必填：`title`、`summary`、`level`（foundation/core/advanced）、`minutes`、`order`、`tags`、`related`、`updated`。
-3. `related` 只能引用已存在的 slug；三种语言的 `order` 与 slug 必须一致。
-4. 正文使用受支持的 Markdown 子集：`##`、`###`、段落、列表、引用、代码块、粗体、链接。**不支持原始 HTML**。
-5. 在文末列出可核查的参考来源。
-6. 三语信息量要对等，不做“英文精简版”。
+### Add a glossary term
 
-### 修改方法或评分
+1. Edit `data/glossary.json`; provide `term` and `def` for **all four** languages: `en`, `zh`, `ja` and `de`.
+2. Use an existing `category` (process / equipment / material / packaging / memory / design / business / economics / policy).
+3. Keep definitions to 2–4 sentences and avoid circular definitions.
+4. Run `python -m pytest tests/test_content.py`.
 
-1. 先开 Issue 说明动机与预期影响。
-2. 修改 `semcore/analytics.py`，补测试。
-3. 同步更新 `documentation/METHODOLOGY.md` 与站内 `templates/methodology.html` 对应文案（`data/i18n/*.json`）。
-4. 在 `CHANGELOG.md` 记录，主版本号 +1。
-5. PR 中附离线对比：分数分布、清单变化、受影响的页面。
+### Add a knowledge topic
 
-### 修改样式或模板
+1. Create flat files under `content/knowledge/` named `<slug>_en.md`, `<slug>_cn.md`, `<slug>_jp.md` and `<slug>_de.md`. Use a lowercase hyphenated slug.
+2. Required front matter: `title`, `summary`, `level` (foundation/core/advanced), `minutes`, `order`, `tags`, `related`, `updated`.
+3. `related` may only reference existing slugs. The slug and `order` must be identical in all four languages.
+4. The knowledge base currently has 12 topics: `advanced-packaging`, `ai-datacenter`, `automotive`, `cycle`, `eda-ip`, `equipment-materials`, `lithography`, `memory-hbm`, `metrics`, `policy`, `process-flow` and `value-chain`.
+5. Use the supported Markdown subset: `##`, `###`, paragraphs, lists, quotes, fenced code blocks, bold and links. **Raw HTML is not supported.**
+6. List verifiable references at the end.
+7. Carry equivalent information in all four languages; do not publish an "English full version" with shortened translations.
 
-- 设计变量集中在 `assets/css/main.css` 顶部的 `:root` 与 `[data-theme="dark"]`。
-- 保持无 CDN、无框架、无外部字体。
-- 检查 1440 / 1024 / 390 三个宽度、浅色与深色、键盘可达性。
-- 不引入自动播放动画；尊重 `prefers-reduced-motion`。
+### Change the method or scoring
 
-## 代码风格
+1. Open an issue first, explaining the motivation and expected impact.
+2. Change `semcore/analytics.py` and add tests.
+3. Update `documentation/METHODOLOGY_en.md` and its `_cn` / `_jp` / `_de` translations, plus the site copy in `data/i18n/*.json`.
+4. Record the change in `CHANGELOG.md` and increment the major version.
+5. Include an offline comparison in the pull request: score distribution, screen changes and affected pages.
 
-- Python 3.11+，类型标注优先，避免副作用式全局状态。
-- 模块职责见 `documentation/ARCHITECTURE.md`；抓取、分析、渲染分开。
-- 模板只做展示，不在模板里做复杂计算。
-- JS 使用原生 API，避免依赖；所有交互在无 JS 时仍有可用降级。
+### Change styles or templates
 
-## PR 检查清单
+- Design tokens live in the `:root` and `[data-theme="dark"]` blocks at the top of `assets/css/main.css`.
+- Keep the site free of CDNs, frameworks and external fonts.
+- Check widths 1440 / 1024 / 390, light and dark themes, and keyboard access.
+- Do not introduce autoplay animation; respect `prefers-reduced-motion`.
 
-- [ ] `python -m pytest` 通过
-- [ ] `python -m semcore validate` 通过
-- [ ] 三语 key 与知识 slug 对齐
-- [ ] 新增数据附来源
-- [ ] 移动端与深色模式检查
-- [ ] `CHANGELOG.md` 已更新（如适用）
-- [ ] 没有提交 `docs/` 之外的大文件
+## Code style
 
-## 提交信息
+- Python 3.11+, type hints preferred, avoid side-effectful global state.
+- Module responsibilities are described in `documentation/ARCHITECTURE_en.md`; keep fetching, analytics and rendering separate.
+- Templates display only; do not perform complex calculations in them.
+- Use native JS APIs and avoid dependencies; every interaction must degrade when JS is unavailable.
 
-使用简洁的祈使句，例如：
+## Pull-request checklist
+
+- [ ] `python -m pytest` passes
+- [ ] `python -m semcore validate` passes
+- [ ] Interface keys, knowledge slugs and glossary fields align across all four languages
+- [ ] Documentation changes include the `_en` / `_cn` / `_jp` / `_de` versions
+- [ ] New data includes a source
+- [ ] Mobile and dark mode checked
+- [ ] `CHANGELOG.md` updated where applicable
+- [ ] No large files committed outside `docs/`
+
+## Commit messages
+
+Use a concise imperative style, for example:
 
 ```text
-data: add Tokyo Ohka and SUMCO to materials
-fix: hide P/B column below 1500px to avoid table overflow
-docs: clarify 30-day return uses trading sessions
+data: add Toyota Industries to automotive coverage
+fix: hide the P/B column below 1500px to avoid table overflow
+docs: clarify that the 30-day return uses trading sessions
+content: add the ai-datacenter topic in four languages
 ```
 
-## 行为准则
+## Code of conduct
 
-- 讨论聚焦证据与方法，不针对个人。
-- 不提交未经核实的数据或来源。
-- 不把本站内容包装成投资建议。
+- Discuss evidence and method, not people.
+- Do not submit unverified data or sources.
+- Do not present the site's content as investment advice.

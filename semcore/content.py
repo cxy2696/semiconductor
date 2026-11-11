@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from .config import CONTENT_DIR, GLOSSARY_FILE, LOCALES
+from .config import CONTENT_DIR, GLOSSARY_FILE, LOCALE_BY_LANG, LOCALES
 from .utils import read_json, slugify
 
 FRONT_MATTER = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.DOTALL)
@@ -185,21 +185,24 @@ class KnowledgeDoc:
     toc: list[dict[str, Any]]
 
 
-def knowledge_dir(lang: str) -> Path:
-    return CONTENT_DIR / "knowledge" / lang
+def knowledge_dir() -> Path:
+    return CONTENT_DIR / "knowledge"
 
 
 def load_knowledge(lang: str) -> list[KnowledgeDoc]:
-    directory = knowledge_dir(lang)
+    directory = knowledge_dir()
     docs: list[KnowledgeDoc] = []
     if not directory.exists():
         return docs
-    for path in sorted(directory.glob("*.md")):
+    locale = LOCALE_BY_LANG[lang]
+    suffix = f"_{locale.file_suffix}.md"
+    for path in sorted(directory.glob(f"*{suffix}")):
+        slug = path.name[: -len(suffix)]
         meta, body = parse_front_matter(path.read_text(encoding="utf-8"))
         rendered, toc = render_markdown(body)
         docs.append(
             KnowledgeDoc(
-                slug=path.stem,
+                slug=slug,
                 lang=lang,
                 title=str(meta.get("title") or path.stem),
                 summary=str(meta.get("summary") or ""),

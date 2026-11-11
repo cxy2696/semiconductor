@@ -55,7 +55,7 @@ def make_snapshot(companies, seed: int = 11) -> dict[str, Any]:
         }
     return {
         "schema_version": 2,
-        "site_version": "2.0.0",
+        "site_version": "3.0.0",
         "generated_at": "2026-11-11T08:00:00+08:00",
         "dataset": "fixture",
         "universe_size": len(companies),

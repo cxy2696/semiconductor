@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汽车半导体：认证才是护城河 · 半导体产业情报台</title>
+  <meta name="description" content="汽车正在变成轮子上的计算机。车用芯片受益于电动化与 ADAS，但真正的壁垒是认证，而不是性能。">
+  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/zh/knowledge/automotive.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/knowledge/automotive.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/zh/knowledge/automotive.html">
+  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge/automotive.html">
+  <link rel="alternate" hreflang="de-DE" href="https://cxy2696.github.io/semiconductor/de/knowledge/automotive.html">
+  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge/automotive.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SiliconScope">
+  <meta property="og:title" content="汽车半导体：认证才是护城河 · 半导体产业情报台">
+  <meta property="og:description" content="汽车正在变成轮子上的计算机。车用芯片受益于电动化与 ADAS，但真正的壁垒是认证，而不是性能。">
+  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/zh/knowledge/automotive.html">
+  <meta property="og:locale" content="zh-CN">
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/css/main.css?v=3.0.0">
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('ss-theme');
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
+  </script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "SiliconScope"}, "dateModified": "2026-11-11", "description": "\u6c7d\u8f66\u6b63\u5728\u53d8\u6210\u8f6e\u5b50\u4e0a\u7684\u8ba1\u7b97\u673a\u3002\u8f66\u7528\u82af\u7247\u53d7\u76ca\u4e8e\u7535\u52a8\u5316\u4e0e ADAS\uff0c\u4f46\u771f\u6b63\u7684\u58c1\u5792\u662f\u8ba4\u8bc1\uff0c\u800c\u4e0d\u662f\u6027\u80fd\u3002", "headline": "\u6c7d\u8f66\u534a\u5bfc\u4f53\uff1a\u8ba4\u8bc1\u624d\u662f\u62a4\u57ce\u6cb3", "inLanguage": "zh-CN"}</script>
+</head>
+<body class="page-topic">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="../index.html" aria-label="SiliconScope">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
+            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
+            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SiliconScope</span>
+          <span class="brand-sub">半导体产业情报台</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="首页">
+        <a href="../index.html" >首页</a>
+        <a href="../companies.html" >公司图谱</a>
+        <a href="../value-chain.html" >产业链</a>
+        <a href="../knowledge.html" aria-current="page">知识库</a>
+        <a href="../glossary.html" >术语表</a>
+        <a href="../methodology.html" >方法</a>
+        <a href="../about.html" >关于</a>
+      </nav>
+
+      <div class="header-tools">
+        <label class="visually-hidden" for="locale-switch">语言</label>
+        <select id="locale-switch" class="locale-switch" aria-label="语言">
+          <option value="../../knowledge/automotive.html" >English</option>
+          <option value="automotive.html" selected>中文</option>
+          <option value="../../ja/knowledge/automotive.html" >日本語</option>
+          <option value="../../de/knowledge/automotive.html" >Deutsch</option>
+        </select>
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="主题" title="主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="菜单">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="首页">
+      <a href="../index.html">首页</a>
+      <a href="../companies.html">公司图谱</a>
+      <a href="../value-chain.html">产业链</a>
+      <a href="../knowledge.html">知识库</a>
+      <a href="../glossary.html">术语表</a>
+      <a href="../methodology.html">方法</a>
+      <a href="../about.html">关于</a>
+    </nav>
+  </header>
+
+
+  <main id="main" class="wrap">
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">首页</a>
+  <span aria-hidden="true">/</span>
+  <a href="../knowledge.html">知识库</a>
+  <span aria-hidden="true">/</span>
+  <span>汽车半导体：认证才是护城河</span>
+</nav>
+
+<article class="article-layout">
+  <div class="article-main">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="doc-level level-core">核心</span>
+        <span>约 9 分钟</span>
+<span>截至 2026-11-11</span>      </div>
+      <h1>汽车半导体：认证才是护城河</h1>
+      <p class="lede">汽车正在变成轮子上的计算机。车用芯片受益于电动化与 ADAS，但真正的壁垒是认证，而不是性能。</p>
+    </header>
+    <div class="prose">
+      <p>单车半导体价值已从十年前的约 300–400 美元上升到现代汽车的 600–1000 美元，高端电动车更高。增长来自三处：电动化、辅助驾驶与数字座舱。</p>
+<h2 id="芯片都去了哪里">芯片都去了哪里</h2>
+<ul><li><strong>动力系统</strong>：SiC 或 IGBT 主驱逆变器、栅极驱动、MCU。800V 架构会显著提升 SiC 价值量。</li><li><strong>ADAS</strong>：图像传感器、毫米波雷达、激光雷达，以及中央 SoC 或域控制器。</li><li><strong>车身与舒适</strong>：几十颗 MCU、电机驱动、LED 驱动与连接芯片。</li><li><strong>座舱</strong>：应用处理器、显示驱动、音频与网络芯片。</li></ul>
+<h2 id="认证又慢又贵">认证又慢又贵</h2>
+<p>车规器件必须通过 AEC-Q100（分立器件为 Q101），支持 ISO 26262 功能安全（最高 ASIL-D），并在 IATF 16949 体系下生产。客户还会自行认证，通常两到四年才能锁定设计；一旦导入，生命周期往往五到十年。</p>
+<p>这既是吸引力，也是门槛：设计中标带来长期黏性的收入，但供应商无法只靠更好的规格书赢下项目，还需要量产记录、质量体系和本地产能。</p>
+<h2 id="供应链是间接的">供应链是间接的</h2>
+<p>整车厂很少直接采购芯片。博世、大陆、电装等 Tier-1 把芯片集成为模块，半导体厂商可能隔了两层。2021 年缺芯暴露了这种不透明：产能与需求难以匹配，也促使整车厂开始与芯片厂直接沟通关键料号。</p>
+<h2 id="周期由什么驱动">周期由什么驱动</h2>
+<p>车用半导体需求跟随汽车产量，但波动被放大：库存建立与去化都很剧烈。电动化带来结构性增长，而补贴与排放法规会把需求提前，随后留下空档。</p>
+<h2 id="观察指标">观察指标</h2>
+<ul><li>单车价值量与 SiC 在逆变器中的渗透率。</li><li>设计中标公告与全生命周期收入。</li><li>交期与代理商库存。</li><li>新进入者的认证进度。</li><li>中国本地化：国产 MCU 与 SiC 在本土市场推进很快。</li></ul>
+<h2 id="参考来源">参考来源</h2>
+<ul><li><a href="https://www.infineon.com/" rel="noopener">Infineon: Automotive semiconductors</a></li><li><a href="https://www.onsemi.com/" rel="noopener">onsemi: Automotive</a></li><li><a href="https://www.nxp.com/" rel="noopener">NXP: Automotive</a></li><li><a href="https://www.aecouncil.com/" rel="noopener">AEC: Automotive electronics council</a></li></ul>
+    </div>
+
+    <section class="article-related">
+      <h2>相关主题</h2>
+      <div class="three-col">
+        <a class="doc-card" href="process-flow.html">
+          <span class="doc-level">基础</span>
+          <span class="doc-title">晶圆制造：八大工艺与洁净室</span>
+          <span class="doc-summary">从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。</span>
+        </a>
+        <a class="doc-card" href="cycle.html">
+          <span class="doc-level">核心</span>
+          <span class="doc-title">硅周期：如何判断位置</span>
+          <span class="doc-summary">半导体周期由资本开支、库存与终端需求共同驱动。与其预测拐点，不如用一组可核查的指标判断当前位置。</span>
+        </a>
+        <a class="doc-card" href="metrics.html">
+          <span class="doc-level">核心</span>
+          <span class="doc-title">财报与估值：半导体公司怎么读</span>
+          <span class="doc-summary">半导体的利润表随周期剧烈波动，单看 PE 容易误判。理解毛利率、库存、资本开支与正常化盈利，才能做可比分析。</span>
+        </a>
+      </div>
+    </section>
+
+    <nav class="article-pager" aria-label="相关内容">
+      <a href="eda-ip.html"><span>← 上一篇</span><strong>EDA 与 IP：芯片设计的收费站</strong></a>
+      <a class="pager-next" href="ai-datacenter.html"><span>下一篇 →</span><strong>AI 数据中心芯片：机柜才是新的芯片</strong></a>
+    </nav>
+  </div>
+
+  <aside class="article-aside">
+    <div class="toc panel">
+      <span class="kicker">本页目录</span>
+      <nav>
+        <a class="toc-level-2" href="#芯片都去了哪里">芯片都去了哪里</a>
+        <a class="toc-level-2" href="#认证又慢又贵">认证又慢又贵</a>
+        <a class="toc-level-2" href="#供应链是间接的">供应链是间接的</a>
+        <a class="toc-level-2" href="#周期由什么驱动">周期由什么驱动</a>
+        <a class="toc-level-2" href="#观察指标">观察指标</a>
+        <a class="toc-level-2" href="#参考来源">参考来源</a>
+      </nav>
+      <div class="toc-tags">
+<span class="tag tag-sm">汽车</span><span class="tag tag-sm">SiC</span><span class="tag tag-sm">mcu</span><span class="tag tag-sm">政策</span>      </div>
+    </div>
+  </aside>
+</article>
+
+<p class="disclaimer-line">仅供研究，不构成投资建议</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">SiliconScope</div>
+        <p>全球半导体产业链研究与学习台</p>
+        <p class="footer-note">仅供研究，不构成投资建议</p>
+      </div>
+      <div>
+        <h3>公司图谱</h3>
+        <a href="../companies.html">公司图谱</a>
+        <a href="../value-chain.html">产业链</a>
+        <a href="../glossary.html">术语表</a>
+      </div>
+      <div>
+        <h3>知识库</h3>
+        <a href="value-chain.html">产业链全景：谁在赚钱，钱在哪</a>
+        <a href="process-flow.html">晶圆制造：八大工艺与洁净室</a>
+        <a href="lithography.html">光刻：从 DUV 到 High-NA EUV</a>
+        <a href="equipment-materials.html">设备与材料：卖铲人的生意</a>
+      </div>
+      <div>
+        <h3>关于</h3>
+        <a href="../methodology.html">方法</a>
+        <a href="../about.html">关于</a>
+        <a href="../../latest_data.json">JSON</a>
+      </div>
+    </div>
+    <div class="wrap footer-meta">
+      <span>静态构建 · v3.0.0 · 2026-11-11 13:15 UTC+8</span>
+      <span>数据快照: 2026-11-11 13:12 · MIT · CC BY 4.0</span>
+    </div>
+  </footer>
+  <script defer src="../../assets/js/app.js?v=3.0.0"></script>
+</body>
+</html>

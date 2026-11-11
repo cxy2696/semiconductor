@@ -1,204 +1,30 @@
 <!DOCTYPE html>
-<html lang="en-US" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Financials and valuation: how to read a chip company · Semiconductor Intelligence Desk</title>
-  <meta name="description" content="Semiconductor earnings swing violently with the cycle, so a single P/E is misleading. Gross margin, inventory, capex and normalised earnings make comparison possible.">
-  <link rel="canonical" href="https://cxy2696.github.io/semiconductor/en/knowledge/metrics.html">
-  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/knowledge/metrics.html">
-  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/knowledge/metrics.html">
-  <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge/metrics.html">
-  <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge/metrics.html">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="SiliconScope">
-  <meta property="og:title" content="Financials and valuation: how to read a chip company · Semiconductor Intelligence Desk">
-  <meta property="og:description" content="Semiconductor earnings swing violently with the cycle, so a single P/E is misleading. Gross margin, inventory, capex and normalised earnings make comparison possible.">
-  <meta property="og:url" content="https://cxy2696.github.io/semiconductor/en/knowledge/metrics.html">
-  <meta property="og:locale" content="en-US">
-  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../assets/css/main.css?v=2.0.0">
-  <script>
-    (function () {
-      try {
-        var stored = localStorage.getItem('ss-theme');
-        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-      } catch (e) {}
-    })();
-  </script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "SiliconScope"}, "dateModified": "2026-11-10", "description": "Semiconductor earnings swing violently with the cycle, so a single P/E is misleading. Gross margin, inventory, capex and normalised earnings make comparison possible.", "headline": "Financials and valuation: how to read a chip company", "inLanguage": "en-US"}</script>
+  <title>Page moved · SiliconScope</title>
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=../../knowledge/metrics.html">
+  <link rel="canonical" href="../../knowledge/metrics.html">
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f6f4ef; color: #17202b;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width: 34rem; padding: 2rem; }
+    h1 { font-family: "Iowan Old Style", Georgia, serif; font-size: 2rem; margin: 0 0 .75rem; }
+    p { color: #4b5563; line-height: 1.6; }
+    a { display: inline-block; margin-top: 1rem; background: #0f766e; color: #fff; padding: .65rem 1.1rem; border-radius: .6rem; text-decoration: none; font-weight: 600; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #0b1220; color: #e7ecf3; } p { color: #9aa8bb; }
+    }
+  </style>
 </head>
-<body class="page-topic">
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="../index.html" aria-label="SiliconScope">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="32" height="32" role="presentation">
-            <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--brand-mark-bg)"/>
-            <path d="M9 21.5V10.5h7.2c2.6 0 4.3 1.5 4.3 3.9 0 2.1-1.4 3.5-3.6 3.8l3.9 3.3h-3.9l-3.3-3.1H12v3.1H9Zm3-5.7h3.9c1.2 0 1.9-.6 1.9-1.5s-.7-1.5-1.9-1.5H12v3Z" fill="var(--brand-mark-fg)"/>
-            <circle cx="24" cy="9" r="2.2" fill="var(--accent)"/>
-          </svg>
-        </span>
-        <span class="brand-text">
-          <span class="brand-name">SiliconScope</span>
-          <span class="brand-sub">Semiconductor Intelligence Desk</span>
-        </span>
-      </a>
-
-      <nav class="main-nav" aria-label="Home">
-        <a href="../index.html" >Home</a>
-        <a href="../companies.html" >Companies</a>
-        <a href="../value-chain.html" >Value chain</a>
-        <a href="../knowledge.html" aria-current="page">Knowledge</a>
-        <a href="../glossary.html" >Glossary</a>
-        <a href="../methodology.html" >Method</a>
-        <a href="../about.html" >About</a>
-      </nav>
-
-      <div class="header-tools">
-        <label class="visually-hidden" for="locale-switch">Language</label>
-        <select id="locale-switch" class="locale-switch" aria-label="Language">
-          <option value="../../knowledge/metrics.html" >中文</option>
-          <option value="metrics.html" selected>English</option>
-          <option value="../../ja/knowledge/metrics.html" >日本語</option>
-        </select>
-        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Theme" title="Theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-        </button>
-        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="Menu">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-    </div>
-    <nav id="main-nav-mobile" class="mobile-nav" aria-label="Home">
-      <a href="../index.html">Home</a>
-      <a href="../companies.html">Companies</a>
-      <a href="../value-chain.html">Value chain</a>
-      <a href="../knowledge.html">Knowledge</a>
-      <a href="../glossary.html">Glossary</a>
-      <a href="../methodology.html">Method</a>
-      <a href="../about.html">About</a>
-    </nav>
-  </header>
-
-
-  <main id="main" class="wrap">
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="../index.html">Home</a>
-  <span aria-hidden="true">/</span>
-  <a href="../knowledge.html">Knowledge</a>
-  <span aria-hidden="true">/</span>
-  <span>Financials and valuation: how to read a chip company</span>
-</nav>
-
-<article class="article-layout">
-  <div class="article-main">
-    <header class="article-head">
-      <div class="article-meta">
-        <span class="doc-level level-core">Core</span>
-        <span>About 9 min</span>
-<span>As of 2026-11-10</span>      </div>
-      <h1>Financials and valuation: how to read a chip company</h1>
-      <p class="lede">Semiconductor earnings swing violently with the cycle, so a single P/E is misleading. Gross margin, inventory, capex and normalised earnings make comparison possible.</p>
-    </header>
-    <div class="prose">
-      <p>Semiconductor financials have two features: high volatility and many accounting conventions. Consumer-stock frameworks tend to produce wrong conclusions here.</p>
-<h2 id="start-with-four-numbers">Start with four numbers</h2>
-<ol><li><strong>Gross margin</strong>: pricing power and manufacturing cost. Fabless 40%–60%, foundry 30%–55%, OSAT 15%–30%, equipment 40%–55%.</li><li><strong>Inventory days</strong>: inventory divided by daily cost of goods sold. Falling inventory days often precede a price recovery.</li><li><strong>Capex-to-sales</strong>: 20%–35% for manufacturing and memory, much lower for equipment and design.</li><li><strong>Free cash flow</strong>: in capex-heavy stages, profit does not equal cash.</li></ol>
-<h2 id="why-valuation-is-hard">Why valuation is hard</h2>
-<p>Semiconductors are cyclical. P/E looks low at the top (high earnings) and high or negative at the bottom. Using P/E alone systematically buys the top.</p>
-<p>Better comparisons:</p>
-<ul><li><strong>P/B</strong>: for asset-heavy manufacturing and memory with volatile earnings.</li><li><strong>P/S</strong>: for high-growth designers without profits.</li><li><strong>EV/EBITDA</strong>: across different capital structures.</li><li><strong>Normalised earnings</strong>: restore mid-cycle margins and utilisation.</li></ul>
-<h2 id="metrics-by-stage">Metrics by stage</h2>
-<ul><li>Design: design wins, customer concentration, ASP, inventory turns.</li><li>Foundry: utilisation, wafer ASP, node mix, depreciation/revenue.</li><li>Memory: bit shipments, contract price, inventory weeks.</li><li>Equipment: book-to-bill, backlog, service revenue share.</li><li>OSAT: utilisation, advanced-packaging mix, test hours.</li></ul>
-<h2 id="limits-of-this-desks-score">Limits of this desk's score</h2>
-<p>The research priority score uses only public quote and financial fields (ROE, P/E, P/B, market cap, momentum). It has no revenue growth, order or capacity data. It is a <strong>research ordering tool</strong>, not an earnings forecast and not a recommendation.</p>
-<h2 id="references">References</h2>
-<ul><li><a href="https://www.semiconductors.org/" rel="noopener">SIA</a></li><li><a href="https://investor.tsmc.com/english" rel="noopener">TSMC: Investor relations</a></li><li><a href="https://www.asml.com/en/investors" rel="noopener">ASML: Investor relations</a></li></ul>
-    </div>
-
-    <section class="article-related">
-      <h2>Related topics</h2>
-      <div class="three-col">
-        <a class="doc-card" href="value-chain.html">
-          <span class="doc-level">Foundation</span>
-          <span class="doc-title">The value chain: who earns the money</span>
-          <span class="doc-summary">Put the eight stages back on one chain and understand why margins, capital intensity and cycle transmission differ so much.</span>
-        </a>
-        <a class="doc-card" href="equipment-materials.html">
-          <span class="doc-level">Core</span>
-          <span class="doc-title">Equipment and materials: selling the shovels</span>
-          <span class="doc-summary">Equipment follows capex while materials follow wafer output. Understanding both business models is essential to reading upstream cycles and valuations.</span>
-        </a>
-        <a class="doc-card" href="cycle.html">
-          <span class="doc-level">Core</span>
-          <span class="doc-title">The silicon cycle: locating where we are</span>
-          <span class="doc-summary">Capex, inventory and end demand drive the semiconductor cycle. Instead of forecasting the turn, use a small set of verifiable indicators to locate the present.</span>
-        </a>
-      </div>
-    </section>
-
-    <nav class="article-pager" aria-label="Related">
-      <a href="policy.html"><span>← Previous</span><strong>Export controls and industrial policy</strong></a>
-    </nav>
-  </div>
-
-  <aside class="article-aside">
-    <div class="toc panel">
-      <span class="kicker">On this page</span>
-      <nav>
-        <a class="toc-level-2" href="#start-with-four-numbers">Start with four numbers</a>
-        <a class="toc-level-2" href="#why-valuation-is-hard">Why valuation is hard</a>
-        <a class="toc-level-2" href="#metrics-by-stage">Metrics by stage</a>
-        <a class="toc-level-2" href="#limits-of-this-desks-score">Limits of this desk&#39;s score</a>
-        <a class="toc-level-2" href="#references">References</a>
-      </nav>
-      <div class="toc-tags">
-<span class="tag tag-sm">Financials</span><span class="tag tag-sm">Valuation</span><span class="tag tag-sm">Metrics</span>      </div>
-    </div>
-  </aside>
-</article>
-
-<p class="disclaimer-line">Research only. Not investment advice.</p>
+<body>
+  <main>
+    <h1>Page moved</h1>
+    <p>The dashboard has a new structure. Redirecting now.</p>
+    <a href="../../knowledge/metrics.html">More</a>
   </main>
-
-  <footer class="site-footer">
-    <div class="wrap footer-grid">
-      <div class="footer-brand">
-        <div class="brand-name">SiliconScope</div>
-        <p>A trilingual research desk for the global semiconductor value chain</p>
-        <p class="footer-note">Research only. Not investment advice.</p>
-      </div>
-      <div>
-        <h3>Companies</h3>
-        <a href="../companies.html">Companies</a>
-        <a href="../value-chain.html">Value chain</a>
-        <a href="../glossary.html">Glossary</a>
-      </div>
-      <div>
-        <h3>Knowledge</h3>
-        <a href="value-chain.html">The value chain: who earns the money</a>
-        <a href="process-flow.html">Wafer fabrication: eight process families</a>
-        <a href="lithography.html">Lithography: from DUV to High-NA EUV</a>
-        <a href="equipment-materials.html">Equipment and materials: selling the shovels</a>
-      </div>
-      <div>
-        <h3>About</h3>
-        <a href="../methodology.html">Method</a>
-        <a href="../about.html">About</a>
-        <a href="../../latest_data.json">JSON</a>
-      </div>
-    </div>
-    <div class="wrap footer-meta">
-      <span>Static build · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
-      <span>Data snapshot: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
-    </div>
-  </footer>
-  <script defer src="../../assets/js/app.js?v=2.0.0"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from .config import DOCS_DIR, LOCALES, SITE_URL
+from .config import DOCS_DIR, LOCALES, ROOT, SITE_URL
 from .content import load_all_knowledge, load_glossary
 from .i18n import flatten, load_bundle
 from .taxonomy import Taxonomy
@@ -61,30 +61,55 @@ def validate_data() -> list[str]:
             errors.append(f"i18n[{locale.lang}]: unexpected keys {extra[:6]}")
 
     knowledge = load_all_knowledge()
-    zh_slugs = [doc.slug for doc in knowledge["zh"]]
-    if not zh_slugs:
-        errors.append("knowledge: no Chinese documents found")
+    base_slugs = [doc.slug for doc in knowledge["en"]]
+    if not base_slugs:
+        errors.append("knowledge: no English documents found")
+    if len(base_slugs) < 12:
+        errors.append(f"knowledge: expected at least 12 topics, found {len(base_slugs)}")
     for locale in LOCALES:
         slugs = [doc.slug for doc in knowledge[locale.lang]]
-        if slugs != zh_slugs:
+        if slugs != base_slugs:
             errors.append(
-                f"knowledge[{locale.lang}]: slug mismatch (missing={sorted(set(zh_slugs) - set(slugs))}, extra={sorted(set(slugs) - set(zh_slugs))})"
+                f"knowledge[{locale.lang}]: slug mismatch (missing={sorted(set(base_slugs) - set(slugs))}, extra={sorted(set(slugs) - set(base_slugs))})"
             )
         for doc in knowledge[locale.lang]:
             if not doc.title or not doc.summary:
                 errors.append(f"knowledge[{locale.lang}]: {doc.slug} missing title/summary")
             for related in doc.related:
-                if related not in zh_slugs:
+                if related not in base_slugs:
                     errors.append(f"knowledge[{locale.lang}]: {doc.slug} references unknown topic '{related}'")
 
     glossary = load_glossary()
     if len(glossary) < 40:
         errors.append(f"glossary: expected at least 40 terms, found {len(glossary)}")
     for term in glossary:
-        for key in ("zh", "en", "ja"):
+        for key in ("zh", "en", "ja", "de"):
             if not term.get(key, {}).get("term") or not term.get(key, {}).get("def"):
                 errors.append(f"glossary: {term.get('id')} missing {key} term/definition")
 
+    return errors
+
+
+DOC_BASES = ("README", "CHANGELOG", "CONTRIBUTING")
+DOC_SUFFIXES = ("en", "cn", "jp", "de")
+
+
+def validate_docs() -> list[str]:
+    errors: list[str] = []
+    for base in DOC_BASES:
+        for suffix in DOC_SUFFIXES:
+            path = ROOT / f"{base}_{suffix}.md"
+            if not path.exists():
+                errors.append(f"docs: missing {path.name}")
+    for base in ("PRODUCT", "ARCHITECTURE", "DATA", "METHODOLOGY", "OPERATIONS", "ROADMAP"):
+        for suffix in DOC_SUFFIXES:
+            path = ROOT / "documentation" / f"{base}_{suffix}.md"
+            if not path.exists():
+                errors.append(f"docs: missing documentation/{path.name}")
+    for suffix in DOC_SUFFIXES:
+        path = ROOT / "ios" / f"README_{suffix}.md"
+        if not path.exists():
+            errors.append(f"docs: missing ios/{path.name}")
     return errors
 
 
@@ -110,7 +135,13 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
         "assets/css/main.css",
         "assets/js/app.js",
         "en/index.html",
+        "zh/index.html",
         "ja/index.html",
+        "de/index.html",
+        "api/snapshot.en.json",
+        "api/snapshot.zh.json",
+        "api/snapshot.ja.json",
+        "api/snapshot.de.json",
     ]
     for relative in required:
         if not (docs / relative).exists():
@@ -176,7 +207,7 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
     company_dir = docs / "companies"
     if company_dir.exists():
         pages = list(company_dir.glob("*.html"))
-        if len(pages) < 80:
+        if len(pages) < 150:
             errors.append(f"artifacts: only {len(pages)} company pages generated")
     return errors
 
@@ -184,5 +215,6 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
 def validate_all(docs_dir: Path | None = None, data_only: bool = False) -> list[str]:
     errors = validate_data()
     if not data_only:
+        errors.extend(validate_docs())
         errors.extend(validate_artifacts(docs_dir))
     return errors

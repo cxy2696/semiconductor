@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="en-US" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>知识库 · 半导体产业情报台</title>
-  <meta name="description" content="按主题组织的半导体产业知识，每篇都可独立阅读，也可作为研究清单的补充。内容为产业解释，不构成投资建议。">
+  <title>Knowledge base · Semiconductor Intelligence Desk</title>
+  <meta name="description" content="Semiconductor industry knowledge organised by theme. Each note stands alone and complements the research list. Industry explanation only, not investment advice.">
   <link rel="canonical" href="https://cxy2696.github.io/semiconductor/knowledge.html">
-  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/knowledge.html">
-  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/en/knowledge.html">
+  <link rel="alternate" hreflang="en-US" href="https://cxy2696.github.io/semiconductor/knowledge.html">
+  <link rel="alternate" hreflang="zh-CN" href="https://cxy2696.github.io/semiconductor/zh/knowledge.html">
   <link rel="alternate" hreflang="ja-JP" href="https://cxy2696.github.io/semiconductor/ja/knowledge.html">
+  <link rel="alternate" hreflang="de-DE" href="https://cxy2696.github.io/semiconductor/de/knowledge.html">
   <link rel="alternate" hreflang="x-default" href="https://cxy2696.github.io/semiconductor/knowledge.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SiliconScope">
-  <meta property="og:title" content="知识库 · 半导体产业情报台">
-  <meta property="og:description" content="按主题组织的半导体产业知识，每篇都可独立阅读，也可作为研究清单的补充。内容为产业解释，不构成投资建议。">
+  <meta property="og:title" content="Knowledge base · Semiconductor Intelligence Desk">
+  <meta property="og:description" content="Semiconductor industry knowledge organised by theme. Each note stands alone and complements the research list. Industry explanation only, not investment advice.">
   <meta property="og:url" content="https://cxy2696.github.io/semiconductor/knowledge.html">
-  <meta property="og:locale" content="zh-CN">
+  <meta property="og:locale" content="en-US">
   <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/main.css?v=2.0.0">
+  <link rel="stylesheet" href="assets/css/main.css?v=3.0.0">
   <script>
     (function () {
       try {
@@ -31,7 +32,7 @@
   </script>
 </head>
 <body class="page-knowledge">
-  <a class="skip-link" href="#main">跳到正文</a>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="index.html" aria-label="SiliconScope">
@@ -44,192 +45,226 @@
         </span>
         <span class="brand-text">
           <span class="brand-name">SiliconScope</span>
-          <span class="brand-sub">半导体产业情报台</span>
+          <span class="brand-sub">Semiconductor Intelligence Desk</span>
         </span>
       </a>
 
-      <nav class="main-nav" aria-label="首页">
-        <a href="index.html" >首页</a>
-        <a href="companies.html" >公司图谱</a>
-        <a href="value-chain.html" >产业链</a>
-        <a href="knowledge.html" aria-current="page">知识库</a>
-        <a href="glossary.html" >术语表</a>
-        <a href="methodology.html" >方法</a>
-        <a href="about.html" >关于</a>
+      <nav class="main-nav" aria-label="Home">
+        <a href="index.html" >Home</a>
+        <a href="companies.html" >Companies</a>
+        <a href="value-chain.html" >Value chain</a>
+        <a href="knowledge.html" aria-current="page">Knowledge</a>
+        <a href="glossary.html" >Glossary</a>
+        <a href="methodology.html" >Method</a>
+        <a href="about.html" >About</a>
       </nav>
 
       <div class="header-tools">
-        <label class="visually-hidden" for="locale-switch">语言</label>
-        <select id="locale-switch" class="locale-switch" aria-label="语言">
-          <option value="knowledge.html" selected>中文</option>
-          <option value="en/knowledge.html" >English</option>
+        <label class="visually-hidden" for="locale-switch">Language</label>
+        <select id="locale-switch" class="locale-switch" aria-label="Language">
+          <option value="knowledge.html" selected>English</option>
+          <option value="zh/knowledge.html" >中文</option>
           <option value="ja/knowledge.html" >日本語</option>
+          <option value="de/knowledge.html" >Deutsch</option>
         </select>
-        <button type="button" class="icon-btn" id="theme-toggle" aria-label="主题" title="主题">
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Theme" title="Theme">
           <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
         </button>
-        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="菜单">
+        <button type="button" class="icon-btn nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-mobile" aria-label="Menu">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         </button>
       </div>
     </div>
-    <nav id="main-nav-mobile" class="mobile-nav" aria-label="首页">
-      <a href="index.html">首页</a>
-      <a href="companies.html">公司图谱</a>
-      <a href="value-chain.html">产业链</a>
-      <a href="knowledge.html">知识库</a>
-      <a href="glossary.html">术语表</a>
-      <a href="methodology.html">方法</a>
-      <a href="about.html">关于</a>
+    <nav id="main-nav-mobile" class="mobile-nav" aria-label="Home">
+      <a href="index.html">Home</a>
+      <a href="companies.html">Companies</a>
+      <a href="value-chain.html">Value chain</a>
+      <a href="knowledge.html">Knowledge</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="methodology.html">Method</a>
+      <a href="about.html">About</a>
     </nav>
   </header>
 
 
   <main id="main" class="wrap">
 <header class="page-head">
-  <span class="kicker">KNOWLEDGE BASE · 9</span>
-  <h1>知识库</h1>
-  <p class="lede">按主题组织的半导体产业知识，每篇都可独立阅读，也可作为研究清单的补充。内容为产业解释，不构成投资建议。</p>
+  <span class="kicker">KNOWLEDGE BASE · 12</span>
+  <h1>Knowledge base</h1>
+  <p class="lede">Semiconductor industry knowledge organised by theme. Each note stands alone and complements the research list. Industry explanation only, not investment advice.</p>
 </header>
 
 <section class="doc-grid">
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-foundation">基础</span>
-      <span class="doc-meta">约 8 分钟</span>
+      <span class="doc-level level-foundation">Foundation</span>
+      <span class="doc-meta">About 8 min</span>
     </div>
-    <h2><a href="knowledge/value-chain.html">产业链全景：谁在赚钱，钱在哪</a></h2>
-    <p>把八个环节放回一条链上，理解毛利、资本强度与周期传导的差异，而不是背公司名单。</p>
+    <h2><a href="knowledge/value-chain.html">The value chain: who earns the money</a></h2>
+    <p>Put the eight stages back on one chain and understand why margins, capital intensity and cycle transmission differ so much.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">产业链</span><span class="tag tag-sm">商业模式</span><span class="tag tag-sm">毛利结构</span>    </div>
-    <a class="text-link" href="knowledge/value-chain.html">阅读全文 →</a>
+<span class="tag tag-sm">Value chain</span><span class="tag tag-sm">Business model</span><span class="tag tag-sm">Margins</span>    </div>
+    <a class="text-link" href="knowledge/value-chain.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-foundation">基础</span>
-      <span class="doc-meta">约 9 分钟</span>
+      <span class="doc-level level-foundation">Foundation</span>
+      <span class="doc-meta">About 9 min</span>
     </div>
-    <h2><a href="knowledge/process-flow.html">晶圆制造：八大工艺与洁净室</a></h2>
-    <p>从清洗、光刻、刻蚀到量测，理解一片晶圆如何在数百道工序里变成芯片，以及为什么工序数会推高设备与材料强度。</p>
+    <h2><a href="knowledge/process-flow.html">Wafer fabrication: eight process families</a></h2>
+    <p>From cleaning and lithography to etch and metrology, see how a wafer becomes a chip and why step count raises equipment and materials intensity.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">制程</span><span class="tag tag-sm">晶圆厂</span><span class="tag tag-sm">良率</span>    </div>
-    <a class="text-link" href="knowledge/process-flow.html">阅读全文 →</a>
+<span class="tag tag-sm">Process</span><span class="tag tag-sm">Wafer fab</span><span class="tag tag-sm">Yield</span>    </div>
+    <a class="text-link" href="knowledge/process-flow.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-advanced">进阶</span>
-      <span class="doc-meta">约 10 分钟</span>
+      <span class="doc-level level-advanced">Advanced</span>
+      <span class="doc-meta">About 10 min</span>
     </div>
-    <h2><a href="knowledge/lithography.html">光刻：从 DUV 到 High-NA EUV</a></h2>
-    <p>光刻决定图形能画多小，也决定先进制程的成本结构。理解分辨率、套刻与光源，才能看懂设备端的价值分配。</p>
+    <h2><a href="knowledge/lithography.html">Lithography: from DUV to High-NA EUV</a></h2>
+    <p>Lithography sets how small a pattern can be and shapes the cost structure of leading-edge nodes. Resolution, overlay and light source explain the equipment value pool.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">光刻</span><span class="tag tag-sm">EUV</span><span class="tag tag-sm">设备</span>    </div>
-    <a class="text-link" href="knowledge/lithography.html">阅读全文 →</a>
+<span class="tag tag-sm">Lithography</span><span class="tag tag-sm">EUV</span><span class="tag tag-sm">Equipment</span>    </div>
+    <a class="text-link" href="knowledge/lithography.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-core">核心</span>
-      <span class="doc-meta">约 9 分钟</span>
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 9 min</span>
     </div>
-    <h2><a href="knowledge/equipment-materials.html">设备与材料：卖铲人的生意</a></h2>
-    <p>设备跟着资本开支波动，材料跟着晶圆产出走。理解两者的商业模式差异，才能读懂半导体上游的景气与估值。</p>
+    <h2><a href="knowledge/equipment-materials.html">Equipment and materials: selling the shovels</a></h2>
+    <p>Equipment follows capex while materials follow wafer output. Understanding both business models is essential to reading upstream cycles and valuations.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">设备</span><span class="tag tag-sm">材料</span><span class="tag tag-sm">资本开支</span>    </div>
-    <a class="text-link" href="knowledge/equipment-materials.html">阅读全文 →</a>
+<span class="tag tag-sm">Equipment</span><span class="tag tag-sm">Materials</span><span class="tag tag-sm">Capex</span>    </div>
+    <a class="text-link" href="knowledge/equipment-materials.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-advanced">进阶</span>
-      <span class="doc-meta">约 10 分钟</span>
+      <span class="doc-level level-advanced">Advanced</span>
+      <span class="doc-meta">About 10 min</span>
     </div>
-    <h2><a href="knowledge/advanced-packaging.html">先进封装：CoWoS、HBM 与 Chiplet</a></h2>
-    <p>当制程微缩变慢，封装成为提升算力的主战场。理解 2.5D/3D、混合键合与产能瓶颈，才能看懂 AI 芯片的供给曲线。</p>
+    <h2><a href="knowledge/advanced-packaging.html">Advanced packaging: CoWoS, HBM and chiplets</a></h2>
+    <p>As scaling slows, packaging becomes the main lever for compute. Understand 2.5D/3D, hybrid bonding and the capacity bottleneck behind AI chips.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">封装</span><span class="tag tag-sm">CoWoS</span><span class="tag tag-sm">芯粒</span><span class="tag tag-sm">HBM</span>    </div>
-    <a class="text-link" href="knowledge/advanced-packaging.html">阅读全文 →</a>
+<span class="tag tag-sm">Packaging</span><span class="tag tag-sm">CoWoS</span><span class="tag tag-sm">Chiplet</span><span class="tag tag-sm">HBM</span>    </div>
+    <a class="text-link" href="knowledge/advanced-packaging.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-core">核心</span>
-      <span class="doc-meta">约 9 分钟</span>
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 9 min</span>
     </div>
-    <h2><a href="knowledge/memory-hbm.html">存储与 HBM：周期之母</a></h2>
-    <p>存储是半导体最标准的商品，也是周期波动最大的环节。HBM 把存储重新拉回 AI 中心，但供需逻辑仍然是 bit 与产能。</p>
+    <h2><a href="knowledge/memory-hbm.html">Memory and HBM: the mother of cycles</a></h2>
+    <p>Memory is the most commoditised part of semiconductors and the most cyclical. HBM pulled it back into the AI story, but supply and demand still run on bits and wafers.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">存储</span><span class="tag tag-sm">HBM</span><span class="tag tag-sm">周期</span>    </div>
-    <a class="text-link" href="knowledge/memory-hbm.html">阅读全文 →</a>
+<span class="tag tag-sm">Memory</span><span class="tag tag-sm">HBM</span><span class="tag tag-sm">Cycle</span>    </div>
+    <a class="text-link" href="knowledge/memory-hbm.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-core">核心</span>
-      <span class="doc-meta">约 8 分钟</span>
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 8 min</span>
     </div>
-    <h2><a href="knowledge/cycle.html">硅周期：如何判断位置</a></h2>
-    <p>半导体周期由资本开支、库存与终端需求共同驱动。与其预测拐点，不如用一组可核查的指标判断当前位置。</p>
+    <h2><a href="knowledge/cycle.html">The silicon cycle: locating where we are</a></h2>
+    <p>Capex, inventory and end demand drive the semiconductor cycle. Instead of forecasting the turn, use a small set of verifiable indicators to locate the present.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">周期</span><span class="tag tag-sm">资本开支</span><span class="tag tag-sm">库存</span>    </div>
-    <a class="text-link" href="knowledge/cycle.html">阅读全文 →</a>
+<span class="tag tag-sm">Cycle</span><span class="tag tag-sm">Capex</span><span class="tag tag-sm">Inventory</span>    </div>
+    <a class="text-link" href="knowledge/cycle.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-core">核心</span>
-      <span class="doc-meta">约 8 分钟</span>
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 8 min</span>
     </div>
-    <h2><a href="knowledge/policy.html">出口管制与产业政策：外生变量</a></h2>
-    <p>半导体是政策密集行业。出口管制、补贴与本土化目标会直接改变产能地理分布与公司收入结构。</p>
+    <h2><a href="knowledge/policy.html">Export controls and industrial policy</a></h2>
+    <p>Semiconductors are policy-dense. Export controls, subsidies and localisation targets reshape capacity geography and company revenue mixes.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">政策</span><span class="tag tag-sm">出口管制</span><span class="tag tag-sm">补贴</span>    </div>
-    <a class="text-link" href="knowledge/policy.html">阅读全文 →</a>
+<span class="tag tag-sm">Policy</span><span class="tag tag-sm">Export controls</span><span class="tag tag-sm">Subsidies</span>    </div>
+    <a class="text-link" href="knowledge/policy.html">Read more →</a>
   </article>
   <article class="doc-card doc-card-lg">
     <div class="doc-card-top">
-      <span class="doc-level level-core">核心</span>
-      <span class="doc-meta">约 9 分钟</span>
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 9 min</span>
     </div>
-    <h2><a href="knowledge/metrics.html">财报与估值：半导体公司怎么读</a></h2>
-    <p>半导体的利润表随周期剧烈波动，单看 PE 容易误判。理解毛利率、库存、资本开支与正常化盈利，才能做可比分析。</p>
+    <h2><a href="knowledge/metrics.html">Financials and valuation: how to read a chip company</a></h2>
+    <p>Semiconductor earnings swing violently with the cycle, so a single P/E is misleading. Gross margin, inventory, capex and normalised earnings make comparison possible.</p>
     <div class="doc-tags">
-<span class="tag tag-sm">财务</span><span class="tag tag-sm">估值</span><span class="tag tag-sm">指标</span>    </div>
-    <a class="text-link" href="knowledge/metrics.html">阅读全文 →</a>
+<span class="tag tag-sm">Financials</span><span class="tag tag-sm">Valuation</span><span class="tag tag-sm">Metrics</span>    </div>
+    <a class="text-link" href="knowledge/metrics.html">Read more →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 8 min</span>
+    </div>
+    <h2><a href="knowledge/eda-ip.html">EDA and IP: the toll booth of chip design</a></h2>
+    <p>Before a chip exists, it is designed with tools and assembled from licensed blocks. EDA and IP are small markets with outsized control over the entire chain.</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">EDA</span><span class="tag tag-sm">IP</span><span class="tag tag-sm">Business model</span><span class="tag tag-sm">Margins</span>    </div>
+    <a class="text-link" href="knowledge/eda-ip.html">Read more →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-core">Core</span>
+      <span class="doc-meta">About 9 min</span>
+    </div>
+    <h2><a href="knowledge/automotive.html">Automotive semiconductors: qualification is the moat</a></h2>
+    <p>A car is now a collection of computers on wheels. Automotive chips grow with electrification and ADAS, but the real barrier is qualification, not performance.</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">Automotive</span><span class="tag tag-sm">SiC</span><span class="tag tag-sm">mcu</span><span class="tag tag-sm">Policy</span>    </div>
+    <a class="text-link" href="knowledge/automotive.html">Read more →</a>
+  </article>
+  <article class="doc-card doc-card-lg">
+    <div class="doc-card-top">
+      <span class="doc-level level-advanced">Advanced</span>
+      <span class="doc-meta">About 10 min</span>
+    </div>
+    <h2><a href="knowledge/ai-datacenter.html">AI data-centre silicon: the rack is the new chip</a></h2>
+    <p>AI compute is no longer a single GPU but a rack-scale system of accelerators, HBM, switches and optics. The bottlenecks have moved to packaging, memory and power.</p>
+    <div class="doc-tags">
+<span class="tag tag-sm">AI compute</span><span class="tag tag-sm">HBM</span><span class="tag tag-sm">Networking</span><span class="tag tag-sm">CoWoS</span>    </div>
+    <a class="text-link" href="knowledge/ai-datacenter.html">Read more →</a>
   </article>
 </section>
 
-<p class="disclaimer-line">仅供研究，不构成投资建议</p>
+<p class="disclaimer-line">Research only. Not investment advice.</p>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
         <div class="brand-name">SiliconScope</div>
-        <p>全球半导体产业链研究与学习台</p>
-        <p class="footer-note">仅供研究，不构成投资建议</p>
+        <p>A four-language research desk for the global semiconductor value chain</p>
+        <p class="footer-note">Research only. Not investment advice.</p>
       </div>
       <div>
-        <h3>公司图谱</h3>
-        <a href="companies.html">公司图谱</a>
-        <a href="value-chain.html">产业链</a>
-        <a href="glossary.html">术语表</a>
+        <h3>Companies</h3>
+        <a href="companies.html">Companies</a>
+        <a href="value-chain.html">Value chain</a>
+        <a href="glossary.html">Glossary</a>
       </div>
       <div>
-        <h3>知识库</h3>
-        <a href="knowledge/value-chain.html">产业链全景：谁在赚钱，钱在哪</a>
-        <a href="knowledge/process-flow.html">晶圆制造：八大工艺与洁净室</a>
-        <a href="knowledge/lithography.html">光刻：从 DUV 到 High-NA EUV</a>
-        <a href="knowledge/equipment-materials.html">设备与材料：卖铲人的生意</a>
+        <h3>Knowledge</h3>
+        <a href="knowledge/value-chain.html">The value chain: who earns the money</a>
+        <a href="knowledge/process-flow.html">Wafer fabrication: eight process families</a>
+        <a href="knowledge/lithography.html">Lithography: from DUV to High-NA EUV</a>
+        <a href="knowledge/equipment-materials.html">Equipment and materials: selling the shovels</a>
       </div>
       <div>
-        <h3>关于</h3>
-        <a href="methodology.html">方法</a>
-        <a href="about.html">关于</a>
+        <h3>About</h3>
+        <a href="methodology.html">Method</a>
+        <a href="about.html">About</a>
         <a href="latest_data.json">JSON</a>
       </div>
     </div>
     <div class="wrap footer-meta">
-      <span>静态构建 · v2.0.0 · 2026-11-11 07:22 UTC+8</span>
-      <span>数据快照: 2026-11-11 07:21 · MIT · CC BY 4.0</span>
+      <span>Static build · v3.0.0 · 2026-11-11 13:15 UTC+8</span>
+      <span>Data snapshot: 2026-11-11 13:12 · MIT · CC BY 4.0</span>
     </div>
   </footer>
-  <script defer src="assets/js/app.js?v=2.0.0"></script>
+  <script defer src="assets/js/app.js?v=3.0.0"></script>
 </body>
 </html>

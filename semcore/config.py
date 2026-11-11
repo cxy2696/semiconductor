@@ -30,26 +30,31 @@ SCHEMA_VERSION = 2
 SNAPSHOT_KEEP = 30
 
 # Strategy metadata used by the product logic. Published in documentation/METHODOLOGY.md.
-SITE_VERSION = "2.0.0"
+SITE_VERSION = "3.0.0"
 
 
 @dataclass(frozen=True)
 class Locale:
     code: str          # BCP 47, used in <html lang> and data attributes
-    lang: str          # short key in content folders and taxonomy labels
+    lang: str          # short key in taxonomy labels, i18n and snapshots
     slug: str          # URL segment, "" for the default locale
     name: str          # endonym shown in the language switcher
     english_name: str
     date_format: str   # strftime format for display dates
+    file_suffix: str   # suffix used by markdown content and documentation
 
 
+# English is the default locale and lives at the site root. Chinese, Japanese
+# and German are mirrored under /zh/, /ja/ and /de/.
 LOCALES: tuple[Locale, ...] = (
-    Locale("zh-CN", "zh", "", "中文", "Chinese", "%Y-%m-%d"),
-    Locale("en-US", "en", "en", "English", "English", "%Y-%m-%d"),
-    Locale("ja-JP", "ja", "ja", "日本語", "Japanese", "%Y-%m-%d"),
+    Locale("en-US", "en", "", "English", "English", "%Y-%m-%d", "en"),
+    Locale("zh-CN", "zh", "zh", "中文", "Chinese", "%Y-%m-%d", "cn"),
+    Locale("ja-JP", "ja", "ja", "日本語", "Japanese", "%Y-%m-%d", "jp"),
+    Locale("de-DE", "de", "de", "Deutsch", "German", "%Y-%m-%d", "de"),
 )
 
 DEFAULT_LOCALE = LOCALES[0]
+LOCALE_BY_SUFFIX = {loc.file_suffix: loc for loc in LOCALES}
 LOCALE_BY_LANG = {loc.lang: loc for loc in LOCALES}
 LOCALE_BY_CODE = {loc.code: loc for loc in LOCALES}
 
