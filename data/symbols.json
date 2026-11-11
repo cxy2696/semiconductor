@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-11T13:12:46+08:00",
+  "updated": "2026-11-11T13:37:34+08:00",
   "note": "Measured mapping from company id to Eastmoney secid. Edit only with a verified quote.",
   "symbols": {
     "asml": {
