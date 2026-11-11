@@ -59,7 +59,7 @@
   "home": {
     "kicker": "SEMICONDUCTOR INTELLIGENCE",
     "title": "Wertschöpfungskette, Unternehmen, Zyklen und Wissen auf einem Desk",
-    "lede": "Von EDA bis Advanced Packaging, von China über Japan, Korea und Taiwan bis in die USA und Europa: die Branche durch ein konsistentes Raster lesen. Jede Zahl trägt Quelle und Abdeckung, jede Aussage Methode und Grenze.",
+    "lede": "Von EDA bis Advanced Packaging, über Asien, die USA und Europa. Jede Zahl nennt Quelle und Abdeckung; Schlussfolgerungen führen zur Methodik zurück.",
     "ctaCompanies": "Unternehmen ansehen",
     "ctaMethod": "Methodik lesen",
     "kpi": {
@@ -247,7 +247,7 @@
   },
   "method": {
     "title": "Methodik",
-    "lede": "Dieser Desk ist zuerst ein Research-Werkzeug und erst danach ein Datenprodukt. Die folgenden Regeln bestimmen jede Zahl und jede Reihenfolge.",
+    "lede": "Jede Zahl hier folgt einer veröffentlichten Regel. Diese Seite erklärt die Regeln und ihre Grenzen.",
     "purposeTitle": "Was es löst",
     "purpose": "Es beantwortet drei Fragen in begrenzter Zeit: In welchem Zustand ist diese Stufe, welche Unternehmen zuerst lesen, und sind die Daten hinter meinem Urteil vollständig?",
     "notTitle": "Was es nicht tut",
@@ -358,7 +358,7 @@
   },
   "guide": {
     "title": "So nutzen Sie diesen Desk",
-    "lede": "Drei Lesepfade, eine Übersicht der Website und die Konventionen hinter jeder Zahl.",
+    "lede": "Eine kurze Anleitung zu den drei Lesewegen und zu den Zahlen dahinter.",
     "pathsTitle": "Lesepfad wählen",
     "pathLearn": "Wertschöpfungskette lernen",
     "pathLearnDesc": "Zuerst die Struktur, dann ein Prozess nach dem anderen.",
@@ -376,13 +376,13 @@
     "pathMonitor2": "Research-Listen ansehen",
     "pathMonitor3": "Methodik lesen",
     "conventionsTitle": "Den Desk lesen",
-    "convTime": "Jede Zahl hat einen Zeitstempel",
+    "convTime": "Daten haben einen Zeitstempel",
     "convTimeDesc": "Die Snapshot-Zeit steht in Kopfzeile, Fußzeile und Datenstatus. Kurse sind verzögert oder Schlusskurse.",
-    "convCoverage": "Abdeckung gehört zur Antwort",
+    "convCoverage": "Fehlende Daten sind sichtbar",
     "convCoverageDesc": "Geringe Abdeckung bedeutet fehlende Felder, keine verborgene Meinung. Fehlende Werte erscheinen als —.",
     "convColor": "Richtung ist explizit",
     "convColorDesc": "Aufwärts ist Türkis mit Pluszeichen, abwärts Kupfer mit Minuszeichen. Zeichen und Pfeile tragen die Bedeutung, nicht die Farbe allein.",
-    "convScore": "Scores ordnen die Recherche",
+    "convScore": "Scores ordnen die Lektüre",
     "convScoreDesc": "Die Priorität sortiert die Lektüre. Sie ist keine Empfehlung, kein Kursziel und keine Prognose.",
     "mapTitle": "Website-Übersicht",
     "mapCompanies": "175 Unternehmen filtern, sortieren und öffnen.",

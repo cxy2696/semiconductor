@@ -119,7 +119,7 @@ Prinzip: Zuerst **Prüfbarkeit** und **Wartbarkeit** sichern, bevor Abdeckung od
 
 - Echtzeit-Level-2-Kurse, Handelschnittstellen oder Positionsempfehlungen.
 - Paywalls, Werbung oder Nutzer-Tracking.
-- Von LLMs erzeugte Anlagekonklusionen ohne redaktionelles Review.
+- Automatisch erzeugte Anlagekonklusionen ohne redaktionelles Review.
 - Unternehmen mit nicht verifizierbaren Daten nur zur Erhöhung der Abdeckung aufnehmen.
 
 ## Prioritätsregel

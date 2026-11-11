@@ -18,7 +18,7 @@ SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 list
 
 ## Purpose
 
-SiliconScope is a research desk, not a quote terminal or a stock picker. It helps a reader build a structural view of one value-chain stage or one company in 10–30 minutes, and makes clear how complete the data behind that view is. Quotes, classifications, long-form explanations and the scoring method are published together, so every number can be traced back to a snapshot file and a field definition.
+SiliconScope is a static dashboard for the semiconductor value chain. It brings company positions, quotes, long-form notes and the scoring rules together, so a reader can move from the whole chain to a single company without losing the data context.
 
 ---
 
@@ -38,20 +38,6 @@ SiliconScope is a research desk, not a quote terminal or a stock picker. It help
 
 
 ---
-
-## Why the rewrite
-
-The original was a Chinese dashboard focused on A-shares: a 1,000-line single-file script, Tailwind and Plotly loaded from CDNs, scrape failures treated as build failures, and scoring rules that were not disclosed. v2 rebuilt the product logic and the engineering structure. v3 moves the default language to English, adds German, widens coverage from 124 to 175 companies, and makes four-language content a maintained part of the repository.
-
-| Dimension | v1 | v2 | v3 (current) |
-| --- | --- | --- | --- |
-| Coverage | China A-shares + 2 Hong Kong listings | 124 companies, 7 listing markets | **175 companies, 13 headquarters regions, 7 listing markets** |
-| Languages | Chinese / English / German | Chinese / English / Japanese | **English (default) / Chinese / Japanese / German** |
-| Knowledge | Scraped encyclopedia paragraphs | 9 topics × 3 languages | **12 topics × 4 languages + 52 four-language glossary terms** |
-| Scoring | Undisclosed weights | Published method | Published method + data coverage + risk flags |
-| Front end | CDN + runtime rendering | Static HTML/SVG | Static HTML/SVG, zero third-party assets |
-| Data | Scrape failure = build failure | Snapshot fallback | Snapshot fallback + stale flags + coverage |
-| Documentation | None | Mostly Chinese | **every document in `_en` / `_cn` / `_jp` / `_de`** |
 
 ## Features
 

@@ -59,7 +59,7 @@
   "home": {
     "kicker": "SEMICONDUCTOR INTELLIGENCE",
     "title": "Value chain, companies, cycles and knowledge on one desk",
-    "lede": "From EDA to advanced packaging, from mainland China to Japan, Korea, Taiwan, the US and Europe, read the industry through one consistent framework. Every figure carries a source and a coverage flag; every conclusion carries a method and a boundary.",
+    "lede": "From EDA to advanced packaging, across Asia, the US and Europe. Figures show their source and coverage; conclusions link back to the method.",
     "ctaCompanies": "Browse companies",
     "ctaMethod": "Read the method",
     "kpi": {
@@ -247,7 +247,7 @@
   },
   "method": {
     "title": "Method",
-    "lede": "This desk is a research tool first and a data product second. The rules below determine every number and ordering you see.",
+    "lede": "Every number here comes from a published rule. This page explains those rules and their limits.",
     "purposeTitle": "What it solves",
     "purpose": "It answers three questions within limited time: what state is this stage in, which companies deserve reading first, and is the data behind my judgement complete?",
     "notTitle": "What it does not do",
@@ -358,7 +358,7 @@
   },
   "guide": {
     "title": "How to use this desk",
-    "lede": "Three reading paths, a one-minute map of the site, and the conventions behind every number.",
+    "lede": "A short guide to the three ways to read the site, and to the numbers behind it.",
     "pathsTitle": "Choose a reading path",
     "pathLearn": "Learn the chain",
     "pathLearnDesc": "Start with structure, then one process at a time.",
@@ -376,13 +376,13 @@
     "pathMonitor2": "Review the research lists",
     "pathMonitor3": "Read the method",
     "conventionsTitle": "How to read the desk",
-    "convTime": "Every number has a timestamp",
+    "convTime": "Data has a timestamp",
     "convTimeDesc": "The snapshot time is shown in the header, footer and status page. Quotes are delayed or closing prices.",
-    "convCoverage": "Coverage is part of the answer",
+    "convCoverage": "Missing data is visible",
     "convCoverageDesc": "Low coverage means missing fields, not a hidden opinion. Missing values show as —.",
     "convColor": "Direction is explicit",
     "convColorDesc": "Up is teal with a plus sign; down is copper with a minus sign. Signs and arrows carry the meaning, not colour alone.",
-    "convScore": "Scores order research",
+    "convScore": "Scores sort reading order",
     "convScoreDesc": "The priority score sorts reading order. It is not a recommendation, target price or forecast.",
     "mapTitle": "Site map",
     "mapCompanies": "Filter, sort and open any of the 175 companies.",

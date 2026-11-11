@@ -119,7 +119,7 @@ Principle: secure **auditability** and **maintainability** before expanding cove
 
 - Real-time Level-2 quotes, trading interfaces or position advice.
 - Paywalls, advertising or user tracking.
-- LLM-generated investment conclusions without editorial review.
+- Automated investment conclusions without editorial review.
 - Adding companies with unverifiable data just to increase coverage.
 
 ## Priority rule

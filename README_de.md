@@ -17,7 +17,7 @@ SiliconScope deckt **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börs
 
 ## Zweck
 
-SiliconScope ist ein Research-Desk, kein Kurs-Terminal und kein Werkzeug zur Aktienauswahl. Der Desk hilft dabei, in 10–30 Minuten eine strukturelle Sicht auf eine Wertschöpfungsstufe oder ein Unternehmen aufzubauen, und macht transparent, wie vollständig die Daten hinter dieser Sicht sind. Kurse, Klassifikationen, ausführliche Erläuterungen und die Methodik der Scores werden gemeinsam veröffentlicht, sodass sich jede Zahl auf eine Snapshot-Datei und eine Felddefinition zurückführen lässt.
+SiliconScope ist ein statisches Dashboard für die Halbleiter-Wertschöpfungskette. Es bündelt Unternehmenspositionen, Kurse, ausführliche Notizen und die Scoring-Regeln, sodass man von der gesamten Kette zu einem einzelnen Unternehmen wechseln kann, ohne den Datenkontext zu verlieren.
 
 ---
 
@@ -36,20 +36,6 @@ SiliconScope ist ein Research-Desk, kein Kurs-Terminal und kein Werkzeug zur Akt
 | ![Leitfaden](documentation/screenshots/guide.png) | ![Datenstatus](documentation/screenshots/status.png) |
 
 ---
-
-## Warum der Neuaufbau
-
-Das Original war ein chinesisches Dashboard mit Fokus auf A-Aktien: ein einziges Skript mit 1.000 Zeilen, per CDN geladene Tailwind- und Plotly-Bibliotheken, als Build-Fehler behandelte Scrape-Fehler und nicht offengelegte Scoring-Regeln. v2 hat die Produktlogik und die Engineering-Struktur neu aufgebaut. v3 stellt die Standardsprache auf Englisch um, ergänzt Deutsch, erweitert die Abdeckung von 124 auf 175 Unternehmen und macht die viersprachigen Inhalte zu einem gepflegten Teil des Repositorys.
-
-| Dimension | v1 | v2 | v3 (aktuell) |
-| --- | --- | --- | --- |
-| Abdeckung | Chinesische A-Aktien + 2 Hongkong-Notierungen | 124 Unternehmen, 7 Börsenmärkte | **175 Unternehmen, 13 Hauptsitzregionen, 7 Börsenmärkte** |
-| Sprachen | Chinesisch / Englisch / Deutsch | Chinesisch / Englisch / Japanisch | **Englisch (Standard) / Chinesisch / Japanisch / Deutsch** |
-| Wissen | Gescrapte Enzyklopädieabsätze | 9 Themen × 3 Sprachen | **12 Themen × 4 Sprachen + 52 viersprachige Glossarbegriffe** |
-| Scoring | Nicht offengelegte Gewichtungen | Veröffentlichte Methodik | Veröffentlichte Methodik + Datenabdeckung + Risikoflags |
-| Frontend | CDN + Rendering zur Laufzeit | Statisches HTML/SVG | Statisches HTML/SVG, keine Drittanbieter-Assets |
-| Daten | Scrape-Fehler = Build-Fehler | Snapshot-Fallback | Snapshot-Fallback + Veraltet-Flags + Abdeckung |
-| Dokumentation | Keine | Überwiegend Chinesisch | **Jedes Dokument in `_en` / `_cn` / `_jp` / `_de`** |
 
 ## Funktionen
 
