@@ -404,7 +404,145 @@
     "shortcutsTitle": "Tastatur",
     "shortcutSearch": "Schnellsuche öffnen",
     "shortcutTheme": "Hell / dunkel umschalten",
-    "shortcutClose": "Dialog schließen"
+    "shortcutClose": "Dialog schließen",
+    "jumpTasks": "Praktische Aufgaben",
+    "jumpRead": "Seitenführer",
+    "jumpFaq": "FAQ",
+    "jumpCite": "Zitieren",
+    "tasksTitle": "Praktische Aufgaben",
+    "tasks": [
+      {
+        "title": "Ein Unternehmen finden",
+        "key": "companies",
+        "steps": [
+          "⌘K drücken und Name oder Kürzel eingeben.",
+          "Ergebnis öffnen oder die Suche auf der Unternehmenskarte nutzen.",
+          "Filter bleiben in der URL und lassen sich teilen."
+        ]
+      },
+      {
+        "title": "Eine Stufe vergleichen",
+        "key": "companies",
+        "steps": [
+          "Stufe und bei Bedarf das Land wählen.",
+          "Nach Priorität oder 30 T sortieren.",
+          "Im Unternehmen die Peer-Tabelle unten nutzen."
+        ]
+      },
+      {
+        "title": "Ein Unternehmen in zwei Minuten lesen",
+        "key": "companies",
+        "steps": [
+          "Mit „Einfach gesagt“ beginnen.",
+          "Kursverlauf der 30 Sitzungen und 52-Wochen-Spanne prüfen.",
+          "Prioritätsaufschlüsselung und Abdeckung lesen, bevor der Score zählt."
+        ]
+      },
+      {
+        "title": "Eine Kennzahl prüfen",
+        "key": "glossary",
+        "steps": [
+          "Die Notiz unter der Tabelle erklärt KGV, KBV, ROE und Marktkapitalisierung.",
+          "Das Glossar bietet längere Definitionen in vier Sprachen.",
+          "Fehlende Werte erscheinen als —."
+        ]
+      },
+      {
+        "title": "Aktualität prüfen",
+        "key": "status",
+        "steps": [
+          "Den Gesundheits-Chip in der Kopfzeile anklicken.",
+          "Datenalter, Abdeckung und Titel ohne Kurs prüfen.",
+          "Vor der Nutzung die Datenhinweise lesen."
+        ]
+      },
+      {
+        "title": "Den Markt beobachten",
+        "key": "home",
+        "steps": [
+          "Marktlage-Karte und Absatzzusammenfassung lesen.",
+          "Die drei Research-Listen und führende/nachlaufende Stufen ansehen.",
+          "Bei Unklarheiten die Methodik öffnen."
+        ]
+      }
+    ],
+    "readTitle": "Welche Seite welche Frage beantwortet",
+    "read": [
+      {
+        "key": "home",
+        "page": "Start",
+        "question": "Was macht der Markt?",
+        "action": "Marktlage, Zusammenfassung, Research-Listen."
+      },
+      {
+        "key": "companies",
+        "page": "Unternehmenskarte",
+        "question": "Welches Unternehmen zuerst?",
+        "action": "Filtern, sortieren, vergleichen, Profil öffnen."
+      },
+      {
+        "key": "companies",
+        "page": "Unternehmensseite",
+        "question": "Was macht es, wie bewertet?",
+        "action": "Einfache Zusammenfassung, Chart, Faktoren, Peers."
+      },
+      {
+        "key": "chain",
+        "page": "Wertschöpfungskette",
+        "question": "Wie verdient diese Stufe Geld?",
+        "action": "Ökonomie und Kennzahlen lesen."
+      },
+      {
+        "key": "knowledge",
+        "page": "Wissen",
+        "question": "Warum passiert das?",
+        "action": "Suchen oder nach Niveau filtern."
+      },
+      {
+        "key": "glossary",
+        "page": "Glossar",
+        "question": "Was bedeutet der Begriff?",
+        "action": "In vier Sprachen suchen."
+      },
+      {
+        "key": "status",
+        "page": "Datenstatus",
+        "question": "Sind die Zahlen heute belastbar?",
+        "action": "Alter, Abdeckung, Quellen und Hinweise prüfen."
+      }
+    ],
+    "faqTitle": "Häufige Fragen",
+    "faq": [
+      {
+        "q": "Warum hat ein Unternehmen keinen Kurs?",
+        "a": "Es gibt keine verifizierte Kursquelle. Das Unternehmen bleibt im Research-Universum, wird aber aus der Kursstatistik ausgeschlossen."
+      },
+      {
+        "q": "Warum ändert sich ein Prioritätsscore?",
+        "a": "Perzentile werden bei jedem Build neu berechnet. Neue Kurse, fehlende Felder oder veränderte Peers können den Rang verschieben."
+      },
+      {
+        "q": "Ist das Anlageberatung?",
+        "a": "Nein. Scores ordnen die Lektüre; sie sind keine Empfehlung, kein Kursziel und keine Prognose."
+      },
+      {
+        "q": "Wie oft werden die Daten aktualisiert?",
+        "a": "Einmal pro Handelstag um 08:30 Asia/Shanghai. Die genaue Zeit steht auf der Statusseite und im Footer."
+      },
+      {
+        "q": "Warum keine 100% Abdeckung?",
+        "a": "Einige Titel haben keine verlässliche Kursquelle oder fehlende Fundamentaldaten. Fehlende Werte erscheinen als — und werden nicht geschätzt."
+      },
+      {
+        "q": "Darf ich die Inhalte nutzen?",
+        "a": "Code ist MIT, Texte sind CC BY 4.0, Marktdaten gehören den Anbietern. Bitte SiliconScope mit Seite und Zugriffsdatum zitieren."
+      }
+    ],
+    "citeTitle": "So zitieren Sie die Seite",
+    "citeText": "SiliconScope, „Seitentitel“, Seiten-URL, Zugriff am YYYY-MM-DD. Kurse sind verzögert und können Fehler enthalten; maßgeblich sind Börsen- und Unternehmensmitteilungen.",
+    "readQuestion": "Frage",
+    "readAction": "Erster Schritt",
+    "readPage": "Seite"
   },
   "search": {
     "open": "Schnellsuche",

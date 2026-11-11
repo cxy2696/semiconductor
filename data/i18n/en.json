@@ -404,7 +404,145 @@
     "shortcutsTitle": "Keyboard",
     "shortcutSearch": "Open quick search",
     "shortcutTheme": "Toggle light / dark",
-    "shortcutClose": "Close a dialog"
+    "shortcutClose": "Close a dialog",
+    "jumpTasks": "Practical tasks",
+    "jumpRead": "Page guide",
+    "jumpFaq": "FAQ",
+    "jumpCite": "Cite",
+    "tasksTitle": "Practical tasks",
+    "tasks": [
+      {
+        "title": "Find a company",
+        "key": "companies",
+        "steps": [
+          "Press ⌘K and type a name or ticker.",
+          "Open the result, or use the search box on the company map.",
+          "Filters stay in the URL, so the link can be shared."
+        ]
+      },
+      {
+        "title": "Compare one stage",
+        "key": "companies",
+        "steps": [
+          "Choose a stage and, if needed, a country.",
+          "Sort by Priority or 30D.",
+          "Open a company and use the peer table at the bottom of the page."
+        ]
+      },
+      {
+        "title": "Read a company in two minutes",
+        "key": "companies",
+        "steps": [
+          "Start with “In plain language”.",
+          "Check the 30-session chart and the 52-week range.",
+          "Read the priority breakdown and data coverage before trusting the score."
+        ]
+      },
+      {
+        "title": "Check a metric",
+        "key": "glossary",
+        "steps": [
+          "Use the note under the company table for P/E, P/B, ROE and market cap.",
+          "Open the glossary for a longer definition in four languages.",
+          "Look for the — when a field is missing."
+        ]
+      },
+      {
+        "title": "Verify freshness",
+        "key": "status",
+        "steps": [
+          "Click the health chip in the header.",
+          "Check data age, coverage and unpriced names.",
+          "Read the data notes before using a number in your own work."
+        ]
+      },
+      {
+        "title": "Track the market",
+        "key": "home",
+        "steps": [
+          "Read the market-state card and the one-paragraph summary.",
+          "Look at the three research lists and the leading/lagging stages.",
+          "Open the method page if a rule is unclear."
+        ]
+      }
+    ],
+    "readTitle": "Which page answers which question",
+    "read": [
+      {
+        "key": "home",
+        "page": "Home",
+        "question": "What is the market doing?",
+        "action": "Market state, one-paragraph summary, research lists."
+      },
+      {
+        "key": "companies",
+        "page": "Company map",
+        "question": "Which company should I look at?",
+        "action": "Filter, sort, compare, open a profile."
+      },
+      {
+        "key": "companies",
+        "page": "Company page",
+        "question": "What does it do and how is it valued?",
+        "action": "Plain-language summary, price chart, factors, peers."
+      },
+      {
+        "key": "chain",
+        "page": "Value chain",
+        "question": "How does this stage make money?",
+        "action": "Read the economics and the key metrics."
+      },
+      {
+        "key": "knowledge",
+        "page": "Knowledge",
+        "question": "Why does this happen?",
+        "action": "Search or filter by level and read a topic."
+      },
+      {
+        "key": "glossary",
+        "page": "Glossary",
+        "question": "What does this term mean?",
+        "action": "Search in four languages."
+      },
+      {
+        "key": "status",
+        "page": "Data status",
+        "question": "Can I trust today’s numbers?",
+        "action": "Check age, coverage, sources and notes."
+      }
+    ],
+    "faqTitle": "Questions we get",
+    "faq": [
+      {
+        "q": "Why is a company unpriced?",
+        "a": "No verified quote source is available. The company stays in the universe for research, but its price is excluded from market statistics."
+      },
+      {
+        "q": "Why did a priority score change?",
+        "a": "Percentiles are recalculated on every build. A new quote, a missing field or a peer moving can change the rank even when the company has not changed."
+      },
+      {
+        "q": "Is this investment advice?",
+        "a": "No. Scores order reading; they are not recommendations, target prices or forecasts."
+      },
+      {
+        "q": "How often is the data updated?",
+        "a": "Once per trading day at 08:30 Asia/Shanghai. The exact snapshot time is on the status page and in the footer."
+      },
+      {
+        "q": "Why is coverage not 100%?",
+        "a": "Some listings have no reliable quote or missing fundamentals. Missing values show as — and are never estimated."
+      },
+      {
+        "q": "Can I reuse the material?",
+        "a": "Code is MIT, written content is CC BY 4.0, market data belongs to its providers. Cite SiliconScope with the page and access date."
+      }
+    ],
+    "citeTitle": "How to cite this site",
+    "citeText": "SiliconScope, “page title”, page URL, accessed YYYY-MM-DD. Data is delayed and may contain errors; verify against exchange filings.",
+    "readQuestion": "Question",
+    "readAction": "Start here",
+    "readPage": "Page"
   },
   "search": {
     "open": "Quick search",

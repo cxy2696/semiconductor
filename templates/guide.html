@@ -6,6 +6,14 @@
   <p class="lede">{{ t.guide.lede }}</p>
 </header>
 
+<nav class="guide-jump" aria-label="{{ t.guide.title }}">
+  <a href="#tasks">{{ t.guide.jumpTasks }}</a>
+  <a href="#read">{{ t.guide.jumpRead }}</a>
+  <a href="#faq">{{ t.guide.jumpFaq }}</a>
+  <a href="#map">{{ t.guide.mapTitle }}</a>
+  <a href="#cite">{{ t.guide.jumpCite }}</a>
+</nav>
+
 <section class="section" id="paths">
   <div class="section-head">
     <div>
@@ -46,10 +54,28 @@
   </div>
 </section>
 
+<section class="section" id="tasks">
+  <div class="section-head">
+    <div><span class="kicker">02 — {{ t.guide.tasksTitle }}</span></div>
+  </div>
+  <div class="task-grid">
+    {% for task in t.guide.tasks %}
+    <article class="task-card">
+      <span class="task-number">{{ loop.index }}</span>
+      <h2>{{ task.title }}</h2>
+      <ol class="task-steps">
+        {% for step in task.steps %}<li>{{ step }}</li>{% endfor %}
+      </ol>
+      <a class="text-link" href="{{ href(task.key) }}">{{ t.common.readMore }} →</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
 <section class="section" id="conventions">
   <div class="section-head">
     <div>
-      <span class="kicker">02 — {{ t.guide.conventionsTitle }}</span>
+      <span class="kicker">03 — {{ t.guide.conventionsTitle }}</span>
     </div>
   </div>
   <div class="convention-grid">
@@ -76,10 +102,44 @@
   </div>
 </section>
 
+<section class="section" id="read">
+  <div class="section-head">
+    <div><span class="kicker">04 — {{ t.guide.readTitle }}</span></div>
+  </div>
+  <div class="panel table-panel guide-read">
+    <table class="data-table compact">
+      <thead><tr><th>{{ t.guide.readPage }}</th><th>{{ t.guide.readQuestion }}</th><th>{{ t.guide.readAction }}</th></tr></thead>
+      <tbody>
+        {% for row in t.guide.read %}
+        <tr>
+          <td><a class="company-link" href="{{ href(row.key) }}"><span class="company-name">{{ row.page }}</span></a></td>
+          <td>{{ row.question }}</td>
+          <td class="muted">{{ row.action }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-head">
+    <div><span class="kicker">05 — {{ t.guide.faqTitle }}</span></div>
+  </div>
+  <div class="faq-list">
+    {% for item in t.guide.faq %}
+    <details class="faq-item">
+      <summary>{{ item.q }}</summary>
+      <p>{{ item.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+
 <section class="section" id="map">
   <div class="section-head">
     <div>
-      <span class="kicker">03 — {{ t.guide.mapTitle }}</span>
+      <span class="kicker">06 — {{ t.guide.mapTitle }}</span>
     </div>
   </div>
   <div class="map-grid">
@@ -92,6 +152,11 @@
     <a class="map-card" href="{{ href('about') }}"><strong>{{ t.nav.about }}</strong><span>{{ t.guide.mapAbout }}</span><small>→</small></a>
     <a class="map-card" href="{{ href('guide') }}"><strong>{{ t.nav.guide }}</strong><span>{{ t.guide.mapGuide }}</span><small>→</small></a>
   </div>
+</section>
+
+<section class="panel cite-panel" id="cite">
+  <span class="kicker">{{ t.guide.citeTitle }}</span>
+  <p>{{ t.guide.citeText }}</p>
 </section>
 
 <section class="section panel shortcuts" id="shortcuts">

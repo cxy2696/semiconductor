@@ -1048,3 +1048,51 @@ body.search-open { overflow: hidden; }
   .table-panel { display: none; }
   .active-filters { margin-top: 2px; }
 }
+
+/* ---------- practical guide ---------- */
+.guide-jump { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px 0 0; }
+.guide-jump a {
+  font-size: 11.5px; color: var(--ink-2); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px;
+}
+.guide-jump a:hover { border-color: var(--accent); color: var(--accent); }
+.task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.task-card {
+  position: relative; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 18px 20px;
+}
+.task-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  font-family: var(--mono); font-size: 10.5px; font-weight: 700; margin-bottom: 8px;
+}
+.task-card h2 { font-size: 16px; margin-bottom: 8px; }
+.task-steps { counter-reset: taskstep; margin: 0 0 4px; }
+.task-steps li {
+  counter-increment: taskstep; position: relative; padding-left: 22px;
+  font-size: 12.5px; color: var(--ink-2); margin-bottom: 6px; line-height: 1.5;
+}
+.task-steps li::before {
+  content: counter(taskstep); position: absolute; left: 0; top: 1px;
+  font-family: var(--mono); font-size: 9px; color: var(--muted);
+  width: 15px; height: 15px; border: 1px solid var(--line); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.task-card .text-link { margin-top: 6px; }
+.guide-read { overflow: hidden; }
+.guide-read .data-table td { vertical-align: top; }
+.faq-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary {
+  cursor: pointer; padding: 14px 2px; font-size: 14px; font-weight: 600;
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.faq-item summary::after { content: "+"; color: var(--accent); font-family: var(--mono); }
+.faq-item[open] summary::after { content: "−"; }
+.faq-item p { font-size: 13px; color: var(--ink-2); padding: 0 2px 16px; max-width: 88ch; }
+.cite-panel { margin-top: 36px; }
+.cite-panel p { font-size: 13px; color: var(--ink-2); max-width: 90ch; margin-top: 6px; }
+
+@media (max-width: 1100px) { .task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .task-grid { grid-template-columns: 1fr; } .guide-jump { gap: 5px; } }
