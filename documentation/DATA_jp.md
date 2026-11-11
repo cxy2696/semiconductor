@@ -146,7 +146,7 @@ CSV は企業カバレッジの唯一の真実の源です。**175 行**があ�
 | `news_pool` | スナップショットのニュース（タイトル / リンク / 日付） |
 | `industry_intro` / `industry_basics` | ナレッジベースと用語集からの中国語要約 |
 
-新しいコードでは `/api/snapshot.{lang}.json`（`en`、`zh`、`ja`、`de`）を使ってください。構造は `semcore/build.py::_localized_payload` で定義されています。
+新しいコードでは `/api/snapshot.{lang}.json`（`en`、`zh`、`ja`、`de`）を使ってください。構造は `semcore/build.py::_localized_payload` で定義されています。`en` がデフォルトのロケールです。
 
 ## 7. 株価ソースとシンボルマッピング
 

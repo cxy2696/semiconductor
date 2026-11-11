@@ -156,14 +156,14 @@ Jede Liste enthält höchstens 8 Unternehmen und nur Unternehmen mit einem Kurs.
 ## 9. Leseanleitung
 
 - **Scores sind relativ**: Dasselbe Unternehmen kann in einer anderen Stufe oder an einem anderen Datum anders abschneiden.
-- **Ein hoher Score heißt nicht gutes Unternehmen**: Es kann schlicht günstig, momentumgetrieben oder in einer kleinen Stufe klassifiziert sein.
-- **Ein niedriger Score heißt nicht schlechtes Unternehmen**: Es kann am Zyklustief stehen, Daten vermissen lassen oder teuer, aber qualitativ hochwertiger sein.
+- **Ein hoher Score bedeutet nicht, dass das Unternehmen gut ist**: Es kann schlicht günstig, momentumgetrieben oder in einer kleinen Stufe klassifiziert sein.
+- **Ein niedriger Score bedeutet nicht, dass das Unternehmen schlecht ist**: Es kann am Zyklustief stehen, Daten vermissen lassen oder teuer, aber qualitativ hochwertiger sein.
 - **Scores nicht stufenübergreifend vergleichen**: Die Normalisierung erfolgt innerhalb einer Stufe.
 - **Den Score immer zusammen mit der Abdeckung lesen**: Einen Score mit niedriger Abdeckung nur als Hinweis behandeln.
 
 ## 10. Bekannte Grenzen
 
-1. Kurse sind verzögerte Kurse oder Schlusskurse und enthalten keine Orderbuch- oder Intraday-Signale.
+1. Kurse sind verzögert oder Schlusskurse und enthalten keine Orderbuch- oder Intraday-Signale.
 2. Das statische KGV ist für wachstumsstarke Unternehmen ungünstig; Verlustunternehmen haben keinen Bewertungsfaktor.
 3. Umsatzwachstum, Auftragseingang, Kapazitätsauslastung und Lagerdaten fehlen, daher stützt sich der Qualitätsfaktor allein auf den ROE.
 4. Die 52-Wochen-Spanne verwendet 250 Handelstage als Näherung.

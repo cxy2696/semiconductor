@@ -16,7 +16,7 @@ SiliconScope deckt **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börs
 
 ## Zweck
 
-SiliconScope ist ein Research-Desk, kein Kurs-Terminal und kein Werkzeug zur Aktienauswahl. Der Desk hilft dabei, in 10–30 Minuten ein strukturelles Bild einer Wertschöpfungsstufe oder eines Unternehmens aufzubauen, und macht transparent, wie vollständig die Daten hinter diesem Bild sind. Kurse, Klassifikationen, ausführliche Erläuterungen und die Methodik der Scores werden gemeinsam veröffentlicht, sodass sich jede Zahl auf eine Snapshot-Datei und eine Felddefinition zurückführen lässt.
+SiliconScope ist ein Research-Desk, kein Kurs-Terminal und kein Werkzeug zur Aktienauswahl. Der Desk hilft dabei, in 10–30 Minuten eine strukturelle Sicht auf eine Wertschöpfungsstufe oder ein Unternehmen aufzubauen, und macht transparent, wie vollständig die Daten hinter dieser Sicht sind. Kurse, Klassifikationen, ausführliche Erläuterungen und die Methodik der Scores werden gemeinsam veröffentlicht, sodass sich jede Zahl auf eine Snapshot-Datei und eine Felddefinition zurückführen lässt.
 
 ---
 
@@ -79,7 +79,7 @@ python -m semcore validate
 python -m pytest
 ```
 
-Die Build-Ausgabe liegt in `docs/`: `docs/index.html` (Englisch), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json` sowie Redirect-Stubs unter `docs/en/`.
+Die Build-Ausgabe liegt in `docs/`: `docs/index.html` (Englisch), `docs/zh/`, `docs/ja/`, `docs/de/`, `docs/api/`, `docs/latest_data.json` sowie Weiterleitungsstubs unter `docs/en/`.
 
 ## Verzeichnisstruktur
 

@@ -33,7 +33,7 @@ Prinzip: Zuerst **Prüfbarkeit** und **Wartbarkeit** sichern, bevor Abdeckung od
 
 ### 1. Zweite Kursquelle und Gegenprüfung
 
-**Problem**: Ein einziger Anbieter (Eastmoney) lässt keine Referenz, wenn sich Feld-Semantik oder Verfügbarkeit ändern.
+**Problem**: Ein einziger Anbieter (Eastmoney) bietet keine Referenz, wenn sich Feld-Semantik oder Verfügbarkeit ändern.
 
 **Plan**: Eine unabhängige Quelle ergänzen (zum Beispiel einen offiziellen End-of-Day-Feed einer Börse oder Stooq), Kurse und Veränderungen innerhalb einer Toleranz vergleichen und Abweichungen als `source_conflict` markieren.
 

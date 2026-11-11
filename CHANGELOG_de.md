@@ -12,7 +12,7 @@ Alle wichtigen Änderungen an diesem Projekt werden hier dokumentiert. Das Forma
 - Unternehmensdetailfelder `name_de`, `note_de`, `founded` und `fiscal_year_end`, die auf den Unternehmensseiten angezeigt werden.
 - Drei Wissensthemen: `eda-ip`, `automotive` und `ai-datacenter`; die Wissensbasis umfasst damit 12 Themen.
 - Viersprachige Dokumentation mit der Suffix-Konvention `_en` / `_cn` / `_jp` / `_de` und flachen Wissensdateien (`content/knowledge/<slug>_<suffix>.md`).
-- `/en/`-Redirect-Stubs, die alte englische URLs auf die neuen Root-Pfade umleiten.
+- `/en/`-Weiterleitungsstubs, die alte englische URLs auf die neuen Root-Pfade umleiten.
 - Viersprachiges Glossar: 52 Begriffe mit Definitionen auf Englisch, Chinesisch, Japanisch und Deutsch; das Produktvokabular umfasst nun 70 Tags.
 - Lokalisierte API-Snapshots für alle vier Locales (`/api/snapshot.en.json`, `.zh.json`, `.ja.json`, `.de.json`), einschließlich des neuen deutschen Payloads.
 - Viersprachige Validierung von Oberflächenschlüsseln, Knowledge-Slugs und Glossarfeldern in der CI.

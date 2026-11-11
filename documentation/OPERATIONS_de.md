@@ -64,7 +64,7 @@ Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu verglei
 
 ## 6. Incident-Runbook
 
-### 6.1 Die Kursquelle ist vollständig nicht verfügbar
+### 6.1 Die Kursquelle ist komplett ausgefallen
 
 **Symptome**: viele `fetch`-Fehler, ein starker Rückgang von `coverage`, alte Daten auf der Seite.
 
@@ -73,7 +73,7 @@ Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu verglei
    ```bash
    curl -s "https://push2.eastmoney.com/api/qt/stock/get?secid=1.688981&fltt=2&fields=f43,f57,f58"
    ```
-3. Ist der Upstream ausgefallen: Daten **nicht** von Hand bearbeiten. Den vorherigen Snapshot behalten, die CI ihn im Zustand `stale` deployen lassen und den Vorfall in einem Issue festhalten.
+3. Ist der Upstream ausgefallen: Daten **nicht** von Hand bearbeiten. Den vorherigen Snapshot behalten und die CI ihn im Zustand `stale` deployen lassen; den Vorfall in einem Issue festhalten.
 4. Haben sich die Schnittstellenfelder geändert: `QUOTE_FIELDS` und den Parser aktualisieren, Tests ergänzen und ein Patch-Release ausliefern.
 5. Nach der Wiederherstellung `workflow_dispatch` manuell auslösen und bestätigen, dass die Abdeckung wieder ≥ 90 % beträgt.
 
@@ -92,7 +92,7 @@ Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu verglei
 
 ### 6.3 Wechselkurs-Fehler
 
-**Symptome**: `fx.status = stale/fallback`, Marktkapitalisierungen über Währungen hinweg wirken falsch.
+**Symptome**: `fx.status = stale/fallback`, währungsübergreifende Marktkapitalisierungen wirken falsch.
 
 1. Prüfen Sie, ob `open.er-api.com` erreichbar ist.
 2. Das System fällt automatisch auf Eastmoney-Währungspaare und dann auf den vorherigen Snapshot zurück.
@@ -101,7 +101,7 @@ Exportieren Sie `coverage` und `errors` einmal pro Quartal, um Trends zu verglei
 
 ### 6.4 Fehler beim Nachrichtenabruf
 
-**Symptome**: Der Abschnitt „Branchennachrichten“ auf der Startseite ist leer oder veraltet.
+**Symptome**: Der Abschnitt „Branchensignale“ auf der Startseite ist leer oder veraltet.
 
 - Nachrichten sind ein **unkritischer Pfad**: Der Build darf deswegen nicht fehlschlagen.
 - Prüfen Sie, ob sich eine Feed-URL geändert hat; aktualisieren Sie `config.RSS_FEEDS`.
@@ -185,7 +185,7 @@ Ausschlusskriterien: Delisting, Übernahme, Geschäftsumstellung oder sechs aufe
 
 - Die Hauptumsatzquelle des jüngsten Geschäftsjahres verwenden;
 - Belege im Pull Request vorlegen (Segmentumsatz aus dem Geschäftsbericht);
-- ist der Fall wirklich unklar, das Unternehmen in „Module/Systeme“ oder „Design“ belassen und in der Unternehmensnotiz erklären.
+- ist der Fall wirklich unklar, das Unternehmen in „Module & Systeme“ oder „Design“ belassen und in der Unternehmensnotiz erklären.
 
 ### 8.3 Methoden-Governance
 

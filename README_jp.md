@@ -56,7 +56,7 @@ SiliconScopeはリサーチデスクであり、相場端末や銘柄選定ツ�
 - **用語集**：4言語で同等の定義を持つ52件の用語を収録し、全文検索とカテゴリフィルタを備えています。
 - **手法**：ファクターの定義、重み、しきい値、データ充足度、既知の制約、免責事項を掲載しています。
 - **互換性**：従来の `latest_data.json` を引き続き出力するため、既存のiOSクライアントは変更なしでデコードできます。
-- **iOSクライアント**：`ios/` 配下のSwiftUIアプリは引き続き `latest_data.json` を参照しています。詳細は [`ios/README_en.md`](ios/README_en.md) を参照してください。
+- **iOSクライアント**：`ios/` 配下のSwiftUIアプリは引き続き `latest_data.json` を参照しています。詳細は [`ios/README_jp.md`](ios/README_jp.md) を参照してください。
 
 ## クイックスタート
 
@@ -116,7 +116,7 @@ cd ios && xcodegen generate --spec project.yml
 open SemiconductorApp.xcodeproj
 ```
 
-シミュレータ、署名、TestFlightの手順については [`ios/README_en.md`](ios/README_en.md) を参照してください。
+シミュレータ、署名、TestFlightの手順については [`ios/README_jp.md`](ios/README_jp.md) を参照してください。
 
 ## データと定義
 
