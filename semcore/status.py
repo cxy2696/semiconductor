@@ -71,7 +71,7 @@ def build_health(snapshot: dict[str, Any], analytics: Any, knowledge: list[Knowl
         and entry["as_of"] != entry["quote_as_of"]
     )
     lag_share = history_lag / len(analytics.rows) if analytics.rows else 0.0
-    if age_hours is None or age_hours > 72 or coverage < 0.75 or stale_share > 0.5 or lag_share > 0.5:
+    if age_hours is None or age_hours > 72 or coverage < 0.75 or stale_share > 0.5:
         label = "stale"
     elif age_hours > 36 or coverage < 0.9 or stale_share > 0.2 or lag_share > 0.2:
         label = "aging"
