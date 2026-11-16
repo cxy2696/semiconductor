@@ -192,6 +192,7 @@ class SiteBuilder:
             "stale": row.stale,
             "priced": row.priced,
             "as_of": str(row.entry.get("as_of") or ""),
+            "quote_as_of": str(row.entry.get("quote_as_of") or row.entry.get("as_of") or ""),
             "spark": Markup(
                 sparkline(
                     row.closes,
@@ -731,7 +732,7 @@ class SiteBuilder:
                 "change": row.change_1d,
                 "currency": row.entry.get("currency") or row.company.currency,
                 "market_cap_usd": round(row.market_cap_usd, 2) if row.market_cap_usd is not None else None,
-                "as_of": row.entry.get("as_of"),
+                "as_of": row.entry.get("quote_as_of") or row.entry.get("as_of"),
             }
         priced = sum(1 for row in self.analytics.rows if row.priced)
         total = len(self.analytics.rows)
@@ -963,7 +964,7 @@ class SiteBuilder:
                     "priority": row.priority,
                     "coverage": row.coverage,
                     "flags": row.flags,
-                    "as_of": row.entry.get("as_of"),
+                    "as_of": row.entry.get("quote_as_of") or row.entry.get("as_of"),
                 }
                 for row in sorted(self.analytics.rows, key=lambda item: item.market_cap_usd or 0, reverse=True)
             ],

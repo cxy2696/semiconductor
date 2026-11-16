@@ -35,7 +35,7 @@
       {{ company.range_bar }}
       <span>{{ company.high_52w | price(company.currency) }}</span>
     </div>
-    <span class="fineprint">{{ t.common.asOf }} <time data-live-asof>{{ company.as_of or '—' }}</time> · {{ t.common.source }}: {{ snapshot.sources.quotes }}</span>
+    <span class="fineprint">{{ t.common.asOf }} <time data-live-asof>{{ company.quote_as_of or company.as_of or '—' }}</time> · {{ t.common.source }}: {{ snapshot.sources.quotes }}</span>
     {% else %}
     <p class="empty">{{ t.company.unpriced }}</p>
     {% endif %}
@@ -53,7 +53,7 @@
   <div class="price-panel-head">
     <div>
       <h2 class="panel-title">{{ t.company.priceChart }}</h2>
-      <p class="fineprint">{{ t.company.priceChartNote }}</p>
+      <p class="fineprint">{{ t.company.priceChartNote }}{% if company.as_of and company.as_of != company.quote_as_of %} · {{ company.as_of }}{% endif %}</p>
     </div>
     <span class="price-panel-return {{ 'pos' if (company.ret_30d or 0) >= 0 else 'neg' }}">{{ company.ret_30d | pct }} <small>30D</small></span>
   </div>
