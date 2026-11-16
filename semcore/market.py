@@ -30,6 +30,9 @@ from .utils import read_json, to_float, write_json
 # whole: a half-refreshed page is harder to trust than a clearly old one.
 MIN_FRESH_RATIO = 0.5
 
+# Seconds allowed for the daily-history phase of a refresh.
+HISTORY_DEADLINE_SECONDS = 300
+
 
 def latest_path():
     return SNAPSHOT_DIR / "latest.json"
@@ -173,6 +176,9 @@ def fetch_snapshot(
     missing_history = sum(1 for company in companies if not _reusable_history(previous_quotes.get(company.id), today))
     history_budget = max(12, missing_history)
     budget_lock = threading.Lock()
+    # A blocking provider must not hold the deploy hostage: past this deadline
+    # the remaining companies keep their previous series and are retried next run.
+    history_deadline = time.monotonic() + HISTORY_DEADLINE_SECONDS
 
     def build(company: Company) -> tuple[str, dict[str, Any] | None]:
         nonlocal history_budget
@@ -185,12 +191,13 @@ def fetch_snapshot(
         secid = (resolved.get(company.id) or {}).get("secid")
         if not secid:
             return company.id, None
-        exhausted = False
-        with budget_lock:
-            if history_budget > 0:
-                history_budget -= 1
-            else:
-                exhausted = True
+        exhausted = time.monotonic() > history_deadline
+        if not exhausted:
+            with budget_lock:
+                if history_budget > 0:
+                    history_budget -= 1
+                else:
+                    exhausted = True
         history: list[dict[str, Any]] = []
         session = None if exhausted else eastmoney.make_session()
         if session is not None:

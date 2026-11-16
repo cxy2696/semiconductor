@@ -75,10 +75,10 @@ def make_session() -> requests.Session:
     return session
 
 
-def _get_json(session: requests.Session, url: str, params: dict[str, Any], retries: int = 2) -> dict[str, Any] | None:
+def _get_json(session: requests.Session, url: str, params: dict[str, Any], retries: int = 2, timeout: int = 12) -> dict[str, Any] | None:
     for attempt in range(retries + 1):
         try:
-            response = session.get(url, params=params, timeout=15)
+            response = session.get(url, params=params, timeout=timeout)
             response.raise_for_status()
             payload = response.json()
             if isinstance(payload, dict):
@@ -239,7 +239,8 @@ def fetch_history(session: requests.Session, secid: str, history_days: int = 420
             "fields1": "f1,f2,f3,f4,f5,f6",
             "fields2": KLINE_FIELDS,
         },
-        retries=3,
+        retries=1,
+        timeout=8,
     )
     rows = ((payload or {}).get("data") or {}).get("klines")
     if not isinstance(rows, list):
