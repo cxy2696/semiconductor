@@ -1,9 +1,9 @@
 {
   "site": {
     "brand": "SiliconScope",
-    "name": "Semiconductor Intelligence Desk",
-    "tagline": "A four-language research desk for the global semiconductor value chain",
-    "description": "A four-language research dashboard covering 8 value-chain stages, 13 headquarters regions and 175 companies, with verifiable quotes, structure, knowledge and method."
+    "name": "Semiconductor research desk",
+    "tagline": "Value chain, quotes and research notes for 175 listed chip companies.",
+    "description": "Eight value-chain stages, 13 headquarters regions and 175 listed companies, with dated quotes, published scoring rules and notes in four languages."
   },
   "nav": {
     "home": "Home",
@@ -42,6 +42,8 @@
     "theme": "Theme",
     "themeLight": "Light",
     "themeDark": "Dark",
+    "themeToDark": "Switch to dark mode",
+    "themeToLight": "Switch to light mode",
     "related": "Related",
     "sources": "Sources",
     "note": "Note",
@@ -54,12 +56,14 @@
     "none": "No data",
     "skipToContent": "Skip to content",
     "menu": "Menu",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "datasetLive": "live",
+    "datasetPartial": "partial"
   },
   "home": {
     "kicker": "SEMICONDUCTOR INTELLIGENCE",
-    "title": "Value chain, companies, cycles and knowledge on one desk",
-    "lede": "From EDA to advanced packaging, across Asia, the US and Europe. Figures show their source and coverage; conclusions link back to the method.",
+    "title": "Follow the chip supply chain from EDA to packaging",
+    "lede": "Quotes, structure and notes for 175 listed companies, from design tools to advanced packaging. Every number carries its date and source.",
     "ctaCompanies": "Browse companies",
     "ctaMethod": "Read the method",
     "kpi": {
@@ -69,7 +73,7 @@
     },
     "regime": {
       "title": "Market state",
-      "desc": "A composite of breadth, median return and dispersion. It describes the current structure; it does not forecast direction.",
+      "desc": "Breadth, median 30-day return and dispersion across the 175 companies. It describes the market as it is, not as it will be.",
       "expansion": "Expansion",
       "neutral": "Neutral",
       "contraction": "Contraction",
@@ -79,31 +83,31 @@
       "laggard": "Lagging stage",
       "thresholds": "Thresholds: expansion when breadth ≥ 60% and median return > 2%; contraction when breadth ≤ 40% and median return < -2%; otherwise neutral.",
       "read": {
-        "expansion": "Most names are advancing. Momentum screens are more likely to trigger; check whether the move is broad or concentrated.",
-        "neutral": "The market is mixed. Prefer company-level evidence over a stage-wide call.",
-        "contraction": "Most names are falling. Treat rallies as tentative and read coverage before acting on a screen."
+        "expansion": "Most companies are up over 30 sessions. Check whether the move is broad or concentrated before acting on a screen.",
+        "neutral": "About as many companies are down as up. Company evidence is more useful than a stage-wide call.",
+        "contraction": "Most companies are down over 30 sessions. Check coverage before relying on any single screen."
       }
     },
     "chain": {
       "title": "Value-chain structure",
-      "desc": "Company count, market cap and 30-day performance by stage. Equipment and materials are support layers, not sequential steps.",
+      "desc": "Company count, market cap and median 30-day return by stage. Equipment and materials are support layers, not steps in the flow.",
       "support": "Support layer"
     },
     "movers": {
       "title": "Momentum extremes",
-      "desc": "Ranked by 30-session return, excluding companies with incomplete data. Momentum describes price behaviour, not fundamentals.",
+      "desc": "The five best and five worst 30-session returns among companies with a complete price history.",
       "gainers": "Leaders",
       "losers": "Laggards"
     },
     "scatter": {
       "title": "Valuation vs quality",
-      "desc": "X-axis: static P/E. Y-axis: ROE. Bubble area: market cap. Only companies with positive P/E and complete fields are shown.",
+      "desc": "Each dot is a company: static P/E on the x-axis, ROE on the y-axis, market cap as area. Only companies with a positive P/E and complete fields.",
       "x": "P/E (static)",
       "y": "ROE (%)"
     },
     "watchlist": {
       "title": "Research list",
-      "desc": "Generated from published rules to sequence reading. Not a recommendation.",
+      "desc": "Three lists built from the published rules. They set reading order, not investment decisions.",
       "quality": "Quality first",
       "value": "Valuation reset",
       "momentum": "Momentum leaders",
@@ -111,27 +115,27 @@
     },
     "news": {
       "title": "Industry signals",
-      "desc": "Headlines, sources and links from allowlisted publishers only. No full-text copying.",
+      "desc": "Headlines from five semiconductor publications, refreshed with every build.",
       "empty": "No usable headlines were retrieved in this build; the snapshot is shown instead.",
       "sourceNote": "Headline copyright remains with the original publisher."
     },
     "knowledge": {
       "title": "Knowledge base",
-      "desc": "From process and equipment to cycles and policy, structured notes build a shared language.",
+      "desc": "Twelve notes on process, equipment, memory, policy and valuation, in four languages.",
       "cta": "Open knowledge base"
     },
     "method": {
       "title": "Method and boundaries",
-      "desc": "Scores only order research: factor definitions, normalisation, weights and thresholds are public, and nothing here is investment advice.",
+      "desc": "Factor definitions, weights, thresholds and the limits of each number.",
       "cta": "Read the full method"
     },
     "guideTitle": "New here?",
-    "guideDesc": "Open the guide for six short tasks and the numbers behind them, or press ⌘K to jump.",
+    "guideDesc": "Six short tasks, a page-by-page answer table, and the conventions behind every number.",
     "guideCta": "Open the guide"
   },
   "companies": {
     "title": "Company map",
-    "lede": "Filter 175 companies by stage, country and listing. Sort the table, open a profile, or compare within a stage.",
+    "lede": "Filter 175 companies by stage, headquarters and listing. Sort the table, open a profile, or compare within a stage.",
     "searchPlaceholder": "Search company, ticker, product",
     "filterStage": "Stage",
     "filterCountry": "HQ",
@@ -163,7 +167,7 @@
       "medianRet": "Median 30D",
       "priced": "With quote"
     },
-    "metricsNote": "P/E is static (last annual EPS), P/B is book value, ROE is return on equity, and market cap is converted to USD. Missing fields show as —.",
+    "metricsNote": "P/E is static (last annual EPS), P/B is book value, ROE is return on equity, and market cap is converted to USD at the snapshot rate.",
     "activeFilters": "Active filters",
     "clearAll": "Clear all"
   },
@@ -179,33 +183,33 @@
     "hq": "Headquarters",
     "currency": "Quote currency",
     "products": "Products and capabilities",
-    "dataNote": "Data comes from public quote APIs, using the latest available close and financial metrics. Missing fields show as —; coverage reflects field completeness, not accuracy.",
+    "dataNote": "Quotes come from public market APIs and may be delayed. Missing fields show as —; coverage measures completeness, not accuracy.",
     "unpriced": "No verified quote source is available for this company. The research entry is kept, but it is excluded from quote statistics.",
     "relatedReading": "Further reading",
-    "positioningTemplate": "{name} sits in the {stage} stage and operates as a {role} company, with capabilities spanning {products}.",
+    "positioningTemplate": "{name} works in the {stage} stage as a {role} company. Its capabilities cover {products}.",
     "priorityTitle": "Priority breakdown",
     "priorityDesc": "Each factor is a percentile within peers; missing factors are renormalised.",
     "founded": "Founded",
     "fiscalYearEnd": "Fiscal year end",
     "watch": "What to watch",
     "priceChart": "30-session price",
-    "priceChartNote": "Daily closes from the last 30 sessions. Not adjusted for dividends.",
-    "dataNoteShort": "Delayed closes and filings"
+    "priceChartNote": "Daily closes for the last 30 sessions, adjusted for splits.",
+    "dataNoteShort": "Delayed or closing quotes"
   },
   "chain": {
     "title": "The value chain",
-    "lede": "Semiconductors are not a straight line but a network of a main flow and support layers. Understanding how each stage earns money and which metrics bind it matters more than memorising company names.",
+    "lede": "Eight stages: six in the main flow, plus equipment and materials. For each one, how it earns money, which metrics matter, and who competes in it.",
     "flow": "Main flow",
     "support": "Support layer",
     "economics": "How it earns money",
     "metrics": "Key metrics",
     "companies": "Representative companies",
     "stageStats": "Stage statistics",
-    "note": "Stages are assigned by primary revenue source. A company may both design and manufacture; only its main classification is used here."
+    "note": "Stages follow the primary revenue source. A company that both designs and manufactures is counted once, in its main stage."
   },
   "knowledge": {
     "title": "Knowledge base",
-    "lede": "Semiconductor industry knowledge organised by theme. Each note stands alone and complements the research list. Industry explanation only, not investment advice.",
+    "lede": "Industry notes organised by theme. Each one stands alone and links to the companies and terms it uses.",
     "levels": {
       "foundation": "Foundation",
       "core": "Core",
@@ -223,7 +227,7 @@
   },
   "glossary": {
     "title": "Glossary",
-    "lede": "Semiconductor terms with Chinese, English and Japanese definitions, to remove ambiguity across markets.",
+    "lede": "Semiconductor terms with Chinese, English, Japanese and German definitions, so the same word means the same thing across markets.",
     "searchPlaceholder": "Search a term (ZH / EN / JA)",
     "category": "Category",
     "term": "Term",
@@ -244,32 +248,32 @@
   },
   "method": {
     "title": "Method",
-    "lede": "Every number here comes from a published rule. This page explains those rules and their limits.",
+    "lede": "Every number on the site comes from a rule on this page.",
     "purposeTitle": "What it solves",
-    "purpose": "It answers three questions within limited time: what state is this stage in, which companies deserve reading first, and is the data behind my judgement complete?",
+    "purpose": "Three questions in one sitting: what state is this stage in, which companies are worth reading first, and is the data behind that judgement complete?",
     "notTitle": "What it does not do",
-    "not": "No buy/sell calls, price targets or position sizing. No earnings forecasts. No single-factor conclusions dressed up as answers. No hiding of missing data.",
+    "not": "No buy or sell calls, no price targets, no position sizing, no earnings forecasts. Missing data is shown empty rather than filled in.",
     "universeTitle": "Universe and classification",
-    "universe": "175 listed semiconductor companies, classified into 8 stages by primary revenue source. Each company keeps one primary listing to avoid double counting. Additions and removals are recorded in the data files.",
+    "universe": "175 listed semiconductor companies, each assigned to one of eight stages by primary revenue source, with one primary listing to avoid double counting.",
     "factorsTitle": "Factor definitions",
-    "factors": "All factors are percentile-normalised to 0–100 within the peer set, then weighted into a research priority score. Percentiles are computed within a stage; stages with fewer than 8 companies fall back to the full sample.",
+    "factors": "Percentile ranks within each stage, scaled 0-100, then weighted into a research priority. Stages with fewer than eight companies fall back to the full sample.",
     "factorQuality": "Percentile of ROE among peers.",
     "factorValue": "Inverse percentile of static P/E; P/E ≤ 0 is treated as missing and the remaining weights are renormalised.",
     "factorMomentum": "60% × percentile of 30-session return + 40% × percentile of 52-week range position.",
     "factorSize": "Percentile of log market cap in USD, a proxy for liquidity and resilience.",
     "scoreFormula": "Research priority = 0.30 × quality + 0.25 × valuation + 0.25 × momentum + 0.20 × size",
     "confidenceTitle": "Data coverage",
-    "confidence": "Coverage is the share of 8 fields present (price, 1D, 30D, market cap, P/E, P/B, ROE, 52-week range): ≥ 87.5% high, ≥ 62.5% medium, otherwise low. Coverage measures completeness, not accuracy.",
+    "confidence": "Coverage is the share of eight fields present: price, 1D, 30D, market cap, P/E, P/B, ROE and 52-week range. 87.5% or more is high, 62.5% or more medium, below that low.",
     "regimeTitle": "Market state",
-    "regime": "Breadth, median 30-day return and dispersion describe structure. Thresholds are fixed and public so calls can be reviewed; the state does not forecast returns.",
+    "regime": "Breadth, median 30-day return and dispersion, with fixed thresholds published above so any call can be checked later.",
     "screensTitle": "Research list rules",
     "screenQuality": "Quality first: quality ≥ 70 and valuation ≥ 50.",
     "screenValue": "Valuation reset: valuation ≥ 70 and quality ≥ 50.",
     "screenMomentum": "Momentum leaders: momentum ≥ 80 and 30-day return > 0.",
     "limitsTitle": "Known limitations",
-    "limits": "Quotes are delayed or closing prices, with no intraday signal. Static P/E penalises high-growth companies. Revenue growth and order data are missing. Classification involves editorial judgement. FX conversion carries daily error.",
+    "limits": "Quotes are delayed or at the close. Static P/E penalises fast-growing companies. Revenue growth and order data are missing. Stage assignment involves editorial judgement, and currency conversion uses one daily rate.",
     "disclaimerTitle": "Disclaimer",
-    "disclaimer": "This desk is for industry research and learning only and is not a recommendation to buy or sell any security. Data may be delayed or wrong; always verify with exchange filings and company announcements.",
+    "disclaimer": "For industry research and learning. Data can be delayed or wrong; the exchange filing is the authority.",
     "factorNames": {
       "quality": "Quality",
       "valuation": "Valuation",
@@ -282,23 +286,24 @@
   },
   "about": {
     "title": "About",
-    "lede": "A research desk built on public data and public method, so that conversations about semiconductors share a common language.",
+    "lede": "Public data, published rules, and the code that produces both.",
     "missionTitle": "Purpose",
-    "mission": "Semiconductors combine high technical barriers, deep cycles and geopolitics. This desk compresses scattered value-chain knowledge, company positions and market data into a verifiable surface, helping readers build structural intuition faster.",
+    "mission": "Semiconductors combine hard technology, long cycles and export policy. This site keeps the value chain, company positions and market data in one place, and shows the rule behind each number.",
     "audienceTitle": "Who it is for",
     "audience": "Students and researchers learning the value chain, analysts and practitioners who need a fast global view, and individual investors who want transparent data definitions.",
     "scopeTitle": "Scope",
     "scope": "8 value-chain stages, 13 headquarters regions and 175 listed companies across mainland China, Hong Kong, Taiwan, the US, Japan, Korea, Europe and Israel.",
     "sourcesTitle": "Sources and definitions",
-    "sources": "Quotes, valuation and 52-week ranges come from Eastmoney public quote APIs; FX from open.er-api.com; industry signals from allowlisted publisher RSS. Everything is written into a build-time snapshot; pages never call third-party APIs.",
+    "sources": "Quotes, valuation and 52-week ranges come from the Eastmoney public quote API; FX from open.er-api.com; headlines from publisher RSS. Everything is written into a snapshot at build time, and pages never call a third-party API.",
     "cadenceTitle": "Cadence",
-    "cadence": "Automated refresh once per trading day; weekly anomaly review; monthly universe and classification review; quarterly method and documentation review.",
+    "cadence": "Rebuilds every 20 minutes while Shanghai or New York is trading, a pre-open pass at 08:30 Beijing time, weekly anomaly review and a monthly universe review.",
+    "buildTitle": "Build",
     "licenseTitle": "Licence and citation",
     "license": "Code is MIT licensed, written content is CC BY 4.0, and market data remains the property of its providers. Cite SiliconScope with the access date.",
     "contributeTitle": "Contributing",
     "contribute": "Data corrections, glossary additions and documentation improvements are welcome. Include a verifiable source and state the scope of impact.",
     "disclaimerTitle": "Disclaimer",
-    "disclaimer": "No investment advice, target prices or return promises. Anyone acting on this content does so at their own risk."
+    "disclaimer": "No investment advice, target prices or return promises. Decisions based on this content are the reader's own."
   },
   "footer": {
     "built": "Static build",
@@ -354,17 +359,17 @@
     "networking": "Networking"
   },
   "guide": {
-    "title": "How to use this desk",
-    "lede": "A short guide to the tasks you will actually do, and to the numbers behind them.",
-    "conventionsTitle": "How to read the desk",
+    "title": "How to use the site",
+    "lede": "What you can actually do here, and what each number means.",
+    "conventionsTitle": "How to read the numbers",
     "convTime": "Data has a timestamp",
-    "convTimeDesc": "The snapshot time is shown in the header, footer and status page. Quotes are delayed or closing prices.",
+    "convTimeDesc": "The snapshot time is shown in the header, footer and status page. Quotes may be delayed or at the close.",
     "convCoverage": "Missing data is visible",
-    "convCoverageDesc": "Low coverage means missing fields, not a hidden opinion. Missing values show as —.",
+    "convCoverageDesc": "Low coverage means missing fields, shown as —. It is not a hidden opinion.",
     "convColor": "Direction is explicit",
-    "convColorDesc": "Up is teal with a plus sign; down is copper with a minus sign. Signs and arrows carry the meaning, not colour alone.",
+    "convColorDesc": "Up is teal with a plus, down is copper with a minus. Colour is secondary; the sign carries the meaning.",
     "convScore": "Scores sort reading order",
-    "convScoreDesc": "The priority score sorts reading order. It is not a recommendation, target price or forecast.",
+    "convScoreDesc": "The priority score orders reading. It is not a recommendation, target price or forecast.",
     "shortcutsTitle": "Keyboard",
     "shortcutSearch": "Open quick search",
     "shortcutTheme": "Toggle light / dark",
@@ -521,7 +526,7 @@
   },
   "status": {
     "title": "Data status",
-    "lede": "How fresh the data is, what is missing, and how the desk is maintained.",
+    "lede": "How fresh the data is, what is missing, and how the site is maintained.",
     "health": "Health",
     "healthy": "Healthy",
     "aging": "Aging",
@@ -536,7 +541,7 @@
     "news": "Headlines",
     "errors": "Data notes",
     "cadence": "Update cadence",
-    "cadenceText": "GitHub Actions refreshes the snapshot once per trading day at 08:30 Asia/Shanghai and deploys the static site. A failed fetch falls back to the last snapshot and is marked stale.",
+    "cadenceText": "GitHub Actions rebuilds the snapshot every 20 minutes while Shanghai or New York is trading, plus a pre-open pass at 08:30 Beijing time. Open pages refresh their quotes within a minute. A failed fetch falls back to the last snapshot and is marked stale.",
     "runbook": "Operating runbook",
     "runbookText": "Failure handling, service levels and change management are documented in OPERATIONS.",
     "staleTopics": "Content older than 12 months",

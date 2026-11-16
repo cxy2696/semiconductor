@@ -2,11 +2,11 @@
 
 Produces a fully self-contained `docs/` tree:
 
-    /                    Chinese (default locale)
-    /en/, /ja/           English and Japanese mirrors
+    /                    English (default locale)
+    /zh/, /ja/, /de/     Chinese, Japanese and German mirrors
     /companies/          company profiles
     /knowledge/          long-form notes
-    /api/                localized JSON snapshots
+    /api/                localized snapshots and the live quote payload
     /latest_data.json    legacy payload kept for the existing iOS client
 
 No third-party CDN is used; all charts are SVG rendered at build time.
@@ -710,9 +710,40 @@ class SiteBuilder:
     # ---- payloads ------------------------------------------------------
     def _write_payloads(self) -> None:
         self._write_json_file("latest_data.json", self._legacy_payload())
+        self._write_json_file("api/quotes.json", self._live_payload())
         for locale in LOCALES:
             self._write_json_file(f"api/snapshot.{locale.lang}.json", self._localized_payload(locale))
             self._write_json_file(f"api/search.{locale.lang}.json", self._search_index(locale))
+
+    def _live_payload(self) -> dict[str, Any]:
+        """Small, locale-free payload the page polls for intraday quotes.
+
+        Only fields that move between sessions are published here: price, the
+        one-day change, market cap and the quote timestamp. Returns based on
+        daily closes, scores and screens stay as built.
+        """
+        quotes: dict[str, dict[str, Any]] = {}
+        for row in self.analytics.rows:
+            if not row.priced:
+                continue
+            quotes[row.company.id] = {
+                "price": row.price,
+                "change": row.change_1d,
+                "currency": row.entry.get("currency") or row.company.currency,
+                "market_cap_usd": round(row.market_cap_usd, 2) if row.market_cap_usd is not None else None,
+                "as_of": row.entry.get("as_of"),
+            }
+        priced = sum(1 for row in self.analytics.rows if row.priced)
+        total = len(self.analytics.rows)
+        return {
+            "schema": 1,
+            "generated_at": str(self.snapshot.get("generated_at") or ""),
+            "site_version": SITE_VERSION,
+            "priced": priced,
+            "total": total,
+            "ratio": round(priced / total, 4) if total else 0.0,
+            "quotes": quotes,
+        }
 
     def _search_index(self, locale: Locale) -> dict[str, Any]:
         lang = locale.lang
@@ -1017,13 +1048,14 @@ class SiteBuilder:
             "knowledge-old.html": "knowledge.html",
         }
         for source, target in redirects.items():
+            default = LOCALES[0]
             html_text = self.env.get_template("redirect.html").render(
-                lang="zh",
-                t=bundle_for("zh"),
+                lang=default.lang,
+                t=bundle_for(default.lang),
                 root="",
                 target=target,
                 site_name=SITE_NAME,
-                page_title=bundle_for("zh")["redirect"]["title"],
+                page_title=bundle_for(default.lang)["redirect"]["title"],
             )
             write_text(self.output / source, html_text)
             self.generated.append(source)
@@ -1034,7 +1066,7 @@ class SiteBuilder:
                 "home",
                 "404.html",
                 f"404 · {SITE_NAME}",
-                bundle_for("zh")["notFound"]["body"],
+                bundle_for(LOCALES[0].lang)["notFound"]["body"],
             )
         )
         write_text(self.output / "404.html", not_found)

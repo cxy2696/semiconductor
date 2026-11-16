@@ -38,23 +38,21 @@
 
   <h2>{{ t.about.licenseTitle }}</h2>
   <p>{{ t.about.license }}</p>
+  <p class="disclaimer-box">{{ t.about.disclaimer }}</p>
 
   <h2>{{ t.about.contributeTitle }}</h2>
   <p>{{ t.about.contribute }}</p>
 
-  <h2>{{ t.about.disclaimerTitle }}</h2>
-  <p class="disclaimer-box">{{ t.about.disclaimer }}</p>
-
-  <h2>Build</h2>
+  <h2>{{ t.about.buildTitle }}</h2>
   <dl class="fact-list">
     <div><dt>{{ t.footer.built }}</dt><dd>v{{ site_version }} · {{ build_time }} UTC+8</dd></div>
-    <div><dt>{{ t.footer.data }}</dt><dd>{{ data_time }} · {{ snapshot.dataset }}</dd></div>
+    <div><dt>{{ t.footer.data }}</dt><dd>{{ data_time }} · {% if snapshot.dataset == "live" %}{{ t.common.datasetLive }}{% else %}{{ t.common.datasetPartial }}{% endif %}</dd></div>
     <div><dt>{{ t.common.source }}</dt><dd>{{ snapshot.sources.quotes }} · {{ snapshot.sources.fx }}</dd></div>
     <div><dt>{{ t.companies.coverage }}</dt><dd>{{ priced }} / {{ analytics.rows | length }}</dd></div>
-    <div><dt>JSON</dt><dd><a href="{{ root }}latest_data.json">latest_data.json</a> · <a href="{{ root }}api/snapshot.{{ lang }}.json">api/snapshot.{{ lang }}.json</a></dd></div>
+    <div><dt>JSON</dt><dd><a href="{{ root }}latest_data.json">latest_data.json</a> · <a href="{{ root }}api/snapshot.{{ lang }}.json">api/snapshot.{{ lang }}.json</a> · <a href="{{ root }}api/quotes.json">api/quotes.json</a></dd></div>
   </dl>
   {% if errors %}
-  <h2>Data notes</h2>
+  <h2>{{ t.status.errors }}</h2>
   <ul class="error-list">
     {% for error in errors[:12] %}<li>{{ error }}</li>{% endfor %}
   </ul>

@@ -1,7 +1,7 @@
 [project]
 name = "siliconscope"
-version = "3.0.0"
-description = "Trilingual semiconductor value-chain research desk"
+version = "3.1.0"
+description = "Four-language semiconductor value-chain research desk"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

@@ -3,6 +3,41 @@
 All notable changes to this project are documented here. The format follows
 Keep a Changelog, and the project uses semantic versioning.
 
+## [3.1.0] — 2026-11-16
+
+### Added
+
+- In-page live quotes: `api/quotes.json` carries price, one-day change and
+  market cap; open pages poll it every minute and update the figures in place.
+- Intraday rebuilds every 20 minutes while Shanghai or New York is trading,
+  alongside the pre-open pass at 08:30 Beijing time.
+- The refreshed snapshot is kept as a CI artifact so the committed baseline can
+  be replaced without a separate fetch.
+- Chart colours now come from the design tokens, so axes, grids and labels stay
+  readable in both themes.
+
+### Fixed
+
+- Light/dark toggle and the `t` shortcut did nothing: the search module
+  reassigned the shared `root` variable, so the theme code threw on every
+  click. Theme choice now persists, follows the operating system until the
+  reader chooses, and updates the browser chrome colour.
+- Split-unadjusted daily history produced fake returns — Tokyo Electron showed
+  a −83% month after a 5:1 split. Splits are now detected and the series is
+  rebased before returns and 52-week ranges are computed.
+- 30-session returns beyond ±300% are dropped rather than published.
+- Redirect stubs and the 404 page were hard-coded to Chinese on the English
+  root; they now use the default locale.
+- Two headings on the About page were still English-only.
+
+### Changed
+
+- Copy pass across all four languages: plainer sentences, concrete numbers, and
+  the per-page disclaimer repeated under every page is gone — the footer and
+  the method page carry it once.
+- Removed dead snapshot fields (`highs`, `lows`) and duplicated page copy.
+- Version 3.1.0.
+
 ## [3.0.0] — 2026-11-11
 
 ### Added

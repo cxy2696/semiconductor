@@ -31,7 +31,7 @@ SCHEMA_VERSION = 2
 SNAPSHOT_KEEP = 30
 
 # Strategy metadata used by the product logic. Published in documentation/METHODOLOGY.md.
-SITE_VERSION = "3.0.0"
+SITE_VERSION = "3.1.0"
 
 
 @dataclass(frozen=True)

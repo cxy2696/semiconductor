@@ -3,24 +3,192 @@
   'use strict';
 
   var doc = document;
-  var root = doc.documentElement;
+  var html = doc.documentElement;
 
   /* ---------- theme ---------- */
-  function currentTheme() {
-    return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  var THEME_KEY = 'ss-theme';
+  var THEME_COLORS = { light: '#f6f4ef', dark: '#0b1220' };
+  var prefersDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function storedTheme() {
+    try {
+      var value = localStorage.getItem(THEME_KEY);
+      return value === 'dark' || value === 'light' ? value : null;
+    } catch (e) {
+      return null;
+    }
   }
 
-  function setTheme(theme) {
-    root.setAttribute('data-theme', theme);
-    try { localStorage.setItem('ss-theme', theme); } catch (e) {}
-    var meta = doc.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b1220' : '#f6f4ef');
+  function systemTheme() {
+    return prefersDark && prefersDark.matches ? 'dark' : 'light';
   }
+
+  function currentTheme() {
+    return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme, persist) {
+    var dark = theme === 'dark';
+    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+    html.style.colorScheme = dark ? 'dark' : 'light';
+    var meta = doc.getElementById('theme-color');
+    if (meta) meta.setAttribute('content', dark ? THEME_COLORS.dark : THEME_COLORS.light);
+    var toggle = doc.getElementById('theme-toggle');
+    if (toggle) {
+      // The label names the action, so it stays truthful after the swap.
+      var label = dark ? toggle.getAttribute('data-label-light') : toggle.getAttribute('data-label-dark');
+      toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      if (label) {
+        toggle.setAttribute('aria-label', label);
+        toggle.setAttribute('title', label);
+      }
+    }
+    if (persist) {
+      try { localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); } catch (e) {}
+    }
+  }
+
+  function toggleTheme() {
+    applyTheme(currentTheme() === 'dark' ? 'light' : 'dark', true);
+  }
+
+  applyTheme(storedTheme() || systemTheme(), false);
 
   var themeToggle = doc.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', function () {
-      setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+  // Follow the operating system while the reader has not made a choice.
+  if (prefersDark) {
+    var onSchemeChange = function () {
+      if (!storedTheme()) applyTheme(systemTheme(), false);
+    };
+    if (prefersDark.addEventListener) prefersDark.addEventListener('change', onSchemeChange);
+    else if (prefersDark.addListener) prefersDark.addListener(onSchemeChange);
+  }
+
+  /* ---------- live quotes ---------- */
+  // The page is a static build. A small JSON payload carries the fields that
+  // move during a session (price, one-day change, market cap), so a reader
+  // watching the desk sees them change without a reload.
+  var liveEndpoint = doc.body.getAttribute('data-live-endpoint');
+  if (liveEndpoint) {
+    var LIVE_INTERVAL = 60000;
+    var renderedStamp = doc.body.getAttribute('data-generated') || '';
+    var liveFailures = 0;
+
+    function formatNumber(value, digits) {
+      var parts = Math.abs(value).toFixed(digits).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return (value < 0 ? '-' : '') + parts.join('.');
+    }
+
+    function formatPrice(value, currency) {
+      if (typeof value !== 'number' || !isFinite(value)) return '—';
+      var digits = currency === 'JPY' || currency === 'KRW' || currency === 'TWD' ? 0 : (currency === 'EUR' && value < 100 ? 3 : 2);
+      return formatNumber(value, digits) + (currency ? ' ' + currency : '');
+    }
+
+    function formatPercent(value) {
+      if (typeof value !== 'number' || !isFinite(value)) return '—';
+      return (value > 0 ? '+' : '') + value.toFixed(2) + '%';
+    }
+
+    function formatUsd(value) {
+      if (typeof value !== 'number' || !isFinite(value)) return '—';
+      var size = Math.abs(value);
+      if (size >= 1e12) return '$' + formatNumber(value / 1e12, 2) + 'T';
+      if (size >= 1e9) return '$' + formatNumber(value / 1e9, 1) + 'B';
+      if (size >= 1e6) return '$' + formatNumber(value / 1e6, 1) + 'M';
+      return '$' + formatNumber(value, 0);
+    }
+
+    function flash(node) {
+      node.classList.remove('is-updated');
+      void node.offsetWidth;
+      node.classList.add('is-updated');
+      window.setTimeout(function () { node.classList.remove('is-updated'); }, 1200);
+    }
+
+    function stampText(iso) {
+      return String(iso || '').slice(0, 16).replace('T', ' ');
+    }
+
+    function applyLive(payload) {
+      var quotes = payload.quotes || {};
+      var totalCap = 0;
+      var hasCap = false;
+      Object.keys(quotes).forEach(function (id) {
+        var cap = quotes[id].market_cap_usd;
+        if (typeof cap === 'number' && isFinite(cap)) {
+          totalCap += cap;
+          hasCap = true;
+        }
+      });
+
+      Array.prototype.forEach.call(doc.querySelectorAll('[data-quote]'), function (node) {
+        var quote = quotes[node.getAttribute('data-quote')];
+        if (!quote) return;
+        var price = node.querySelector('[data-live-price]');
+        if (price && typeof quote.price === 'number') {
+          price.textContent = formatPrice(quote.price, quote.currency);
+          flash(price);
+        }
+        var change = node.querySelector('[data-live-change]');
+        if (change && typeof quote.change === 'number') {
+          change.textContent = formatPercent(quote.change);
+          change.classList.toggle('pos', quote.change >= 0);
+          change.classList.toggle('neg', quote.change < 0);
+          flash(change);
+        }
+        var cap = node.querySelector('[data-live-mcap]');
+        if (cap && typeof quote.market_cap_usd === 'number') {
+          cap.textContent = formatUsd(quote.market_cap_usd);
+          flash(cap);
+        }
+        var asOf = node.querySelector('[data-live-asof]');
+        if (asOf && quote.as_of) asOf.textContent = quote.as_of;
+      });
+
+      if (hasCap) {
+        Array.prototype.forEach.call(doc.querySelectorAll('[data-live-total-mcap]'), function (node) {
+          node.textContent = formatUsd(totalCap);
+          flash(node);
+        });
+      }
+      if (typeof payload.ratio === 'number') {
+        Array.prototype.forEach.call(doc.querySelectorAll('[data-live-coverage]'), function (node) {
+          node.textContent = (payload.ratio * 100).toFixed(1) + '%';
+        });
+      }
+      Array.prototype.forEach.call(doc.querySelectorAll('[data-live-time]'), function (node) {
+        node.textContent = stampText(payload.generated_at);
+        node.setAttribute('datetime', String(payload.generated_at || ''));
+      });
+    }
+
+    function checkLive() {
+      if (doc.hidden || liveFailures > 3) return;
+      fetch(liveEndpoint, { cache: 'no-cache', headers: { Accept: 'application/json' } })
+        .then(function (response) {
+          if (!response.ok) throw new Error(String(response.status));
+          return response.json();
+        })
+        .then(function (payload) {
+          liveFailures = 0;
+          var stamp = String(payload.generated_at || '');
+          if (!stamp || stamp === renderedStamp) return;
+          renderedStamp = stamp;
+          applyLive(payload);
+        })
+        .catch(function () {
+          liveFailures += 1;
+        });
+    }
+
+    checkLive();
+    window.setInterval(checkLive, LIVE_INTERVAL);
+    doc.addEventListener('visibilitychange', function () {
+      if (!doc.hidden) checkLive();
     });
   }
 
@@ -329,7 +497,7 @@
     var searchInput = doc.getElementById('search-input');
     var searchResults = doc.getElementById('search-results');
     var searchHint = doc.getElementById('search-hint');
-    var root = doc.body.dataset.root || '';
+    var assetRoot = doc.body.dataset.root || '';
     var lang = doc.body.dataset.lang || 'en';
     var searchIndex = null;
     var searchActive = -1;
@@ -361,7 +529,7 @@
       searchInput.focus();
       if (!searchIndex) {
         searchResults.innerHTML = '<p class="search-empty">' + escapeHtml(labels.loading) + '</p>';
-        fetch(root + 'api/search.' + lang + '.json')
+        fetch(assetRoot + 'api/search.' + lang + '.json')
           .then(function (response) { return response.json(); })
           .then(function (data) { searchIndex = data.entries || []; renderSearch(searchInput.value); })
           .catch(function () { searchIndex = []; renderSearch(''); });
@@ -414,7 +582,7 @@
     function selectResult(index) {
       var entry = currentResults[index];
       if (!entry) return;
-      window.location.href = root + entry.url;
+      window.location.href = assetRoot + entry.url;
     }
 
     function moveActive(delta) {
@@ -458,7 +626,7 @@
       if (event.key === 'Escape' && !layer.hidden) { closeSearch(); return; }
       if (!typing && !event.metaKey && !event.ctrlKey && event.key.toLowerCase() === 't') {
         event.preventDefault();
-        setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+        toggleTheme();
       }
     });
   }

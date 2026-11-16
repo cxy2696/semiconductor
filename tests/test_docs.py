@@ -10,8 +10,16 @@ def test_all_documents_have_four_languages():
 
 def test_english_is_the_root_readme():
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "A four-language research desk" in text
-    assert "175" in text
+    assert "175 listed companies" in text
+    assert "Live quotes" in text
+
+
+def test_english_documents_do_not_drift():
+    """README.md / CHANGELOG.md / CONTRIBUTING.md mirror their _en copies."""
+    for name in ("README", "CHANGELOG", "CONTRIBUTING"):
+        root = (ROOT / f"{name}.md").read_bytes()
+        copy = (ROOT / f"{name}_en.md").read_bytes()
+        assert root == copy, f"{name}.md and {name}_en.md differ"
 
 
 def test_knowledge_files_use_language_suffixes():

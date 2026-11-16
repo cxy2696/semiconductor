@@ -21,12 +21,12 @@
     <p class="lede">{{ positioning }}</p>
     {% if company.note %}<p class="company-note">{{ company.note }}</p>{% endif %}
   </div>
-  <div class="company-price">
+  <div class="company-price" data-quote="{{ company.id }}">
     <span class="kicker">{{ t.company.marketData }}</span>
     {% if company.priced %}
-    <div class="price-value">{{ company.price_text }}</div>
+    <div class="price-value" data-live-price data-currency="{{ company.currency }}">{{ company.price_text }}</div>
     <div class="price-change {{ 'pos' if (company.change_1d or 0) >= 0 else 'neg' }}">
-      {{ company.change_1d | pct }} <span class="muted">1D</span>
+      <span data-live-change>{{ company.change_1d | pct }}</span> <span class="muted">1D</span>
       <span class="sep">·</span>
       {{ company.ret_30d | pct }} <span class="muted">30D</span>
     </div>
@@ -35,7 +35,7 @@
       {{ company.range_bar }}
       <span>{{ company.high_52w | price(company.currency) }}</span>
     </div>
-    <span class="fineprint">{{ t.common.asOf }} {{ company.as_of or '—' }} · {{ t.common.source }}: {{ snapshot.sources.quotes }}</span>
+    <span class="fineprint">{{ t.common.asOf }} <time data-live-asof>{{ company.as_of or '—' }}</time> · {{ t.common.source }}: {{ snapshot.sources.quotes }}</span>
     {% else %}
     <p class="empty">{{ t.company.unpriced }}</p>
     {% endif %}
@@ -61,7 +61,7 @@
 </section>
 
 <section class="metric-grid">
-  <div class="metric"><span>{{ t.companies.table.mcap }}</span><strong>{{ company.mcap_text }}</strong></div>
+  <div class="metric" data-quote="{{ company.id }}"><span>{{ t.companies.table.mcap }}</span><strong data-live-mcap>{{ company.mcap_text }}</strong></div>
   <div class="metric"><span>{{ t.companies.table.pe }}</span><strong>{{ company.pe | num(1) }}</strong></div>
   <div class="metric"><span>{{ t.companies.table.pb }}</span><strong>{{ company.pb | num(2) }}</strong></div>
   <div class="metric"><span>{{ t.companies.table.roe }}</span><strong>{{ company.roe | num(1) }}{% if company.roe is not none %}%{% endif %}</strong></div>
@@ -162,5 +162,4 @@
 </section>
 {% endif %}
 
-<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
 {% endblock %}

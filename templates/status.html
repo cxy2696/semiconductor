@@ -20,7 +20,7 @@
     <div class="coverage-track" role="img" aria-label="{{ t.status.coverage }} {{ coverage_pct }}%">
       <i style="width: {{ coverage_pct }}%"></i>
     </div>
-    <p class="fineprint">{{ health.priced }} / {{ health.total }} {{ t.common.companies }} · {{ health.dataset }}</p>
+    <p class="fineprint">{{ health.priced }} / {{ health.total }} {{ t.common.companies }} · {% if health.dataset == "live" %}{{ t.common.datasetLive }}{% else %}{{ t.common.datasetPartial }}{% endif %}</p>
   </div>
 </section>
 
@@ -89,5 +89,4 @@
   </div>
 </section>
 
-<p class="disclaimer-line">{{ t.footer.notAdvice }}</p>
 {% endblock %}

@@ -2,6 +2,29 @@
 
 Alle wichtigen Änderungen an diesem Projekt werden hier dokumentiert. Das Format folgt Keep a Changelog, und das Projekt verwendet semantische Versionierung.
 
+## [3.1.0] — 2026-11-16
+
+### Hinzugefügt
+
+- Live-Kurse auf der Seite: `api/quotes.json` enthält Preis, Tagesveränderung und Marktkapitalisierung; geöffnete Seiten fragen sie jede Minute ab und aktualisieren die Werte direkt.
+- Intraday-Rebuilds alle 20 Minuten während der Handelszeit in Shanghai oder New York, zusätzlich der Lauf vor Handelsbeginn um 08:30 Uhr Pekinger Zeit.
+- Der aktualisierte Snapshot wird als CI-Artefakt aufbewahrt, damit sich die eingecheckte Basisversion ohne separaten Abruf ersetzen lässt.
+- Diagrammfarben stammen jetzt aus den Design-Tokens; Achsen, Raster und Beschriftungen bleiben in beiden Themes lesbar.
+
+### Behoben
+
+- Der Hell-/Dunkel-Schalter und das Kürzel `t` taten nichts: Das Suchmodul überschrieb die gemeinsame Variable `root`, sodass der Theme-Code bei jedem Klick eine Ausnahme warf. Die Auswahl wird jetzt gespeichert, folgt bis zur ersten Entscheidung dem Betriebssystem und aktualisiert die Farbe der Browserleiste.
+- Unbereinigte Tageshistorien erzeugten falsche Renditen – Tokyo Electron zeigte nach einem 5:1-Split −83 % im Monat. Splits werden nun erkannt und die Reihe wird neu basisiert, bevor Renditen und 52-Wochen-Spannen berechnet werden.
+- 30-Tage-Renditen jenseits von ±300 % werden nicht mehr veröffentlicht.
+- Redirect-Seiten und die 404-Seite waren auf dem englischen Wurzelpfad fest auf Chinesisch gesetzt; sie nutzen jetzt die Standard-Locale.
+- Zwei Überschriften auf der About-Seite waren noch ausschließlich englisch.
+
+### Geändert
+
+- Textüberarbeitung in allen vier Sprachen: kürzere, konkretere Sätze; der auf jeder Seite wiederholte Haftungshinweis entfällt und steht nur noch im Footer und auf der Methodenseite.
+- Ungenutzte Snapshot-Felder (`highs`, `lows`) und doppelte Seitentexte entfernt.
+- Version 3.1.0.
+
 ## [3.0.0] — 2026-11-11
 
 ### Hinzugefügt

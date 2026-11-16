@@ -30,11 +30,18 @@ A company may be added or removed only if it is listed, earns most of its revenu
 
 ## 3. Data fields
 
+Daily history is checked for unadjusted splits before any return is computed: a
+day-over-day drop that lands within 12% of a common factor (2, 3, 5, 10 ...)
+is treated as a split, and earlier prices are rebased to today's share count.
+Without this, a 5:1 split reads as a −80% month. A 30-session return beyond
+±300% is dropped rather than published.
+
+
 | Field | Definition | Unit | Missing handling |
 | --- | --- | --- | --- |
 | `price` | Latest available close (delayed quote) | local currency | Display `—`; excluded from price-based factors |
 | `change_pct` | Change on the most recent trading day | % | As above |
-| `ret_30d` | Change over the most recent 30 **trading days** | % | As above |
+| `ret_30d` | Change over the most recent 30 **trading days**, on a split-continuous series | % | As above |
 | `ret_ytd` | Year-to-date change | % | Not used in scoring |
 | `market_cap` | Total market capitalisation (local currency) | local currency | Excluded from the size factor |
 | `market_cap_usd` | Market cap × FX rate | USD | Excluded from the size factor |

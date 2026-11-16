@@ -217,6 +217,72 @@ def fetch_history(session: requests.Session, secid: str, history_days: int = 420
     return history
 
 
+# Splits happen in every market, but Eastmoney's forward adjustment (fqt=1) is
+# not applied on every venue. When it is missing, a 5:1 split looks like a -80%
+# one-day crash and every return computed from the series is wrong.
+SPLIT_FACTORS = (2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20)
+SPLIT_TOLERANCE = 0.12  # a split day also moves, so the ratio is not exact
+RETURN_LIMIT = 300.0  # percent; beyond this a 30-session return is not credible
+
+
+def detect_split_events(history: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return day-over-day drops that match a split factor rather than a fall.
+
+    A one-day move only counts as a split when the ratio lands within 12% of a
+    common factor (2, 3, 5, 10 ...). Genuine crashes are rarely that close to a
+    round factor, so the rule stays conservative on purpose.
+    """
+    events: list[dict[str, Any]] = []
+    for index in range(1, len(history)):
+        previous = history[index - 1].get("close")
+        current = history[index].get("close")
+        if not previous or not current or current <= 0:
+            continue
+        ratio = previous / current
+        if ratio < SPLIT_FACTORS[0] * (1 - SPLIT_TOLERANCE):
+            continue
+        for factor in SPLIT_FACTORS:
+            if abs(ratio - factor) <= factor * SPLIT_TOLERANCE:
+                events.append({"index": index, "factor": factor, "date": history[index].get("date")})
+                break
+    return events
+
+
+def _split_scales(length: int, events: list[dict[str, Any]]) -> list[float]:
+    """Multiplier per bar that makes a split series continuous again.
+
+    Prices before a 5:1 split are divided by five, so the whole series reads in
+    today's share terms — the same basis as the live quote.
+    """
+    by_index = {int(event["index"]): float(event["factor"]) for event in events}
+    scales = [1.0] * length
+    running = 1.0
+    for index in range(length - 1, -1, -1):
+        scales[index] = running
+        if index in by_index:
+            running /= by_index[index]
+    return scales
+
+
+def _continuous_series(history: list[dict[str, Any]], events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not events:
+        return history
+    scales = _split_scales(len(history), events)
+    adjusted: list[dict[str, Any]] = []
+    for index, row in enumerate(history):
+        scale = scales[index]
+        adjusted.append(
+            {
+                **row,
+                "open": row["open"] * scale if row.get("open") is not None else None,
+                "close": row["close"] * scale if row.get("close") is not None else None,
+                "high": row["high"] * scale if row.get("high") is not None else None,
+                "low": row["low"] * scale if row.get("low") is not None else None,
+            }
+        )
+    return adjusted
+
+
 def build_market_entry(
     company: Company,
     quote: dict[str, Any],
@@ -229,24 +295,27 @@ def build_market_entry(
     if change is None and price is not None and prev_close:
         change = (price - prev_close) / prev_close * 100.0
 
-    closes = [row["close"] for row in history if row.get("close") is not None]
-    highs = [row["high"] for row in history if row.get("high") is not None]
-    lows = [row["low"] for row in history if row.get("low") is not None]
-    window = history[-250:]
+    splits = detect_split_events(history)
+    series = _continuous_series(history, splits)
+
+    closes = [row["close"] for row in series if row.get("close") is not None]
+    window = series[-250:]
     high_52w = max((row["high"] for row in window if row.get("high") is not None), default=None)
     low_52w = min((row["low"] for row in window if row.get("low") is not None), default=None)
 
     ret_30d = None
     if len(closes) >= 31 and closes[-31]:
         ret_30d = (closes[-1] / closes[-31] - 1.0) * 100.0
+    if ret_30d is not None and abs(ret_30d) > RETURN_LIMIT:
+        ret_30d = None
 
     ret_ytd = None
     current_year = datetime.now(SITE_TIMEZONE).year
-    prior = [row for row in history if row["date"] < f"{current_year}-01-01"]
+    prior = [row for row in series if row["date"] < f"{current_year}-01-01"]
     if prior and prior[-1].get("close"):
         ret_ytd = (closes[-1] / prior[-1]["close"] - 1.0) * 100.0
 
-    recent = history[-30:]
+    recent = series[-30:]
     as_of = recent[-1]["date"] if recent else fetched_at.date().isoformat()
 
     return {
@@ -267,6 +336,8 @@ def build_market_entry(
         "currency": company.currency,
         "as_of": as_of,
         "source": "Eastmoney",
+        "split_events": [{"date": item["date"], "factor": item["factor"]} for item in splits],
+        "history_adjusted": bool(splits),
         "history": {
             "dates": [row["date"] for row in recent],
             "open": [row["open"] for row in recent],
@@ -276,6 +347,4 @@ def build_market_entry(
             "volume": [row["volume"] for row in recent],
         },
         "closes": closes[-60:],
-        "highs": highs[-60:],
-        "lows": lows[-60:],
     }

@@ -1,4 +1,4 @@
-"""Trilingual UI strings."""
+"""Four-language UI strings."""
 
 from __future__ import annotations
 

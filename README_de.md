@@ -1,10 +1,10 @@
-# SiliconScope · Halbleiter-Intelligence-Desk
+# SiliconScope · Halbleiter-Research-Desk
 
 [English](README.md) · [中文](README_cn.md) · [日本語](README_jp.md) · **Deutsch**
 
-**Ein viersprachiger Research-Desk für die globale Halbleiter-Wertschöpfungskette.**
+**Kurse, Struktur und Notizen zu 175 börsennotierten Halbleiterunternehmen, in vier Sprachen.**
 
-SiliconScope deckt **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börsennotierte Unternehmen** ab und bringt Kurse, Struktur, Wissen und Methodik auf einen prüfbaren Desk. Jede Seite ist eine zur Build-Zeit erzeugte statische Datei; die Site benötigt weder ein CDN noch ein Frontend-Framework.
+SiliconScope umfasst **8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börsennotierte Unternehmen** – mit datierten Kursen, veröffentlichten Bewertungsregeln und thematischen Notizen. Jede Seite ist eine zur Build-Zeit erzeugte statische Datei; die Site benötigt weder ein CDN noch ein Frontend-Framework.
 
 - Website (Englisch, Standard): <https://cxy2696.github.io/semiconductor/>
 - Chinesisch: <https://cxy2696.github.io/semiconductor/zh/>
@@ -42,6 +42,8 @@ SiliconScope ist ein statisches Dashboard für die Halbleiter-Wertschöpfungsket
 ## Funktionen
 
 - **Startseite**: Messwerte zur Marktlage (Marktbreite / Median-Rendite / Streuung), Struktur der Wertschöpfungskette, Momentum-Extreme, ein Streudiagramm zu Bewertung und Qualität, drei nach veröffentlichten Regeln erzeugte Screens sowie Branchennachrichten.
+- **Live-Kurse**: Preis, Tagesveränderung und Marktkapitalisierung aktualisieren sich im geöffneten Tab jede Minute direkt auf der Seite. Der zugrunde liegende Snapshot wird während der Handelszeit in Shanghai oder New York alle 20 Minuten neu erstellt.
+- **Splitbereinigte Historie**: Vor jeder Renditeberechnung wird die Tagesreihe auf einen nicht bereinigten Aktiensplit geprüft; ein 5:1-Split erscheint nicht mehr als −80 % im Monat.
 - **Unternehmenskarte**: 175 Unternehmen mit Filter- und Sortierfunktionen nach Stufe, Hauptsitz und Börsenmarkt, dazu 30-Tage-Trends, KGV/KBV/ROE, Research-Priorität und Datenabdeckung.
 - **Unternehmensseiten**: Positionierung, Kurs, 52-Wochen-Spanne, Gründungsjahr und Geschäftsjahresende, Faktoraufschlüsselung, Peer-Vergleich und weiterführende Lektüre.
 - **Wertschöpfungskette**: sechs Stufen des Hauptflusses plus die Unterstützungsstufe für Ausrüstung und Materialien; für jedes Segment wird erklärt, wie es Geld verdient, welche Kennzahlen zählen und wer darin konkurriert.
@@ -169,7 +171,7 @@ Dieselbe Konvention gilt für die Wissensdateien, die flach und nicht in Sprachv
 GitHub Pages wird über den Actions-Workflow `.github/workflows/pages.yml` betrieben:
 
 1. Repository Settings → Pages → Source: **GitHub Actions**.
-2. Der Workflow führt `python -m semcore refresh` an jedem Werktag um 08:30 Uhr Pekinger Zeit sowie bei manuellem Auslösen aus und baut, validiert und deployt anschließend.
+2. Der Workflow führt `python -m semcore refresh` alle 20 Minuten während der Handelszeit in Shanghai oder New York aus, zusätzlich vor Handelsbeginn um 08:30 Uhr Pekinger Zeit und bei manuellem Auslösen; danach wird gebaut, validiert und deployt.
 3. Ist die Kursquelle nicht verfügbar, baut der Workflow weiterhin aus dem vorherigen Snapshot und kennzeichnet den Datenzeitpunkt auf der Seite.
 
 Die Umgebungsvariable `SITE_URL` überschreibt die kanonische Domain (Standard: `https://cxy2696.github.io/semiconductor`).

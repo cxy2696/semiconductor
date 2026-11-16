@@ -44,21 +44,21 @@ def _fetch_one(company: Company, cache: dict[str, Any]) -> tuple[str, dict[str, 
     try:
         resolved = eastmoney.resolve_secid(session, company, cache)
         if not resolved or not resolved.get("secid"):
-            return company.id, None, f"{company.id}: symbol not resolved", resolved
+            return company.id, None, f"{company.id}: no verified quote symbol", resolved
         secid = resolved["secid"]
         quote = eastmoney.fetch_quote(session, secid)
         if not quote:
-            return company.id, None, f"{company.id}: empty quote", resolved
+            return company.id, None, f"{company.id}: empty quote response", resolved
         history = eastmoney.fetch_history(session, secid)
         entry = eastmoney.build_market_entry(company, quote, history, datetime.now(SITE_TIMEZONE))
         if entry.get("price") is None:
-            return company.id, None, f"{company.id}: quote without price", resolved
+            return company.id, None, f"{company.id}: quote has no price", resolved
         entry["symbol"] = secid
         entry["venue"] = company.quote_venue or company.exchange
         entry["resolved_name"] = resolved.get("name", "")
         return company.id, entry, None, resolved
     except Exception as exc:  # defensive: one bad symbol must not abort the batch
-        return company.id, None, f"{company.id}: {exc.__class__.__name__}", None
+        return company.id, None, f"{company.id}: request failed ({exc.__class__.__name__})", None
     finally:
         session.close()
 

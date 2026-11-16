@@ -148,6 +148,7 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
         "api/search.zh.json",
         "api/search.ja.json",
         "api/search.de.json",
+        "api/quotes.json",
     ]
     for relative in required:
         if not (docs / relative).exists():
@@ -167,6 +168,23 @@ def validate_artifacts(docs_dir: Path | None = None) -> list[str]:
             errors.append(f"artifacts: {payload_path.name} has no companies")
         if payload.get("schema_version") != 2:
             errors.append(f"artifacts: {payload_path.name} schema_version != 2")
+
+    live_path = docs / "api/quotes.json"
+    if live_path.exists():
+        try:
+            live = json.loads(live_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"artifacts: api/quotes.json is not valid JSON ({exc})")
+        else:
+            if not live.get("generated_at"):
+                errors.append("artifacts: api/quotes.json has no generated_at")
+            if not isinstance(live.get("quotes"), dict) or not live["quotes"]:
+                errors.append("artifacts: api/quotes.json carries no quotes")
+            else:
+                sample = next(iter(live["quotes"].values()))
+                missing = {"price", "currency"} - set(sample)
+                if missing:
+                    errors.append(f"artifacts: api/quotes.json entries missing {sorted(missing)}")
 
     legacy_path = docs / "latest_data.json"
     if legacy_path.exists():

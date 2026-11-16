@@ -1,10 +1,10 @@
-# SiliconScope · Semiconductor Intelligence Desk
+# SiliconScope · Semiconductor research desk
 
 **English** · [中文](README_cn.md) · [日本語](README_jp.md) · [Deutsch](README_de.md)
 
-**A four-language research desk for the global semiconductor value chain.**
+**Quotes, structure and notes for 175 listed chip companies, in four languages.**
 
-SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 listed companies**, putting quotes, structure, knowledge and method on one auditable desk. Every page is a static file generated at build time; the site depends on no CDN and no front-end framework.
+SiliconScope covers **8 value-chain stages, 13 headquarters regions and 175 listed companies**, with dated quotes, published scoring rules and long-form notes. Every page is a static file generated at build time; the site uses no CDN and no front-end framework.
 
 - Site (English, default): <https://cxy2696.github.io/semiconductor/>
 - 中文: <https://cxy2696.github.io/semiconductor/zh/>
@@ -45,6 +45,8 @@ SiliconScope is a static dashboard for the semiconductor value chain. It brings 
 
 - **Home**: market-state readings (breadth / median return / dispersion), value-chain structure, momentum extremes, a valuation-quality scatter, three screens produced by published rules, and industry news.
 - **Company map**: 175 companies with filtering and sorting by stage, headquarters and listing market, plus 30-day trends, PE/PB/ROE, research priority and data coverage.
+- **Live quotes**: price, one-day change and market cap update in place every minute while the tab is open. The snapshot behind them is rebuilt every 20 minutes during Shanghai and New York trading hours.
+- **Split-adjusted history**: every daily series is checked for an unadjusted split before returns are computed, so a 5:1 split no longer reads as a −80% month.
 - **Company pages**: positioning, quote, 52-week range, year founded and fiscal year end, factor breakdown, peer comparison and further reading.
 - **Value chain**: six main-flow stages plus the equipment and materials support layer, explaining for each segment how it earns money, which metrics matter and who competes in it.
 - **Knowledge base**: 12 long-form topics in four languages — value chain, wafer process, lithography, equipment and materials, advanced packaging, memory and HBM, the silicon cycle, policy, financials and valuation, plus the new EDA/IP, automotive and AI data-centre topics.
@@ -118,7 +120,7 @@ See [`ios/README_en.md`](ios/README_en.md) for simulator, signing and TestFlight
 
 ## Data and definitions
 
-- **Quotes, valuation, 52-week range**: Eastmoney public quote API (delayed or closing prices).
+- **Quotes, valuation, 52-week range**: Eastmoney public quote API (delayed or closing prices). Daily history is rebased when a split is detected, so returns and 52-week ranges stay on today's share basis.
 - **FX**: open.er-api.com, falling back to Eastmoney FX pairs and then to the previous snapshot.
 - **Industry news**: whitelisted media RSS feeds; only title, source, date and link are retained.
 - **Snapshot**: `data/snapshots/latest.json` is the only build input. A failed fetch does not empty the site; the previous data is marked `stale` and displayed.
@@ -171,7 +173,7 @@ The same convention applies to knowledge files, which are flat rather than split
 GitHub Pages is driven by the Actions workflow `.github/workflows/pages.yml`:
 
 1. Repository Settings → Pages → Source: **GitHub Actions**.
-2. The workflow runs `python -m semcore refresh` at 08:30 Beijing time each weekday and on manual dispatch, then builds, validates and deploys.
+2. The workflow runs `python -m semcore refresh` every 20 minutes while Shanghai or New York is trading, plus a pre-open pass at 08:30 Beijing time and on manual dispatch, then builds, validates and deploys.
 3. If the quote source is unavailable, the workflow still builds from the previous snapshot and marks the data timestamp on the page.
 
 The `SITE_URL` environment variable overrides the canonical domain (default `https://cxy2696.github.io/semiconductor`).

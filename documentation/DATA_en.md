@@ -77,7 +77,7 @@ The 13 headquarters regions are mainland China, Hong Kong, Taiwan, the United St
 | `roe` | float | % | Return on equity (`f173`) | `null` |
 | `turnover` | float | % | Turnover rate (`f168`) | `null` |
 | `high_52w` / `low_52w` | float | local currency | Highest / lowest price over the most recent 250 trading days | `null` |
-| `history` | object | local currency | OHLCV for the most recent 30 trading days | Empty arrays |
+| `history` | object | local currency | OHLCV for the most recent 30 trading days, split-adjusted | Empty arrays |
 | `status` | string | — | `ok` / `stale` / `missing` | — |
 | `as_of` | date | — | Most recent trading day (data date) | `null` |
 
@@ -147,6 +147,8 @@ The values below are illustrative and abridged; they show the shape of the contr
 | `industry_intro` / `industry_basics` | Chinese summaries from the knowledge base and glossary |
 
 New code should use `/api/snapshot.{lang}.json` (`en`, `zh`, `ja`, `de`), whose structure is defined by `semcore/build.py::_localized_payload`. English (`en`) is the default locale.
+
+`/api/quotes.json` is the small, locale-free payload the page polls for live figures. It carries `generated_at`, `priced` / `total` / `ratio`, and for each priced company `price`, `change` (one-day), `currency`, `market_cap_usd` and `as_of`. Daily returns, scores and screens are not part of it: they only move when a new daily bar exists.
 
 ## 7. Quote source and symbol mapping
 

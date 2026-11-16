@@ -75,6 +75,7 @@
       <tbody id="company-rows">
         {% for row in rows %}
         <tr
+          data-quote="{{ row.id }}"
           data-name="{{ (row.name ~ ' ' ~ row.ticker ~ ' ' ~ row.symbol ~ ' ' ~ row.id ~ ' ' ~ (row.products | join(' '))) | lower }}"
           data-stage="{{ row.stage }}"
           data-country="{{ row.country }}"
@@ -96,10 +97,10 @@
           </td>
           <td><span class="stage-badge" style="--stage-color: {{ row.color }}">{{ row.stage_short }}</span></td>
           <td class="col-role muted">{{ row.role_label }}</td>
-          <td class="num">{{ row.price_text }}</td>
-          <td class="num {{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}">{{ row.change_1d | pct }}</td>
+          <td class="num" data-live-price data-currency="{{ row.currency }}">{{ row.price_text }}</td>
+          <td class="num {{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}" data-live-change>{{ row.change_1d | pct }}</td>
           <td class="num {{ 'pos' if (row.ret_30d or 0) >= 0 else 'neg' }}">{{ row.ret_30d | pct }}</td>
-          <td class="num">{{ row.mcap_text }}</td>
+          <td class="num" data-live-mcap>{{ row.mcap_text }}</td>
           <td class="num">{{ row.pe | num(1) }}</td>
           <td class="num col-pb">{{ row.pb | num(2) }}</td>
           <td class="num">{{ row.roe | num(1) }}{% if row.roe is not none %}%{% endif %}</td>
@@ -118,6 +119,7 @@
 <section class="company-cards" id="company-cards" aria-label="{{ t.companies.title }}">
   {% for row in rows %}
   <a class="company-card" href="{{ href('company', row.id) }}"
+     data-quote="{{ row.id }}"
      data-name="{{ (row.name ~ ' ' ~ row.ticker ~ ' ' ~ row.symbol ~ ' ' ~ row.id ~ ' ' ~ (row.products | join(' '))) | lower }}"
      data-stage="{{ row.stage }}" data-country="{{ row.country }}" data-market="{{ row.market }}">
     <span class="company-card-top">
@@ -125,13 +127,13 @@
       <span class="company-card-symbol">{{ row.symbol }}</span>
     </span>
     <span class="company-card-price">
-      <strong>{{ row.price_text }}</strong>
-      <span class="{{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}">{{ row.change_1d | pct }}</span>
+      <strong data-live-price data-currency="{{ row.currency }}">{{ row.price_text }}</strong>
+      <span class="{{ 'pos' if (row.change_1d or 0) >= 0 else 'neg' }}" data-live-change>{{ row.change_1d | pct }}</span>
       <span class="{{ 'pos' if (row.ret_30d or 0) >= 0 else 'neg' }}">{{ row.ret_30d | pct }} <small>30D</small></span>
     </span>
     <span class="company-card-meta">
       <span class="stage-badge" style="--stage-color: {{ row.color }}">{{ row.stage_short }}</span>
-      <span>{{ row.mcap_text }}</span>
+      <span data-live-mcap>{{ row.mcap_text }}</span>
       <span class="score-pill">{{ row.priority if row.priority is not none else '—' }}</span>
       <span class="cov cov-{{ row.coverage_level }}">{{ row.coverage_label }}</span>
     </span>
@@ -140,5 +142,5 @@
   {% endfor %}
 </section>
 
-<p class="fineprint">{{ t.companies.sortHint }} · {{ t.footer.notAdvice }}</p>
+<p class="fineprint">{{ t.companies.sortHint }}</p>
 {% endblock %}

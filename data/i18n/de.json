@@ -1,9 +1,9 @@
 {
   "site": {
     "brand": "SiliconScope",
-    "name": "Halbleiter-Intelligence-Desk",
-    "tagline": "Ein viersprachiger Research-Desk für die globale Halbleiter-Wertschöpfungskette",
-    "description": "Ein Research-Dashboard auf Englisch, Chinesisch, Japanisch und Deutsch: 8 Wertschöpfungsstufen, 13 Unternehmensregionen und 175 Unternehmen – mit prüfbaren Kursen, Struktur, Wissen und Methodik."
+    "name": "Halbleiter-Research-Desk",
+    "tagline": "Wertschöpfungskette, Kurse und Research-Notizen für 175 börsennotierte Chip-Unternehmen.",
+    "description": "8 Wertschöpfungsstufen, 13 Hauptsitzregionen und 175 börsennotierte Unternehmen – mit datierten Kursen, veröffentlichten Scoring-Regeln und Notizen in vier Sprachen."
   },
   "nav": {
     "home": "Start",
@@ -42,6 +42,8 @@
     "theme": "Design",
     "themeLight": "Hell",
     "themeDark": "Dunkel",
+    "themeToDark": "Zum dunklen Modus wechseln",
+    "themeToLight": "Zum hellen Modus wechseln",
     "related": "Verwandt",
     "sources": "Quellen",
     "note": "Hinweis",
@@ -54,12 +56,14 @@
     "none": "Keine Daten",
     "skipToContent": "Zum Inhalt springen",
     "menu": "Menü",
-    "backToTop": "Nach oben"
+    "backToTop": "Nach oben",
+    "datasetLive": "live",
+    "datasetPartial": "teilweise"
   },
   "home": {
     "kicker": "SEMICONDUCTOR INTELLIGENCE",
-    "title": "Wertschöpfungskette, Unternehmen, Zyklen und Wissen auf einem Desk",
-    "lede": "Von EDA bis Advanced Packaging, über Asien, die USA und Europa. Jede Zahl nennt Quelle und Abdeckung; Schlussfolgerungen führen zur Methodik zurück.",
+    "title": "Folgen Sie der Chip-Lieferkette von EDA bis Packaging",
+    "lede": "Kurse, Struktur und Notizen für 175 börsennotierte Unternehmen, von Design-Tools bis Advanced Packaging. Jede Zahl nennt Datum und Quelle.",
     "ctaCompanies": "Unternehmen ansehen",
     "ctaMethod": "Methodik lesen",
     "kpi": {
@@ -69,7 +73,7 @@
     },
     "regime": {
       "title": "Marktlage",
-      "desc": "Ein Komposit aus Marktbreite, Median-Rendite und Streuung. Es beschreibt die aktuelle Struktur, nicht die Richtung.",
+      "desc": "Marktbreite, Median-Rendite über 30 Tage und Streuung über die 175 Unternehmen. Das beschreibt den Markt, wie er ist, nicht wie er sein wird.",
       "expansion": "Expansion",
       "neutral": "Neutral",
       "contraction": "Kontraktion",
@@ -79,31 +83,31 @@
       "laggard": "Nachlaufende Stufe",
       "thresholds": "Schwellen: Expansion bei Marktbreite ≥ 60 % und Median-Rendite > 2 %; Kontraktion bei Marktbreite ≤ 40 % und Median-Rendite < −2 %; sonst neutral.",
       "read": {
-        "expansion": "Die meisten Titel steigen. Momentum-Listen lösen häufiger aus; prüfen Sie, ob die Bewegung breit oder konzentriert ist.",
-        "neutral": "Der Markt ist gemischt. Unternehmensbezogene Evidenz ist besser als ein Urteil über die ganze Stufe.",
-        "contraction": "Die meisten Titel fallen. Behandeln Sie Erholungen als vorläufig und prüfen Sie die Abdeckung, bevor Sie einer Liste folgen."
+        "expansion": "Die meisten Unternehmen sind über 30 Sitzungen im Plus. Prüfen Sie, ob die Bewegung breit oder konzentriert ist, bevor Sie nach einer Liste handeln.",
+        "neutral": "Etwa gleich viele Unternehmen stehen im Minus wie im Plus. Was einzelne Unternehmen zeigen, hilft mehr als ein Urteil über die ganze Stufe.",
+        "contraction": "Die meisten Unternehmen sind über 30 Sitzungen im Minus. Prüfen Sie die Abdeckung, bevor Sie sich auf eine einzelne Liste verlassen."
       }
     },
     "chain": {
       "title": "Struktur der Wertschöpfungskette",
-      "desc": "Unternehmenszahl, Marktkapitalisierung und 30-Tage-Performance je Stufe. Ausrüstung und Materialien sind Unterstützungsstufen, keine sequenziellen Schritte.",
+      "desc": "Unternehmenszahl, Marktkapitalisierung und Median-Rendite über 30 Tage je Stufe. Ausrüstung und Materialien sind Unterstützungsstufen, keine Schritte im Hauptfluss.",
       "support": "Unterstützungsstufe"
     },
     "movers": {
       "title": "Momentum-Extreme",
-      "desc": "Sortiert nach 30-Handels-Tage-Rendite, Unternehmen mit unvollständigen Daten ausgeschlossen. Momentum beschreibt den Kursverlauf, nicht die Fundamentaldaten.",
+      "desc": "Die fünf besten und die fünf schlechtesten Renditen über 30 Sitzungen unter Unternehmen mit vollständiger Kurshistorie.",
       "gainers": "Führende",
       "losers": "Nachlaufende"
     },
     "scatter": {
       "title": "Bewertung und Qualität",
-      "desc": "X-Achse: statisches KGV. Y-Achse: ROE. Blasengröße: Marktkapitalisierung. Nur Unternehmen mit positivem KGV und vollständigen Feldern.",
+      "desc": "Jeder Punkt ist ein Unternehmen: statisches P/E auf der X-Achse, ROE auf der Y-Achse, Marktkapitalisierung als Fläche. Nur Unternehmen mit positivem P/E und vollständigen Feldern.",
       "x": "KGV (statisch)",
       "y": "ROE (%)"
     },
     "watchlist": {
       "title": "Research-Liste",
-      "desc": "Aus veröffentlichten Regeln generiert, um die Lektüre zu ordnen. Keine Empfehlung.",
+      "desc": "Drei Listen, erzeugt aus den veröffentlichten Regeln. Sie bestimmen die Reihenfolge beim Lesen, nicht die Anlageentscheidungen.",
       "quality": "Qualität zuerst",
       "value": "Bewertungsreset",
       "momentum": "Momentum-Führer",
@@ -111,27 +115,27 @@
     },
     "news": {
       "title": "Branchensignale",
-      "desc": "Nur Schlagzeilen, Quellen und Links von freigegebenen Medien. Keine Volltextübernahme.",
+      "desc": "Schlagzeilen aus fünf Halbleitermedien, bei jedem Build aktualisiert.",
       "empty": "In diesem Build waren keine verwertbaren Schlagzeilen verfügbar; es wird der Snapshot angezeigt.",
       "sourceNote": "Das Urheberrecht an den Schlagzeilen liegt beim jeweiligen Medium."
     },
     "knowledge": {
       "title": "Wissensbasis",
-      "desc": "Von Prozess und Ausrüstung bis Zyklus und Politik: strukturierte Notizen schaffen eine gemeinsame Sprache.",
+      "desc": "12 Notizen zu Prozess, Ausrüstung, Speicher, Politik und Bewertung – in vier Sprachen.",
       "cta": "Wissensbasis öffnen"
     },
     "method": {
       "title": "Methodik und Grenzen",
-      "desc": "Scores ordnen nur die Recherche: Faktordefinitionen, Normalisierung, Gewichte und Schwellen sind offen – und nichts hiervon ist Anlageberatung.",
+      "desc": "Faktordefinitionen, Gewichte, Schwellen und die Grenzen jeder Zahl.",
       "cta": "Vollständige Methodik"
     },
     "guideTitle": "Zum ersten Mal hier?",
-    "guideDesc": "Im Leitfaden stehen sechs kurze Aufgaben und die Zahlen dahinter; ⌘K springt direkt.",
+    "guideDesc": "Sechs kurze Aufgaben, eine Tabelle mit Antworten zu jeder Seite und die Konventionen hinter jeder Zahl.",
     "guideCta": "Leitfaden öffnen"
   },
   "companies": {
     "title": "Unternehmenskarte",
-    "lede": "175 Unternehmen nach Stufe, Land und Börse filtern. Sortieren, Profil öffnen oder innerhalb einer Stufe vergleichen.",
+    "lede": "Filtern Sie 175 Unternehmen nach Stufe, Hauptsitz und Börse. Sortieren Sie die Tabelle, öffnen Sie ein Profil oder vergleichen Sie innerhalb einer Stufe.",
     "searchPlaceholder": "Unternehmen, Kürzel, Produkt suchen",
     "filterStage": "Stufe",
     "filterCountry": "Hauptsitz",
@@ -163,7 +167,7 @@
       "medianRet": "Median 30 T",
       "priced": "Mit Kurs"
     },
-    "metricsNote": "KGV ist statisch (letztes Jahres-EPS), KBV ist der Buchwert, ROE die Eigenkapitalrendite; Marktkapitalisierung in USD. Fehlende Felder erscheinen als —.",
+    "metricsNote": "P/E ist statisch (letztes Jahres-EPS), P/B ist der Buchwert, ROE ist die Eigenkapitalrendite, und die Marktkapitalisierung wird mit dem Wechselkurs des Snapshots in USD umgerechnet.",
     "activeFilters": "Aktive Filter",
     "clearAll": "Alle löschen"
   },
@@ -179,7 +183,7 @@
     "hq": "Hauptsitz",
     "currency": "Handelswährung",
     "products": "Produkte und Fähigkeiten",
-    "dataNote": "Daten stammen aus öffentlichen Kurs-APIs, mit dem letzten verfügbaren Schlusskurs und den neuesten Finanzkennzahlen. Fehlende Felder erscheinen als —; die Abdeckung misst Vollständigkeit, nicht Genauigkeit.",
+    "dataNote": "Kurse kommen von öffentlichen Markt-APIs und können verzögert sein. Fehlende Felder erscheinen als —; die Abdeckung misst Vollständigkeit, nicht Genauigkeit.",
     "unpriced": "Für dieses Unternehmen ist keine verifizierte Kursquelle verfügbar. Der Research-Eintrag bleibt, wird aber aus der Kursstatistik ausgeschlossen.",
     "relatedReading": "Weiterführende Lektüre",
     "positioningTemplate": "{name} gehört zur Stufe {stage} und arbeitet als {role}; die Fähigkeiten umfassen {products}.",
@@ -189,23 +193,23 @@
     "fiscalYearEnd": "Geschäftsjahresende",
     "watch": "Worauf zu achten ist",
     "priceChart": "Kursverlauf 30 Sitzungen",
-    "priceChartNote": "Tagesschlusskurse der letzten 30 Sitzungen, nicht dividendenbereinigt.",
-    "dataNoteShort": "Verzögerte Schlusskurse und Berichte"
+    "priceChartNote": "Tagesschlusskurse der letzten 30 Sitzungen, um Splits bereinigt.",
+    "dataNoteShort": "Verzögerte Kurse oder Schlusskurse"
   },
   "chain": {
     "title": "Die Wertschöpfungskette",
-    "lede": "Halbleiter sind keine gerade Linie, sondern ein Netz aus Hauptfluss und Unterstützungsstufen. Wie jede Stufe Geld verdient und welche Kennzahlen sie binden, ist wichtiger als das Auswendiglernen von Firmennamen.",
+    "lede": "8 Stufen: sechs im Hauptfluss, dazu Ausrüstung und Materialien. Für jede Stufe: wie sie Geld verdient, welche Kennzahlen zählen und wer dort konkurriert.",
     "flow": "Hauptfluss",
     "support": "Unterstützungsstufe",
     "economics": "Wie Geld verdient wird",
     "metrics": "Kennzahlen",
     "companies": "Repräsentative Unternehmen",
     "stageStats": "Stufenstatistik",
-    "note": "Die Stufen richten sich nach der primären Umsatzquelle. Ein Unternehmen kann sowohl entwerfen als auch fertigen; hier zählt nur die Hauptklassifikation."
+    "note": "Die Stufen richten sich nach der primären Umsatzquelle. Ein Unternehmen, das sowohl entwirft als auch fertigt, wird einmal gezählt, und zwar in seiner Hauptstufe."
   },
   "knowledge": {
     "title": "Wissensbasis",
-    "lede": "Nach Themen geordnetes Halbleiterwissen. Jede Notiz steht für sich und ergänzt die Research-Liste. Branchenerklärung, keine Anlageberatung.",
+    "lede": "Notizen zur Branche, nach Thema geordnet. Jede steht für sich und verlinkt die Unternehmen und Begriffe, die sie verwendet.",
     "levels": {
       "foundation": "Grundlagen",
       "core": "Kern",
@@ -223,7 +227,7 @@
   },
   "glossary": {
     "title": "Glossar",
-    "lede": "Halbleiterbegriffe mit Definitionen auf Englisch, Chinesisch, Japanisch und Deutsch, um Missverständnisse zwischen Märkten zu vermeiden.",
+    "lede": "Halbleiterbegriffe mit Definitionen auf Chinesisch, Englisch, Japanisch und Deutsch, damit dasselbe Wort marktübergreifend dasselbe bedeutet.",
     "searchPlaceholder": "Begriff suchen (EN / ZH / JA / DE)",
     "category": "Kategorie",
     "term": "Begriff",
@@ -244,32 +248,32 @@
   },
   "method": {
     "title": "Methodik",
-    "lede": "Jede Zahl hier folgt einer veröffentlichten Regel. Diese Seite erklärt die Regeln und ihre Grenzen.",
+    "lede": "Jede Zahl auf der Website folgt einer Regel, die auf dieser Seite steht.",
     "purposeTitle": "Was es löst",
-    "purpose": "Es beantwortet drei Fragen in begrenzter Zeit: In welchem Zustand ist diese Stufe, welche Unternehmen zuerst lesen, und sind die Daten hinter meinem Urteil vollständig?",
+    "purpose": "Drei Fragen in einem Durchgang: In welchem Zustand ist diese Stufe? Welche Unternehmen lohnt es sich, zuerst zu lesen? Und sind die Daten hinter diesem Urteil vollständig?",
     "notTitle": "Was es nicht tut",
-    "not": "Keine Kauf- oder Verkaufsempfehlungen, Kursziele oder Positionsgrößen. Keine Gewinnprognosen. Keine Ein-Faktor-Schlüsse als Antwort. Kein Verstecken fehlender Daten.",
+    "not": "Keine Kauf- oder Verkaufsempfehlungen, keine Kursziele, keine Positionsgrößen, keine Gewinnprognosen. Fehlende Daten erscheinen leer, statt aufgefüllt zu werden.",
     "universeTitle": "Universum und Klassifikation",
-    "universe": "Über 170 börsennotierte Halbleiterunternehmen, nach primärer Umsatzquelle in 8 Stufen eingeteilt. Jedes Unternehmen hat genau eine Hauptbörse, um Doppelzählung zu vermeiden. Aufnahmen und Entfernungen werden in den Datendateien dokumentiert.",
+    "universe": "175 börsennotierte Halbleiterunternehmen, jedes nach der primären Umsatzquelle einer von 8 Stufen zugeordnet, mit einer Hauptbörse, um Doppelzählungen zu vermeiden.",
     "factorsTitle": "Faktordefinitionen",
-    "factors": "Alle Faktoren werden innerhalb der Peergruppe auf 0–100 perzentilnormalisiert und dann gewichtet zu einem Research-Prioritätsscore zusammengeführt. Perzentile werden innerhalb einer Stufe berechnet; Stufen mit weniger als 8 Unternehmen fallen auf die Gesamtstichprobe zurück.",
+    "factors": "Perzentilränge innerhalb jeder Stufe, auf 0–100 skaliert und dann gewichtet zu einer Research-Priorität zusammengeführt. Stufen mit weniger als 8 Unternehmen fallen auf die Gesamtstichprobe zurück.",
     "factorQuality": "Qualität: Perzentil des ROE.",
     "factorValue": "Bewertung: inverses Perzentil des statischen KGV; KGV ≤ 0 gilt als fehlend und erhält einen neutralen Score.",
     "factorMomentum": "Momentum: 60 % × Perzentil der 30-Tage-Rendite + 40 % × Position in der 52-Wochen-Spanne.",
     "factorSize": "Größe: Perzentil des logarithmierten Marktwerts in USD als Proxy für Liquidität und Widerstandskraft.",
     "scoreFormula": "Research-Priorität = 0,30 × Qualität + 0,25 × Bewertung + 0,25 × Momentum + 0,20 × Größe",
     "confidenceTitle": "Datenabdeckung",
-    "confidence": "Abdeckung ist der Anteil von 8 vorhandenen Feldern (Kurs, 1 T, 30 T, Marktkap., KGV, KBV, ROE, 52-Wochen-Spanne): ≥ 87,5 % hoch, ≥ 62,5 % mittel, sonst niedrig. Abdeckung misst Vollständigkeit, nicht Genauigkeit.",
+    "confidence": "Abdeckung ist der Anteil von 8 vorhandenen Feldern: Kurs, 1D, 30D, Marktkapitalisierung, P/E, P/B, ROE und 52-week-Spanne. 87,5 % oder mehr ist hoch, 62,5 % oder mehr mittel, darunter niedrig.",
     "regimeTitle": "Marktlage",
-    "regime": "Marktbreite, Median-Rendite über 30 Tage und Streuung beschreiben die Struktur. Die Schwellen sind fix und öffentlich, damit Einschätzungen überprüfbar bleiben; die Lage prognostiziert keine Renditen.",
+    "regime": "Marktbreite, Median-Rendite über 30 Tage und Streuung, mit festen, oben veröffentlichten Schwellen, damit sich jede Einschätzung später nachprüfen lässt.",
     "screensTitle": "Regeln der Research-Liste",
     "screenQuality": "Qualität zuerst: Qualität ≥ 70 und Bewertung ≥ 50.",
     "screenValue": "Bewertungsreset: Bewertung ≥ 70 und Qualität ≥ 50.",
     "screenMomentum": "Momentum-Führer: Momentum ≥ 80 und 30-Tage-Rendite > 0.",
     "limitsTitle": "Bekannte Grenzen",
-    "limits": "Kurse sind verzögert oder Schlusskurse, ohne Intraday-Signal. Statisches KGV benachteiligt Wachstumsunternehmen. Umsatzwachstum und Auftragsdaten fehlen. Die Klassifikation enthält redaktionelles Urteil. Die Währungsumrechnung trägt Tagesfehler.",
+    "limits": "Kurse sind verzögert oder stammen vom Handelsschluss. Statisches P/E benachteiligt schnell wachsende Unternehmen. Umsatzwachstum und Auftragsdaten fehlen. Die Zuordnung zu Stufen enthält redaktionelles Urteil, und die Währungsumrechnung nutzt einen einzigen Tageskurs.",
     "disclaimerTitle": "Haftungsausschluss",
-    "disclaimer": "Dieser Desk dient ausschließlich der Branchenrecherche und dem Lernen und ist keine Empfehlung, Wertpapiere zu kaufen oder zu verkaufen. Daten können verzögert oder falsch sein; maßgeblich sind Börsen- und Unternehmensmitteilungen.",
+    "disclaimer": "Für Branchenrecherche und Lernen. Daten können verzögert oder falsch sein; maßgeblich ist die Meldung an die Börse.",
     "factorNames": {
       "quality": "Qualität",
       "valuation": "Bewertung",
@@ -282,23 +286,24 @@
   },
   "about": {
     "title": "Über",
-    "lede": "Ein Research-Desk auf Basis öffentlicher Daten und öffentlicher Methodik, damit Gespräche über Halbleiter eine gemeinsame Sprache haben.",
+    "lede": "Öffentliche Daten, veröffentlichte Regeln und der Code, der beides erzeugt.",
     "missionTitle": "Zweck",
-    "mission": "Halbleiter verbinden hohe technische Hürden, tiefe Zyklen und Geopolitik. Dieser Desk verdichtet verstreutes Wertschöpfungswissen, Unternehmenspositionen und Marktdaten zu einer prüfbaren Oberfläche und hilft, schneller strukturelle Intuition aufzubauen.",
+    "mission": "Halbleiter verbinden anspruchsvolle Technik, lange Zyklen und Exportpolitik. Diese Seite bündelt Wertschöpfungskette, Unternehmenspositionen und Marktdaten an einem Ort und zeigt die Regel hinter jeder Zahl.",
     "audienceTitle": "Für wen",
     "audience": "Studierende und Forschende, die die Wertschöpfungskette lernen; Analysten und Praktiker, die schnell einen globalen Überblick brauchen; Privatanleger, die transparente Datendefinitionen wollen.",
     "scopeTitle": "Umfang",
     "scope": "8 Wertschöpfungsstufen, 13 Unternehmensregionen und 175 börsennotierte Unternehmen in China, Hongkong, Taiwan, den USA, Japan, Korea, Europa und Israel.",
     "sourcesTitle": "Quellen und Definitionen",
-    "sources": "Kurse, Bewertung und 52-Wochen-Spannen stammen aus öffentlichen Kurs-APIs von Eastmoney; Wechselkurse von open.er-api.com; Branchensignale aus freigegebenen RSS-Feeds. Alles wird in einem Build-Snapshot gespeichert; Seiten rufen keine Drittanbieter-APIs auf.",
+    "sources": "Kurse, Bewertung und 52-week-Spannen stammen aus der öffentlichen Kurs-API von Eastmoney; Wechselkurse von open.er-api.com; Schlagzeilen aus den RSS-Feeds der Medien. Alles wird zur Build-Zeit in einen Snapshot geschrieben, und die Seiten rufen nie eine API von Drittanbietern auf.",
     "cadenceTitle": "Rhythmus",
-    "cadence": "Automatische Aktualisierung einmal pro Handelstag; wöchentliche Prüfung von Anomalien; monatliche Prüfung von Universum und Klassifikation; vierteljährliche Prüfung von Methodik und Dokumentation.",
+    "cadence": "Alle 20 Minuten wird neu gebaut, solange in Shanghai oder New York gehandelt wird. Vor der Eröffnung läuft um 08:30 Uhr Pekinger Zeit ein Durchlauf. Wöchentlich werden Anomalien geprüft, monatlich das Universum.",
+    "buildTitle": "Build",
     "licenseTitle": "Lizenz und Zitierung",
     "license": "Code unter MIT, Texte unter CC BY 4.0, Marktdaten bleiben Eigentum der Anbieter. Zitieren Sie SiliconScope mit dem Zugriffsdatum.",
     "contributeTitle": "Mitmachen",
     "contribute": "Datenkorrekturen, Glossareinträge und Dokumentationsverbesserungen sind willkommen. Bitte prüfbare Quellen und den Auswirkungsbereich angeben.",
     "disclaimerTitle": "Haftungsausschluss",
-    "disclaimer": "Keine Anlageberatung, keine Kursziele, keine Renditeversprechen. Wer auf dieser Grundlage handelt, tut dies auf eigenes Risiko."
+    "disclaimer": "Keine Anlageberatung, keine Kursziele, keine Renditeversprechen. Wer auf dieser Grundlage entscheidet, entscheidet selbst."
   },
   "footer": {
     "built": "Static Build",
@@ -308,7 +313,7 @@
   },
   "redirect": {
     "title": "Seite verschoben",
-    "body": "Der Desk hat eine neue Struktur. Weiterleitung läuft."
+    "body": "Die Seite hat eine neue Struktur. Sie werden weitergeleitet."
   },
   "notFound": {
     "title": "Seite nicht gefunden",
@@ -354,17 +359,17 @@
     "networking": "Netzwerk"
   },
   "guide": {
-    "title": "So nutzen Sie diesen Desk",
-    "lede": "Eine kurze Anleitung zu den Aufgaben, die Sie wirklich tun, und zu den Zahlen dahinter.",
-    "conventionsTitle": "Den Desk lesen",
+    "title": "So nutzen Sie diese Seite",
+    "lede": "Was Sie hier tatsächlich tun können und was jede Zahl bedeutet.",
+    "conventionsTitle": "Zahlen richtig lesen",
     "convTime": "Daten haben einen Zeitstempel",
-    "convTimeDesc": "Die Snapshot-Zeit steht in Kopfzeile, Fußzeile und Datenstatus. Kurse sind verzögert oder Schlusskurse.",
+    "convTimeDesc": "Die Snapshot-Zeit steht in der Kopfzeile, in der Fußzeile und auf der Statusseite. Kurse können verzögert sein oder vom Handelsschluss stammen.",
     "convCoverage": "Fehlende Daten sind sichtbar",
-    "convCoverageDesc": "Geringe Abdeckung bedeutet fehlende Felder, keine verborgene Meinung. Fehlende Werte erscheinen als —.",
+    "convCoverageDesc": "Geringe Abdeckung bedeutet fehlende Felder, die als — angezeigt werden. Das ist keine verborgene Meinung.",
     "convColor": "Richtung ist explizit",
-    "convColorDesc": "Aufwärts ist Türkis mit Pluszeichen, abwärts Kupfer mit Minuszeichen. Zeichen und Pfeile tragen die Bedeutung, nicht die Farbe allein.",
+    "convColorDesc": "Aufwärts ist Türkis mit Pluszeichen, abwärts Kupfer mit Minuszeichen. Die Farbe ist zweitrangig; das Vorzeichen trägt die Bedeutung.",
     "convScore": "Scores ordnen die Lektüre",
-    "convScoreDesc": "Die Priorität sortiert die Lektüre. Sie ist keine Empfehlung, kein Kursziel und keine Prognose.",
+    "convScoreDesc": "Der Prioritätsscore ordnet die Lektüre. Er ist keine Empfehlung, kein Kursziel und keine Prognose.",
     "shortcutsTitle": "Tastatur",
     "shortcutSearch": "Schnellsuche öffnen",
     "shortcutTheme": "Hell / dunkel umschalten",
@@ -521,7 +526,7 @@
   },
   "status": {
     "title": "Datenstatus",
-    "lede": "Wie aktuell die Daten sind, was fehlt und wie der Desk gepflegt wird.",
+    "lede": "Wie frisch die Daten sind, was fehlt und wie die Website gepflegt wird.",
     "health": "Zustand",
     "healthy": "Gesund",
     "aging": "Altern",
@@ -536,7 +541,7 @@
     "news": "Schlagzeilen",
     "errors": "Datenhinweise",
     "cadence": "Aktualisierungsrhythmus",
-    "cadenceText": "GitHub Actions aktualisiert den Snapshot an jedem Handelstag um 08:30 Asia/Shanghai und deployt die statische Website. Bei einem fehlgeschlagenen Abruf wird der letzte Snapshot verwendet und als veraltet markiert.",
+    "cadenceText": "GitHub Actions baut den Snapshot alle 20 Minuten neu, solange in Shanghai oder New York gehandelt wird. Dazu kommt ein Durchlauf vor der Eröffnung um 08:30 Uhr Pekinger Zeit. Bereits geöffnete Seiten aktualisieren ihre Kurse innerhalb einer Minute. Wenn ein Abruf fehlschlägt, wird auf den letzten Snapshot zurückgegriffen; er wird als veraltet markiert.",
     "runbook": "Betriebs-Runbook",
     "runbookText": "Fehlerbehandlung, Serviceziele und Änderungsmanagement sind in OPERATIONS dokumentiert.",
     "staleTopics": "Inhalte älter als 12 Monate",

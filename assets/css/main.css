@@ -27,6 +27,9 @@
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Hiragino Sans", "Yu Gothic",
     "Microsoft YaHei", "PingFang SC", sans-serif;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --chart-grid: #e2e8f0;
+  --chart-ink: #334155;
+  --chart-muted: #94a3b8;
   --max: 1220px;
   color-scheme: light;
 }
@@ -50,6 +53,9 @@
   --brand-mark-bg: #e7ecf3;
   --brand-mark-fg: #0b1220;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.35);
+  --chart-grid: #223049;
+  --chart-ink: #c2ccda;
+  --chart-muted: #8fa0b5;
   color-scheme: dark;
 }
 
@@ -126,14 +132,6 @@ table { border-collapse: collapse; width: 100%; }
 }
 
 .fineprint { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
-.disclaimer-line {
-  margin: 64px 0 0;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 11.5px;
-  color: var(--muted);
-  text-align: center;
-}
 .empty { padding: 24px; color: var(--muted); text-align: center; font-size: 13px; }
 
 /* ---------- header ---------- */
@@ -181,6 +179,7 @@ table { border-collapse: collapse; width: 100%; }
   color: var(--ink-2);
 }
 .icon-btn:hover { border-color: var(--line-strong); color: var(--ink); }
+.icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .icon-moon { display: none; }
 [data-theme="dark"] .icon-sun { display: none; }
 [data-theme="dark"] .icon-moon { display: inline; }
@@ -763,7 +762,7 @@ tbody tr:hover .col-company { background: var(--surface-2); }
 }
 
 @media print {
-  .site-header, .site-footer, .filter-bar, .hero-actions, .article-aside, .disclaimer-line { display: none !important; }
+  .site-header, .site-footer, .filter-bar, .hero-actions, .article-aside { display: none !important; }
   body { background: #fff; color: #000; }
   .panel, .stage-card, .doc-card { box-shadow: none; border-color: #ccc; }
   a { text-decoration: underline; }
@@ -1106,3 +1105,18 @@ body.search-open { overflow: hidden; }
 .watch-label { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .watch-strip ul { display: flex; gap: 6px; flex-wrap: wrap; }
 .watch-strip li { font-size: 11px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--ink-2); }
+
+/* ---------- live data ---------- */
+@keyframes live-flash {
+  from { background-color: var(--accent-soft); }
+  to { background-color: transparent; }
+}
+.is-updated {
+  animation: live-flash 1.1s ease-out;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-updated { animation: none; }
+}
+
+/* ---------- print ---------- */
