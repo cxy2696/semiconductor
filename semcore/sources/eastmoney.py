@@ -239,6 +239,7 @@ def fetch_history(session: requests.Session, secid: str, history_days: int = 420
             "fields1": "f1,f2,f3,f4,f5,f6",
             "fields2": KLINE_FIELDS,
         },
+        retries=3,
     )
     rows = ((payload or {}).get("data") or {}).get("klines")
     if not isinstance(rows, list):

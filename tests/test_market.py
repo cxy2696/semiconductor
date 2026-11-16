@@ -101,6 +101,32 @@ def test_mostly_failed_refresh_keeps_the_previous_snapshot(monkeypatch):
     assert any("refresh aborted" in note for note in snapshot["errors"])
 
 
+def test_failed_history_keeps_the_previous_series(monkeypatch):
+    companies = [StubCompany("aaa")]
+    quotes = {"105.AAA": {"f43": 12.0, "f60": 11.0, "f170": 9.1, "f47": 10, "f116": 1e9, "f164": 20.0, "f167": 2.0, "f173": 15.0, "f168": 1.0}}
+    _patch(monkeypatch, companies, quotes)
+    monkeypatch.setattr(eastmoney, "fetch_history", lambda session, secid, history_days=420: [])
+    previous = {
+        "generated_at": "2026-11-15T08:00:00+08:00",
+        "quotes": {
+            "aaa": {
+                "status": "ok",
+                "price": 11.0,
+                "closes": [10.0] * 31,
+                "history": {"dates": ["2026-11-14"], "open": [1], "high": [1], "low": [1], "close": [11.0], "volume": [1]},
+                "history_date": "2026-11-15",
+                "as_of": "2026-11-14",
+            }
+        },
+    }
+    snapshot = market.fetch_snapshot(companies, taxonomy=None, previous=previous)
+    entry = snapshot["quotes"]["aaa"]
+    assert entry["status"] == "ok"
+    assert entry["price"] == 12.0
+    assert entry["history_stale"] is True
+    assert entry["closes"] == [10.0] * 31
+
+
 def test_partial_refresh_is_marked(monkeypatch):
     companies = [StubCompany(f"p{index}") for index in range(10)]
     quotes = {f"105.P{index}": {"f43": 10.0} for index in range(6)}

@@ -177,18 +177,32 @@ def fetch_snapshot(
         secid = (resolved.get(company.id) or {}).get("secid")
         if not secid:
             return company.id, None
+        history: list[dict[str, Any]] = []
         session = eastmoney.make_session()
         try:
-            history = eastmoney.fetch_history(session, secid)
-            entry = eastmoney.build_market_entry(company, quote, history, now)
-            entry["history_date"] = today
-            entry["quote_as_of"] = today
-            return company.id, entry
+            for attempt in range(2):
+                history = eastmoney.fetch_history(session, secid)
+                if history:
+                    break
+                time.sleep(0.8 + attempt)
         finally:
             session.close()
+        if not history:
+            # Keep the last known series rather than publishing a company with
+            # no chart and no 30-day return; the next run retries the history.
+            if isinstance(prior, dict) and prior.get("closes"):
+                entry = eastmoney.merge_quote(prior, quote, company, now)
+                entry["history_stale"] = True
+                return company.id, entry
+            return company.id, None
+        entry = eastmoney.build_market_entry(company, quote, history, now)
+        entry["history_date"] = today
+        entry["quote_as_of"] = today
+        return company.id, entry
 
     if quotes:
-        with ThreadPoolExecutor(max_workers=max(1, max_workers)) as executor:
+        history_workers = max(1, min(max_workers, 3))
+        with ThreadPoolExecutor(max_workers=history_workers) as executor:
             futures = {executor.submit(build, company): company for company in companies if company.id in quotes}
             for future in as_completed(futures):
                 company = futures[future]
