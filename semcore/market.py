@@ -12,6 +12,7 @@ day and reused by the intraday refreshes.
 
 from __future__ import annotations
 
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
@@ -166,8 +167,15 @@ def fetch_snapshot(
     quotes, errors = _fetch_quotes(companies, resolved)
 
     entries: dict[str, Any] = {}
+    # The first run of the day replaces every history; later runs only retry a
+    # few failures, which keeps the daily-history endpoint out of the way of the
+    # intraday schedule (and out of its rate limit).
+    missing_history = sum(1 for company in companies if not _reusable_history(previous_quotes.get(company.id), today))
+    history_budget = max(12, missing_history)
+    budget_lock = threading.Lock()
 
     def build(company: Company) -> tuple[str, dict[str, Any] | None]:
+        nonlocal history_budget
         quote = quotes.get(company.id)
         if not quote:
             return company.id, None
@@ -177,16 +185,23 @@ def fetch_snapshot(
         secid = (resolved.get(company.id) or {}).get("secid")
         if not secid:
             return company.id, None
+        exhausted = False
+        with budget_lock:
+            if history_budget > 0:
+                history_budget -= 1
+            else:
+                exhausted = True
         history: list[dict[str, Any]] = []
-        session = eastmoney.make_session()
-        try:
-            for attempt in range(2):
-                history = eastmoney.fetch_history(session, secid)
-                if history:
-                    break
-                time.sleep(0.8 + attempt)
-        finally:
-            session.close()
+        session = None if exhausted else eastmoney.make_session()
+        if session is not None:
+            try:
+                for attempt in range(2):
+                    history = eastmoney.fetch_history(session, secid)
+                    if history:
+                        break
+                    time.sleep(0.8 + attempt)
+            finally:
+                session.close()
         if not history:
             # Keep the last known series rather than publishing a company with
             # no chart and no 30-day return; the next run retries the history.
