@@ -76,6 +76,29 @@ def test_unadjusted_series_keeps_its_return():
     assert 20 < entry["ret_30d"] < 32
 
 
+def test_stale_series_is_rebased_before_merging():
+    from datetime import datetime
+
+    from semcore.sources.eastmoney import merge_quote
+
+    previous = {
+        "status": "stale",
+        "price": 9316.0,
+        "closes": [56320.0] + [11505.0] * 29 + [9316.0],
+        "high_52w": 81260.0,
+        "low_52w": 7000.0,
+        "ret_30d": -83.46,
+        "history": {"dates": [], "close": []},
+        "as_of": "2026-11-11",
+    }
+    entry = merge_quote(previous, {"f43": 8794.0, "f60": 9461.0, "f170": -7.05}, StubCompany(), datetime(2026, 11, 17))
+    assert entry["ret_30d"] is not None
+    assert -25 < entry["ret_30d"] < -18
+    assert entry["high_52w"] is None
+    assert entry["low_52w"] is None
+    assert entry["split_events"][0]["factor"] == 5
+
+
 def test_implausible_return_is_dropped():
     closes = [100.0] * 31 + [500.0] * 30  # +400% in 30 sessions
     entry = build_market_entry(

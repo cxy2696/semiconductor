@@ -538,6 +538,7 @@
     "priced": "価格あり",
     "unpriced": "価格なし",
     "staleQuotes": "前回セッションの市況",
+    "historyLag": "日足が市況より古い銘柄",
     "sources": "出典",
     "news": "ニュース",
     "errors": "データ注記",

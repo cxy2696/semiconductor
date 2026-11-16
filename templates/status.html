@@ -32,6 +32,9 @@
   {% if health.stale_quotes %}
   <div class="metric"><span>{{ t.status.staleQuotes }}</span><strong>{{ health.stale_quotes }}</strong></div>
   {% endif %}
+  {% if health.history_lag %}
+  <div class="metric"><span>{{ t.status.historyLag }}</span><strong>{{ health.history_lag }}</strong></div>
+  {% endif %}
 </section>
 
 <section class="two-col status-grid">

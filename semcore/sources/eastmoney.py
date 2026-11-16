@@ -401,6 +401,38 @@ def build_market_entry(
     }
 
 
+def _rebased_previous(previous: dict[str, Any], price: float | None) -> dict[str, Any]:
+    """Recompute the return fields of a stored series, rebasing any split.
+
+    When the daily history cannot be refreshed, the stored series is still the
+    best available evidence — but it may predate a split. Detect it here too, so
+    a stale entry cannot keep publishing a -80% month.
+    """
+    closes = [value for value in (to_float(item) for item in (previous.get("closes") or [])) if value is not None]
+    if len(closes) < 31:
+        return previous
+    rows = [{"date": "", "close": value} for value in closes]
+    splits = detect_split_events(rows)
+    if not splits:
+        return previous
+    scales = _split_scales(len(closes), splits)
+    adjusted = [value * scale for value, scale in zip(closes, scales)]
+    base = adjusted[-31]
+    last = price if price is not None else adjusted[-1]
+    updated = dict(previous)
+    if base:
+        ret = (last / base - 1.0) * 100.0
+        updated["ret_30d"] = round(ret, 2) if abs(ret) <= RETURN_LIMIT else None
+    # Without a fresh history there is no way to tell whether the 52-week
+    # extreme sits before or after the split, so the range is withdrawn rather
+    # than published on the wrong basis.
+    updated["high_52w"] = None
+    updated["low_52w"] = None
+    updated["split_events"] = [{"date": item["date"], "factor": item["factor"]} for item in splits]
+    updated["history_adjusted"] = True
+    return updated
+
+
 def merge_quote(previous: dict[str, Any], quote: dict[str, Any], company: Company, fetched_at: datetime) -> dict[str, Any]:
     """Apply a fresh quote to a previous entry, keeping its daily history.
 
@@ -413,7 +445,7 @@ def merge_quote(previous: dict[str, Any], quote: dict[str, Any], company: Compan
     change = _number(quote, "f170")
     if change is None and price is not None and prev_close:
         change = (price - prev_close) / prev_close * 100.0
-    entry = dict(previous)
+    entry = dict(_rebased_previous(previous, price))
     entry.update(
         {
             "status": "ok",

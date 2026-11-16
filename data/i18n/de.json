@@ -538,6 +538,7 @@
     "priced": "Mit Kurs",
     "unpriced": "Ohne Kurs",
     "staleQuotes": "Kurse aus einer früheren Sitzung",
+    "historyLag": "Tageshistorie älter als der Kurs",
     "sources": "Quellen",
     "news": "Schlagzeilen",
     "errors": "Datenhinweise",

@@ -538,6 +538,7 @@
     "priced": "Priced",
     "unpriced": "Unpriced",
     "staleQuotes": "Quotes from an earlier session",
+    "historyLag": "Daily history older than the quote",
     "sources": "Sources",
     "news": "Headlines",
     "errors": "Data notes",
