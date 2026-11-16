@@ -28,8 +28,7 @@ Rollen können kombiniert werden, aber **Methodenänderungen** müssen vom Maint
 
 | Frequenz | Aktion | Verantwortlich | Ergebnis |
 | --- | --- | --- | --- |
-| Alle 20 Minuten während der Handelszeit in Shanghai oder New York | CI führt automatisch `fetch + build + validate + deploy` aus | Automatisierung | Neuer Snapshot, Website |
-| 08:30 UTC+8 an jedem Handelstag | Rebuild vor Handelsbeginn in Shanghai | Automatisierung | Neuer Snapshot, Website |
+| 16:30 UTC+8 an jedem Handelstag | CI führt nach dem Schluss in Shanghai automatisch `fetch + build + validate + deploy` aus | Automatisierung | Neuer Snapshot, Website |
 | Jeden Montag | Abdeckung, Fehlerliste und Veraltet-Flags prüfen | Data Steward | Anomalieliste |
 | Erster Arbeitstag jedes Monats | Die Stichprobe von 175 Unternehmen und die Klassifikation prüfen; defekte Websites und Delistings kontrollieren | Data Steward | Pull Request zur Universumsänderung |
 | Vierteljährlich | Methodik, Grenzen und SLOs prüfen; die Roadmap aktualisieren | Maintainer | Methodenversion / Changelog |

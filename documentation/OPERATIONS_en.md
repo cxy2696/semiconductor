@@ -28,9 +28,8 @@ Roles may be combined, but **method changes** must be reviewed by the Maintainer
 
 | Frequency | Action | Owner | Output |
 | --- | --- | --- | --- |
-| Every 20 minutes while Shanghai or New York trades | CI runs `fetch + build + validate + deploy` automatically | Automation | New snapshot, site |
+| 16:30 UTC+8 each trading day | CI runs `fetch + build + validate + deploy` automatically, after the Shanghai close | Automation | New snapshot, site |
 | When a refresh returns fresh quotes for under half the universe | The run is discarded, the previous snapshot is kept and the reason is written to `errors` | Automation | Unchanged site, status page note |
-| 08:30 UTC+8 each trading day | Pre-open rebuild before the Shanghai session | Automation | New snapshot, site |
 | Every Monday | Check coverage, error list and stale flags | Data steward | Anomaly list |
 | First working day of each month | Review the 175-company sample and classification; check broken websites and delistings | Data steward | Universe-change pull request |
 | Quarterly | Review method, limitations and SLOs; update the roadmap | Maintainer | Method version / changelog |
@@ -44,7 +43,7 @@ Roles may be combined, but **method changes** must be reviewed by the Maintainer
 | Metric | Target | Measurement | If missed |
 | --- | --- | --- | --- |
 | Build success rate | ≥ 99% per month | Actions run results | Follow §6 |
-| Data freshness | `as_of` ≤ 1h during Shanghai/New York trading hours, ≤ 24h otherwise, ≥ 95% of the time | Snapshot `as_of` | Check upstream |
+| Data freshness | `as_of` ≤ 24h on trading days, ≥ 95% of the time | Snapshot `as_of` | Check upstream |
 | Quote coverage | ≥ 90% | `coverage.ratio` | Check symbol mapping |
 | Page availability | ≥ 99.9% per month | GitHub Pages status | Wait for platform recovery |
 | Build duration | ≤ 10 minutes | Actions log | Reduce requests / concurrency |
@@ -212,7 +211,7 @@ Removal criteria: delisting, acquisition, business transformation, or six consec
 
 | Item | Usage | Cost |
 | --- | --- | --- |
-| GitHub Actions | ~40 runs per weekday × ~3 minutes + pull requests | Within the free allowance for public repositories |
+| GitHub Actions | One run per trading day × ~3 minutes + pull requests | Within the free allowance for public repositories |
 | GitHub Pages | Static hosting | Free |
 | Quotes / FX / RSS | Public interfaces | Free |
 | Domain | Default `github.io` | 0; a custom domain is extra |

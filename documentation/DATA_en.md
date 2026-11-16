@@ -155,7 +155,7 @@ New code should use `/api/snapshot.{lang}.json` (`en`, `zh`, `ja`, `de`), whose 
 - Quotes are fetched through Eastmoney's list endpoint, 40 symbols per request,
   so a full refresh costs about five requests instead of 175.
 - Daily OHLC history is fetched once per calendar day (Asia/Shanghai) and
-  reused by the intraday refreshes; only the quote fields move between runs.
+  reused by any later refresh that day; only the quote fields move.
 - If a refresh returns fresh quotes for fewer than half of the universe, the
   whole refresh is discarded and the previous snapshot is kept, with the reason
   recorded in `errors`. A half-refreshed page is worse than a clearly old one.

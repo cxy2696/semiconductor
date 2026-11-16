@@ -45,7 +45,7 @@ SiliconScope is a static dashboard for the semiconductor value chain. It brings 
 
 - **Home**: market-state readings (breadth / median return / dispersion), value-chain structure, momentum extremes, a valuation-quality scatter, three screens produced by published rules, and industry news.
 - **Company map**: 175 companies with filtering and sorting by stage, headquarters and listing market, plus 30-day trends, PE/PB/ROE, research priority and data coverage.
-- **Live quotes**: price, one-day change and market cap update in place every minute while the tab is open. The snapshot behind them is rebuilt every 20 minutes during Shanghai and New York trading hours.
+- **Quotes refresh in place**: price, one-day change and market cap update on an open page within five minutes of a new snapshot, which is rebuilt once per trading day at 16:30 Beijing time.
 - **Split-adjusted history**: every daily series is checked for an unadjusted split before returns are computed, so a 5:1 split no longer reads as a −80% month.
 - **Company pages**: positioning, quote, 52-week range, year founded and fiscal year end, factor breakdown, peer comparison and further reading.
 - **Value chain**: six main-flow stages plus the equipment and materials support layer, explaining for each segment how it earns money, which metrics matter and who competes in it.
@@ -173,7 +173,7 @@ The same convention applies to knowledge files, which are flat rather than split
 GitHub Pages is driven by the Actions workflow `.github/workflows/pages.yml`:
 
 1. Repository Settings → Pages → Source: **GitHub Actions**.
-2. The workflow runs `python -m semcore refresh` every 20 minutes while Shanghai or New York is trading, plus a pre-open pass at 08:30 Beijing time and on manual dispatch, then builds, validates and deploys.
+2. The workflow runs `python -m semcore refresh` once per trading day at 16:30 Beijing time, after the Shanghai close, and on manual dispatch, then builds, validates and deploys.
 3. If the quote source is unavailable, the workflow still builds from the previous snapshot and marks the data timestamp on the page.
 
 The `SITE_URL` environment variable overrides the canonical domain (default `https://cxy2696.github.io/semiconductor`).

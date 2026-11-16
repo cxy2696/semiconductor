@@ -11,7 +11,7 @@ def test_all_documents_have_four_languages():
 def test_english_is_the_root_readme():
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "175 listed companies" in text
-    assert "Live quotes" in text
+    assert "Quotes refresh in place" in text
 
 
 def test_english_documents_do_not_drift():

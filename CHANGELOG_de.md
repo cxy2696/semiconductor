@@ -7,7 +7,7 @@ Alle wichtigen Änderungen an diesem Projekt werden hier dokumentiert. Das Forma
 ### Hinzugefügt
 
 - Live-Kurse auf der Seite: `api/quotes.json` enthält Preis, Tagesveränderung und Marktkapitalisierung; geöffnete Seiten fragen sie jede Minute ab und aktualisieren die Werte direkt.
-- Intraday-Rebuilds alle 20 Minuten während der Handelszeit in Shanghai oder New York, zusätzlich der Lauf vor Handelsbeginn um 08:30 Uhr Pekinger Zeit.
+- Ein Rebuild pro Handelstag um 16:30 Uhr Pekinger Zeit, nach dem Schluss in Shanghai; geöffnete Seiten übernehmen neue Kurse innerhalb von fünf Minuten.
 - Der aktualisierte Snapshot wird als CI-Artefakt aufbewahrt, damit sich die eingecheckte Basisversion ohne separaten Abruf ersetzen lässt.
 - Diagrammfarben stammen jetzt aus den Design-Tokens; Achsen, Raster und Beschriftungen bleiben in beiden Themes lesbar.
 

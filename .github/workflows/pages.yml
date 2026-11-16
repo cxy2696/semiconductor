@@ -2,11 +2,9 @@ name: Refresh and deploy dashboard
 
 on:
   schedule:
-    # One pre-open pass at 08:30 Asia/Shanghai (00:30 UTC).
-    - cron: "30 0 * * 1-5"
-    # Intraday passes every 20 minutes while Shanghai (01:30-07:00 UTC) or
-    # New York (13:30-21:00 UTC) is trading, so quotes stay current.
-    - cron: "*/20 1-7,13-20 * * 1-5"
+    # Once per trading day at 16:30 Asia/Shanghai (08:30 UTC), after the
+    # Shanghai close, when the session's prices are settled.
+    - cron: "30 8 * * 1-5"
   push:
     branches: [main]
     paths:

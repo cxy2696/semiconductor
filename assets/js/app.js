@@ -72,7 +72,7 @@
   // watching the desk sees them change without a reload.
   var liveEndpoint = doc.body.getAttribute('data-live-endpoint');
   if (liveEndpoint) {
-    var LIVE_INTERVAL = 60000;
+    var LIVE_INTERVAL = 300000;
     var renderedStamp = doc.body.getAttribute('data-generated') || '';
     var liveFailures = 0;
 

@@ -9,8 +9,8 @@ Keep a Changelog, and the project uses semantic versioning.
 
 - In-page live quotes: `api/quotes.json` carries price, one-day change and
   market cap; open pages poll it every minute and update the figures in place.
-- Intraday rebuilds every 20 minutes while Shanghai or New York is trading,
-  alongside the pre-open pass at 08:30 Beijing time.
+- The snapshot is rebuilt once per trading day at 16:30 Beijing time, after the
+  Shanghai close; open pages pick the new quotes up within five minutes.
 - The refreshed snapshot is kept as a CI artifact so the committed baseline can
   be replaced without a separate fetch.
 - Chart colours now come from the design tokens, so axes, grids and labels stay
@@ -33,8 +33,8 @@ Keep a Changelog, and the project uses semantic versioning.
 ### Changed
 
 - Quote fetching now goes through Eastmoney's list endpoint (40 symbols per
-  request) and reuses the daily history within a day, so an intraday refresh
-  costs a handful of requests instead of 350. A refresh that returns fresh
+  request) and reuses the daily history within a day, so a refresh costs a
+  handful of requests instead of 350. A refresh that returns fresh
   quotes for less than half the universe is discarded in favour of the previous
   snapshot, and quotes carried over from an earlier session now lower the
   health badge instead of hiding behind "Healthy".
