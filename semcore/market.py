@@ -196,6 +196,7 @@ def fetch_snapshot(
         if session is not None:
             try:
                 for attempt in range(2):
+                    time.sleep(0.25)  # the daily-history endpoint throttles bursts
                     history = eastmoney.fetch_history(session, secid)
                     if history:
                         break
@@ -216,7 +217,7 @@ def fetch_snapshot(
         return company.id, entry
 
     if quotes:
-        history_workers = max(1, min(max_workers, 3))
+        history_workers = max(1, min(max_workers, 2))
         with ThreadPoolExecutor(max_workers=history_workers) as executor:
             futures = {executor.submit(build, company): company for company in companies if company.id in quotes}
             for future in as_completed(futures):
