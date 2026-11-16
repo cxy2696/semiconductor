@@ -62,13 +62,11 @@ def build_health(snapshot: dict[str, Any], analytics: Any, knowledge: list[Knowl
     coverage = float(analytics.coverage_ratio)
     stale_quotes = sum(1 for entry in (snapshot.get("quotes") or {}).values() if isinstance(entry, dict) and entry.get("status") == "stale")
     stale_share = stale_quotes / len(analytics.rows) if analytics.rows else 0.0
+    # Flagged at fetch time: the history could not be refreshed and the stored
+    # series was reused. The last bar is normally the previous session, so a
+    # date comparison would flag every company.
     history_lag = sum(
-        1
-        for entry in (snapshot.get("quotes") or {}).values()
-        if isinstance(entry, dict)
-        and entry.get("as_of")
-        and entry.get("quote_as_of")
-        and entry["as_of"] != entry["quote_as_of"]
+        1 for entry in (snapshot.get("quotes") or {}).values() if isinstance(entry, dict) and entry.get("history_stale")
     )
     lag_share = history_lag / len(analytics.rows) if analytics.rows else 0.0
     if age_hours is None or age_hours > 72 or coverage < 0.75 or stale_share > 0.5:
