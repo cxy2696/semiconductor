@@ -25,6 +25,7 @@ class Health:
     news_sources: list[str] = field(default_factory=list)
     stale_topics: list[dict[str, str]] = field(default_factory=list)
     dataset: str = "unknown"
+    stale_quotes: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -41,6 +42,7 @@ class Health:
             "news_sources": self.news_sources,
             "stale_topics": self.stale_topics,
             "dataset": self.dataset,
+            "stale_quotes": self.stale_quotes,
         }
 
 
@@ -56,9 +58,11 @@ def build_health(snapshot: dict[str, Any], analytics: Any, knowledge: list[Knowl
         age_hours = None
 
     coverage = float(analytics.coverage_ratio)
-    if age_hours is None or age_hours > 72 or coverage < 0.75:
+    stale_quotes = sum(1 for entry in (snapshot.get("quotes") or {}).values() if isinstance(entry, dict) and entry.get("status") == "stale")
+    stale_share = stale_quotes / len(analytics.rows) if analytics.rows else 0.0
+    if age_hours is None or age_hours > 72 or coverage < 0.75 or stale_share > 0.5:
         label = "stale"
-    elif age_hours > 36 or coverage < 0.9:
+    elif age_hours > 36 or coverage < 0.9 or stale_share > 0.2:
         label = "aging"
     else:
         label = "healthy"
@@ -92,6 +96,7 @@ def build_health(snapshot: dict[str, Any], analytics: Any, knowledge: list[Knowl
         news_sources=sources,
         stale_topics=stale_topics,
         dataset=str(snapshot.get("dataset") or "unknown"),
+        stale_quotes=stale_quotes,
     )
 
 
@@ -107,6 +112,8 @@ def to_markdown(health: Health) -> str:
         f"- Coverage: {coverage} ({health.priced}/{health.total})",
         f"- Headlines: {health.news_count} from {len(health.news_sources)} sources",
     ]
+    if health.stale_quotes:
+        lines.append(f"- Quotes from an earlier session: {health.stale_quotes}")
     if health.unpriced:
         lines.append(f"- Unpriced: {', '.join(health.unpriced)}")
     if health.errors:

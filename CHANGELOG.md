@@ -32,6 +32,13 @@ Keep a Changelog, and the project uses semantic versioning.
 
 ### Changed
 
+- Quote fetching now goes through Eastmoney's list endpoint (40 symbols per
+  request) and reuses the daily history within a day, so an intraday refresh
+  costs a handful of requests instead of 350. A refresh that returns fresh
+  quotes for less than half the universe is discarded in favour of the previous
+  snapshot, and quotes carried over from an earlier session now lower the
+  health badge instead of hiding behind "Healthy".
+
 - Copy pass across all four languages: plainer sentences, concrete numbers, and
   the per-page disclaimer repeated under every page is gone — the footer and
   the method page carry it once.

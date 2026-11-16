@@ -537,6 +537,7 @@
     "coverage": "Kursabdeckung",
     "priced": "Mit Kurs",
     "unpriced": "Ohne Kurs",
+    "staleQuotes": "Kurse aus einer früheren Sitzung",
     "sources": "Quellen",
     "news": "Schlagzeilen",
     "errors": "Datenhinweise",

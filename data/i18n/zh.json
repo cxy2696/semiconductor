@@ -537,6 +537,7 @@
     "coverage": "行情覆盖率",
     "priced": "有价格",
     "unpriced": "未定价",
+    "staleQuotes": "沿用上一交易日的行情",
     "sources": "数据来源",
     "news": "行业动态",
     "errors": "数据说明",

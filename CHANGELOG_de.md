@@ -21,6 +21,8 @@ Alle wichtigen Änderungen an diesem Projekt werden hier dokumentiert. Das Forma
 
 ### Geändert
 
+- Kurse werden über den Listen-Endpunkt von Eastmoney geladen (40 Symbole pro Anfrage), die Tageshistorie wird innerhalb eines Tages wiederverwendet; ein Intraday-Refresh kostet damit wenige Anfragen statt 350. Bringt ein Lauf für weniger als die Hälfte des Universums frische Kurse, wird er verworfen und der vorige Snapshot bleibt; übernommene Kurse aus einer früheren Sitzung senken nun den Health-Status, statt hinter „Healthy“ zu verschwinden.
+
 - Textüberarbeitung in allen vier Sprachen: kürzere, konkretere Sätze; der auf jeder Seite wiederholte Haftungshinweis entfällt und steht nur noch im Footer und auf der Methodenseite.
 - Ungenutzte Snapshot-Felder (`highs`, `lows`) und doppelte Seitentexte entfernt.
 - Version 3.1.0.

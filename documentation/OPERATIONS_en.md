@@ -29,6 +29,7 @@ Roles may be combined, but **method changes** must be reviewed by the Maintainer
 | Frequency | Action | Owner | Output |
 | --- | --- | --- | --- |
 | Every 20 minutes while Shanghai or New York trades | CI runs `fetch + build + validate + deploy` automatically | Automation | New snapshot, site |
+| When a refresh returns fresh quotes for under half the universe | The run is discarded, the previous snapshot is kept and the reason is written to `errors` | Automation | Unchanged site, status page note |
 | 08:30 UTC+8 each trading day | Pre-open rebuild before the Shanghai session | Automation | New snapshot, site |
 | Every Monday | Check coverage, error list and stale flags | Data steward | Anomaly list |
 | First working day of each month | Review the 175-company sample and classification; check broken websites and delistings | Data steward | Universe-change pull request |

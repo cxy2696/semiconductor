@@ -29,6 +29,9 @@
   <div class="metric"><span>{{ t.status.buildTime }}</span><strong>{{ build_time }}</strong></div>
   <div class="metric"><span>{{ t.status.news }}</span><strong>{{ health.news_count }}</strong></div>
   <div class="metric"><span>{{ t.status.unpriced }}</span><strong>{{ unpriced | length }}</strong></div>
+  {% if health.stale_quotes %}
+  <div class="metric"><span>{{ t.status.staleQuotes }}</span><strong>{{ health.stale_quotes }}</strong></div>
+  {% endif %}
 </section>
 
 <section class="two-col status-grid">

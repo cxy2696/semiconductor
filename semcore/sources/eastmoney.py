@@ -14,7 +14,7 @@ from __future__ import annotations
 import random
 import time
 from datetime import date, datetime
-from typing import Any
+from typing import Any, Sequence
 
 import requests
 
@@ -23,6 +23,7 @@ from ..universe import Company
 from ..utils import to_float
 
 QUOTE_URL = "https://push2.eastmoney.com/api/qt/stock/get"
+BATCH_URL = "https://push2.eastmoney.com/api/qt/ulist.np/get"
 KLINE_URL = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
 
 HEADERS = {
@@ -57,12 +58,18 @@ QUOTE_FIELDS = ",".join(
 
 KLINE_FIELDS = "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61"
 
+# The list endpoint answers for many symbols at once and carries the same fields
+# under different numbers. One request per 40 symbols keeps the refresh far below
+# the rate limit that a per-symbol loop runs into.
+BATCH_FIELDS = "f2,f3,f5,f8,f12,f13,f18,f20,f23,f37,f115"
+BATCH_LIMIT = 40
+
 
 class EastmoneyError(RuntimeError):
     pass
 
 
-def _session() -> requests.Session:
+def make_session() -> requests.Session:
     session = requests.Session()
     session.headers.update(HEADERS)
     return session
@@ -164,6 +171,47 @@ def resolve_secid(
         "checked": date.today().isoformat(),
     }
     return None
+
+
+def batch_item_to_quote(item: dict[str, Any]) -> dict[str, Any]:
+    """Map a list-endpoint row onto the single-quote field names."""
+    return {
+        "f43": item.get("f2"),   # price
+        "f47": item.get("f5"),   # volume
+        "f60": item.get("f18"),  # previous close
+        "f116": item.get("f20"), # total market cap (local)
+        "f164": item.get("f115"),# static P/E
+        "f167": item.get("f23"), # P/B
+        "f168": item.get("f8"),  # turnover
+        "f170": item.get("f3"),  # change %
+        "f173": item.get("f37"), # ROE
+        "f57": item.get("f12"),
+        "f58": item.get("f14"),
+    }
+
+
+def fetch_batch(session: requests.Session, secids: Sequence[str]) -> dict[str, dict[str, Any]]:
+    """Fetch quotes for many symbols in one request, keyed by secid."""
+    payload = _get_json(
+        session,
+        BATCH_URL,
+        {"fltt": 2, "invt": 2, "secids": ",".join(secids), "fields": BATCH_FIELDS},
+        retries=2,
+    )
+    data = (payload or {}).get("data") or {}
+    rows = data.get("diff") or []
+    if isinstance(rows, dict):
+        rows = list(rows.values())
+    quotes: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        code = str(row.get("f12") or "").strip()
+        market = row.get("f13")
+        if not code or market is None:
+            continue
+        quotes[f"{int(market)}.{code}"] = batch_item_to_quote(row)
+    return quotes
 
 
 def fetch_quote(session: requests.Session, secid: str) -> dict[str, Any] | None:
@@ -338,6 +386,7 @@ def build_market_entry(
         "source": "Eastmoney",
         "split_events": [{"date": item["date"], "factor": item["factor"]} for item in splits],
         "history_adjusted": bool(splits),
+        "quote_as_of": fetched_at.date().isoformat(),
         "history": {
             "dates": [row["date"] for row in recent],
             "open": [row["open"] for row in recent],
@@ -348,3 +397,35 @@ def build_market_entry(
         },
         "closes": closes[-60:],
     }
+
+
+def merge_quote(previous: dict[str, Any], quote: dict[str, Any], company: Company, fetched_at: datetime) -> dict[str, Any]:
+    """Apply a fresh quote to a previous entry, keeping its daily history.
+
+    Used for intraday refreshes: price, one-day change, market cap and the
+    fundamentals carried by the quote move; returns, 52-week range and the
+    stored history stay on the last completed daily bar.
+    """
+    price = _number(quote, "f43")
+    prev_close = _number(quote, "f60")
+    change = _number(quote, "f170")
+    if change is None and price is not None and prev_close:
+        change = (price - prev_close) / prev_close * 100.0
+    entry = dict(previous)
+    entry.update(
+        {
+            "status": "ok",
+            "price": price,
+            "prev_close": prev_close,
+            "change_pct": round(change, 2) if change is not None else None,
+            "volume": _number(quote, "f47"),
+            "market_cap": _number(quote, "f116"),
+            "pe": _number(quote, "f164"),
+            "pb": _number(quote, "f167"),
+            "roe": _number(quote, "f173"),
+            "turnover": _number(quote, "f168"),
+            "currency": company.currency,
+            "quote_as_of": fetched_at.date().isoformat(),
+        }
+    )
+    return entry

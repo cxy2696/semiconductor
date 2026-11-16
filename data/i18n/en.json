@@ -537,6 +537,7 @@
     "coverage": "Quote coverage",
     "priced": "Priced",
     "unpriced": "Unpriced",
+    "staleQuotes": "Quotes from an earlier session",
     "sources": "Sources",
     "news": "Headlines",
     "errors": "Data notes",

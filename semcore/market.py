@@ -3,13 +3,19 @@
 A snapshot is the only input the static build needs. It is committed so the
 site can always be rebuilt offline, and so a provider outage degrades into a
 visible staleness flag instead of an empty page.
+
+Quotes are fetched through Eastmoney's list endpoint, which answers for 40
+symbols per request; a per-symbol loop trips the provider's rate limit and
+leaves most of the universe stale. Daily history is fetched once per calendar
+day and reused by the intraday refreshes.
 """
 
 from __future__ import annotations
 
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from typing import Any, Iterable
+from typing import Any, Iterable, Sequence
 
 from .config import SCHEMA_VERSION, SITE_TIMEZONE, SITE_VERSION, SNAPSHOT_DIR, SNAPSHOT_KEEP, SYMBOLS_FILE
 from .sources import eastmoney
@@ -18,6 +24,10 @@ from .sources.news import fetch_news
 from .taxonomy import Taxonomy
 from .universe import Company
 from .utils import read_json, to_float, write_json
+
+# Below this share of freshly fetched quotes the previous snapshot is kept
+# whole: a half-refreshed page is harder to trust than a clearly old one.
+MIN_FRESH_RATIO = 0.5
 
 
 def latest_path():
@@ -36,31 +46,29 @@ def load_symbol_cache() -> dict[str, Any]:
     return payload
 
 
-def _fetch_one(company: Company, cache: dict[str, Any]) -> tuple[str, dict[str, Any] | None, str | None, dict[str, Any] | None]:
-    import requests
+def _chunks(items: Sequence[str], size: int) -> Iterable[Sequence[str]]:
+    for start in range(0, len(items), size):
+        yield items[start : start + size]
 
-    session = requests.Session()
-    session.headers.update(eastmoney.HEADERS)
-    try:
-        resolved = eastmoney.resolve_secid(session, company, cache)
-        if not resolved or not resolved.get("secid"):
-            return company.id, None, f"{company.id}: no verified quote symbol", resolved
-        secid = resolved["secid"]
-        quote = eastmoney.fetch_quote(session, secid)
-        if not quote:
-            return company.id, None, f"{company.id}: empty quote response", resolved
-        history = eastmoney.fetch_history(session, secid)
-        entry = eastmoney.build_market_entry(company, quote, history, datetime.now(SITE_TIMEZONE))
-        if entry.get("price") is None:
-            return company.id, None, f"{company.id}: quote has no price", resolved
-        entry["symbol"] = secid
-        entry["venue"] = company.quote_venue or company.exchange
-        entry["resolved_name"] = resolved.get("name", "")
-        return company.id, entry, None, resolved
-    except Exception as exc:  # defensive: one bad symbol must not abort the batch
-        return company.id, None, f"{company.id}: request failed ({exc.__class__.__name__})", None
-    finally:
-        session.close()
+
+def _missing_entry(company: Company) -> dict[str, Any]:
+    return {
+        "status": "missing",
+        "price": None,
+        "market_cap": None,
+        "pe": None,
+        "pb": None,
+        "roe": None,
+        "change_pct": None,
+        "ret_30d": None,
+        "high_52w": None,
+        "low_52w": None,
+        "currency": company.currency,
+        "as_of": None,
+        "source": "unavailable",
+        "history": {"dates": [], "open": [], "high": [], "low": [], "close": [], "volume": []},
+        "closes": [],
+    }
 
 
 def _stale_entry(previous: dict[str, Any]) -> dict[str, Any]:
@@ -69,90 +77,188 @@ def _stale_entry(previous: dict[str, Any]) -> dict[str, Any]:
     return entry
 
 
+def _resolve_symbols(companies: list[Company], cache: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    resolved: dict[str, dict[str, Any]] = {}
+    pending: list[Company] = []
+    for company in companies:
+        record = cache.get(company.id)
+        if isinstance(record, dict):
+            resolved[company.id] = record
+        else:
+            pending.append(company)
+    if not pending:
+        return resolved
+    session = eastmoney.make_session()
+    for company in pending:
+        try:
+            record = eastmoney.resolve_secid(session, company, cache)
+        except Exception:
+            record = None
+        resolved[company.id] = record or {"secid": None}
+        time.sleep(0.3)
+    return resolved
+
+
+def _fetch_quotes(companies: list[Company], resolved: dict[str, dict[str, Any]]) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """Fetch quotes for every resolvable symbol, batched by the list endpoint."""
+    owner: dict[str, Company] = {}
+    errors: list[str] = []
+    for company in companies:
+        secid = (resolved.get(company.id) or {}).get("secid")
+        if secid:
+            owner.setdefault(secid, company)
+        elif company.is_priced:
+            errors.append(f"{company.id}: no verified quote symbol")
+
+    session = eastmoney.make_session()
+    raw: dict[str, dict[str, Any]] = {}
+    secids = sorted(owner)
+    for batch in _chunks(secids, eastmoney.BATCH_LIMIT):
+        rows = eastmoney.fetch_batch(session, list(batch))
+        if not rows:
+            errors.append(f"quote batch of {len(batch)} symbols returned no rows")
+        raw.update(rows)
+        time.sleep(0.4)
+
+    # Second pass, one symbol at a time. A batch can fail on its own without
+    # the rest of the run being unhealthy.
+    for secid in [secid for secid in secids if secid not in raw]:
+        quote = eastmoney.fetch_quote(session, secid)
+        if quote:
+            raw[secid] = quote
+        else:
+            errors.append(f"{secid}: empty quote response")
+        time.sleep(0.2)
+
+    quotes: dict[str, dict[str, Any]] = {}
+    for secid, company in owner.items():
+        if secid in raw:
+            quotes[company.id] = raw[secid]
+    return quotes, errors
+
+
+def _reusable_history(previous: dict[str, Any] | None, today: str) -> bool:
+    if not isinstance(previous, dict):
+        return False
+    if previous.get("status") != "ok":
+        return False
+    if previous.get("history_date") != today:
+        return False
+    if not previous.get("as_of"):
+        return False
+    return len(previous.get("closes") or []) >= 31
+
+
 def fetch_snapshot(
     companies: Iterable[Company],
     taxonomy: Taxonomy,
     previous: dict[str, Any] | None = None,
-    max_workers: int = 6,
+    max_workers: int = 4,
 ) -> dict[str, Any]:
     companies = list(companies)
     cache_payload = load_symbol_cache()
     cache = cache_payload.setdefault("symbols", {})
     previous_quotes = (previous or {}).get("quotes") or {}
+    now = datetime.now(SITE_TIMEZONE)
+    today = now.date().isoformat()
 
-    quotes: dict[str, Any] = {}
-    errors: list[str] = []
+    resolved = _resolve_symbols(companies, cache)
+    quotes, errors = _fetch_quotes(companies, resolved)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(_fetch_one, company, cache): company for company in companies}
-        for future in as_completed(futures):
-            company = futures[future]
-            try:
-                cid, entry, error, _ = future.result()
-            except Exception as exc:
-                cid, entry, error = company.id, None, f"{company.id}: {exc.__class__.__name__}"
-            if entry:
-                quotes[cid] = entry
-            else:
-                if error:
-                    errors.append(error)
-                if isinstance(previous_quotes.get(cid), dict):
-                    quotes[cid] = _stale_entry(previous_quotes[cid])
-                else:
-                    quotes[cid] = {
-                        "status": "missing",
-                        "price": None,
-                        "market_cap": None,
-                        "pe": None,
-                        "pb": None,
-                        "roe": None,
-                        "change_pct": None,
-                        "ret_30d": None,
-                        "high_52w": None,
-                        "low_52w": None,
-                        "currency": company.currency,
-                        "as_of": None,
-                        "source": "unavailable",
-                        "history": {"dates": [], "open": [], "high": [], "low": [], "close": [], "volume": []},
-                        "closes": [],
-                    }
+    entries: dict[str, Any] = {}
+
+    def build(company: Company) -> tuple[str, dict[str, Any] | None]:
+        quote = quotes.get(company.id)
+        if not quote:
+            return company.id, None
+        prior = previous_quotes.get(company.id)
+        if _reusable_history(prior, today):
+            return company.id, eastmoney.merge_quote(prior, quote, company, now)
+        secid = (resolved.get(company.id) or {}).get("secid")
+        if not secid:
+            return company.id, None
+        session = eastmoney.make_session()
+        try:
+            history = eastmoney.fetch_history(session, secid)
+            entry = eastmoney.build_market_entry(company, quote, history, now)
+            entry["history_date"] = today
+            entry["quote_as_of"] = today
+            return company.id, entry
+        finally:
+            session.close()
+
+    if quotes:
+        with ThreadPoolExecutor(max_workers=max(1, max_workers)) as executor:
+            futures = {executor.submit(build, company): company for company in companies if company.id in quotes}
+            for future in as_completed(futures):
+                company = futures[future]
+                try:
+                    cid, entry = future.result()
+                except Exception as exc:  # one bad symbol must not abort the batch
+                    cid, entry = company.id, None
+                    errors.append(f"{company.id}: request failed ({exc.__class__.__name__})")
+                if entry:
+                    entries[cid] = entry
+
+    for company in companies:
+        if company.id in entries:
+            continue
+        prior = previous_quotes.get(company.id)
+        entries[company.id] = _stale_entry(prior) if isinstance(prior, dict) else _missing_entry(company)
+
+    total = len(companies)
+    priced = sum(1 for entry in entries.values() if to_float(entry.get("price")) is not None)
+    fresh = sum(1 for entry in entries.values() if entry.get("status") == "ok" and entry.get("quote_as_of") == today)
+    fresh_ratio = fresh / total if total else 0.0
+
+    if previous and total and fresh_ratio < MIN_FRESH_RATIO:
+        kept = dict(previous)
+        notes = [f"refresh aborted: only {fresh}/{total} quotes fetched, previous snapshot kept"]
+        kept["errors"] = notes + [str(item) for item in (previous.get("errors") or [])][:5]
+        return kept
 
     write_json(
         SYMBOLS_FILE,
         {
             "schema": 1,
-            "updated": datetime.now(SITE_TIMEZONE).isoformat(timespec="seconds"),
+            "updated": now.isoformat(timespec="seconds"),
             "note": "Measured mapping from company id to Eastmoney secid. Edit only with a verified quote.",
             "symbols": cache,
         },
     )
 
     fx = fetch_fx((previous or {}).get("fx"))
-    fx.setdefault("fetched_at", datetime.now(SITE_TIMEZONE).isoformat(timespec="seconds"))
+    fx.setdefault("fetched_at", now.isoformat(timespec="seconds"))
 
     news, news_errors = fetch_news()
     errors.extend(news_errors)
     if not news and previous and isinstance(previous.get("news"), list):
         news = previous["news"]
 
-    priced = sum(1 for entry in quotes.values() if to_float(entry.get("price")) is not None)
-    generated_at = datetime.now(SITE_TIMEZONE)
+    if fresh_ratio >= 0.85:
+        dataset = "live"
+    elif fresh_ratio >= MIN_FRESH_RATIO:
+        dataset = "partial"
+    else:
+        dataset = "stale"
 
     snapshot = {
         "schema_version": SCHEMA_VERSION,
         "site_version": SITE_VERSION,
-        "generated_at": generated_at.isoformat(timespec="seconds"),
-        "dataset": "live" if len(companies) and priced / len(companies) >= 0.6 else "partial",
-        "universe_size": len(companies),
+        "generated_at": now.isoformat(timespec="seconds"),
+        "dataset": dataset,
+        "universe_size": total,
+        "fresh_quotes": fresh,
+        "stale_quotes": total - fresh,
         "coverage": {
             "priced": priced,
-            "total": len(companies),
-            "ratio": round(priced / len(companies), 4) if companies else 0.0,
+            "total": total,
+            "ratio": round(priced / total, 4) if total else 0.0,
         },
         "fx": fx,
-        "quotes": quotes,
+        "quotes": entries,
         "news": news,
-        "errors": errors,
+        "errors": errors[:40],
         "sources": {
             "quotes": "Eastmoney public quote API",
             "fx": fx.get("source", "unknown"),

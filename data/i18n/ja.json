@@ -537,6 +537,7 @@
     "coverage": "市況カバー率",
     "priced": "価格あり",
     "unpriced": "価格なし",
+    "staleQuotes": "前回セッションの市況",
     "sources": "出典",
     "news": "ニュース",
     "errors": "データ注記",

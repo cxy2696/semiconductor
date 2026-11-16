@@ -148,6 +148,13 @@ open.er-api.com 汇率 ─┼─→ semcore fetch ─→ data/snapshots/latest.j
 
 新代码应使用 `/api/snapshot.{lang}.json`（`en`、`zh`、`ja`、`de`），其结构由 `semcore/build.py::_localized_payload` 定义。英文（`en`）是默认语言。
 
+## 7. 行情源、批量抓取与回退
+
+- 行情通过东方财富的列表接口抓取，每次 40 个代码，全量刷新约 5 个请求，而不是 175 个。
+- 日线历史每个自然日（Asia/Shanghai）只抓取一次，盘中刷新直接复用；盘中变化的只有行情字段。
+- 如果一次刷新只取到不足一半的行情，整次刷新作废，保留上一份快照，并在 `errors` 中写明原因。半新半旧的页面比明显过期的页面更难判断。
+- 沿用上一交易日的数据会标记为 `status: "stale"`，计入健康度，并在数据状态页单独列出。
+
 ## 7. 行情源与符号映射
 
 - `data/symbols.json` 保存**已核验**的公司 ID → 东方财富 `secid` 映射，包含 `method`（`seed` / `probe`）、`checked` 日期与解析到的名称。

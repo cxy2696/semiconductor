@@ -150,6 +150,18 @@ New code should use `/api/snapshot.{lang}.json` (`en`, `zh`, `ja`, `de`), whose 
 
 `/api/quotes.json` is the small, locale-free payload the page polls for live figures. It carries `generated_at`, `priced` / `total` / `ratio`, and for each priced company `price`, `change` (one-day), `currency`, `market_cap_usd` and `as_of`. Daily returns, scores and screens are not part of it: they only move when a new daily bar exists.
 
+## 7. Quote source, batching and fallbacks
+
+- Quotes are fetched through Eastmoney's list endpoint, 40 symbols per request,
+  so a full refresh costs about five requests instead of 175.
+- Daily OHLC history is fetched once per calendar day (Asia/Shanghai) and
+  reused by the intraday refreshes; only the quote fields move between runs.
+- If a refresh returns fresh quotes for fewer than half of the universe, the
+  whole refresh is discarded and the previous snapshot is kept, with the reason
+  recorded in `errors`. A half-refreshed page is worse than a clearly old one.
+- Quotes carried over from an earlier session are stored with
+  `status: "stale"`, counted in the health badge and listed on the status page.
+
 ## 7. Quote source and symbol mapping
 
 - `data/symbols.json` stores the **verified** company ID → Eastmoney `secid` mapping, including `method` (`seed` / `probe`), the `checked` date and the resolved name.
